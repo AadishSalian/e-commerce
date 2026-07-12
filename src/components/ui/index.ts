@@ -7,3 +7,4 @@ export * from './SalesCard';
 export * from './NewsletterCard';
 export * from './Loader';
 export * from './ThemeToggle';
+export * from './ExpandableSearch';

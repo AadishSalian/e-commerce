@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Search, ShoppingBag, User, Menu, X, ArrowRight, Heart, Package, LogOut } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
-import { NavAuthButton, ThemeToggle } from '@/components/ui';
+import { NavAuthButton, ThemeToggle, ExpandableSearch } from '@/components/ui';
 import styles from './Navbar.module.css';
 
 const NAV_LINKS = [
@@ -114,9 +114,9 @@ export default function Navbar() {
               <ThemeToggle />
             </div>
             
-            <button className={styles.iconButton} aria-label="Search">
-              <Search className="w-4 h-4" />
-            </button>
+            
+            <ExpandableSearch />
+            
             
             {isLoggedIn ? (
               <>
@@ -245,9 +245,7 @@ export default function Navbar() {
                 )}
               </Link>
             ) : (
-              <button className={styles.iconButton} aria-label="Search">
-                <Search className="w-5 h-5" />
-              </button>
+              <ExpandableSearch />
             )}
             <button 
               className={styles.iconButton}

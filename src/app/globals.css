@@ -161,6 +161,6 @@ html {
   display: none;
 }
 
-html[data-aperture="played"] #aperture-overlay {
+html[data-intro="played"] #intro-overlay {
   display: none !important;
 }

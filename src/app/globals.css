@@ -160,3 +160,7 @@ html {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+html[data-aperture="played"] #aperture-overlay {
+  display: none !important;
+}

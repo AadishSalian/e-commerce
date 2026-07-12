@@ -33,7 +33,7 @@
 }
 
 .navLink[data-active="true"] {
-  color: var(--background);
+  color: #141414;
 }
 
 .navLink:focus-visible {
@@ -44,7 +44,7 @@
 .activePill {
   position: absolute;
   inset: 0;
-  background-color: var(--accent);
+  background-color: #8ed500;
   border-radius: 9999px;
   z-index: -1;
 }

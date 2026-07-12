@@ -227,7 +227,7 @@ export default function Navbar() {
 
       {/* Mobile Navbar (Compact Bar) */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 p-4">
-        <div className="w-full bg-surface border border-border rounded-full shadow-lg p-2 px-4 flex items-center justify-between">
+        <div className={styles.mobileNavContainer}>
           <Link href="/" className="font-bold text-lg tracking-wide text-foreground">
             MATTE.
           </Link>

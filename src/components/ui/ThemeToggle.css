@@ -14,7 +14,7 @@
   background-color: var(--dark);
   border-radius: 15px;
   cursor: pointer;
-  border: 2px solid var(--border-subtle);
+  border: 2px solid var(--border-strong);
   box-sizing: border-box;
 }
 

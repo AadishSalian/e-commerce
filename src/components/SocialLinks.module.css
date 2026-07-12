@@ -1,0 +1,249 @@
+/* FIXED-PALETTE COMPONENT: Brand colors are intentionally excluded from theme system */
+.socialContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.tooltipContainer {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 17px;
+  border-radius: 10px;
+}
+
+.tooltip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 15px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  z-index: 50;
+  min-width: 220px;
+}
+
+.tooltipContainer:hover .tooltip,
+.tooltipContainer:focus-within .tooltip {
+  top: -110px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.profile {
+  background: var(--surface-active);
+  border-radius: 10px 15px;
+  padding: 10px;
+  border: 1px solid var(--border);
+}
+
+.user {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.img {
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  color: var(--foreground);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  color: var(--foreground);
+  text-align: left;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.username {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.about {
+  color: var(--text-muted);
+  padding-top: 8px;
+  font-size: 13px;
+  text-align: left;
+  font-weight: 500;
+}
+
+.iconLink {
+  text-decoration: none;
+  color: var(--foreground);
+  display: block;
+  position: relative;
+  outline: none;
+}
+
+.layer {
+  width: 55px;
+  height: 55px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.iconLink:hover .layer,
+.iconLink:focus-visible .layer {
+  transform: rotate(-35deg) skew(20deg);
+}
+
+.layer span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--surface);
+}
+
+.iconLink:hover .layer span,
+.iconLink:focus-visible .layer span {
+  box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.textLabel {
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  opacity: 0;
+  font-weight: 500;
+  font-size: 14px;
+  transform: translateX(-50%);
+  transition: bottom 0.3s ease, opacity 0.3s ease;
+  color: var(--foreground);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.iconLink:hover .textLabel,
+.iconLink:focus-visible .textLabel {
+  bottom: -30px;
+  opacity: 1;
+}
+
+.iconLink:hover .layer span:nth-child(1),
+.iconLink:focus-visible .layer span:nth-child(1) {
+  opacity: 0.2;
+}
+
+.iconLink:hover .layer span:nth-child(2),
+.iconLink:focus-visible .layer span:nth-child(2) {
+  opacity: 0.4;
+  transform: translate(5px, -5px);
+}
+
+.iconLink:hover .layer span:nth-child(3),
+.iconLink:focus-visible .layer span:nth-child(3) {
+  opacity: 0.6;
+  transform: translate(10px, -10px);
+}
+
+.iconLink:hover .layer span:nth-child(4),
+.iconLink:focus-visible .layer span:nth-child(4) {
+  opacity: 0.8;
+  transform: translate(15px, -15px);
+}
+
+.iconLink:hover .layer span:nth-child(5),
+.iconLink:focus-visible .layer span:nth-child(5) {
+  opacity: 1;
+  transform: translate(20px, -20px);
+}
+
+.svgContainer {
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: transparent !important;
+}
+
+.svgIcon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+/* Brand specific coloring overrides for the layer spans */
+
+/* Instagram */
+.iconLink:hover .instagram span,
+.iconLink:focus-visible .instagram span {
+  border-color: #e6683c;
+}
+.instagram .svgContainer {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+/* WhatsApp */
+.iconLink:hover .whatsapp span,
+.iconLink:focus-visible .whatsapp span {
+  border-color: #25D366;
+}
+.whatsapp .svgContainer {
+  background: #25D366;
+}
+
+/* Discord */
+.iconLink:hover .discord span,
+.iconLink:focus-visible .discord span {
+  border-color: #5865F2;
+}
+.discord .svgContainer {
+  background: #5865F2;
+}
+
+/* LinkedIn */
+.iconLink:hover .linkedin span,
+.iconLink:focus-visible .linkedin span {
+  border-color: #0A66C2;
+}
+.linkedin .svgContainer {
+  background: #0A66C2;
+}
+
+/* GitHub */
+.iconLink:hover .github span,
+.iconLink:focus-visible .github span {
+  border-color: #888888;
+}
+.github .svgContainer {
+  background: linear-gradient(180deg, #333333 0%, #111111 100%);
+}
+
+/* Twitter/X */
+.iconLink:hover .twitter span,
+.iconLink:focus-visible .twitter span {
+  border-color: #ffffff;
+}
+.twitter .svgContainer {
+  background: #000000;
+  border: 1px solid #333 !important;
+}

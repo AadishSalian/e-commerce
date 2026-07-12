@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+:root {
+  /* Required Variable Set (Dark Mode Default) */
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #1a1a1a;
+  --bg-elevated: #232323;
+  
+  --text-primary: #e8e8e6;
+  --text-secondary: #c2c2c2;
+  --text-muted: #9a9a9a;
+  
+  --border-subtle: #2a2a2a;
+  --border-strong: #404040;
+  
+  --accent: #5a7590;
+  --accent-hover: #6b8aab;
+  
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  
+  --success: #2e7d32;
+  --error: #d32f2f;
+  --warning: #ed6c02;
+  
+  --luminous-start: #3a3a3a;
+  --luminous-end: #1a1a1a;
+  
+  /* Button Variables */
+  --btn-primary-bg: #e8e8e6;
+  --btn-primary-text: #0d0d0d;
+  --btn-primary-border: #e8e8e6;
+  
+  --btn-secondary-bg: #1a1a1a;
+  --btn-secondary-text: #e8e8e6;
+  --btn-secondary-border: #404040;
+  --btn-secondary-hover: #232323;
+
+  /* Legacy Map */
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+  --surface: var(--bg-secondary);
+  --surface-hover: var(--bg-elevated);
+  --surface-active: #2a2a2a;
+  --border: var(--border-subtle);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f7f7f5;
+  --bg-secondary: #ebebe9;
+  --bg-elevated: #e0e0de;
+  
+  --text-primary: #1c1c1c;
+  --text-secondary: #4a4a4a;
+  --text-muted: #6b6b6b;
+  
+  --border-subtle: #d6d6d4;
+  --border-strong: #b0b0b0;
+  
+  --accent: #4a637a;
+  --accent-hover: #3b5063;
+  
+  --shadow-color: rgba(142, 142, 142, 0.2);
+  
+  --success: #4caf50;
+  --error: #ef5350;
+  --warning: #ff9800;
+  
+  --luminous-start: #a3a3a3;
+  --luminous-end: #7a7a7a;
+  
+  /* Button Variables */
+  --btn-primary-bg: #1c1c1c;
+  --btn-primary-text: #f7f7f5;
+  --btn-primary-border: #1c1c1c;
+  
+  --btn-secondary-bg: #ebebe9;
+  --btn-secondary-text: #1c1c1c;
+  --btn-secondary-border: #b0b0b0;
+  --btn-secondary-hover: #e0e0de;
+
+  /* Legacy Map */
+  --surface-active: #d6d6d4;
+}
+
+@theme inline {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  
+  --color-surface: var(--bg-secondary);
+  --color-surface-hover: var(--bg-elevated);
+  --color-surface-active: var(--surface-active);
+  
+  --color-border: var(--border-subtle);
+  
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  
+  --font-sans: "Inter", "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Global Transition System */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  letter-spacing: 0.025em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Strict enforcement: No shadows, no glows, no gradients */
+* {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Edge Case: Autofill Styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px var(--bg-secondary) inset !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Edge Case: Scrollbars */
+html {
+  scrollbar-color: var(--border-strong) var(--bg-primary);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-elevated);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* Utilities */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

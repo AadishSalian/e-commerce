@@ -1,0 +1,71 @@
+/* src/components/ui/Loader.css */
+.matte-loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--background);
+}
+
+.matte-loader {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.matte-loader svg {
+  display: block;
+  overflow: visible;
+}
+
+.matte-dash {
+  animation: matteDashArray 2.6s ease-in-out infinite,
+    matteDashOffset 2.6s linear infinite;
+}
+
+.matte-l1 .matte-dash { animation-delay: 0s, 0s; }
+.matte-l2 .matte-dash { animation-delay: 0.12s, 0.12s; }
+.matte-l3 .matte-dash { animation-delay: 0.24s, 0.24s; }
+.matte-l4 .matte-dash { animation-delay: 0.36s, 0.36s; }
+.matte-l5 .matte-dash { animation-delay: 0.48s, 0.48s; }
+.matte-l6 .matte-dash {
+  animation: matteDotPulse 2.6s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+@keyframes matteDashArray {
+  0% { stroke-dasharray: 0 1 359 0; }
+  50% { stroke-dasharray: 0 359 1 0; }
+  100% { stroke-dasharray: 359 1 0 0; }
+}
+
+@keyframes matteDashOffset {
+  0% { stroke-dashoffset: 365; }
+  100% { stroke-dashoffset: 5; }
+}
+
+@keyframes matteDotPulse {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.matte-loader-caption {
+  color: var(--text-muted);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .matte-dash, .matte-l6 .matte-dash {
+    animation: none !important;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+    transform: none;
+  }
+}

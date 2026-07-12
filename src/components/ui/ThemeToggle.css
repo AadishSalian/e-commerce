@@ -1,0 +1,63 @@
+/* src/components/ui/ThemeToggle.css */
+.theme-toggle-switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  --light: #d8dbe0;
+  --dark: var(--bg-elevated); /* blend with navbar */
+}
+
+.theme-switch-label {
+  position: absolute;
+  width: 100%;
+  height: 30px;
+  background-color: var(--dark);
+  border-radius: 15px;
+  cursor: pointer;
+  border: 2px solid var(--border-subtle);
+  box-sizing: border-box;
+}
+
+.theme-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-checkbox:focus-visible + .theme-switch-label {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.theme-checkbox:checked ~ .theme-slider {
+  background-color: var(--light);
+}
+
+.theme-slider::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  /* Moon crescent shadow trick */
+  box-shadow: inset 7px -2px 0px 0px var(--light);
+  background-color: var(--dark);
+  transition: 0.3s;
+}
+
+.theme-checkbox:checked ~ .theme-slider::before {
+  transform: translateX(28px);
+  background-color: var(--dark);
+  box-shadow: none;
+}

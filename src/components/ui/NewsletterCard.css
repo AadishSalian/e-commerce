@@ -1,0 +1,150 @@
+/* src/components/ui/NewsletterCard.css */
+
+.newsletter-card {
+  width: 100%;
+  max-width: 480px; /* Fully expanded to fill the new layout */
+  padding: 32px 28px;
+  background: #161616;
+  border: 4px solid #0a0a0a;
+  box-shadow: 10px 10px 0 #0a0a0a;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .newsletter-card,
+  .newsletter-card *,
+  .newsletter-card::after,
+  .newsletter-card::before {
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  .newsletter-card:hover {
+    transform: none;
+    box-shadow: 10px 10px 0 #0a0a0a;
+  }
+}
+
+.newsletter-card:hover {
+  transform: translate(-5px, -5px);
+  box-shadow: 15px 15px 0 #0a0a0a;
+}
+
+/* Fallback for touch users */
+.newsletter-card:focus-within {
+  transform: translate(-5px, -5px);
+  box-shadow: 15px 15px 0 #0a0a0a;
+}
+
+.newsletter-card__title {
+  font-size: 20px; /* Reduced from 22px to prevent tight wrapping */
+  font-weight: 800;
+  color: var(--foreground);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.05em;
+}
+
+.newsletter-card__title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--foreground);
+  transform: translateX(-101%);
+  transition: transform 0.3s ease;
+}
+
+.newsletter-card:hover .newsletter-card__title::after,
+.newsletter-card:focus-within .newsletter-card__title::after {
+  transform: translateX(0);
+}
+
+.newsletter-card__content {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.newsletter-card__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.newsletter-card__form input {
+  padding: 12px;
+  border: 2px solid var(--border); /* Slightly thinner border to look cleaner */
+  background-color: #1a1a1a;
+  color: var(--foreground);
+  font-size: 14px;
+  font-family: inherit;
+  transition: transform 0.3s, background-color 0.3s, color 0.3s;
+  width: 100%; 
+  box-sizing: border-box;
+}
+
+.newsletter-card__form input:focus {
+  outline: none;
+  transform: scale(1.02);
+  background-color: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+.newsletter-card__form input::placeholder {
+  color: #666;
+}
+
+.newsletter-card__form input:focus::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.newsletter-card__button {
+  border: 2px solid var(--border);
+  background: #0a0a0a;
+  color: var(--foreground);
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s;
+  width: 100%; /* Full width to prevent clipping */
+  margin-left: 0;
+  box-sizing: border-box;
+}
+
+.newsletter-card__button::before {
+  content: "Join us";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.newsletter-card__button:hover::before,
+.newsletter-card__button:focus::before {
+  transform: translateY(0);
+}
+
+.newsletter-card__button:active {
+  transform: scale(0.96);
+}

@@ -1,0 +1,275 @@
+/* src/components/ui/TeamMemberCard.css */
+
+.team-card-parent {
+  width: 100%;
+  max-width: 290px;
+  height: 320px;
+  perspective: 1000px;
+  margin: 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-card-parent,
+  .team-card,
+  .team-glass,
+  .team-logo .circle,
+  .team-bottom .social-button {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+.team-card {
+  height: 100%;
+  border-radius: 32px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+  transition: all 0.5s ease-in-out;
+  transform-style: preserve-3d;
+  box-shadow: 0px 25px 25px -5px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+/* Fallback for touch users */
+.team-card:focus-within,
+.team-card:active {
+  transform: rotate3d(1, 1, 0, 20deg);
+  box-shadow: 0px 30px 30px -10px rgba(0, 0, 0, 0.4);
+}
+
+.team-glass {
+  transform-style: preserve-3d;
+  position: absolute;
+  inset: 8px;
+  border-radius: 28px;
+  border-top-right-radius: 100%;
+  background: linear-gradient(0deg, #161616 0%, #202020 100%);
+  transform: translate3d(0px, 0px, 25px);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.5s ease-in-out;
+}
+
+.team-content {
+  padding: 80px 60px 0px 30px;
+  transform: translate3d(0, 0, 26px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.team-content .team-title {
+  display: block;
+  color: var(--foreground);
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.team-content .team-text {
+  display: block;
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.team-bottom {
+  padding: 10px 12px;
+  transform-style: preserve-3d;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translate3d(0, 0, 26px);
+}
+
+.team-bottom .team-view-more {
+  display: flex;
+  align-items: center;
+  width: 40%;
+  justify-content: flex-end;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.team-bottom .team-view-more:hover {
+  transform: translate3d(0, 0, 10px);
+}
+
+.team-bottom .team-view-more .team-view-more-button {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.team-bottom .team-view-more:hover .team-view-more-button {
+  color: var(--foreground);
+}
+
+.team-bottom .team-view-more .svg {
+  fill: none;
+  stroke: var(--text-muted);
+  stroke-width: 3px;
+  max-height: 15px;
+  margin-left: 4px;
+  transition: stroke 0.2s;
+}
+
+.team-bottom .team-view-more:hover .svg {
+  stroke: var(--foreground);
+}
+
+.team-bottom .social-buttons-container {
+  display: flex;
+  gap: 10px;
+  transform-style: preserve-3d;
+}
+
+.team-bottom .social-buttons-container .social-button {
+  width: 32px;
+  aspect-ratio: 1;
+  padding: 6px;
+  background: #2a2a2a;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: grid;
+  place-content: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.team-bottom .social-buttons-container .social-button:first-child {
+  transition: transform 0.2s ease-in-out 0.4s, box-shadow 0.2s ease-in-out 0.4s;
+}
+
+.team-bottom .social-buttons-container .social-button:nth-child(2) {
+  transition: transform 0.2s ease-in-out 0.6s, box-shadow 0.2s ease-in-out 0.6s;
+}
+
+.team-bottom .social-buttons-container .social-button:nth-child(3) {
+  transition: transform 0.2s ease-in-out 0.8s, box-shadow 0.2s ease-in-out 0.8s;
+}
+
+.team-bottom .social-buttons-container .social-button .svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--text-muted);
+  transition: fill 0.2s;
+}
+
+.team-bottom .social-buttons-container .social-button:hover {
+  background: #111;
+  border-color: var(--accent);
+}
+
+.team-bottom .social-buttons-container .social-button:hover .svg {
+  fill: var(--accent);
+}
+
+.team-logo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform-style: preserve-3d;
+}
+
+.team-logo .circle {
+  display: block;
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  top: 0;
+  right: 0;
+  box-shadow: -10px 10px 20px 0px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.5s ease-in-out;
+}
+
+.team-logo .circle1 {
+  width: 170px;
+  transform: translate3d(0, 0, 20px);
+  top: 8px;
+  right: 8px;
+}
+
+.team-logo .circle2 {
+  width: 140px;
+  transform: translate3d(0, 0, 40px);
+  top: 10px;
+  right: 10px;
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  transition-delay: 0.4s;
+}
+
+.team-logo .circle3 {
+  width: 110px;
+  transform: translate3d(0, 0, 60px);
+  top: 17px;
+  right: 17px;
+  transition-delay: 0.8s;
+}
+
+.team-logo .circle4 {
+  width: 80px;
+  transform: translate3d(0, 0, 80px);
+  top: 23px;
+  right: 23px;
+  transition-delay: 1.2s;
+}
+
+.team-logo .circle5 {
+  width: 50px;
+  transform: translate3d(0, 0, 100px);
+  top: 30px;
+  right: 30px;
+  display: grid;
+  place-content: center;
+  transition-delay: 1.6s;
+  background: rgba(255, 255, 255, 0.05);
+  font-weight: bold;
+  color: var(--foreground);
+  font-size: 16px;
+}
+
+/* Interactive Hover States */
+.team-card-parent:hover .team-card,
+.team-card-parent:focus-within .team-card {
+  transform: rotate3d(1, 1, 0, 25deg);
+  box-shadow: 10px 30px 40px -10px rgba(0, 0, 0, 0.6);
+}
+
+.team-card-parent:hover .team-card .team-bottom .social-buttons-container .social-button,
+.team-card-parent:focus-within .team-card .team-bottom .social-buttons-container .social-button {
+  transform: translate3d(0, 0, 50px);
+  box-shadow: -5px 20px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.team-card-parent:hover .team-card .team-logo .circle2,
+.team-card-parent:focus-within .team-card .team-logo .circle2 {
+  transform: translate3d(0, 0, 60px);
+}
+
+.team-card-parent:hover .team-card .team-logo .circle3,
+.team-card-parent:focus-within .team-card .team-logo .circle3 {
+  transform: translate3d(0, 0, 80px);
+}
+
+.team-card-parent:hover .team-card .team-logo .circle4,
+.team-card-parent:focus-within .team-card .team-logo .circle4 {
+  transform: translate3d(0, 0, 100px);
+}
+
+.team-card-parent:hover .team-card .team-logo .circle5,
+.team-card-parent:focus-within .team-card .team-logo .circle5 {
+  transform: translate3d(0, 0, 120px);
+}

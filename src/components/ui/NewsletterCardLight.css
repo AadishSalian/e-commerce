@@ -1,0 +1,127 @@
+/* src/components/ui/NewsletterCardLight.css */
+
+.newsletter-light {
+  display: none;
+}
+
+[data-theme="light"] .newsletter-dark {
+  display: none;
+}
+
+[data-theme="light"] .newsletter-light {
+  display: block;
+}
+
+/* From Uiverse.io by 0xnihilism */ 
+.brutalist-card {
+  width: 100%;
+  max-width: 480px; /* match the dark mode card size */
+  padding: 30px;
+  background: #fff;
+  border: 6px solid #000;
+  box-shadow: 12px 12px 0 #000;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+}
+
+.brutalist-card:hover {
+  transform: translate(-5px, -5px);
+  box-shadow: 17px 17px 0 #000;
+}
+
+.brutalist-card__title {
+  font-size: 32px;
+  font-weight: 900;
+  color: #000;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.brutalist-card__title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 90%;
+  height: 3px;
+  background-color: #000;
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+}
+
+.brutalist-card:hover .brutalist-card__title::after {
+  transform: translateX(0);
+}
+
+.brutalist-card__content {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.brutalist-card__form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.brutalist-card__form input {
+  padding: 15px;
+  border: 3px solid #000;
+  font-size: 16px;
+  font-family: inherit;
+  transition: transform 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.brutalist-card__form input:focus {
+  outline: none;
+  transform: scale(1.05);
+  background-color: #000;
+  color: #ffffff;
+}
+
+.brutalist-card__button {
+  border: 3px solid #000;
+  background: #000;
+  color: #fff;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.brutalist-card__button::before {
+  content: "Sure?";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #5ad641;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+}
+
+.brutalist-card__button:hover::before {
+  transform: translateY(0);
+}
+
+.brutalist-card__button:active {
+  transform: scale(0.95);
+}

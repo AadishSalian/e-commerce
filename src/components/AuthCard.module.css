@@ -1,0 +1,363 @@
+/* AuthCard.module.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - 4rem); /* Adjust based on navbar height */
+  padding: 2rem 1rem;
+}
+
+/* Outer Glow Box from Priyanshu02020 */
+.formBox {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface); /* Fallback */
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+}
+
+/* The rotating conic gradient - muted for matte theme */
+.formBox::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: rotate 6s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Inner frosted panel */
+.formInner {
+  position: relative;
+  background: var(--background); /* Matte charcoal-black */
+  margin: 1px; /* The border width */
+  border-radius: calc(1.5rem - 1px);
+  padding: 2.5rem 2rem;
+  z-index: 1;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05); /* Subtle inset highlight, no gloss */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header & Logo */
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.logoCircle {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--foreground);
+}
+
+.headerTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.025em;
+}
+
+.headerSubtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-bottom: 2rem;
+}
+
+/* Smooth transition container for form content */
+.viewContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form fields (from micaelgomestavares's icon-input) */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.inputForm {
+  display: flex;
+  align-items: center;
+  background: var(--surface-active); /* #2a2a2a */
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0 1rem;
+  height: 3rem;
+  transition: border-color 0.2s ease;
+  position: relative;
+}
+
+.inputForm:focus-within {
+  border-color: var(--accent);
+}
+
+.inputIcon {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+}
+
+.inputField {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--foreground);
+  font-size: 0.95rem;
+  height: 100%;
+  outline: none;
+}
+
+.inputField::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.eyeToggle {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: 0.5rem;
+  transition: color 0.2s;
+}
+
+.eyeToggle:hover, .eyeToggle:focus-visible {
+  color: var(--foreground);
+  outline: none;
+}
+
+/* Layout details */
+.flexRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+
+/* Custom Checkbox */
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.checkbox {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  background: var(--surface);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checkbox:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkbox:checked::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--background);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Links */
+.link {
+  color: var(--accent);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--accent);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.link:hover::after, .link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+/* Primary Button */
+.primaryButton {
+  width: 100%;
+  height: 3rem;
+  background: var(--accent);
+  color: var(--background);
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.primaryButton:hover, .primaryButton:focus-visible {
+  background: var(--accent-hover);
+  outline: none;
+}
+
+.primaryButton:active {
+  transform: scale(0.97);
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.divider:not(:empty)::before {
+  margin-right: 1rem;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 1rem;
+}
+
+/* Social Buttons */
+.socialGroup {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 480px) {
+  .socialGroup {
+    flex-direction: column;
+  }
+}
+
+.socialBtn {
+  flex: 1;
+  height: 2.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  color: var(--foreground);
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.socialBtn:hover, .socialBtn:focus-visible {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--surface-hover);
+  outline: none;
+}
+
+.socialBtn:active {
+  transform: scale(0.97);
+}
+
+.socialIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Footer Link */
+.footerText {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}

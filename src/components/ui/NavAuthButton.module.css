@@ -1,0 +1,74 @@
+.btn12 {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: button;
+  background-color: var(--background);
+  color: #fff; /* MUST be white for mix-blend-mode: difference to work in both themes */
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0;
+  -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+  padding: 0.5rem 1.5rem;
+  text-transform: uppercase;
+  border-radius: 99rem;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.05em;
+  outline: none;
+}
+
+.btn12:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn12 span {
+  mix-blend-mode: difference;
+  z-index: 1;
+}
+
+.btn12:after,
+.btn12:before {
+  background: linear-gradient(
+    90deg,
+    var(--foreground) 25%,
+    transparent 0,
+    transparent 50%,
+    var(--foreground) 0,
+    var(--foreground) 75%,
+    transparent 0
+  );
+  content: "";
+  inset: 0;
+  position: absolute;
+  transform: translateY(var(--progress, 100%));
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn12:after {
+  --progress: -100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 25%,
+    var(--foreground) 0,
+    var(--foreground) 50%,
+    transparent 0,
+    transparent 75%,
+    var(--foreground) 0
+  );
+  z-index: -1;
+}
+
+.btn12:hover:after,
+.btn12:hover:before,
+.btn12:focus-visible:after,
+.btn12:focus-visible:before {
+  --progress: 0;
+}

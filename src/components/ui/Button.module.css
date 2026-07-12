@@ -1,0 +1,102 @@
+.baseBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  padding: 0.875rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.baseBtn:focus-visible {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 4px;
+}
+
+/* Primary Button */
+.primary {
+  background: var(--btn-primary-bg);
+  border: 1px solid var(--btn-primary-border);
+  color: var(--btn-primary-text);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+}
+
+.primaryContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 2;
+}
+
+.iconCapsule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--btn-primary-bg);
+  border: 1px solid var(--btn-primary-border);
+  flex-shrink: 0;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.1) !important;
+}
+
+.primaryIcon {
+  transition: transform 0.3s ease;
+}
+
+.primary:hover .primaryIcon {
+  transform: rotate(18deg);
+}
+
+/* Secondary Button */
+.secondary {
+  background: var(--btn-secondary-bg);
+  border: 2px solid var(--btn-secondary-border);
+  color: var(--btn-secondary-text);
+  box-shadow: none !important;
+  background-clip: padding-box; /* To ensure border renders nicely */
+}
+
+/* The wipe effect base */
+.secondary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120%; /* wider to cover the whole button diagonally */
+  height: 100%;
+  background: #c8c8c8; /* Muted white/gray stripe */
+  transform: translateX(-110%) skewX(-15deg);
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 1;
+}
+
+.secondary:hover::before {
+  transform: translateX(0) skewX(-15deg);
+}
+
+/* Invert text during wipe */
+.secondaryText {
+  position: relative;
+  z-index: 2;
+  mix-blend-mode: difference;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff; /* MUST be white for difference blending to work properly in both themes */
+}

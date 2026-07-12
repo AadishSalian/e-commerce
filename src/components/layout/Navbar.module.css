@@ -1,0 +1,155 @@
+/* src/components/layout/Navbar.module.css */
+
+.island {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9999px; /* Pill shape */
+  /* Carefully isolated shadow to lift off background, ignoring global reset */
+  box-shadow: 0 8px 24px -8px var(--shadow-color) !important;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.island:hover {
+  background: var(--surface-active);
+}
+
+.navLink {
+  position: relative;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 9999px;
+}
+
+.navLink:hover {
+  color: var(--foreground);
+}
+
+.navLink[data-active="true"] {
+  color: var(--background);
+}
+
+.navLink:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.activePill {
+  position: absolute;
+  inset: 0;
+  background-color: var(--accent);
+  border-radius: 9999px;
+  z-index: -1;
+}
+
+.iconButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  color: var(--foreground);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* Dropdown Capsule */
+.dropdownCapsule {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 0.5rem;
+  min-width: 160px;
+  box-shadow: 0 10px 30px -10px var(--shadow-color) !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: 50;
+}
+
+.dropdownItem {
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdownItem:hover, .dropdownItem:focus-visible {
+  background: var(--surface-hover);
+  color: var(--foreground);
+  outline: none;
+}
+
+/* Mega Menu */
+.megaMenu {
+  position: absolute;
+  top: calc(100% + 1.5rem);
+  left: 0;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 15px 40px -10px var(--shadow-color) !important;
+  z-index: 40;
+  overflow: hidden;
+}
+
+/* Mobile Drawer */
+.mobileDrawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 400px;
+  background: var(--background);
+  border-left: 1px solid var(--border);
+  z-index: 100;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 40px var(--shadow-color) !important;
+}
+
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 90;
+}

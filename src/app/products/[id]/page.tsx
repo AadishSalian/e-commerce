@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { notFound, useParams } from 'next/navigation';
+import { notFound, useParams, useRouter } from 'next/navigation';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { motion } from 'framer-motion';
 import { Check, ChevronRight, ShoppingBag, Lock } from 'lucide-react';
@@ -12,7 +12,8 @@ import { useAuth } from '@/contexts/AuthContext';
 export default function ProductDetailPage() {
   const params = useParams();
   const product = MOCK_PRODUCTS.find(p => p.id === params?.id);
-  const { isLoggedIn, login } = useAuth();
+  const { isLoggedIn } = useAuth();
+  const router = useRouter();
   
   const hasVariants = product?.variants && product.variants.length > 0;
   const [selectedVariant, setSelectedVariant] = useState(hasVariants ? product.variants[0].value : null);
@@ -111,7 +112,7 @@ export default function ProductDetailPage() {
                 </>
               ) : (
                 <>
-                  <NavAuthButton className="w-full py-4" label="Sign In to Purchase" onClick={login} />
+                  <NavAuthButton className="w-full py-4" label="Sign In to Purchase" onClick={() => router.push('/login')} />
                   <p className="text-xs text-text-muted text-center flex items-center justify-center gap-2">
                     <Lock className="w-3 h-3" /> Please sign in to unlock checkout
                   </p>
@@ -142,7 +143,7 @@ export default function ProductDetailPage() {
             Add to Bag
           </PrimaryButton>
         ) : (
-          <NavAuthButton className="px-6" label="Sign In to Purchase" onClick={login} />
+          <NavAuthButton className="px-6" label="Sign In to Purchase" onClick={() => router.push('/login')} />
         )}
       </div>
 

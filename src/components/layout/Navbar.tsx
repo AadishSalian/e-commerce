@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Search, ShoppingBag, User, Menu, X, ArrowRight, Heart, Package, LogOut } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
@@ -18,6 +18,7 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeHover, setActiveHover] = useState<string | null>(null);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
@@ -174,7 +175,7 @@ export default function Navbar() {
               </>
             ) : (
               <div className="ml-2 pl-2 border-l border-border flex items-center">
-                <NavAuthButton onClick={login} label="Sign In" />
+                <NavAuthButton onClick={() => router.push('/login')} label="Sign In" />
               </div>
             )}
           </motion.div>
@@ -319,7 +320,7 @@ export default function Navbar() {
                   </>
                 ) : (
                   <div className="pt-2 flex justify-start">
-                    <NavAuthButton onClick={() => { login(); setIsMobileMenuOpen(false); }} label="Sign In to Shop" />
+                    <NavAuthButton onClick={() => { router.push('/login'); setIsMobileMenuOpen(false); }} label="Sign In to Shop" />
                   </div>
                 )}
               </nav>

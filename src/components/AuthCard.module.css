@@ -125,7 +125,7 @@
 }
 
 .inputForm:focus-within {
-  border-color: var(--accent);
+  border-color: #8ed500;
 }
 
 .inputIcon {
@@ -200,8 +200,8 @@
 }
 
 .checkbox:checked {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: #8ed500;
+  border-color: #8ed500;
 }
 
 .checkbox:checked::after {
@@ -217,13 +217,13 @@
 }
 
 .checkbox:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid #8ed500;
   outline-offset: 2px;
 }
 
 /* Links */
 .link {
-  color: var(--accent);
+  color: #8ed500;
   text-decoration: none;
   position: relative;
   transition: color 0.2s;
@@ -242,7 +242,7 @@
   height: 1px;
   bottom: -2px;
   left: 0;
-  background-color: var(--accent);
+  background-color: #8ed500;
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
 }

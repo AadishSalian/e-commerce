@@ -34,7 +34,7 @@ export default function AuthCard() {
         <div className={styles.formInner}>
           
           <div className={styles.logoWrapper}>
-            <div className={styles.logoCircle}>M.</div>
+            <div className={styles.logoCircle}>m.</div>
           </div>
           
           <h2 className={styles.headerTitle}>
@@ -136,7 +136,7 @@ export default function AuthCard() {
                           <input type="checkbox" className={styles.checkbox} aria-label="Remember me" />
                           Remember me
                         </label>
-                        <button type="button" className={styles.link}>
+                        <button type="button" className={styles.link} style={{ color: '#8ed500' }}>
                           Forgot password?
                         </button>
                       </>
@@ -148,7 +148,11 @@ export default function AuthCard() {
                     )}
                   </div>
 
-                  <button type="submit" className={styles.primaryButton}>
+                  <button 
+                    type="submit" 
+                    className={styles.primaryButton}
+                    style={{ backgroundColor: '#8ed500', color: '#121212' }}
+                  >
                     {isLogin ? 'Sign In' : 'Create Account'}
                   </button>
                 </form>

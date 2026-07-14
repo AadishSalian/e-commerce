@@ -1,102 +1,106 @@
 <div align="center">
 
-  <!-- A clean, cinematic header logo/text -->
-  <img src="https://capsule-render.vercel.app/api?type=transparent&color=8ed500&height=150&section=header&text=MATTE.&fontSize=80&fontAlignY=50&desc=A%20premium%20e-commerce%20experience&descAlignY=75&descSize=20&animation=fadeIn" alt="MATTE. Header" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=000000&height=250&section=header&text=MATTE.&fontSize=90&fontColor=8ed500&animation=twinkling&fontAlignY=40&desc=THE%20NEW%20STANDARD%20OF%20E-COMMERCE&descAlignY=65&descSize=16&descColor=ffffff" width="100%" />
 
-  <br />
-  
-  <p>
-    <strong>Elevating digital retail with brutalist elegance, matte textures, and cinematic motion.</strong>
-  </p>
+<br/>
 
-  <p>
-    <a href="#-features">Features</a> •
-    <a href="#-tech-stack">Tech Stack</a> •
-    <a href="#-getting-started">Getting Started</a> •
-    <a href="#-design-philosophy">Design</a>
-  </p>
-  
-  <br />
+[![Next.js](https://img.shields.io/badge/NEXT.JS-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](#)
+[![Framer Motion](https://img.shields.io/badge/MOTION-8ED500?style=for-the-badge&logo=framer&logoColor=black)](#)
+[![Tailwind](https://img.shields.io/badge/TAILWIND-121212?style=for-the-badge&logo=tailwindcss&logoColor=38B2AC)](#)
+[![Prisma](https://img.shields.io/badge/PRISMA-000000?style=for-the-badge&logo=prisma&logoColor=white)](#)
+
+<br/>
+
+> **`SYSTEM_STATUS:`** `ONLINE` 
+> **`AESTHETIC:`** `BRUTALIST_MATTE` 
+> **`VERSION:`** `v1.0.0`
+
 </div>
 
 ---
 
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=24&pause=1000&color=8ED500&center=true&vCenter=true&width=435&lines=Cinematic+Dark+Theme;Fluid+Micro-Animations;Editorial+Product+Layouts;Seamless+Authentication" alt="Typing Animation" />
-</div>
+### ▒▒ THE VISION
+
+Most e-commerce stores are blinding white, noisy, and distracting. **MATTE.** is the antithesis. We built a digital storefront that feels like stepping into a high-end, dimly lit boutique. 
+
+By leveraging deep charcoal (`#121212`), pure blacks (`#0a0a0a`), and electric accents (`#8ed500`), combined with heavy typography and fluid micro-animations, we turned a standard shopping cart into an **experience**.
 
 ---
 
-### ✦ The Vibe
-MATTE. is not just a storefront. It's a highly curated, dark-themed experience. We replaced the standard blinding whites and gloss with deep charcoal blocks, frosted glass, and the electric contrast of **#8ed500** accents. Every hover, every scroll, and every click is designed to feel tactile and deliberate.
+<table align="center" width="100%">
+  <tr>
+    <td width="50%" valign="top">
+      
+### ⚡ DYNAMIC CORE
+**Motion is emotion.**
+We didn't just add transitions; we built physics. Elements don't just appear—they slide, fade, and snap into place using `framer-motion` springs. Hover states aren't just color changes; they are tactile interactions that invite the user to engage.
 
-<br />
+    </td>
+    <td width="50%" valign="top">
 
-### ✦ Features
+### ⬛ BRUTALIST UI
+**Form follows feeling.**
+Sharp corners, thick borders, and high-contrast components. The UI gets out of the way to let full-bleed, cinematic photography breathe. The typography is massive, geometric, and unapologetic.
 
-> **Cinematic Dark Theme**  
-> A meticulously crafted matte charcoal and deep black design system. Zero gloss. Pure texture.
+    </td>
+  </tr>
+</table>
 
-> **Dynamic Interactions**  
-> Fluid micro-animations powered by `framer-motion`, providing a premium, weighty feel to every component.
+---
 
-> **Editorial Layouts**  
-> Magazine-style product showcases, staggered grids, and immersive scroll pacing.
+### ▓▓ INITIALIZATION SEQUENCE
 
-> **Seamless Authentication**  
-> Custom login/register flows with Next-Auth, featuring beautifully styled inputs, animated transitions, and custom autofill masking.
+To boot up the MATTE. environment locally, run the following terminal sequence:
 
-<br />
+```console
+$ git clone https://github.com/yourusername/matte-shop.git
+> Cloning into 'matte-shop'...
+> Resolving deltas: 100% (235/235), done.
 
-### ✦ Tech Stack
+$ cd matte-shop && npm install
+> added 412 packages, and audited 413 packages in 3s
+
+$ npx prisma db push
+> Environment variables loaded from .env
+> Prisma schema loaded from prisma/schema.prisma
+> Datasource "db": PostgreSQL database
+> The database is now in sync with your schema.
+
+$ npm run dev
+> ready - started server on 0.0.0.0:3000, url: http://localhost:3000
+> event - compiled client and server successfully
+```
+
+---
+
+<details>
+<summary><b>▸ ADVANCED ARCHITECTURE [CLICK TO EXPAND]</b></summary>
+
+<br/>
+
+**Frontend Protocol:**
+* Next.js 16 (App Router)
+* Tailwind CSS v4 (Custom Matte Config)
+* Framer Motion (Spring Physics)
+* Lucide React (Vector Iconography)
+
+**Backend / Auth:**
+* Next-Auth v4 (Seamless Session Management)
+* Prisma ORM (Relational Mapping)
+* PostgreSQL (Persistent Storage)
+
+**Custom Patches:**
+* Overridden `-webkit-autofill` browser defaults to maintain dark theme integrity.
+* Custom `ExpandableSearch` with keyboard shortcuts (`Ctrl+K`).
+* Brutalist Newsletter component with split dark/light modes.
+
+</details>
+
+---
 
 <div align="center">
   
-  ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-  ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-  ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-  ![Framer Motion](https://img.shields.io/badge/Framer_Motion-black?style=for-the-badge&logo=framer&logoColor=blue)
-  ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
-  
-</div>
+  ### `// END_OF_FILE`
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=121212&height=120&section=footer&text=Stay%20Matte.&fontSize=40&fontColor=8ed500&animation=fadeIn" width="100%" />
 
-<br />
-
-### ✦ Getting Started
-
-**1. Clone the repository**
-```bash
-git clone https://github.com/yourusername/matte-shop.git
-cd matte-shop
-```
-
-**2. Install dependencies**
-```bash
-npm install
-```
-
-**3. Configure Database**
-Create a `.env` file in the root directory and add your connection string. Then push the schema:
-```bash
-npx prisma db push
-```
-
-**4. Ignite the server**
-```bash
-npm run dev
-```
-Navigate to `http://localhost:3000` and experience it.
-
-<br />
-
-### ✦ Design Philosophy
-
-- **Typography**: Geometric sans-serif fonts used confidently with massive weights for headers, paired with muted, highly-legible secondary text.
-- **Colors**: Strictly matte. `#121212` backgrounds with the striking `#8ed500` electric lime accent.
-- **Rhythm**: Pacing is everything. Ample whitespace, staggered entrance animations, and layered z-indexes create an environment that breathes.
-
-<br />
-
-<div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&color=333333&height=100&section=footer&text=Stay%20Matte.&fontSize=30&animation=fadeIn" alt="Footer" />
 </div>

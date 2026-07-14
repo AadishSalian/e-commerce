@@ -1,4 +1,5 @@
 import Hero from '@/components/home/Hero';
+import CategoryWidgets from '@/components/home/CategoryWidgets';
 import CategoryShowcase from '@/components/home/CategoryShowcase';
 import SalesSection from '@/components/home/SalesSection';
 import FeatureSection from '@/components/home/FeatureSection';
@@ -7,6 +8,7 @@ import ProductCarousel from '@/components/home/ProductCarousel';
 export default function Home() {
   return (
     <div className="flex flex-col w-full">
+      <CategoryWidgets />
       <Hero />
       <CategoryShowcase />
       <SalesSection />

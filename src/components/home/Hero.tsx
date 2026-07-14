@@ -13,7 +13,7 @@ export default function Hero() {
   targetDate.setHours(targetDate.getHours() + 12);
 
   return (
-    <section className="relative min-h-[90vh] py-24 w-full flex items-center justify-center overflow-hidden bg-background">
+    <section className="relative min-h-[90vh] pb-24 pt-8 w-full flex items-center justify-center overflow-hidden bg-background">
       {/* Background layer */}
       <div className="absolute inset-0 z-0" />
 

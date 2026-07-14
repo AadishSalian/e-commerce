@@ -64,7 +64,7 @@ export default function Navbar() {
     <>
       {/* Desktop Split-Island Navbar */}
       <motion.header 
-        className="fixed top-0 left-0 right-0 z-50 hidden md:flex justify-center pointer-events-none"
+        className="fixed top-0 left-0 right-0 z-50 hidden md:flex flex-col items-center pointer-events-none"
         style={{ marginTop: topMargin }}
       >
         <motion.div 

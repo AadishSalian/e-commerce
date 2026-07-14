@@ -48,27 +48,27 @@ Sharp corners, thick borders, and high-contrast components. The UI gets out of t
 
 ---
 
-### ▓▓ INITIALIZATION SEQUENCE
+### ▓▓ HOW TO RUN THE REPO (INITIALIZATION)
 
-To boot up the MATTE. environment locally, run the following terminal sequence:
+To boot up the MATTE. environment locally, follow this terminal sequence:
 
 ```console
 $ git clone https://github.com/yourusername/matte-shop.git
 > Cloning into 'matte-shop'...
-> Resolving deltas: 100% (235/235), done.
 
 $ cd matte-shop && npm install
 > added 412 packages, and audited 413 packages in 3s
 
+# IMPORTANT: Create a .env file in the root and add your database URL
+$ echo 'DATABASE_URL="postgresql://user:password@localhost:5432/matte_db"' > .env
+
 $ npx prisma db push
 > Environment variables loaded from .env
 > Prisma schema loaded from prisma/schema.prisma
-> Datasource "db": PostgreSQL database
 > The database is now in sync with your schema.
 
 $ npm run dev
 > ready - started server on 0.0.0.0:3000, url: http://localhost:3000
-> event - compiled client and server successfully
 ```
 
 ---

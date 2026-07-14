@@ -151,6 +151,17 @@
   opacity: 0.7;
 }
 
+/* Fix browser autofill styling */
+.inputField:-webkit-autofill,
+.inputField:-webkit-autofill:hover,
+.inputField:-webkit-autofill:focus,
+.inputField:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--surface-active) inset !important;
+  -webkit-text-fill-color: var(--foreground) !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: var(--foreground);
+}
+
 .eyeToggle {
   background: none;
   border: none;

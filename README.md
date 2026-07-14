@@ -1,76 +1,102 @@
-# MATTE. 
+<div align="center">
 
-> A premium, cinematic e-commerce experience built for the modern web.
+  <!-- A clean, cinematic header logo/text -->
+  <img src="https://capsule-render.vercel.app/api?type=transparent&color=8ed500&height=150&section=header&text=MATTE.&fontSize=80&fontAlignY=50&desc=A%20premium%20e-commerce%20experience&descAlignY=75&descSize=20&animation=fadeIn" alt="MATTE. Header" />
 
-MATTE. is a high-end, dark-themed e-commerce platform built with Next.js. It features a brutalist yet elegant design system, emphasizing full-bleed photography, confident typography, and a deliberate, layered sense of depth.
+  <br />
+  
+  <p>
+    <strong>Elevating digital retail with brutalist elegance, matte textures, and cinematic motion.</strong>
+  </p>
 
----
-
-## ✦ Features
-
-- **Cinematic Dark Theme**: A meticulously crafted matte charcoal and deep black design system with subtle glassmorphism and frosted layers.
-- **Dynamic Interactions**: Fluid micro-animations powered by `framer-motion`, providing a tactile, premium feel to every interaction.
-- **Editorial Layouts**: Magazine-style product showcases, staggered grids, and immersive scrolling experiences.
-- **Seamless Authentication**: Custom login and registration flows built with Next-Auth, featuring custom styled inputs, auto-fill fixes, and smooth transition states.
-- **Modern Tech Stack**: Built on the cutting edge with Next.js 16, Tailwind CSS v4, and Prisma ORM.
-
----
-
-## ✦ Tech Stack
-
-- **Framework:** [Next.js](https://nextjs.org/) (v16.2)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/) (v4)
-- **Animations:** [Framer Motion](https://www.framer.com/motion/)
-- **Icons:** [Lucide React](https://lucide.dev/)
-- **Authentication:** [Next-Auth](https://next-auth.js.org/)
-- **Database / ORM:** [Prisma](https://www.prisma.io/)
+  <p>
+    <a href="#-features">Features</a> •
+    <a href="#-tech-stack">Tech Stack</a> •
+    <a href="#-getting-started">Getting Started</a> •
+    <a href="#-design-philosophy">Design</a>
+  </p>
+  
+  <br />
+</div>
 
 ---
 
-## ✦ Getting Started
-
-### Prerequisites
-
-Ensure you have Node.js 20+ installed on your machine.
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/matte-shop.git
-   cd matte-shop
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Set up the database**
-   Configure your database URL in the `.env` file, then push the schema:
-   ```bash
-   npx prisma db push
-   npm run db:seed # If a seed script is configured
-   ```
-
-4. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-
-5. **Open the app**
-   Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
+<div align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=24&pause=1000&color=8ED500&center=true&vCenter=true&width=435&lines=Cinematic+Dark+Theme;Fluid+Micro-Animations;Editorial+Product+Layouts;Seamless+Authentication" alt="Typing Animation" />
+</div>
 
 ---
 
-## ✦ Design System Principles
+### ✦ The Vibe
+MATTE. is not just a storefront. It's a highly curated, dark-themed experience. We replaced the standard blinding whites and gloss with deep charcoal blocks, frosted glass, and the electric contrast of **#8ed500** accents. Every hover, every scroll, and every click is designed to feel tactile and deliberate.
 
-- **Typography**: Clean, geometric sans-serif fonts used confidently with large weights for headers and muted, highly-legible secondary text.
-- **Colors**: Strictly matte. Avoid glossy or bright neon elements. The primary palette consists of `#121212`, `#1a1a1a`, with strategic use of `#8ed500` (electric lime) as a high-contrast accent.
-- **Rhythm**: Pacing is everything. Allow elements to breathe with ample whitespace, staggered entrance animations, and overlapping z-index layers.
+<br />
 
----
+### ✦ Features
 
-## ✦ License
+> **Cinematic Dark Theme**  
+> A meticulously crafted matte charcoal and deep black design system. Zero gloss. Pure texture.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+> **Dynamic Interactions**  
+> Fluid micro-animations powered by `framer-motion`, providing a premium, weighty feel to every component.
+
+> **Editorial Layouts**  
+> Magazine-style product showcases, staggered grids, and immersive scroll pacing.
+
+> **Seamless Authentication**  
+> Custom login/register flows with Next-Auth, featuring beautifully styled inputs, animated transitions, and custom autofill masking.
+
+<br />
+
+### ✦ Tech Stack
+
+<div align="center">
+  
+  ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+  ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+  ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+  ![Framer Motion](https://img.shields.io/badge/Framer_Motion-black?style=for-the-badge&logo=framer&logoColor=blue)
+  ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+  
+</div>
+
+<br />
+
+### ✦ Getting Started
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/yourusername/matte-shop.git
+cd matte-shop
+```
+
+**2. Install dependencies**
+```bash
+npm install
+```
+
+**3. Configure Database**
+Create a `.env` file in the root directory and add your connection string. Then push the schema:
+```bash
+npx prisma db push
+```
+
+**4. Ignite the server**
+```bash
+npm run dev
+```
+Navigate to `http://localhost:3000` and experience it.
+
+<br />
+
+### ✦ Design Philosophy
+
+- **Typography**: Geometric sans-serif fonts used confidently with massive weights for headers, paired with muted, highly-legible secondary text.
+- **Colors**: Strictly matte. `#121212` backgrounds with the striking `#8ed500` electric lime accent.
+- **Rhythm**: Pacing is everything. Ample whitespace, staggered entrance animations, and layered z-indexes create an environment that breathes.
+
+<br />
+
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&color=333333&height=100&section=footer&text=Stay%20Matte.&fontSize=30&animation=fadeIn" alt="Footer" />
+</div>

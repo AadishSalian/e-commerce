@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MATTE. 
 
-## Getting Started
+> A premium, cinematic e-commerce experience built for the modern web.
 
-First, run the development server:
+MATTE. is a high-end, dark-themed e-commerce platform built with Next.js. It features a brutalist yet elegant design system, emphasizing full-bleed photography, confident typography, and a deliberate, layered sense of depth.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✦ Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Cinematic Dark Theme**: A meticulously crafted matte charcoal and deep black design system with subtle glassmorphism and frosted layers.
+- **Dynamic Interactions**: Fluid micro-animations powered by `framer-motion`, providing a tactile, premium feel to every interaction.
+- **Editorial Layouts**: Magazine-style product showcases, staggered grids, and immersive scrolling experiences.
+- **Seamless Authentication**: Custom login and registration flows built with Next-Auth, featuring custom styled inputs, auto-fill fixes, and smooth transition states.
+- **Modern Tech Stack**: Built on the cutting edge with Next.js 16, Tailwind CSS v4, and Prisma ORM.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✦ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework:** [Next.js](https://nextjs.org/) (v16.2)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) (v4)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Authentication:** [Next-Auth](https://next-auth.js.org/)
+- **Database / ORM:** [Prisma](https://www.prisma.io/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ✦ Getting Started
 
-## Deploy on Vercel
+### Prerequisites
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Ensure you have Node.js 20+ installed on your machine.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/matte-shop.git
+   cd matte-shop
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up the database**
+   Configure your database URL in the `.env` file, then push the schema:
+   ```bash
+   npx prisma db push
+   npm run db:seed # If a seed script is configured
+   ```
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open the app**
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## ✦ Design System Principles
+
+- **Typography**: Clean, geometric sans-serif fonts used confidently with large weights for headers and muted, highly-legible secondary text.
+- **Colors**: Strictly matte. Avoid glossy or bright neon elements. The primary palette consists of `#121212`, `#1a1a1a`, with strategic use of `#8ed500` (electric lime) as a high-contrast accent.
+- **Rhythm**: Pacing is everything. Allow elements to breathe with ample whitespace, staggered entrance animations, and overlapping z-index layers.
+
+---
+
+## ✦ License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

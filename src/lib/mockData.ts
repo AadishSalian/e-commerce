@@ -64,7 +64,30 @@ export const MOCK_PRODUCTS = [
       { id: 'v-7', name: 'Color', value: 'Matte Black' },
       { id: 'v-8', name: 'Color', value: 'Graphite' },
     ]
+  },
+  {
+    id: 'p-7',
+    name: 'Minimalist T-Shirt',
+    description: 'A premium heavyweight cotton t-shirt with a relaxed fit. Pre-shrunk and garment dyed for a faded matte look.',
+    price: 45.0,
+    category: 'Fashion',
+    isNew: true,
+    variants: [
+      { id: 'v-9', name: 'Color', value: 'Washed Black' },
+      { id: 'v-10', name: 'Color', value: 'Bone' },
+    ]
+  },
+  {
+    id: 'p-8',
+    name: 'Everyday Hoodie',
+    description: 'Constructed from dense French terry cotton. Features a structured hood and hidden seam pockets for a clean silhouette.',
+    price: 85.0,
+    category: 'Fashion',
+    isNew: false,
+    variants: [
+      { id: 'v-11', name: 'Color', value: 'Charcoal' },
+    ]
   }
 ];
 
-export const CATEGORIES = ['All', 'Tech', 'Accessories', 'Objects'];
+export const CATEGORIES = ['All', 'Tech', 'Accessories', 'Objects', 'Fashion'];

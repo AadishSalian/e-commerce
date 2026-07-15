@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import styles from './CategoryWidgets.module.css';
 
 const WIDGETS = [
-  { label: 'Fashion / Apparel', href: '/products?category=fashion', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=200&auto=format&fit=crop' },
+  { label: 'Fashion / Apparel', href: '/fashion', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=200&auto=format&fit=crop' },
   { label: 'Electronics / Gadgets', href: '/products?category=electronics', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=200&auto=format&fit=crop' },
   { label: 'Home & Furniture', href: '/products?category=home', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=200&auto=format&fit=crop' },
   { label: 'Beauty & Personal Care', href: '/products?category=beauty', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=200&auto=format&fit=crop' },

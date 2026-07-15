@@ -8,7 +8,7 @@ const CATEGORIES = [
   {
     id: 'fashion',
     title: 'Fashion & Apparel',
-    href: '/products?category=fashion',
+    href: '/fashion',
     image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop',
     gridClass: styles.cardFashion,
     posClass: styles.posBottomLeft,

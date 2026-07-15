@@ -82,18 +82,26 @@ export default function Navbar() {
           <motion.nav 
             className={styles.island} 
             style={{ padding: islandPadding }}
-            onMouseEnter={handleMouseEnterNav}
             onMouseLeave={handleMouseLeaveNav}
           >
             {NAV_LINKS.map((link) => {
               const isActive = activeHover === link.label || (!activeHover && pathname === link.href);
+              const hasMegaMenu = link.label !== 'About';
               return (
                 <Link
                   key={link.label}
                   href={link.href}
                   className={styles.navLink}
                   data-active={isActive}
-                  onMouseEnter={() => setActiveHover(link.label)}
+                  onMouseEnter={() => {
+                    setActiveHover(link.label);
+                    if (hasMegaMenu) {
+                      handleMouseEnterNav();
+                    } else {
+                      if (megaMenuTimeoutRef.current) clearTimeout(megaMenuTimeoutRef.current);
+                      setIsMegaMenuOpen(false);
+                    }
+                  }}
                   onMouseLeave={() => setActiveHover(null)}
                 >
                   {isActive && (

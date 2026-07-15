@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ArrowLeft } from 'lucide-react';
 
 export default function FashionPage() {
   const [sortBy, setSortBy] = useState('newest');
@@ -22,6 +22,12 @@ export default function FashionPage() {
         
         {/* Header Section */}
         <div className="mb-16">
+          <Link 
+            href="/"
+            className="inline-flex items-center gap-2 text-text-muted hover:text-foreground transition-colors mb-6 font-medium text-sm"
+          >
+            <ArrowLeft className="w-4 h-4" /> Go Back
+          </Link>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
             Fashion & Apparel.
           </h1>

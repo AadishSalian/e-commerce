@@ -17,7 +17,7 @@ const CATEGORIES = [
   {
     id: 'electronics',
     title: 'Electronics',
-    href: '/products?category=electronics',
+    href: '/electronics',
     image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=800&auto=format&fit=crop',
     gridClass: styles.cardTech,
     posClass: styles.posTopLeft,

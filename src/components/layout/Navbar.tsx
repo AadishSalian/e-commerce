@@ -205,7 +205,7 @@ export default function Navbar() {
                     <h3 className="text-foreground font-semibold mb-4">Categories</h3>
                     <ul className="flex flex-col gap-3">
                       <li><Link href="/products?category=tech" className="text-sm text-text-muted hover:text-accent transition-colors">Tech Essentials</Link></li>
-                      <li><Link href="/products?category=home" className="text-sm text-text-muted hover:text-accent transition-colors">Home & Office</Link></li>
+                      <li><Link href="/home-furniture" className="text-sm text-text-muted hover:text-accent transition-colors">Home & Furniture</Link></li>
                       <li><Link href="/products?category=carry" className="text-sm text-text-muted hover:text-accent transition-colors">Everyday Carry</Link></li>
                       <li><Link href="/products?category=audio" className="text-sm text-text-muted hover:text-accent transition-colors">Audio Equipment</Link></li>
                     </ul>

@@ -26,7 +26,7 @@ const CATEGORIES = [
   {
     id: 'home',
     title: 'Home & Furniture',
-    href: '/products?category=home',
+    href: '/home-furniture',
     image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=800&auto=format&fit=crop',
     gridClass: styles.cardHome,
     posClass: styles.posBottomRight,

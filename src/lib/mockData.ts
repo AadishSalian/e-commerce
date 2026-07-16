@@ -87,7 +87,40 @@ export const MOCK_PRODUCTS = [
     variants: [
       { id: 'v-11', name: 'Color', value: 'Charcoal' },
     ]
+  },
+  {
+    id: 'p-9',
+    name: 'Minimalist Lounge Chair',
+    description: 'An ergonomically designed lounge chair with a matte black steel frame and premium soft-touch fabric. Blends seamlessly into any modern living space.',
+    price: 899.0,
+    category: 'Home & Furniture',
+    isNew: true,
+    variants: [
+      { id: 'v-12', name: 'Color', value: 'Oatmeal' },
+      { id: 'v-13', name: 'Color', value: 'Charcoal' },
+    ]
+  },
+  {
+    id: 'p-10',
+    name: 'Ceramic Table Lamp',
+    description: 'A soft, diffused light source with a matte ceramic base. Dimmable via a seamless touch interface on the base.',
+    price: 149.0,
+    category: 'Home & Furniture',
+    isNew: false,
+    variants: [
+      { id: 'v-14', name: 'Color', value: 'Bone White' },
+      { id: 'v-15', name: 'Color', value: 'Slate' },
+    ]
+  },
+  {
+    id: 'p-11',
+    name: 'Walnut Coffee Table',
+    description: 'Solid walnut construction with a durable matte finish that resists rings and scratches. Features a hidden drawer for remotes and magazines.',
+    price: 549.0,
+    category: 'Home & Furniture',
+    isNew: true,
+    variants: []
   }
 ];
 
-export const CATEGORIES = ['All', 'Tech', 'Accessories', 'Objects', 'Fashion'];
+export const CATEGORIES = ['All', 'Tech', 'Accessories', 'Objects', 'Fashion', 'Home & Furniture'];

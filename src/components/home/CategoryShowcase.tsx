@@ -53,7 +53,7 @@ const CATEGORIES = [
   {
     id: 'accessories',
     title: 'Accessories',
-    href: '/products?category=accessories',
+    href: '/accessories',
     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop',
     gridClass: styles.cardAccessories,
     posClass: styles.posBottomLeft,

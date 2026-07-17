@@ -1,4 +1,5 @@
 export const MOCK_PRODUCTS = [
+  // --- TECH & HOME (Existing, updated with basic images) ---
   {
     id: 'p-1',
     name: 'Matte Keyboard 1',
@@ -6,6 +7,8 @@ export const MOCK_PRODUCTS = [
     price: 249.0,
     category: 'Tech',
     isNew: true,
+    image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop',
+    hoverImage: 'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=800&auto=format&fit=crop',
     variants: [
       { id: 'v-1', name: 'Color', value: 'Matte Black' },
       { id: 'v-2', name: 'Color', value: 'Graphite' },
@@ -18,74 +21,11 @@ export const MOCK_PRODUCTS = [
     price: 199.0,
     category: 'Tech',
     isNew: false,
+    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop',
+    hoverImage: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?q=80&w=800&auto=format&fit=crop',
     variants: [
       { id: 'v-3', name: 'Color', value: 'Charcoal' },
       { id: 'v-4', name: 'Color', value: 'Sage' },
-    ]
-  },
-  {
-    id: 'p-3',
-    name: 'Structured Backpack',
-    description: 'A minimalist carry solution crafted from weather-resistant matte ballistic nylon. Features padded compartments for all your devices.',
-    price: 159.0,
-    category: 'Accessories',
-    isNew: true,
-    variants: []
-  },
-  {
-    id: 'p-4',
-    name: 'Desk Pad',
-    description: 'A premium vegan leather desk mat that absorbs sound and provides a smooth, non-reflective surface for your workspace.',
-    price: 49.0,
-    category: 'Objects',
-    isNew: false,
-    variants: [
-      { id: 'v-5', name: 'Color', value: 'Matte Black' },
-      { id: 'v-6', name: 'Color', value: 'Warm Gray' },
-    ]
-  },
-  {
-    id: 'p-5',
-    name: 'Aluminum Monitor Stand',
-    description: 'Elevate your display with this seamless aluminum unibody stand. Designed to match the matte aesthetic of your premium devices.',
-    price: 89.0,
-    category: 'Accessories',
-    isNew: false,
-    variants: []
-  },
-  {
-    id: 'p-6',
-    name: 'Matte Mouse',
-    description: 'Ergonomically engineered with a soft-touch finish. Features a silent click mechanism and ultra-precise tracking.',
-    price: 99.0,
-    category: 'Tech',
-    isNew: false,
-    variants: [
-      { id: 'v-7', name: 'Color', value: 'Matte Black' },
-      { id: 'v-8', name: 'Color', value: 'Graphite' },
-    ]
-  },
-  {
-    id: 'p-7',
-    name: 'Minimalist T-Shirt',
-    description: 'A premium heavyweight cotton t-shirt with a relaxed fit. Pre-shrunk and garment dyed for a faded matte look.',
-    price: 45.0,
-    category: 'Fashion',
-    isNew: true,
-    variants: [
-      { id: 'v-9', name: 'Color', value: 'Washed Black' },
-      { id: 'v-10', name: 'Color', value: 'Bone' },
-    ]
-  },
-  {
-    id: 'p-8',
-    name: 'Everyday Hoodie',
-    description: 'Constructed from dense French terry cotton. Features a structured hood and hidden seam pockets for a clean silhouette.',
-    price: 85.0,
-    category: 'Fashion',
-    isNew: false,
-    variants: [
-      { id: 'v-11', name: 'Color', value: 'Charcoal' },
     ]
   },
   {
@@ -95,32 +35,123 @@ export const MOCK_PRODUCTS = [
     price: 899.0,
     category: 'Home & Furniture',
     isNew: true,
+    image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?q=80&w=800&auto=format&fit=crop',
+    hoverImage: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=800&auto=format&fit=crop',
     variants: [
       { id: 'v-12', name: 'Color', value: 'Oatmeal' },
       { id: 'v-13', name: 'Color', value: 'Charcoal' },
     ]
   },
+
+  // --- NEW FASHION PRODUCTS (High quality editorial imagery) ---
   {
-    id: 'p-10',
-    name: 'Ceramic Table Lamp',
-    description: 'A soft, diffused light source with a matte ceramic base. Dimmable via a seamless touch interface on the base.',
-    price: 149.0,
-    category: 'Home & Furniture',
-    isNew: false,
+    id: 'f-1',
+    name: 'Oversized Wool Blazer',
+    description: 'Tailored from heavy Italian wool with exaggerated proportions. Features a strong shoulder and a drapey, relaxed fit for a dramatic silhouette.',
+    price: 395.0,
+    category: 'Fashion',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=1000&auto=format&fit=crop', // Woman in blazer looking elegant
+    hoverImage: 'https://images.unsplash.com/photo-1584273143981-415f74116ea0?q=80&w=1000&auto=format&fit=crop',
     variants: [
-      { id: 'v-14', name: 'Color', value: 'Bone White' },
-      { id: 'v-15', name: 'Color', value: 'Slate' },
+      { id: 'fv-1', name: 'Color', value: 'Onyx' },
+      { id: 'fv-2', name: 'Color', value: 'Camel' },
     ]
   },
   {
-    id: 'p-11',
-    name: 'Walnut Coffee Table',
-    description: 'Solid walnut construction with a durable matte finish that resists rings and scratches. Features a hidden drawer for remotes and magazines.',
-    price: 549.0,
-    category: 'Home & Furniture',
+    id: 'f-2',
+    name: 'Silk Slip Dress',
+    description: 'A bias-cut masterpiece in 100% heavy mulberry silk. Designed to skim the body with a fluid, liquid-like drape that moves beautifully.',
+    price: 245.0,
+    category: 'Fashion',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1617066030310-9189fbce6813?q=80&w=1000&auto=format&fit=crop', // Elegant silk dress
+    hoverImage: 'https://images.unsplash.com/photo-1562243061-204550ef912b?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'fv-3', name: 'Color', value: 'Midnight' },
+      { id: 'fv-4', name: 'Color', value: 'Pearl' },
+    ]
+  },
+  {
+    id: 'f-3',
+    name: 'Cashmere Overcoat',
+    description: 'The ultimate winter statement piece. Double-faced cashmere blend with exaggerated lapels and a sweeping, ankle-grazing length.',
+    price: 850.0,
+    category: 'Fashion',
     isNew: true,
-    variants: []
-  }
+    image: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1000&auto=format&fit=crop', // Editorial coat shot
+    hoverImage: 'https://images.unsplash.com/photo-1485230895905-ef08169976dc?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'fv-5', name: 'Color', value: 'Charcoal' },
+    ]
+  },
+  {
+    id: 'f-4',
+    name: 'Wide-Leg Pleated Trousers',
+    description: 'High-waisted with deep double pleats. Cut from a fluid crepe fabric that provides movement and a sculptural shape.',
+    price: 185.0,
+    category: 'Fashion',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop', // Fashion trousers
+    hoverImage: 'https://images.unsplash.com/photo-1582533561751-24855d04dd26?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'fv-6', name: 'Color', value: 'Black' },
+      { id: 'fv-7', name: 'Color', value: 'Ivory' },
+    ]
+  },
+  {
+    id: 'f-5',
+    name: 'Chunky Leather Combat Boots',
+    description: 'Handcrafted in Spain from Italian calfskin. Features a pronounced lug sole and minimal hardware for a brutalist, stompy aesthetic.',
+    price: 320.0,
+    category: 'Fashion',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1520639888713-7851133b1ed0?q=80&w=1000&auto=format&fit=crop', // Edgy boots
+    hoverImage: 'https://images.unsplash.com/photo-1542280756-74b2f55e73e1?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'fv-8', name: 'Color', value: 'Matte Black' },
+    ]
+  },
+  {
+    id: 'f-6',
+    name: 'Deconstructed Poplin Shirt',
+    description: 'A classic white shirt, reimagined. Features asymmetric buttoning, extended cuffs, and an oversized, crisp silhouette.',
+    price: 145.0,
+    category: 'Fashion',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1602810316498-508933b93f13?q=80&w=1000&auto=format&fit=crop', // Artistic white shirt
+    hoverImage: 'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'fv-9', name: 'Color', value: 'Optic White' },
+    ]
+  },
+  {
+    id: 'f-7',
+    name: 'Ribbed Knit Turtleneck',
+    description: 'Second-skin fit in a stretch merino blend. A foundational layering piece with extra-long sleeves that pool at the wrists.',
+    price: 110.0,
+    category: 'Fashion',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1611042553365-9b101441c135?q=80&w=1000&auto=format&fit=crop', // Turtleneck fashion
+    hoverImage: 'https://images.unsplash.com/photo-1534653299134-96a171b61581?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'fv-10', name: 'Color', value: 'Midnight' },
+      { id: 'fv-11', name: 'Color', value: 'Taupe' },
+    ]
+  },
+  {
+    id: 'f-8',
+    name: 'Structured Leather Tote',
+    description: 'Architectural lines carved from vegetable-tanned leather. A monolithic bag that stands on its own and holds your entire life.',
+    price: 495.0,
+    category: 'Fashion',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1000&auto=format&fit=crop', // Minimalist bag
+    hoverImage: 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'fv-12', name: 'Color', value: 'Black' },
+    ]
+  },
 ];
 
 export const CATEGORIES = ['All', 'Tech', 'Accessories', 'Objects', 'Fashion', 'Home & Furniture'];

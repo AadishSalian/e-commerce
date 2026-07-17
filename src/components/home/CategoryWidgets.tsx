@@ -10,7 +10,7 @@ const WIDGETS = [
   { label: 'Electronics / Gadgets', href: '/electronics', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=200&auto=format&fit=crop' },
   { label: 'Home & Furniture', href: '/home-furniture', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=200&auto=format&fit=crop' },
   { label: 'Beauty & Personal Care', href: '/beauty', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=200&auto=format&fit=crop' },
-  { label: 'Sports & Outdoors', href: '/products?category=sports', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200&auto=format&fit=crop' },
+  { label: 'Sports & Outdoors', href: '/sports', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200&auto=format&fit=crop' },
   { label: 'Accessories', href: '/products?category=accessories', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=200&auto=format&fit=crop' },
 ];
 

@@ -44,7 +44,7 @@ const CATEGORIES = [
   {
     id: 'sports',
     title: 'Sports & Outdoors',
-    href: '/products?category=sports',
+    href: '/sports',
     image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=800&auto=format&fit=crop',
     gridClass: styles.cardSports,
     posClass: styles.posTopRight,

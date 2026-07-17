@@ -35,7 +35,7 @@ const CATEGORIES = [
   {
     id: 'beauty',
     title: 'Beauty Care',
-    href: '/products?category=beauty',
+    href: '/beauty',
     image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=800&auto=format&fit=crop',
     gridClass: styles.cardBeauty,
     posClass: styles.posCenter,

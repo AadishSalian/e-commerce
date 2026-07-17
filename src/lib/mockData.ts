@@ -51,8 +51,8 @@ export const MOCK_PRODUCTS = [
     price: 395.0,
     category: 'Fashion',
     isNew: true,
-    image: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=1000&auto=format&fit=crop', // Woman in blazer looking elegant
-    hoverImage: 'https://images.unsplash.com/photo-1584273143981-415f74116ea0?q=80&w=1000&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=1000&auto=format&fit=crop', 
+    hoverImage: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1000&auto=format&fit=crop', // Fixed
     variants: [
       { id: 'fv-1', name: 'Color', value: 'Onyx' },
       { id: 'fv-2', name: 'Color', value: 'Camel' },
@@ -65,8 +65,8 @@ export const MOCK_PRODUCTS = [
     price: 245.0,
     category: 'Fashion',
     isNew: false,
-    image: 'https://images.unsplash.com/photo-1617066030310-9189fbce6813?q=80&w=1000&auto=format&fit=crop', // Elegant silk dress
-    hoverImage: 'https://images.unsplash.com/photo-1562243061-204550ef912b?q=80&w=1000&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?q=80&w=1000&auto=format&fit=crop', // Fixed
+    hoverImage: 'https://images.unsplash.com/photo-1611042553365-9b101441c135?q=80&w=1000&auto=format&fit=crop', // Fixed
     variants: [
       { id: 'fv-3', name: 'Color', value: 'Midnight' },
       { id: 'fv-4', name: 'Color', value: 'Pearl' },
@@ -79,8 +79,8 @@ export const MOCK_PRODUCTS = [
     price: 850.0,
     category: 'Fashion',
     isNew: true,
-    image: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1000&auto=format&fit=crop', // Editorial coat shot
-    hoverImage: 'https://images.unsplash.com/photo-1485230895905-ef08169976dc?q=80&w=1000&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1000&auto=format&fit=crop', 
+    hoverImage: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop', // Fixed
     variants: [
       { id: 'fv-5', name: 'Color', value: 'Charcoal' },
     ]
@@ -92,8 +92,8 @@ export const MOCK_PRODUCTS = [
     price: 185.0,
     category: 'Fashion',
     isNew: false,
-    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop', // Fashion trousers
-    hoverImage: 'https://images.unsplash.com/photo-1582533561751-24855d04dd26?q=80&w=1000&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop', 
+    hoverImage: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1000&auto=format&fit=crop', // Fixed
     variants: [
       { id: 'fv-6', name: 'Color', value: 'Black' },
       { id: 'fv-7', name: 'Color', value: 'Ivory' },
@@ -107,7 +107,7 @@ export const MOCK_PRODUCTS = [
     category: 'Fashion',
     isNew: false,
     image: 'https://images.unsplash.com/photo-1520639888713-7851133b1ed0?q=80&w=1000&auto=format&fit=crop', // Edgy boots
-    hoverImage: 'https://images.unsplash.com/photo-1542280756-74b2f55e73e1?q=80&w=1000&auto=format&fit=crop',
+    hoverImage: 'https://images.unsplash.com/photo-1534653299134-96a171b61581?q=80&w=1000&auto=format&fit=crop',
     variants: [
       { id: 'fv-8', name: 'Color', value: 'Matte Black' },
     ]
@@ -119,7 +119,7 @@ export const MOCK_PRODUCTS = [
     price: 145.0,
     category: 'Fashion',
     isNew: true,
-    image: 'https://images.unsplash.com/photo-1602810316498-508933b93f13?q=80&w=1000&auto=format&fit=crop', // Artistic white shirt
+    image: 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=1000&auto=format&fit=crop', // Artistic white shirt
     hoverImage: 'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?q=80&w=1000&auto=format&fit=crop',
     variants: [
       { id: 'fv-9', name: 'Color', value: 'Optic White' },

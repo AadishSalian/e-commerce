@@ -1,7 +1,7 @@
 export const MOCK_PRODUCTS = [
-  // --- TECH & HOME (Existing, updated with basic images) ---
+  // --- TECH & HOME (Expanded) ---
   {
-    id: 'p-1',
+    id: 't-1',
     name: 'Matte Keyboard 1',
     description: 'An ultra-low profile mechanical keyboard machined from a single block of aerospace-grade aluminum. Finished in a soft-touch matte charcoal.',
     price: 249.0,
@@ -15,7 +15,7 @@ export const MOCK_PRODUCTS = [
     ]
   },
   {
-    id: 'p-2',
+    id: 't-2',
     name: 'Ceramic Earbuds',
     description: 'High-fidelity wireless audio encased in a durable, matte-finished ceramic housing. Designed for pristine sound and minimal presence.',
     price: 199.0,
@@ -26,6 +26,57 @@ export const MOCK_PRODUCTS = [
     variants: [
       { id: 'v-3', name: 'Color', value: 'Charcoal' },
       { id: 'v-4', name: 'Color', value: 'Sage' },
+    ]
+  },
+  {
+    id: 't-3',
+    name: 'Monolith Over-Ears',
+    description: 'Studio-grade acoustic engineering wrapped in a brutalist aluminum frame. Features active noise cancellation and 40 hours of battery life.',
+    price: 349.0,
+    category: 'Tech',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop',
+    hoverImage: 'https://images.unsplash.com/photo-1527443195645-1133f7f28990?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'v-5', name: 'Color', value: 'Onyx' }
+    ]
+  },
+  {
+    id: 't-4',
+    name: 'Tactile Smartwatch',
+    description: 'A fusion of analog horology and digital intelligence. Features a sapphire glass face, titanium chassis, and discrete haptic feedback.',
+    price: 499.0,
+    category: 'Tech',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'v-6', name: 'Color', value: 'Silver' },
+      { id: 'v-7', name: 'Color', value: 'Space Gray' }
+    ]
+  },
+  {
+    id: 't-5',
+    name: 'Studio Monitor Hub',
+    description: 'A 27-inch 5K reference display with a perfectly calibrated matte anti-glare finish and integrated ambient backlighting.',
+    price: 1299.0,
+    category: 'Tech',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'v-8', name: 'Color', value: 'Pro Black' }
+    ]
+  },
+  {
+    id: 't-6',
+    name: 'Ergonomic Laser Mouse',
+    description: 'Sculpted for the human hand. Features optical switches, an anodized scroll wheel, and a flawless 20,000 DPI sensor.',
+    price: 129.0,
+    category: 'Tech',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1628202926206-c63a34b19fb4?q=80&w=1000&auto=format&fit=crop',
+    variants: [
+      { id: 'v-9', name: 'Color', value: 'Carbon' },
+      { id: 'v-10', name: 'Color', value: 'Chalk' }
     ]
   },
   {

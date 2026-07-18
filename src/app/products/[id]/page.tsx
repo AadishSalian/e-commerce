@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { notFound, useParams, useRouter } from 'next/navigation';
+import { use, useState } from 'react';
+import { notFound, useRouter } from 'next/navigation';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { motion } from 'framer-motion';
 import { Check, ChevronRight, ShoppingBag, Lock } from 'lucide-react';
@@ -9,9 +9,9 @@ import Link from 'next/link';
 import { PrimaryButton, NavAuthButton } from '@/components/ui';
 import { useAuth } from '@/contexts/AuthContext';
 
-export default function ProductDetailPage() {
-  const params = useParams();
-  const product = MOCK_PRODUCTS.find(p => p.id === params?.id);
+export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
+  const product = MOCK_PRODUCTS.find(p => p.id === resolvedParams.id);
   const { isLoggedIn } = useAuth();
   const router = useRouter();
   

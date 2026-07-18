@@ -13,6 +13,7 @@ import {
   animate
 } from 'framer-motion';
 import { ArrowLeft, Plus, ChevronRight, Check } from 'lucide-react';
+import { MOCK_PRODUCTS } from '@/lib/mockData';
 
 // Shared animation transition for non-scroll-linked animations
 const customEase = [0.65, 0, 0.35, 1] as const;
@@ -68,6 +69,12 @@ const AnimatedCounter = ({ from = 0, to, duration = 2 }: { from?: number, to: nu
   return <span ref={nodeRef}>{from}</span>;
 };
 
+const featuresList = [
+  { eyebrow: "01 — Material", title: "Matte-finish shell.", desc: "A soft-touch surface engineered to resist fingerprints and glare, finished by hand." },
+  { eyebrow: "02 — Endurance", title: "Days of playback.", desc: "A custom high-density cell delivers up to 40 hours of continuous, high-fidelity listening on a single charge." },
+  { eyebrow: "03 — Detail", title: "Considered hardware.", desc: "Small functional details, refined until nothing was left to simplify further." }
+];
+
 export default function ElectronicsFlagshipPage() {
   const prefersReducedMotion = useReducedMotion();
   
@@ -93,25 +100,7 @@ export default function ElectronicsFlagshipPage() {
     visible: { opacity: 1, y: 0, transition: defaultTransition }
   };
 
-  // Section 2: Scroll-Scrubbed Rotation logic
-  const rotationSectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: rotationProgress } = useScroll({
-    target: rotationSectionRef,
-    offset: ["start start", "end end"]
-  });
-
-  // Map progress to 3D rotation (if reduced motion, don't rotate)
-  const rotateY = useTransform(rotationProgress, [0, 1], prefersReducedMotion ? [0, 0] : [-25, 25]);
-  const rotateX = useTransform(rotationProgress, [0, 1], prefersReducedMotion ? [0, 0] : [4, -4]);
-  const scale = useTransform(rotationProgress, [0, 1], prefersReducedMotion ? [1, 1] : [1, 1.06]);
-  
-  // Crossfade captions based on scroll progress explicitly mapped across the entire 0-1 range
-  const caption1Opacity = useTransform(rotationProgress, [0, 0.2, 0.35, 1], [1, 1, 0, 0], { clamp: true });
-  const caption2Opacity = useTransform(rotationProgress, [0, 0.3, 0.45, 0.6, 0.75, 1], [0, 0, 1, 1, 0, 0], { clamp: true });
-  const caption3Opacity = useTransform(rotationProgress, [0, 0.7, 0.85, 1], [0, 0, 1, 1], { clamp: true });
-  
-  // Progress rail
-  const railScaleY = useTransform(rotationProgress, [0, 1], [0, 1]);
+  const techProducts = MOCK_PRODUCTS.filter(p => p.category === 'Tech');
 
   // Section 6: Configurator logic
   const [activeColor, setActiveColor] = useState('onyx');
@@ -170,67 +159,75 @@ export default function ElectronicsFlagshipPage() {
         </motion.div>
       </section>
 
-      {/* 2. Scroll-Scrubbed Rotation (Sticky Signature Moment) */}
-      <section ref={rotationSectionRef} className="relative w-full h-[260vh] bg-[#0d0d0d]">
-        <div className="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_50%_45%,#1c1c1c_0%,#0d0d0d_65%)]">
-          
-          {/* Progress Rail */}
-          <div className="absolute left-8 md:left-16 top-1/4 bottom-1/4 w-[1px] bg-white/10 z-20">
-            <motion.div 
-              className="absolute top-0 w-full bg-accent origin-top"
-              style={{ scaleY: railScaleY, height: '100%' }}
-            />
-          </div>
-
-          <div className="relative w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center h-full px-8 md:px-24">
-            
-            {/* Left: Crossfading Captions */}
-            <div className="w-full md:w-1/2 h-40 md:h-auto relative z-20 flex items-center mb-12 md:mb-0">
-              <motion.div style={{ opacity: caption1Opacity }} className="absolute inset-x-0">
-                <p className="text-accent font-mono text-xs uppercase tracking-[0.3em] mb-4">Acoustic Architecture</p>
-                <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">Engineered to isolate.</h2>
-                <p className="text-text-muted text-lg leading-relaxed">Precision-milled aluminum chassis dampens external resonance, leaving only the purest audio signal.</p>
-              </motion.div>
-
-              <motion.div style={{ opacity: caption2Opacity }} className="absolute inset-x-0">
-                <p className="text-accent font-mono text-xs uppercase tracking-[0.3em] mb-4">Neural ANC</p>
-                <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">The sound of nothing.</h2>
-                <p className="text-text-muted text-lg leading-relaxed">Six adaptive microphones sample ambient noise 4,000 times per second to create absolute silence.</p>
-              </motion.div>
-
-              <motion.div style={{ opacity: caption3Opacity }} className="absolute inset-x-0">
-                <p className="text-accent font-mono text-xs uppercase tracking-[0.3em] mb-4">Endurance</p>
-                <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">Days of playback.</h2>
-                <p className="text-text-muted text-lg leading-relaxed">A custom high-density cell delivers up to 40 hours of continuous high-fidelity listening on a single charge.</p>
-              </motion.div>
-            </div>
-
-            {/* Right: 3D Rotated Image */}
-            <div className="w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center relative perspective-[1200px]">
-              <motion.div 
-                style={{ rotateY, rotateX, scale }}
-                className="relative w-full max-w-[400px] aspect-[3/4] bg-[#111] rounded-3xl preserve-3d shadow-2xl border border-white/5 flex flex-col items-center justify-center overflow-hidden"
-              >
-                {/* Edge highlights to suggest thickness */}
-                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.1),inset_0_-4px_8px_rgba(0,0,0,0.8)] pointer-events-none" />
-                
-                {/* Diagonal light-catch gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-50 pointer-events-none mix-blend-overlay" />
-                
-                {/* Recessed "screen" area with ambient glow */}
-                <div className="relative w-[85%] h-[80%] bg-gradient-to-b from-[#0a0a0a] to-[#151515] rounded-2xl shadow-[inset_0_4px_20px_rgba(0,0,0,0.9)] flex items-center justify-center overflow-hidden border border-black/50">
-                   {/* Ambient glow */}
-                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-accent/20 blur-3xl rounded-full" />
-                   
-                   {/* Secondary detail (camera/button module) */}
-                   <div className="absolute top-6 right-6 w-4 h-4 rounded-full bg-[#1a1a1a] shadow-[inset_0_1px_3px_rgba(0,0,0,0.8),0_1px_1px_rgba(255,255,255,0.05)] border border-white/5 flex items-center justify-center">
-                     <div className="w-1.5 h-1.5 rounded-full bg-accent/40 shadow-[0_0_8px_var(--accent)]" />
-                   </div>
-                </div>
-              </motion.div>
-            </div>
+      {/* 2. Featured Tech Products Grid */}
+      <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto w-full">
+        <div className="mb-16 flex justify-between items-end">
+          <div>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Latest Tech</h2>
+            <p className="text-text-muted text-sm md:text-base tracking-wide max-w-lg">
+              Precision-engineered hardware for the uncompromising minimalist.
+            </p>
           </div>
         </div>
+
+        <motion.div 
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16"
+        >
+          <AnimatePresence>
+            {techProducts.map((product, idx) => (
+              <motion.div
+                layout
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-5%" }}
+                transition={{ duration: 0.8, delay: (idx % 3) * 0.1, ease: [0.65, 0, 0.35, 1] }}
+                key={product.id}
+                className="group cursor-pointer"
+              >
+                <Link href={`/products/${product.id}`} className="block">
+                  {/* Image Container */}
+                  <div className="w-full aspect-[4/5] bg-[#111] overflow-hidden mb-6 relative rounded-lg border border-white/5 hover:border-white/20 transition-colors">
+                    {product.isNew && (
+                      <span className="absolute top-4 left-4 z-20 bg-white text-black px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-sm">
+                        New
+                      </span>
+                    )}
+                    
+                    <motion.img 
+                      src={product.image} 
+                      alt={product.name} 
+                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+                      whileHover={{ scale: 1.03 }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                    />
+                    
+                    {product.hoverImage && (
+                      <motion.img 
+                        src={product.hoverImage} 
+                        alt={`${product.name} alternate view`} 
+                        className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+                        whileHover={{ scale: 1.03 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                      />
+                    )}
+                  </div>
+                  
+                  {/* Details */}
+                  <div className="flex justify-between items-start">
+                    <div className="flex flex-col">
+                      <h3 className="text-white font-bold tracking-tight text-lg mb-1">{product.name}</h3>
+                      <p className="text-text-muted text-xs uppercase tracking-wider font-medium">
+                        {product.variants?.length > 0 ? `${product.variants.length} Colors` : '1 Color'}
+                      </p>
+                    </div>
+                    <p className="text-white font-medium">${product.price.toFixed(2)}</p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </section>
 
       {/* 3. Material & Build Storytelling */}

@@ -101,12 +101,14 @@ export default function ElectronicsFlagshipPage() {
   });
 
   // Map progress to 3D rotation (if reduced motion, don't rotate)
-  const productRotateY = useTransform(rotationProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 340]);
+  const rotateY = useTransform(rotationProgress, [0, 1], prefersReducedMotion ? [0, 0] : [-25, 25]);
+  const rotateX = useTransform(rotationProgress, [0, 1], prefersReducedMotion ? [0, 0] : [4, -4]);
+  const scale = useTransform(rotationProgress, [0, 1], prefersReducedMotion ? [1, 1] : [1, 1.06]);
   
-  // Crossfade captions based on scroll progress
-  const caption1Opacity = useTransform(rotationProgress, [0, 0.15, 0.3], [1, 1, 0]);
-  const caption2Opacity = useTransform(rotationProgress, [0.35, 0.5, 0.65], [0, 1, 0]);
-  const caption3Opacity = useTransform(rotationProgress, [0.7, 0.85, 1], [0, 1, 1]);
+  // Crossfade captions based on scroll progress explicitly mapped across the entire 0-1 range
+  const caption1Opacity = useTransform(rotationProgress, [0, 0.2, 0.35, 1], [1, 1, 0, 0], { clamp: true });
+  const caption2Opacity = useTransform(rotationProgress, [0, 0.3, 0.45, 0.6, 0.75, 1], [0, 0, 1, 1, 0, 0], { clamp: true });
+  const caption3Opacity = useTransform(rotationProgress, [0, 0.7, 0.85, 1], [0, 0, 1, 1], { clamp: true });
   
   // Progress rail
   const railScaleY = useTransform(rotationProgress, [0, 1], [0, 1]);
@@ -153,7 +155,7 @@ export default function ElectronicsFlagshipPage() {
           animate="visible"
         >
           <motion.h1 variants={heroItemVariants} className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-4 text-white">
-            Monolith.
+            Gadgets/Electronic
           </motion.h1>
           <motion.p variants={heroItemVariants} className="text-xl md:text-3xl text-text-muted tracking-tight font-light mb-12 max-w-2xl">
             Silence is the ultimate luxury.
@@ -169,8 +171,8 @@ export default function ElectronicsFlagshipPage() {
       </section>
 
       {/* 2. Scroll-Scrubbed Rotation (Sticky Signature Moment) */}
-      <section ref={rotationSectionRef} className="relative w-full h-[400vh] bg-[#0d0d0d]">
-        <div className="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
+      <section ref={rotationSectionRef} className="relative w-full h-[260vh] bg-[#0d0d0d]">
+        <div className="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_50%_45%,#1c1c1c_0%,#0d0d0d_65%)]">
           
           {/* Progress Rail */}
           <div className="absolute left-8 md:left-16 top-1/4 bottom-1/4 w-[1px] bg-white/10 z-20">
@@ -206,15 +208,25 @@ export default function ElectronicsFlagshipPage() {
             {/* Right: 3D Rotated Image */}
             <div className="w-full md:w-1/2 h-1/2 md:h-full flex items-center justify-center relative perspective-[1200px]">
               <motion.div 
-                style={{ rotateY: productRotateY }}
-                className="relative w-full aspect-square max-w-[500px] preserve-3d"
+                style={{ rotateY, rotateX, scale }}
+                className="relative w-full max-w-[400px] aspect-[3/4] bg-[#111] rounded-3xl preserve-3d shadow-2xl border border-white/5 flex flex-col items-center justify-center overflow-hidden"
               >
-                {/* Simulated 3D object using a front and back face crossfade as it rotates */}
-                <img 
-                  src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?q=80&w=1000&auto=format&fit=crop" 
-                  alt="Headphones"
-                  className="w-full h-full object-contain filter drop-shadow-2xl"
-                />
+                {/* Edge highlights to suggest thickness */}
+                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.1),inset_0_-4px_8px_rgba(0,0,0,0.8)] pointer-events-none" />
+                
+                {/* Diagonal light-catch gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-50 pointer-events-none mix-blend-overlay" />
+                
+                {/* Recessed "screen" area with ambient glow */}
+                <div className="relative w-[85%] h-[80%] bg-gradient-to-b from-[#0a0a0a] to-[#151515] rounded-2xl shadow-[inset_0_4px_20px_rgba(0,0,0,0.9)] flex items-center justify-center overflow-hidden border border-black/50">
+                   {/* Ambient glow */}
+                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-accent/20 blur-3xl rounded-full" />
+                   
+                   {/* Secondary detail (camera/button module) */}
+                   <div className="absolute top-6 right-6 w-4 h-4 rounded-full bg-[#1a1a1a] shadow-[inset_0_1px_3px_rgba(0,0,0,0.8),0_1px_1px_rgba(255,255,255,0.05)] border border-white/5 flex items-center justify-center">
+                     <div className="w-1.5 h-1.5 rounded-full bg-accent/40 shadow-[0_0_8px_var(--accent)]" />
+                   </div>
+                </div>
               </motion.div>
             </div>
           </div>

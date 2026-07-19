@@ -22,12 +22,6 @@ export default function BeautyPage() {
         
         {/* Header Section */}
         <div className="mb-16">
-          <Link 
-            href="/"
-            className="inline-flex items-center gap-2 text-text-muted hover:text-foreground transition-colors mb-6 font-medium text-sm"
-          >
-            <ArrowLeft className="w-4 h-4" /> Go Back
-          </Link>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
             Beauty & Personal Care.
           </h1>

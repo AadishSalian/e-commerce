@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import BrandReveal from "@/components/ui/BrandReveal";
+import { StoreBackButton } from "@/components/ui/StoreBackButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -55,6 +56,7 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-full flex flex-col bg-background text-foreground`}>
         <BrandReveal />
         <AuthProvider>
+          <StoreBackButton />
           <Navbar />
           <main className="flex-grow pt-24 md:pt-28">
             {children}

@@ -35,14 +35,7 @@ export default function FashionPage() {
       <section className="relative pt-40 pb-20 w-full flex flex-col items-center justify-center px-4 max-w-6xl mx-auto text-center">
         
         {/* Back Button positioned to the side */}
-        <div className="absolute top-12 left-4 md:left-8 z-20">
-          <Link 
-            href="/"
-            className="inline-flex items-center gap-2 text-text-muted hover:text-foreground transition-colors font-medium text-sm tracking-widest uppercase"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Store
-          </Link>
-        </div>
+
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

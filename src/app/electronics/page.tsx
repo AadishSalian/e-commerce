@@ -21,7 +21,7 @@ export default function ElectronicsCategoryPage() {
   const mouse = techProducts.find(p => p.id === 't-6');
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-[#e8e8e6] selection:bg-accent selection:text-white font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground selection:bg-accent selection:text-white font-sans overflow-x-hidden">
       
       {/* 1. Hero Section - The Tech Collection */}
       <section className="relative min-h-[70vh] w-full pt-32 pb-16 px-4 md:px-8 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
@@ -31,7 +31,7 @@ export default function ElectronicsCategoryPage() {
           transition={{ duration: 1, ease: customEase }}
           className="z-10 text-center md:text-left w-full md:w-1/2 lg:w-3/5"
         >
-          <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold tracking-tighter mb-6 text-white leading-[1.1]">
+          <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold tracking-tighter mb-6 text-foreground leading-[1.1]">
             The Tech<br />Collection.
           </h1>
           <p className="text-xl md:text-2xl text-text-muted tracking-tight font-light mb-8 max-w-lg mx-auto md:mx-0">
@@ -43,7 +43,7 @@ export default function ElectronicsCategoryPage() {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: customEase, delay: 0.2 }}
-          className="w-full md:w-1/2 lg:w-2/5 relative aspect-square max-w-md mx-auto md:mx-0 rounded-3xl overflow-hidden border border-white/10 shadow-2xl mt-8 md:mt-0"
+          className="w-full md:w-1/2 lg:w-2/5 relative aspect-square max-w-md mx-auto md:mx-0 rounded-3xl overflow-hidden border border-border/50 shadow-2xl mt-8 md:mt-0"
         >
           <motion.img 
             src="/images/tech_gadgets_knolling.png" 
@@ -53,7 +53,7 @@ export default function ElectronicsCategoryPage() {
             transition={{ repeat: Infinity, repeatType: "mirror", duration: 6, ease: "easeInOut" }}
           />
           {/* Subtle gradient overlay to blend with background */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
         </motion.div>
 
         {/* Decorative ambient background elements */}
@@ -61,7 +61,7 @@ export default function ElectronicsCategoryPage() {
       </section>
 
       {/* 2. Category Storytelling - Ecosystem */}
-      <section className="py-32 w-full bg-[#111]">
+      <section className="py-32 w-full bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <motion.div 
@@ -69,7 +69,7 @@ export default function ElectronicsCategoryPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1, ease: customEase }}
-              className="w-full lg:w-1/2 aspect-square md:aspect-[4/3] bg-[#0d0d0d] rounded-3xl overflow-hidden relative"
+              className="w-full lg:w-1/2 aspect-square md:aspect-[4/3] bg-background rounded-3xl overflow-hidden relative"
             >
               <img 
                 src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=1200&auto=format&fit=crop" 
@@ -91,7 +91,7 @@ export default function ElectronicsCategoryPage() {
                 From the tactile feedback of the mechanical switches to the visual clarity of the reference display, 
                 every component communicates seamlessly to keep you in the flow.
               </p>
-              <Link href="/about" className="inline-flex items-center gap-2 text-white font-medium hover:text-accent transition-colors">
+              <Link href="/about" className="inline-flex items-center gap-2 text-foreground font-medium hover:text-accent transition-colors">
                 Read the design philosophy <ChevronRight className="w-4 h-4" />
               </Link>
             </motion.div>
@@ -100,7 +100,7 @@ export default function ElectronicsCategoryPage() {
       </section>
 
       {/* 3. Category Storytelling - Material Obsession */}
-      <section className="py-32 w-full bg-[#0d0d0d]">
+      <section className="py-32 w-full bg-background">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-col-reverse lg:flex-row items-center gap-16">
             <motion.div 
@@ -122,7 +122,7 @@ export default function ElectronicsCategoryPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1, ease: customEase, delay: 0.2 }}
-              className="w-full lg:w-1/2 aspect-square md:aspect-[4/3] bg-[#1a1a1a] rounded-3xl overflow-hidden relative"
+              className="w-full lg:w-1/2 aspect-square md:aspect-[4/3] bg-muted rounded-3xl overflow-hidden relative"
             >
               <img 
                 src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=1200&auto=format&fit=crop" 
@@ -147,9 +147,9 @@ export default function ElectronicsCategoryPage() {
               className="group cursor-pointer"
             >
               <Link href={`/products/${product.id}`} className="block">
-                <div className="w-full aspect-[4/5] bg-[#111] overflow-hidden mb-6 relative rounded-2xl border border-white/5 group-hover:border-white/20 transition-all duration-500">
+                <div className="w-full aspect-[4/5] bg-muted/50 overflow-hidden mb-6 relative rounded-2xl border border-border/50 group-hover:border-border transition-all duration-500">
                   {product.isNew && (
-                    <span className="absolute top-4 left-4 z-20 bg-white text-black px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-sm">
+                    <span className="absolute top-4 left-4 z-20 bg-foreground text-background px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-sm">
                       New
                     </span>
                   )}
@@ -171,12 +171,12 @@ export default function ElectronicsCategoryPage() {
                 
                 <div className="flex justify-between items-start px-2">
                   <div className="flex flex-col">
-                    <h3 className="text-white font-semibold tracking-tight text-lg mb-1">{product.name}</h3>
+                    <h3 className="text-foreground font-semibold tracking-tight text-lg mb-1">{product.name}</h3>
                     <p className="text-text-muted text-xs uppercase tracking-wider font-medium">
                       {product.variants?.length > 0 ? `${product.variants.length} Colors` : '1 Color'}
                     </p>
                   </div>
-                  <p className="text-white font-medium">${product.price.toFixed(2)}</p>
+                  <p className="text-foreground font-medium">${product.price.toFixed(2)}</p>
                 </div>
               </Link>
             </motion.div>
@@ -185,7 +185,7 @@ export default function ElectronicsCategoryPage() {
       </section>
 
       {/* 5. Shop the Setup */}
-      <section className="py-32 bg-[#111] border-t border-white/5">
+      <section className="py-32 bg-muted/30 border-t border-border/50">
         <div className="max-w-7xl mx-auto px-4 md:px-8 text-center">
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Build your setup.</h2>
           <p className="text-text-muted text-lg mb-16 max-w-2xl mx-auto">
@@ -200,16 +200,16 @@ export default function ElectronicsCategoryPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: idx * 0.1, ease: customEase }}
-                className="bg-[#0d0d0d] p-6 rounded-2xl border border-white/5 hover:border-white/20 transition-colors group flex flex-col"
+                className="bg-card p-6 rounded-2xl border border-border/50 hover:border-border transition-colors group flex flex-col"
               >
-                <div className="aspect-square bg-[#1a1a1a] rounded-xl mb-6 overflow-hidden relative">
+                <div className="aspect-square bg-muted rounded-xl mb-6 overflow-hidden relative">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-white">{item.name}</h3>
+                <h3 className="text-xl font-bold mb-2 text-foreground">{item.name}</h3>
                 <p className="text-text-muted text-sm mb-6 flex-grow">{item.description}</p>
                 <div className="flex items-center justify-between mt-auto">
-                  <span className="font-mono text-white">${item.price.toFixed(2)}</span>
-                  <Link href={`/products/${item.id}`} className="text-sm font-semibold uppercase tracking-wider text-accent hover:text-white transition-colors">
+                  <span className="font-mono text-foreground">${item.price.toFixed(2)}</span>
+                  <Link href={`/products/${item.id}`} className="text-sm font-semibold uppercase tracking-wider text-accent hover:text-foreground transition-colors">
                     View Product
                   </Link>
                 </div>

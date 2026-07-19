@@ -10,11 +10,11 @@
   align-items: center;
   height: 44px;
   border-radius: 9999px;
-  background-color: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   width: 44px;
 }
 
@@ -23,11 +23,11 @@
 }
 
 .searchWrapper.closed:hover {
-  border-color: #8ed500;
+  border-color: var(--accent);
 }
 
 .searchWrapper.closed:hover .searchIcon {
-  color: #8ed500;
+  color: var(--accent);
 }
 
 .searchWrapper.expanded {
@@ -41,8 +41,8 @@
 }
 
 .searchWrapper.expanded:focus-within {
-  border-color: #8ed500;
-  box-shadow: 0 0 0 1px #8ed500, 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .iconButton {
@@ -56,7 +56,7 @@
   justify-content: center;
   background: transparent;
   border: none;
-  color: #e5e5e5;
+  color: var(--foreground);
   cursor: pointer;
   z-index: 2;
 }
@@ -75,7 +75,7 @@
   background: transparent;
   border: none;
   outline: none;
-  color: #e5e5e5;
+  color: var(--foreground);
   font-size: 14px;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -89,7 +89,7 @@
 }
 
 .input::placeholder {
-  color: #888;
+  color: var(--text-muted);
 }
 
 .submitBtn {

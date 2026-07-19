@@ -9,7 +9,11 @@ import Link from 'next/link';
 import { PrimaryButton, NavAuthButton } from '@/components/ui';
 import { useAuth } from '@/contexts/AuthContext';
 
-export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export default function ProductDetailPage({ params }: Props) {
   const resolvedParams = use(params);
   const product = MOCK_PRODUCTS.find(p => p.id === resolvedParams.id);
   const { isLoggedIn } = useAuth();

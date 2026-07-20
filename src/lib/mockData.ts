@@ -88,6 +88,7 @@ export const MOCK_PRODUCTS = [
     isNew: true,
     image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?q=80&w=800&auto=format&fit=crop',
     hoverImage: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=800&auto=format&fit=crop',
+    attributes: { room: ['Living Room', 'Bedroom'], productType: 'Chairs', style: 'Minimalist' },
     variants: [
       { id: 'v-12', name: 'Color', value: 'Oatmeal' },
       { id: 'v-13', name: 'Color', value: 'Charcoal' },
@@ -102,6 +103,7 @@ export const MOCK_PRODUCTS = [
     isNew: false,
     image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop', 
     hoverImage: 'https://images.unsplash.com/photo-1513506003901-1e6a229e9d15?q=80&w=800&auto=format&fit=crop',
+    attributes: { room: ['Living Room', 'Office', 'Bedroom'], productType: 'Lighting', style: 'Modern' },
     variants: [
       { id: 'hv-1', name: 'Finish', value: 'Matte Black' }
     ]
@@ -114,6 +116,7 @@ export const MOCK_PRODUCTS = [
     category: 'Home & Furniture',
     isNew: true,
     image: 'https://images.unsplash.com/photo-1532372320572-cda25653a26d?q=80&w=800&auto=format&fit=crop',
+    attributes: { room: ['Living Room'], productType: 'Tables', style: 'Modern' },
     variants: [
       { id: 'hv-2', name: 'Wood', value: 'Black Oak' },
       { id: 'hv-3', name: 'Wood', value: 'Walnut' }
@@ -127,9 +130,77 @@ export const MOCK_PRODUCTS = [
     category: 'Home & Furniture',
     isNew: false,
     image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=800&auto=format&fit=crop',
+    attributes: { room: ['Living Room', 'Dining', 'Bedroom'], productType: 'Storage', style: 'Minimalist' },
     variants: [
       { id: 'hv-4', name: 'Color', value: 'Bone' },
       { id: 'hv-5', name: 'Color', value: 'Graphite' }
+    ]
+  },
+  {
+    id: 'h-5',
+    name: 'Solid Walnut Dining Table',
+    description: 'A masterpiece of joinery. Seats 8 comfortably around a deeply figured solid walnut top supported by tapered brass-capped legs.',
+    price: 2200.0,
+    category: 'Home & Furniture',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1577140917170-285929fb55b7?q=80&w=800&auto=format&fit=crop',
+    attributes: { room: ['Dining'], productType: 'Tables', style: 'Traditional' },
+    variants: [
+      { id: 'hv-6', name: 'Wood', value: 'Walnut' }
+    ]
+  },
+  {
+    id: 'h-6',
+    name: 'Floating Platform Bed',
+    description: 'Creates the illusion of weightlessness. A solid ash frame with hidden supports and integrated bedside surfaces.',
+    price: 1850.0,
+    category: 'Home & Furniture',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1505693314120-0d443867891c?q=80&w=800&auto=format&fit=crop',
+    attributes: { room: ['Bedroom'], productType: 'Beds', style: 'Minimalist' },
+    variants: [
+      { id: 'hv-7', name: 'Size', value: 'Queen' },
+      { id: 'hv-8', name: 'Size', value: 'King' }
+    ]
+  },
+  {
+    id: 'h-7',
+    name: 'Industrial Drafting Desk',
+    description: 'A heavy-duty workspace featuring a raw steel frame and a distressed reclaimed wood top. Height adjustable via cast-iron hand crank.',
+    price: 1100.0,
+    category: 'Home & Furniture',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=800&auto=format&fit=crop',
+    attributes: { room: ['Office'], productType: 'Tables', style: 'Industrial' },
+    variants: [
+      { id: 'hv-9', name: 'Finish', value: 'Raw Steel' }
+    ]
+  },
+  {
+    id: 'h-8',
+    name: 'Woven Outdoor Lounge',
+    description: 'Weather-resistant teak meets performance cord weaving. Designed for ultimate relaxation on the patio or poolside.',
+    price: 650.0,
+    category: 'Home & Furniture',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1599696848652-f0ff23bc911f?q=80&w=800&auto=format&fit=crop',
+    attributes: { room: ['Outdoor'], productType: 'Chairs', style: 'Modern' },
+    variants: [
+      { id: 'hv-10', name: 'Color', value: 'Sand' }
+    ]
+  },
+  {
+    id: 'h-9',
+    name: 'Modular Bookshelf Unit',
+    description: 'Endlessly configurable powder-coated steel shelving. Can serve as a room divider or a wall-mounted library.',
+    price: 890.0,
+    category: 'Home & Furniture',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1594620302200-9a762244a156?q=80&w=800&auto=format&fit=crop',
+    attributes: { room: ['Living Room', 'Office'], productType: 'Storage', style: 'Industrial' },
+    variants: [
+      { id: 'hv-11', name: 'Color', value: 'Matte White' },
+      { id: 'hv-12', name: 'Color', value: 'Jet Black' }
     ]
   },
 

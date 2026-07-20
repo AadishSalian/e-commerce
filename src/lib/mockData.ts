@@ -9,6 +9,7 @@ export const MOCK_PRODUCTS = [
     isNew: true,
     image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop',
     hoverImage: 'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=800&auto=format&fit=crop',
+    attributes: { techCategory: ['Workspace'], productType: 'Peripherals', feature: 'Wireless' },
     variants: [
       { id: 'v-1', name: 'Color', value: 'Matte Black' },
       { id: 'v-2', name: 'Color', value: 'Graphite' },
@@ -23,6 +24,7 @@ export const MOCK_PRODUCTS = [
     isNew: false,
     image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop',
     hoverImage: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?q=80&w=800&auto=format&fit=crop',
+    attributes: { techCategory: ['Audio', 'Wearables'], productType: 'Earbuds', feature: 'Noise Cancelling' },
     variants: [
       { id: 'v-3', name: 'Color', value: 'Charcoal' },
       { id: 'v-4', name: 'Color', value: 'Sage' },
@@ -37,6 +39,7 @@ export const MOCK_PRODUCTS = [
     isNew: true,
     image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop',
     hoverImage: 'https://images.unsplash.com/photo-1527443195645-1133f7f28990?q=80&w=1000&auto=format&fit=crop',
+    attributes: { techCategory: ['Audio'], productType: 'Headphones', feature: 'Noise Cancelling' },
     variants: [
       { id: 'v-5', name: 'Color', value: 'Onyx' }
     ]
@@ -49,6 +52,7 @@ export const MOCK_PRODUCTS = [
     category: 'Tech',
     isNew: false,
     image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=1000&auto=format&fit=crop',
+    attributes: { techCategory: ['Wearables'], productType: 'Accessories', feature: 'Ergonomic' },
     variants: [
       { id: 'v-6', name: 'Color', value: 'Silver' },
       { id: 'v-7', name: 'Color', value: 'Space Gray' }
@@ -62,6 +66,7 @@ export const MOCK_PRODUCTS = [
     category: 'Tech',
     isNew: false,
     image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=1000&auto=format&fit=crop',
+    attributes: { techCategory: ['Workspace'], productType: 'Displays', feature: 'High-Res' },
     variants: [
       { id: 'v-8', name: 'Color', value: 'Pro Black' }
     ]
@@ -74,9 +79,50 @@ export const MOCK_PRODUCTS = [
     category: 'Tech',
     isNew: true,
     image: 'https://images.unsplash.com/photo-1628202926206-c63a34b19fb4?q=80&w=1000&auto=format&fit=crop',
+    attributes: { techCategory: ['Workspace'], productType: 'Peripherals', feature: 'Ergonomic' },
     variants: [
       { id: 'v-9', name: 'Color', value: 'Carbon' },
       { id: 'v-10', name: 'Color', value: 'Chalk' }
+    ]
+  },
+  {
+    id: 't-7',
+    name: 'Compact Mirrorless Camera',
+    description: 'A full-frame sensor housed in a minimal, weatherproof magnesium body. Designed for uncompromising street and travel photography.',
+    price: 1499.0,
+    category: 'Tech',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1516724562728-afc824a36e84?q=80&w=1000&auto=format&fit=crop',
+    attributes: { techCategory: ['Photography'], productType: 'Cameras', feature: 'High-Res' },
+    variants: [
+      { id: 'tv-11', name: 'Color', value: 'Silver/Black' }
+    ]
+  },
+  {
+    id: 't-8',
+    name: 'Smart Climate Thermostat',
+    description: 'An ambient intelligent thermostat with a machined aluminum dial and an e-ink display. Blends seamlessly into any wall.',
+    price: 249.0,
+    category: 'Tech',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1567925004739-1bc430e72251?q=80&w=1000&auto=format&fit=crop',
+    attributes: { techCategory: ['Smart Home'], productType: 'Accessories', feature: 'Wireless' },
+    variants: [
+      { id: 'tv-12', name: 'Color', value: 'Brushed Aluminum' }
+    ]
+  },
+  {
+    id: 't-9',
+    name: 'Nomad Portable Speaker',
+    description: 'A rugged, IP67-rated wireless speaker wrapped in acoustic fabric. Delivers 360-degree sound and 24 hours of playback.',
+    price: 179.0,
+    category: 'Tech',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?q=80&w=1000&auto=format&fit=crop',
+    attributes: { techCategory: ['Audio', 'Smart Home'], productType: 'Accessories', feature: 'Wireless' },
+    variants: [
+      { id: 'tv-13', name: 'Color', value: 'Midnight' },
+      { id: 'tv-14', name: 'Color', value: 'Sand' }
     ]
   },
   {

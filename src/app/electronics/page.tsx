@@ -1,10 +1,11 @@
 'use client';
 
-import { useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { 
   motion, 
   useReducedMotion,
+  AnimatePresence
 } from 'framer-motion';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
@@ -14,6 +15,25 @@ const customEase = [0.65, 0, 0.35, 1] as const;
 export default function ElectronicsCategoryPage() {
   const prefersReducedMotion = useReducedMotion();
   const techProducts = MOCK_PRODUCTS.filter(p => p.category === 'Tech');
+
+  // Filtering State
+  const [activeCategory, setActiveCategory] = useState<string>('All Categories');
+  const [activeType, setActiveType] = useState<string>('All Types');
+  const [activeFeature, setActiveFeature] = useState<string>('All Features');
+
+  const categories = ['All Categories', 'Workspace', 'Audio', 'Wearables', 'Photography', 'Smart Home'];
+  const productTypes = ['All Types', 'Peripherals', 'Headphones', 'Earbuds', 'Displays', 'Cameras', 'Accessories'];
+  const featuresList = ['All Features', 'Wireless', 'Noise Cancelling', 'Ergonomic', 'High-Res'];
+
+  const filteredProducts = useMemo(() => {
+    return techProducts.filter(p => {
+      const attrs = (p as any).attributes || {};
+      const catMatch = activeCategory === 'All Categories' || (attrs.techCategory && attrs.techCategory.includes(activeCategory));
+      const typeMatch = activeType === 'All Types' || attrs.productType === activeType;
+      const featMatch = activeFeature === 'All Features' || attrs.feature === activeFeature;
+      return catMatch && typeMatch && featMatch;
+    });
+  }, [techProducts, activeCategory, activeType, activeFeature]);
 
   // We can pick a few specific products for the "Shop the Setup" section
   const monitor = techProducts.find(p => p.id === 't-5');
@@ -134,54 +154,134 @@ export default function ElectronicsCategoryPage() {
         </div>
       </section>
 
-      {/* 4. Full Product Grid */}
-      <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-          {techProducts.map((product, idx) => (
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-5%" }}
-              transition={{ duration: 0.8, delay: (idx % 3) * 0.1, ease: customEase }}
-              key={product.id}
-              className="group cursor-pointer"
-            >
-              <Link href={`/products/${product.id}`} className="block">
-                <div className="w-full aspect-[4/5] bg-muted/50 overflow-hidden mb-6 relative rounded-2xl border border-border/50 group-hover:border-border transition-all duration-500">
-                  {product.isNew && (
-                    <span className="absolute top-4 left-4 z-20 bg-foreground text-background px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-sm">
-                      New
-                    </span>
-                  )}
-                  <motion.img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 ease-in-out"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                  />
-                  {product.hoverImage && (
-                    <motion.img 
-                      src={product.hoverImage} 
-                      alt={`${product.name} alternate view`} 
-                      className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"
-                    />
-                  )}
-                </div>
-                
-                <div className="flex justify-between items-start px-2">
-                  <div className="flex flex-col">
-                    <h3 className="text-foreground font-semibold tracking-tight text-lg mb-1">{product.name}</h3>
-                    <p className="text-text-muted text-xs uppercase tracking-wider font-medium">
-                      {product.variants?.length > 0 ? `${product.variants.length} Colors` : '1 Color'}
-                    </p>
-                  </div>
-                  <p className="text-foreground font-medium">${product.price.toFixed(2)}</p>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+      {/* 4. Filtered Product Grid */}
+      <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto w-full bg-background" id="collection">
+        
+        <div className="mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-10">Shop by Category.</h2>
+          
+          {/* Primary Filter: Category */}
+          <div className="flex flex-wrap gap-3 mb-8">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-6 py-3 rounded-full text-sm md:text-base font-semibold transition-all duration-300 ${
+                  activeCategory === cat 
+                    ? 'bg-foreground text-background shadow-lg scale-105' 
+                    : 'bg-muted text-text-muted hover:bg-muted/80 hover:text-foreground'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Secondary Filters: Type & Feature */}
+          <div className="flex flex-wrap items-center gap-4 border-t border-border pt-6">
+            <span className="text-sm font-medium text-text-muted mr-2">Filter by:</span>
+            
+            <div className="relative">
+              <select 
+                value={activeType}
+                onChange={(e) => setActiveType(e.target.value)}
+                className="appearance-none bg-surface border border-border text-foreground text-sm font-medium px-4 py-2 pr-10 rounded-full focus:outline-none focus:border-foreground transition-colors cursor-pointer"
+              >
+                {productTypes.map(type => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+              <ChevronRight className="w-4 h-4 text-text-muted absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
+            </div>
+
+            <div className="relative">
+              <select 
+                value={activeFeature}
+                onChange={(e) => setActiveFeature(e.target.value)}
+                className="appearance-none bg-surface border border-border text-foreground text-sm font-medium px-4 py-2 pr-10 rounded-full focus:outline-none focus:border-foreground transition-colors cursor-pointer"
+              >
+                {featuresList.map(feat => (
+                  <option key={feat} value={feat}>{feat}</option>
+                ))}
+              </select>
+              <ChevronRight className="w-4 h-4 text-text-muted absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
+            </div>
+            
+            {(activeCategory !== 'All Categories' || activeType !== 'All Types' || activeFeature !== 'All Features') && (
+              <button 
+                onClick={() => { setActiveCategory('All Categories'); setActiveType('All Types'); setActiveFeature('All Features'); }}
+                className="text-sm text-text-muted hover:text-foreground underline underline-offset-4 ml-4 transition-colors"
+              >
+                Clear filters
+              </button>
+            )}
+          </div>
         </div>
+        
+        {filteredProducts.length > 0 ? (
+          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+            <AnimatePresence mode="popLayout">
+              {filteredProducts.map((product) => (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, ease: customEase }}
+                  key={product.id}
+                  className="group cursor-pointer"
+                >
+                  <Link href={`/products/${product.id}`} className="block">
+                    <div className="w-full aspect-[4/5] bg-muted/50 overflow-hidden mb-6 relative rounded-2xl border border-border/50 group-hover:border-border transition-all duration-500">
+                      {product.isNew && (
+                        <span className="absolute top-4 left-4 z-20 bg-foreground text-background px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-sm">
+                          New
+                        </span>
+                      )}
+                      <motion.img 
+                        src={product.image} 
+                        alt={product.name} 
+                        className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 ease-in-out"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                      />
+                      {product.hoverImage && (
+                        <motion.img 
+                          src={product.hoverImage} 
+                          alt={`${product.name} alternate view`} 
+                          className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"
+                        />
+                      )}
+                    </div>
+                    
+                    <div className="flex justify-between items-start px-2">
+                      <div className="flex flex-col">
+                        <h3 className="text-foreground font-semibold tracking-tight text-lg mb-1">{product.name}</h3>
+                        <p className="text-text-muted text-xs uppercase tracking-wider font-medium">
+                          {product.variants?.length > 0 ? `${product.variants.length} Options` : '1 Option'}
+                        </p>
+                      </div>
+                      <p className="text-foreground font-medium">${product.price.toFixed(2)}</p>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        ) : (
+          <div className="py-24 text-center bg-muted/30 rounded-[2rem] border border-border border-dashed">
+            <h3 className="text-2xl font-bold mb-3 text-foreground">No items found</h3>
+            <p className="text-text-muted text-lg max-w-md mx-auto mb-8">
+              We couldn't find any devices matching those specific filters. Try adjusting your category, type, or feature.
+            </p>
+            <button 
+              onClick={() => { setActiveCategory('All Categories'); setActiveType('All Types'); setActiveFeature('All Features'); }}
+              className="px-8 py-4 bg-foreground text-background rounded-full font-bold text-sm tracking-widest uppercase hover:opacity-90 transition-opacity"
+            >
+              Reset All Filters
+            </button>
+          </div>
+        )}
       </section>
 
       {/* 5. Shop the Setup */}

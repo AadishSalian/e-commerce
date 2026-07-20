@@ -93,6 +93,45 @@ export const MOCK_PRODUCTS = [
       { id: 'v-13', name: 'Color', value: 'Charcoal' },
     ]
   },
+  {
+    id: 'h-2',
+    name: 'Architectural Floor Lamp',
+    description: 'A striking floor lamp featuring a slender, brutalist silhouette and integrated warm-white LEDs. Functions as both sculpture and light source.',
+    price: 345.0,
+    category: 'Home & Furniture',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop', 
+    hoverImage: 'https://images.unsplash.com/photo-1513506003901-1e6a229e9d15?q=80&w=800&auto=format&fit=crop',
+    variants: [
+      { id: 'hv-1', name: 'Finish', value: 'Matte Black' }
+    ]
+  },
+  {
+    id: 'h-3',
+    name: 'Monolithic Oak Coffee Table',
+    description: 'Crafted from solid European oak and treated with a blackened matte finish. Its robust proportions anchor any seating arrangement.',
+    price: 1250.0,
+    category: 'Home & Furniture',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1532372320572-cda25653a26d?q=80&w=800&auto=format&fit=crop',
+    variants: [
+      { id: 'hv-2', name: 'Wood', value: 'Black Oak' },
+      { id: 'hv-3', name: 'Wood', value: 'Walnut' }
+    ]
+  },
+  {
+    id: 'h-4',
+    name: 'Textured Ceramic Vase',
+    description: 'Hand-thrown stoneware finished with an organic, coarse-textured matte glaze. Beautiful empty, striking when filled.',
+    price: 180.0,
+    category: 'Home & Furniture',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=800&auto=format&fit=crop',
+    variants: [
+      { id: 'hv-4', name: 'Color', value: 'Bone' },
+      { id: 'hv-5', name: 'Color', value: 'Graphite' }
+    ]
+  },
 
   // --- NEW FASHION PRODUCTS (High quality editorial imagery) ---
   {

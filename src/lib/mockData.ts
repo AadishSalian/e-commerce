@@ -78,7 +78,7 @@ export const MOCK_PRODUCTS = [
     price: 129.0,
     category: 'Tech',
     isNew: true,
-    image: 'https://images.unsplash.com/photo-1628202926206-c63a34b19fb4?q=80&w=1000&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1527443195645-1133f7f28990?q=80&w=1000&auto=format&fit=crop',
     attributes: { techCategory: ['Workspace'], productType: 'Peripherals', feature: 'Ergonomic' },
     variants: [
       { id: 'v-9', name: 'Color', value: 'Carbon' },
@@ -105,7 +105,7 @@ export const MOCK_PRODUCTS = [
     price: 249.0,
     category: 'Tech',
     isNew: false,
-    image: 'https://images.unsplash.com/photo-1567925004739-1bc430e72251?q=80&w=1000&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=1000&auto=format&fit=crop',
     attributes: { techCategory: ['Smart Home'], productType: 'Accessories', feature: 'Wireless' },
     variants: [
       { id: 'tv-12', name: 'Color', value: 'Brushed Aluminum' }
@@ -148,7 +148,7 @@ export const MOCK_PRODUCTS = [
     category: 'Home & Furniture',
     isNew: false,
     image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop', 
-    hoverImage: 'https://images.unsplash.com/photo-1513506003901-1e6a229e9d15?q=80&w=800&auto=format&fit=crop',
+    hoverImage: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop',
     attributes: { room: ['Living Room', 'Office', 'Bedroom'], productType: 'Lighting', style: 'Modern' },
     variants: [
       { id: 'hv-1', name: 'Finish', value: 'Matte Black' }
@@ -368,7 +368,7 @@ export const MOCK_PRODUCTS = [
     category: 'Beauty',
     isNew: true,
     image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800&auto=format&fit=crop',
-    hoverImage: 'https://images.unsplash.com/photo-1556228720-1c27bef92b0c?q=80&w=800&auto=format&fit=crop',
+    hoverImage: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800&auto=format&fit=crop',
     attributes: { beautyCategory: ['Skincare'], productType: 'Cleansers', formulation: 'Natural' },
     variants: []
   },
@@ -424,7 +424,7 @@ export const MOCK_PRODUCTS = [
     price: 54.0,
     category: 'Beauty',
     isNew: true,
-    image: 'https://images.unsplash.com/photo-1615397323282-3116f1a8e104?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop',
     attributes: { beautyCategory: ['Skincare'], productType: 'Moisturizers', formulation: 'Fragrance-Free' },
     variants: []
   },
@@ -435,7 +435,7 @@ export const MOCK_PRODUCTS = [
     price: 36.0,
     category: 'Beauty',
     isNew: false,
-    image: 'https://images.unsplash.com/photo-1614806687036-7c919d363574?q=80&w=800&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=800&auto=format&fit=crop',
     attributes: { beautyCategory: ['Bath & Body'], productType: 'Tools', formulation: 'Vegan' },
     variants: []
   },

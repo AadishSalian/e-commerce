@@ -65,7 +65,7 @@ export default function BeautyPage() {
           className="absolute inset-0 z-0"
         >
           <img 
-            src="https://images.unsplash.com/photo-1615397323282-3116f1a8e104?q=80&w=2000&auto=format&fit=crop" 
+            src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=2000&auto=format&fit=crop" 
             alt="Minimalist skincare texture" 
             className="w-full h-full object-cover opacity-90"
           />

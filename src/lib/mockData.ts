@@ -359,6 +359,97 @@ export const MOCK_PRODUCTS = [
       { id: 'fv-12', name: 'Color', value: 'Black' },
     ]
   },
+  // --- BEAUTY & PERSONAL CARE ---
+  {
+    id: 'b-1',
+    name: 'Purifying Clay Cleanser',
+    description: 'A deep-cleansing clay formula that removes impurities without stripping moisture. Leaves skin feeling balanced and matte.',
+    price: 38.0,
+    category: 'Beauty',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800&auto=format&fit=crop',
+    hoverImage: 'https://images.unsplash.com/photo-1556228720-1c27bef92b0c?q=80&w=800&auto=format&fit=crop',
+    attributes: { beautyCategory: ['Skincare'], productType: 'Cleansers', formulation: 'Natural' },
+    variants: []
+  },
+  {
+    id: 'b-2',
+    name: 'Midnight Recovery Serum',
+    description: 'An intensive overnight repair oil formulated with squalane and evening primrose. Restores radiance by morning.',
+    price: 85.0,
+    category: 'Beauty',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop',
+    attributes: { beautyCategory: ['Skincare'], productType: 'Serums', formulation: 'Hydrating' },
+    variants: []
+  },
+  {
+    id: 'b-3',
+    name: 'Sandalwood & Vetiver Eau de Parfum',
+    description: 'A deeply grounding, unisex fragrance. Smoky vetiver meets creamy sandalwood and cracked black pepper.',
+    price: 145.0,
+    category: 'Beauty',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=800&auto=format&fit=crop',
+    hoverImage: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=800&auto=format&fit=crop',
+    attributes: { beautyCategory: ['Fragrance'], productType: 'Perfume', formulation: 'Vegan' },
+    variants: []
+  },
+  {
+    id: 'b-4',
+    name: 'Machined Safety Razor',
+    description: 'A perfectly weighted, single-blade safety razor milled from solid brass. An heirloom tool for a plastic-free shave.',
+    price: 65.0,
+    category: 'Beauty',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1621607512022-6aecc4fed814?q=80&w=800&auto=format&fit=crop',
+    attributes: { beautyCategory: ['Grooming'], productType: 'Tools', formulation: 'Natural' },
+    variants: []
+  },
+  {
+    id: 'b-5',
+    name: 'Exfoliating Body Polish',
+    description: 'Crushed walnut shells and volcanic ash blend to gently resurface the skin. Scented with eucalyptus and cedar.',
+    price: 42.0,
+    category: 'Beauty',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=800&auto=format&fit=crop',
+    attributes: { beautyCategory: ['Bath & Body'], productType: 'Cleansers', formulation: 'Natural' },
+    variants: []
+  },
+  {
+    id: 'b-6',
+    name: 'Daily Shield Moisturizer',
+    description: 'A lightweight, invisible gel-cream that locks in hydration while defending against environmental stressors.',
+    price: 54.0,
+    category: 'Beauty',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1615397323282-3116f1a8e104?q=80&w=800&auto=format&fit=crop',
+    attributes: { beautyCategory: ['Skincare'], productType: 'Moisturizers', formulation: 'Fragrance-Free' },
+    variants: []
+  },
+  {
+    id: 'b-7',
+    name: 'Hinoki Bath Soak',
+    description: 'Mineral-rich sea salts infused with Japanese cypress. Transforms your bathtub into a forest hot spring.',
+    price: 36.0,
+    category: 'Beauty',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1614806687036-7c919d363574?q=80&w=800&auto=format&fit=crop',
+    attributes: { beautyCategory: ['Bath & Body'], productType: 'Tools', formulation: 'Vegan' },
+    variants: []
+  },
+  {
+    id: 'b-8',
+    name: 'Matte Styling Clay',
+    description: 'Provides flexible hold and a completely matte finish. Washes out easily and nourishes the scalp.',
+    price: 28.0,
+    category: 'Beauty',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=800&auto=format&fit=crop',
+    attributes: { beautyCategory: ['Grooming'], productType: 'Moisturizers', formulation: 'Natural' },
+    variants: []
+  }
 ];
 
-export const CATEGORIES = ['All', 'Tech', 'Accessories', 'Objects', 'Fashion', 'Home & Furniture'];
+export const CATEGORIES = ['All', 'Tech', 'Accessories', 'Objects', 'Fashion', 'Home & Furniture', 'Beauty'];

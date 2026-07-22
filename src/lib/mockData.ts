@@ -539,6 +539,95 @@ export const MOCK_PRODUCTS = [
     image: '/sports/boots.png',
     attributes: { activity: ['Recovery'], gearType: 'Equipment', environment: 'Indoor' },
     variants: []
+  },
+  // --- ACCESSORIES ---
+  {
+    id: 'a-1',
+    name: 'Minimalist Leather Wallet',
+    description: 'Slim profile, full-grain Italian leather wallet that develops a unique patina over time.',
+    price: 65.0,
+    category: 'Accessories',
+    isNew: true,
+    image: '/accessories/wallet.png',
+    attributes: { accessoryType: 'Everyday Carry', material: 'Leather' },
+    variants: []
+  },
+  {
+    id: 'a-2',
+    name: 'Titanium Ballpoint Pen',
+    description: 'Precision-machined titanium pen. Perfectly balanced for a flawless writing experience.',
+    price: 120.0,
+    category: 'Accessories',
+    isNew: false,
+    image: '/accessories/pen.png',
+    attributes: { accessoryType: 'Desk', material: 'Metal' },
+    variants: []
+  },
+  {
+    id: 'a-3',
+    name: 'Polarized Aviator Sunglasses',
+    description: 'Classic aviator design featuring polarized lenses and a lightweight acetate frame.',
+    price: 185.0,
+    category: 'Accessories',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=1000&auto=format&fit=crop',
+    attributes: { accessoryType: 'Wearable', material: 'Acetate' },
+    variants: []
+  },
+  {
+    id: 'a-4',
+    name: 'Charcoal Cashmere Scarf',
+    description: 'Incredibly soft 100% Mongolian cashmere. The ultimate cold-weather layering piece.',
+    price: 145.0,
+    category: 'Accessories',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?q=80&w=1000&auto=format&fit=crop',
+    attributes: { accessoryType: 'Wearable', material: 'Fabric' },
+    variants: []
+  },
+  {
+    id: 'a-5',
+    name: 'Automatic Chronograph Watch',
+    description: 'Swiss-made automatic movement housed in surgical-grade stainless steel.',
+    price: 1250.0,
+    category: 'Accessories',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=1000&auto=format&fit=crop',
+    attributes: { accessoryType: 'Everyday Carry', material: 'Metal' },
+    variants: []
+  },
+  {
+    id: 'a-6',
+    name: 'Heavyweight Canvas Tote',
+    description: 'Durable 18oz cotton canvas tote with reinforced leather straps. Built for daily abuse.',
+    price: 85.0,
+    category: 'Accessories',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1000&auto=format&fit=crop',
+    attributes: { accessoryType: 'Bags & Luggage', material: 'Fabric' },
+    variants: []
+  },
+  {
+    id: 'a-7',
+    name: 'Merino Wool Beanie',
+    description: 'Ribbed merino wool beanie that regulates temperature and resists odors.',
+    price: 45.0,
+    category: 'Accessories',
+    isNew: true,
+    image: 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?q=80&w=1000&auto=format&fit=crop',
+    attributes: { accessoryType: 'Wearable', material: 'Fabric' },
+    variants: []
+  },
+  {
+    id: 'a-8',
+    name: 'Solid Brass Keychain',
+    description: 'A weighty, solid brass keychain with a secure screw-lock mechanism.',
+    price: 35.0,
+    category: 'Accessories',
+    isNew: false,
+    image: 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=1000&auto=format&fit=crop',
+    attributes: { accessoryType: 'Everyday Carry', material: 'Metal' },
+    variants: []
   }
 ];
 

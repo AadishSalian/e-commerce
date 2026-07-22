@@ -449,7 +449,97 @@ export const MOCK_PRODUCTS = [
     image: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=800&auto=format&fit=crop',
     attributes: { beautyCategory: ['Grooming'], productType: 'Moisturizers', formulation: 'Natural' },
     variants: []
+  },
+  // --- SPORTS & OUTDOORS ---
+  {
+    id: 's-1',
+    name: 'Carbon Fiber Tennis Racket',
+    description: 'Ultra-lightweight carbon fiber frame with custom string tension. Designed for aggressive baseliners.',
+    price: 250.0,
+    category: 'Sports & Outdoors',
+    isNew: true,
+    image: '/sports/tennis.png',
+    hoverImage: '/sports/tennis.png',
+    attributes: { activity: ['Training'], gearType: 'Equipment', environment: 'Indoor' },
+    variants: []
+  },
+  {
+    id: 's-2',
+    name: 'Alpine Climbing Harness',
+    description: 'Minimalist alpine harness. Features dynamic load distribution and extreme weather resistance.',
+    price: 135.0,
+    category: 'Sports & Outdoors',
+    isNew: false,
+    image: '/sports/harness.png',
+    attributes: { activity: ['Outdoor'], gearType: 'Equipment', environment: 'Alpine' },
+    variants: []
+  },
+  {
+    id: 's-3',
+    name: 'Merino Wool Base Layer',
+    description: 'Thermoregulating merino wool top. Naturally odor-resistant and designed for high-output mountain pursuits.',
+    price: 95.0,
+    category: 'Sports & Outdoors',
+    isNew: true,
+    image: '/sports/shirt.png',
+    attributes: { activity: ['Outdoor', 'Travel'], gearType: 'Apparel', environment: 'Alpine' },
+    variants: []
+  },
+  {
+    id: 's-4',
+    name: 'Percussion Massage Gun',
+    description: 'Professional-grade deep tissue percussion therapy device with 5 interchangeable heads.',
+    price: 299.0,
+    category: 'Sports & Outdoors',
+    isNew: false,
+    image: '/sports/gun.png',
+    attributes: { activity: ['Recovery'], gearType: 'Accessories', environment: 'Indoor' },
+    variants: []
+  },
+  {
+    id: 's-5',
+    name: 'Ultralight Hiking Pack',
+    description: 'Dyneema composite fabric 40L pack weighing just 1.5lbs. Waterproof and virtually indestructible.',
+    price: 320.0,
+    category: 'Sports & Outdoors',
+    isNew: false,
+    image: '/sports/pack.png',
+    attributes: { activity: ['Outdoor', 'Travel'], gearType: 'Equipment', environment: 'All-Weather' },
+    variants: []
+  },
+  {
+    id: 's-6',
+    name: 'High-Grip Yoga Mat',
+    description: 'Natural rubber mat with alignment markers. Engineered to maintain grip even in the sweatiest sessions.',
+    price: 85.0,
+    category: 'Sports & Outdoors',
+    isNew: true,
+    image: '/sports/mat.png',
+    attributes: { activity: ['Training'], gearType: 'Equipment', environment: 'Studio' },
+    variants: []
+  },
+  {
+    id: 's-7',
+    name: 'Trail Running Shoes',
+    description: 'Aggressive lug pattern with a carbon plate for propulsion on uneven terrain.',
+    price: 180.0,
+    category: 'Sports & Outdoors',
+    isNew: false,
+    image: '/sports/shoes.png',
+    attributes: { activity: ['Outdoor', 'Training'], gearType: 'Apparel', environment: 'All-Weather' },
+    variants: []
+  },
+  {
+    id: 's-8',
+    name: 'Compression Recovery Boots',
+    description: 'Pneumatic compression system that boosts circulation and accelerates recovery after intense workouts.',
+    price: 799.0,
+    category: 'Sports & Outdoors',
+    isNew: false,
+    image: '/sports/boots.png',
+    attributes: { activity: ['Recovery'], gearType: 'Equipment', environment: 'Indoor' },
+    variants: []
   }
 ];
 
-export const CATEGORIES = ['All', 'Tech', 'Accessories', 'Objects', 'Fashion', 'Home & Furniture', 'Beauty'];
+export const CATEGORIES = ['All', 'Tech', 'Accessories', 'Objects', 'Fashion', 'Home & Furniture', 'Beauty', 'Sports & Outdoors'];

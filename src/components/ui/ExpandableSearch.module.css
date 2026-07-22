@@ -23,11 +23,11 @@
 }
 
 .searchWrapper.closed:hover {
-  border-color: var(--accent);
+  border-color: #8ed500;
 }
 
 .searchWrapper.closed:hover .searchIcon {
-  color: var(--accent);
+  color: #8ed500;
 }
 
 .searchWrapper.expanded {
@@ -41,8 +41,8 @@
 }
 
 .searchWrapper.expanded:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent), 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-color: #8ed500;
+  box-shadow: 0 0 0 1px #8ed500, 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .iconButton {

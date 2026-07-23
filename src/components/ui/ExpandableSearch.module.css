@@ -174,10 +174,10 @@
   top: calc(100% + 8px);
   right: 0;
   width: 360px;
-  background-color: #1a1a1a; /* matte dark surface */
-  border: 1px solid #2a2a2a; /* thin border */
+  background-color: var(--surface); /* matte dark surface */
+  border: 1px solid var(--border-subtle); /* thin border */
   border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 40px var(--shadow-color);
   overflow: hidden;
   z-index: 50;
   display: flex;
@@ -196,7 +196,7 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-muted);
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid var(--border-subtle);
   font-weight: 600;
 }
 
@@ -220,7 +220,7 @@
 
 .suggestionItem:hover,
 .suggestionItem[aria-selected="true"] {
-  background-color: #242424; /* subtle background tone shift */
+  background-color: var(--surface-hover); /* subtle background tone shift */
 }
 
 .thumbnail {
@@ -228,7 +228,7 @@
   height: 40px;
   border-radius: 6px;
   object-fit: cover;
-  background-color: #2a2a2a;
+  background-color: var(--surface-hover);
 }
 
 .productInfo {
@@ -271,7 +271,7 @@
 
 .recentSearchItem:hover,
 .recentSearchItem[aria-selected="true"] {
-  background-color: #242424;
+  background-color: var(--surface-hover);
 }
 
 .recentSearchIcon {
@@ -292,7 +292,7 @@
   text-align: center;
   background: transparent;
   border: none;
-  border-top: 1px solid #2a2a2a;
+  border-top: 1px solid var(--border-subtle);
   color: #8ed500; /* accent color */
   font-size: 13px;
   font-weight: 600;
@@ -301,5 +301,5 @@
 }
 
 .seeAllBtn:hover {
-  background-color: #242424;
+  background-color: var(--surface-hover);
 }

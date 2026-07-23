@@ -52,7 +52,7 @@ export const TeamMemberCard: React.FC<TeamMemberProps> = ({ name, role, initials
   ];
 
   return (
-    <div className="team-card-parent" tabIndex={0}>
+    <div className="team-card-parent">
       <div className="team-card">
         <div className="team-logo">
           <span className="circle circle1"></span>

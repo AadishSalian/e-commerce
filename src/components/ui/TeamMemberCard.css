@@ -31,7 +31,7 @@
 }
 
 /* Fallback for touch users */
-.team-card:focus-within,
+.team-card:has(:focus-visible),
 .team-card:active {
   transform: rotate3d(1, 1, 0, 20deg);
   box-shadow: 0px 30px 30px -10px rgba(0, 0, 0, 0.4);
@@ -244,33 +244,33 @@
 
 /* Interactive Hover States */
 .team-card-parent:hover .team-card,
-.team-card-parent:focus-within .team-card {
+.team-card-parent:has(:focus-visible) .team-card {
   transform: rotate3d(1, 1, 0, 25deg);
   box-shadow: 10px 30px 40px -10px rgba(0, 0, 0, 0.6);
 }
 
 .team-card-parent:hover .team-card .team-bottom .social-buttons-container .social-button,
-.team-card-parent:focus-within .team-card .team-bottom .social-buttons-container .social-button {
+.team-card-parent:has(:focus-visible) .team-card .team-bottom .social-buttons-container .social-button {
   transform: translate3d(0, 0, 50px);
   box-shadow: -5px 20px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
 .team-card-parent:hover .team-card .team-logo .circle2,
-.team-card-parent:focus-within .team-card .team-logo .circle2 {
+.team-card-parent:has(:focus-visible) .team-card .team-logo .circle2 {
   transform: translate3d(0, 0, 60px);
 }
 
 .team-card-parent:hover .team-card .team-logo .circle3,
-.team-card-parent:focus-within .team-card .team-logo .circle3 {
+.team-card-parent:has(:focus-visible) .team-card .team-logo .circle3 {
   transform: translate3d(0, 0, 80px);
 }
 
 .team-card-parent:hover .team-card .team-logo .circle4,
-.team-card-parent:focus-within .team-card .team-logo .circle4 {
+.team-card-parent:has(:focus-visible) .team-card .team-logo .circle4 {
   transform: translate3d(0, 0, 100px);
 }
 
 .team-card-parent:hover .team-card .team-logo .circle5,
-.team-card-parent:focus-within .team-card .team-logo .circle5 {
+.team-card-parent:has(:focus-visible) .team-card .team-logo .circle5 {
   transform: translate3d(0, 0, 120px);
 }

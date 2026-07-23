@@ -9,26 +9,6 @@ export const ThemeToggle: React.FC = () => {
   const isTransitioningRef = useRef(false);
   const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    setMounted(true);
-    
-    const currentTheme = document.documentElement.getAttribute('data-theme') as 'dark' | 'light' | null;
-    if (currentTheme === 'light' || currentTheme === 'dark') {
-      setTheme(currentTheme);
-    }
-    
-    const handleStorage = (e: StorageEvent) => {
-      if (e.key === 'theme') {
-        const newTheme = e.newValue as 'dark' | 'light';
-        if (newTheme === 'dark' || newTheme === 'light') {
-          applyTheme(newTheme, false); 
-        }
-      }
-    };
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, []);
-
   const applyTheme = (newTheme: 'dark' | 'light', save: boolean = true) => {
     if (isTransitioningRef.current) return;
     
@@ -47,6 +27,27 @@ export const ThemeToggle: React.FC = () => {
       isTransitioningRef.current = false;
     }, 300);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    setMounted(true);
+    
+    const currentTheme = document.documentElement.getAttribute('data-theme') as 'dark' | 'light' | null;
+    if (currentTheme === 'light' || currentTheme === 'dark') {
+      setTheme(currentTheme);
+    }
+    
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'theme') {
+        const newTheme = e.newValue as 'dark' | 'light';
+        if (newTheme === 'dark' || newTheme === 'light') {
+          applyTheme(newTheme, false); 
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
 
   const toggleTheme = (e: React.ChangeEvent<HTMLInputElement>) => {
     applyTheme(e.target.checked ? 'light' : 'dark');

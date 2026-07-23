@@ -16,6 +16,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const savedState = localStorage.getItem('mockAuthState');
     if (savedState === 'true') {
+      // eslint-disable-next-line
       setIsLoggedIn(true);
     }
   }, []);

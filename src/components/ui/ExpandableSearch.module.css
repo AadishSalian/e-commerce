@@ -31,12 +31,12 @@
 }
 
 .searchWrapper.expanded {
-  width: 280px;
+  width: 320px; /* slightly wider for dropdown */
 }
 
 @media (max-width: 768px) {
   .searchWrapper.expanded {
-    width: 200px;
+    width: 240px;
   }
 }
 
@@ -166,4 +166,140 @@
 .submitBtn:hover .submitIcon,
 .submitBtn:focus-visible .submitIcon {
   color: #1a1a1a;
+}
+
+/* Dropdown Styles */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 360px;
+  background-color: #1a1a1a; /* matte dark surface */
+  border: 1px solid #2a2a2a; /* thin border */
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .dropdown {
+    width: 300px;
+  }
+}
+
+.dropdownHeader {
+  padding: 12px 16px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  border-bottom: 1px solid #2a2a2a;
+  font-weight: 600;
+}
+
+.dropdownList {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.suggestionItem {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.suggestionItem:hover,
+.suggestionItem[aria-selected="true"] {
+  background-color: #242424; /* subtle background tone shift */
+}
+
+.thumbnail {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  background-color: #2a2a2a;
+}
+
+.productInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.productName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.productCategory {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.productPrice {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.recentSearchItem {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--foreground);
+  font-size: 14px;
+  transition: background-color 0.15s ease;
+}
+
+.recentSearchItem:hover,
+.recentSearchItem[aria-selected="true"] {
+  background-color: #242424;
+}
+
+.recentSearchIcon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+}
+
+.emptyState {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.seeAllBtn {
+  padding: 12px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  color: #8ed500; /* accent color */
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.seeAllBtn:hover {
+  background-color: #242424;
 }

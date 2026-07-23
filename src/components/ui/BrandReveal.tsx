@@ -14,6 +14,7 @@ export default function BrandReveal() {
     const hasPlayedBefore = sessionStorage.getItem('brand_reveal_played');
 
     if (prefersReducedMotion || hasPlayedBefore) {
+      // eslint-disable-next-line
       setShouldPlay(false);
     } else {
       sessionStorage.setItem('brand_reveal_played', 'true');

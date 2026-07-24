@@ -204,10 +204,13 @@ export default function Navbar() {
                   <div className="col-span-1">
                     <h3 className="text-foreground font-semibold mb-4">Categories</h3>
                     <ul className="flex flex-col gap-3">
-                      <li><Link href="/products?category=tech" className="text-sm text-text-muted hover:text-accent transition-colors">Tech Essentials</Link></li>
+                      <li><Link href="/electronics" className="text-sm text-text-muted hover:text-accent transition-colors">Tech</Link></li>
+                      <li><Link href="/accessories" className="text-sm text-text-muted hover:text-accent transition-colors">Accessories</Link></li>
+                      <li><Link href="/products?category=Objects" className="text-sm text-text-muted hover:text-accent transition-colors">Objects</Link></li>
+                      <li><Link href="/fashion" className="text-sm text-text-muted hover:text-accent transition-colors">Fashion</Link></li>
                       <li><Link href="/home-furniture" className="text-sm text-text-muted hover:text-accent transition-colors">Home & Furniture</Link></li>
-                      <li><Link href="/products?category=carry" className="text-sm text-text-muted hover:text-accent transition-colors">Everyday Carry</Link></li>
-                      <li><Link href="/products?category=audio" className="text-sm text-text-muted hover:text-accent transition-colors">Audio Equipment</Link></li>
+                      <li><Link href="/beauty" className="text-sm text-text-muted hover:text-accent transition-colors">Beauty</Link></li>
+                      <li><Link href="/sports" className="text-sm text-text-muted hover:text-accent transition-colors">Sports & Outdoors</Link></li>
                     </ul>
                   </div>
                   <div className="col-span-1">

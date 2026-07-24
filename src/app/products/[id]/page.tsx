@@ -43,20 +43,18 @@ export default function ProductDetailPage({ params }: Props) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="w-full aspect-square md:aspect-[4/3] bg-surface rounded-2xl flex items-center justify-center relative border border-border"
+              className="w-full aspect-square md:aspect-[4/3] bg-surface rounded-2xl flex items-center justify-center relative border border-border overflow-hidden"
             >
-              <div className="absolute inset-0 bg-[#121212] opacity-40 rounded-2xl" />
-              <span className="relative z-10 text-text-muted text-lg tracking-widest uppercase">
-                {selectedVariant ? `${product.name} - ${selectedVariant}` : product.name}
-              </span>
+              <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
             </motion.div>
             
             <div className="grid grid-cols-2 gap-6">
-               <div className="w-full aspect-square bg-surface rounded-2xl flex items-center justify-center border border-border">
-                  <span className="text-xs text-text-muted uppercase">Detail 1</span>
+               <div className="w-full aspect-square bg-surface rounded-2xl flex items-center justify-center border border-border relative overflow-hidden">
+                  {product.hoverImage ? <img src={product.hoverImage} alt={`${product.name} detail 1`} className="absolute inset-0 w-full h-full object-cover" /> : <span className="text-xs text-text-muted uppercase relative z-10">Detail 1</span>}
                </div>
-               <div className="w-full aspect-square bg-surface rounded-2xl flex items-center justify-center border border-border">
-                  <span className="text-xs text-text-muted uppercase">Detail 2</span>
+               <div className="w-full aspect-square bg-surface rounded-2xl flex items-center justify-center border border-border relative overflow-hidden">
+                  <img src={product.image} alt={`${product.name} detail 2`} className="absolute inset-0 w-full h-full object-cover" />
                </div>
             </div>
           </div>

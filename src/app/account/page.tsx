@@ -98,8 +98,8 @@ export default function AccountPage() {
                 </div>
 
                 <div className="p-6 flex flex-col sm:flex-row gap-6">
-                  <div className="w-24 h-24 bg-surface-hover rounded-lg flex items-center justify-center border border-border shrink-0">
-                    <span className="text-[10px] text-text-muted uppercase">Image</span>
+                  <div className="w-24 h-24 bg-surface-hover rounded-lg flex items-center justify-center border border-border shrink-0 relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop" alt="Matte Keyboard 1" className="absolute inset-0 w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 flex flex-col justify-center">
                     <Link href={`/products/p-1`} className="text-lg font-medium text-foreground hover:text-accent transition-colors">Matte Keyboard 1</Link>
@@ -129,8 +129,8 @@ export default function AccountPage() {
                       <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-background flex items-center justify-center border border-border z-10">
                         <Heart className="w-4 h-4 text-foreground fill-foreground" />
                       </div>
-                      <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center">
-                        <span className="text-xs text-text-muted uppercase tracking-widest">{product.name}</span>
+                      <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center relative overflow-hidden">
+                        <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
                       </div>
                     </div>
                     <div>

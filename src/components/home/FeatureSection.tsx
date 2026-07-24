@@ -6,6 +6,7 @@ interface FeatureProps {
   title: string;
   description: string;
   imageAlt: string;
+  imageUrl?: string;
   reverse?: boolean;
   matteVariant?: 'default' | 'elevated' | 'deep';
 }
@@ -13,7 +14,8 @@ interface FeatureProps {
 export default function FeatureSection({ 
   title, 
   description, 
-  imageAlt, 
+  imageAlt,
+  imageUrl,
   reverse = false,
   matteVariant = 'default' 
 }: FeatureProps) {
@@ -47,7 +49,7 @@ export default function FeatureSection({
             </p>
           </motion.div>
 
-          {/* Image Placeholder */}
+          {/* Image or Placeholder */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -55,11 +57,21 @@ export default function FeatureSection({
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="flex-1 w-full aspect-square md:aspect-[4/3] bg-surface-hover rounded-xl flex items-center justify-center relative overflow-hidden"
           >
-            {/* Soft matte placeholder without shadows */}
-            <div className="absolute inset-0 bg-surface-active opacity-50" />
-            <span className="relative z-10 text-text-muted text-sm font-medium tracking-widest uppercase">
-              {imageAlt}
-            </span>
+            {imageUrl ? (
+              <img 
+                src={imageUrl} 
+                alt={imageAlt} 
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            ) : (
+              <>
+                {/* Soft matte placeholder without shadows */}
+                <div className="absolute inset-0 bg-surface-active opacity-50" />
+                <span className="relative z-10 text-text-muted text-sm font-medium tracking-widest uppercase">
+                  {imageAlt}
+                </span>
+              </>
+            )}
           </motion.div>
 
         </div>

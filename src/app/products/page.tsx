@@ -96,9 +96,12 @@ export default function ProductsPage() {
                         New
                       </span>
                     )}
-                    {/* Placeholder for actual image */}
-                    <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center">
-                      <span className="text-xs text-text-muted uppercase tracking-widest">{product.name}</span>
+                    <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center relative overflow-hidden">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
                     </div>
                   </div>
                   

@@ -130,8 +130,9 @@ export default function CheckoutPage() {
             <h3 className="text-lg font-medium text-foreground">Order Summary</h3>
             
             <div className="flex gap-4">
-               <div className="w-16 h-16 bg-surface-hover rounded flex-shrink-0 flex items-center justify-center border border-border relative">
-                  <span className="absolute -top-2 -right-2 bg-text-muted text-background text-[10px] w-5 h-5 rounded-full flex items-center justify-center">1</span>
+               <div className="w-16 h-16 bg-surface-hover rounded flex-shrink-0 flex items-center justify-center border border-border relative overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop" alt="Matte Keyboard 1" className="absolute inset-0 w-full h-full object-cover" />
+                  <span className="absolute -top-2 -right-2 bg-text-muted text-background text-[10px] w-5 h-5 rounded-full flex items-center justify-center z-10">1</span>
                </div>
                <div className="flex-grow flex justify-between">
                  <div>
@@ -143,8 +144,9 @@ export default function CheckoutPage() {
             </div>
 
             <div className="flex gap-4">
-               <div className="w-16 h-16 bg-surface-hover rounded flex-shrink-0 flex items-center justify-center border border-border relative">
-                  <span className="absolute -top-2 -right-2 bg-text-muted text-background text-[10px] w-5 h-5 rounded-full flex items-center justify-center">2</span>
+               <div className="w-16 h-16 bg-surface-hover rounded flex-shrink-0 flex items-center justify-center border border-border relative overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop" alt="Ceramic Earbuds" className="absolute inset-0 w-full h-full object-cover" />
+                  <span className="absolute -top-2 -right-2 bg-text-muted text-background text-[10px] w-5 h-5 rounded-full flex items-center justify-center z-10">2</span>
                </div>
                <div className="flex-grow flex justify-between">
                  <div>

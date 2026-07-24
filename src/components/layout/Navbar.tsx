@@ -220,10 +220,11 @@ export default function Navbar() {
                   </div>
                   <div className="col-span-2 flex gap-4">
                     <div className="flex-1 bg-surface-hover rounded-xl border border-border flex items-center justify-center p-6 relative overflow-hidden group cursor-pointer">
-                      <div className="absolute inset-0 bg-gradient-to-tr from-background to-transparent opacity-50 z-0" />
-                      <div className="relative z-10 text-center">
+                      <img src="https://images.unsplash.com/photo-1542272201-b1ca555f8505?q=80&w=800&auto=format&fit=crop" alt="Signature Collection" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <div className="absolute inset-0 bg-gradient-to-tr from-background/80 to-transparent z-0" />
+                      <div className="relative z-10 text-center mt-auto pb-2 w-full text-left flex flex-col justify-end h-full items-start pl-4">
                         <p className="text-accent text-xs font-bold uppercase tracking-widest mb-1">New</p>
-                        <h4 className="text-foreground font-semibold text-lg">The Signature Collection</h4>
+                        <h4 className="text-foreground font-semibold text-lg drop-shadow-md">The Signature Collection</h4>
                       </div>
                     </div>
                   </div>

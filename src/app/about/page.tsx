@@ -2,6 +2,7 @@ import React from 'react';
 import SocialLinks from '@/components/SocialLinks';
 import LuminousCard from '@/components/LuminousCard';
 import { TeamMemberCard } from '@/components/ui';
+import ValuesTabs from '@/components/about/ValuesTabs';
 
 export default function AboutPage() {
   return (
@@ -38,24 +39,9 @@ export default function AboutPage() {
       </section>
 
       {/* Our Values */}
-      <section className="py-24 px-6 max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold mb-12 text-center">What We Stand For</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { title: 'Quality', desc: 'Uncompromising standards.', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
-            { title: 'Simplicity', desc: 'Less, but better.', icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' },
-            { title: 'Trust', desc: 'Transparency in everything.', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7a4 4 0 00-8 0v4h8z' },
-            { title: 'Sustainability', desc: 'For a better tomorrow.', icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z' }
-          ].map((val, i) => (
-            <div key={i} className="bg-surface border border-border rounded-xl p-6 hover:bg-surface-hover transition-colors">
-              <svg className="w-8 h-8 text-accent mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={val.icon} />
-              </svg>
-              <h3 className="text-xl font-semibold mb-2">{val.title}</h3>
-              <p className="text-text-muted">{val.desc}</p>
-            </div>
-          ))}
-        </div>
+      <section className="py-24 px-6 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold mb-12 text-center md:text-left">What We Stand For</h2>
+        <ValuesTabs />
       </section>
 
       {/* Team Section */}

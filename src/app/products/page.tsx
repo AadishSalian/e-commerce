@@ -9,10 +9,14 @@ import { ChevronDown, Filter } from 'lucide-react';
 export default function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
+  const [searchQuery, setSearchQuery] = useState('');
   
-  const filteredProducts = MOCK_PRODUCTS.filter(p => 
-    activeCategory === 'All' ? true : p.category === activeCategory
-  ).sort((a, b) => {
+  const filteredProducts = MOCK_PRODUCTS.filter(p => {
+    const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          p.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  }).sort((a, b) => {
     if (sortBy === 'price-low') return a.price - b.price;
     if (sortBy === 'price-high') return b.price - a.price;
     return 0; // default 'newest'
@@ -36,8 +40,8 @@ export default function ProductsPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-y border-border py-4">
           
           {/* Category Pill Filters */}
-          <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar">
-            <span className="text-sm font-medium text-text-muted mr-2 flex items-center gap-2">
+          <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar flex-1 w-full md:w-auto">
+            <span className="text-sm font-medium text-text-muted mr-2 flex items-center gap-2 shrink-0">
               <Filter className="w-4 h-4" /> Filter
             </span>
             {CATEGORIES.map(category => (
@@ -55,9 +59,23 @@ export default function ProductsPage() {
             ))}
           </div>
 
-          {/* Sort Dropdown (Simplified for UI mockup) */}
-          <div className="flex items-center gap-3 shrink-0">
-            <span className="text-sm font-medium text-text-muted">Sort by</span>
+          </div>
+
+          <div className="flex items-center gap-4 shrink-0 w-full md:w-auto mt-4 md:mt-0">
+            {/* Search Bar */}
+            <div className="relative flex-1 md:w-64">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-surface border border-border text-foreground text-sm px-4 py-2 rounded-full focus:outline-none focus:border-accent transition-colors"
+              />
+            </div>
+
+            {/* Sort Dropdown (Simplified for UI mockup) */}
+            <div className="flex items-center gap-3 shrink-0">
+              <span className="text-sm font-medium text-text-muted hidden sm:inline">Sort by</span>
             <div className="relative">
               <select 
                 value={sortBy}

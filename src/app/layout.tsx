@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { ToastProvider } from "@/contexts/ToastContext";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import BrandReveal from "@/components/ui/BrandReveal";
 import { StoreBackButton } from "@/components/ui/StoreBackButton";
@@ -59,17 +60,19 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-full flex flex-col bg-background text-foreground`}>
         <BrandReveal />
         <ThemeProvider>
-          <AuthProvider>
-            <CartProvider>
-              <StoreBackButton />
-              <Navbar />
-              <CartDrawer />
-              <main className="flex-grow pt-24 md:pt-28">
-                {children}
-              </main>
-              <Footer />
-            </CartProvider>
-          </AuthProvider>
+          <ToastProvider>
+            <AuthProvider>
+              <CartProvider>
+                <StoreBackButton />
+                <Navbar />
+                <CartDrawer />
+                <main className="flex-grow pt-24 md:pt-28">
+                  {children}
+                </main>
+                <Footer />
+              </CartProvider>
+            </AuthProvider>
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

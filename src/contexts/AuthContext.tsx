@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useToast } from '@/contexts/ToastContext';
 
 export interface User {
   id: string;
@@ -23,6 +24,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const { success, toast } = useToast();
 
   useEffect(() => {
     const savedState = localStorage.getItem('mockAuthState');
@@ -44,6 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(userData);
     localStorage.setItem('mockAuthState', 'true');
     localStorage.setItem('mockUser', JSON.stringify(userData));
+    success(`Welcome back, ${userData.name}!`);
   };
 
   const logout = () => {
@@ -51,6 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     localStorage.setItem('mockAuthState', 'false');
     localStorage.removeItem('mockUser');
+    toast("You've been securely logged out.");
   };
 
   const updateUser = (updates: Partial<User>) => {

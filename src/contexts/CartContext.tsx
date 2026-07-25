@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product } from '@/lib/mockData';
+import { useToast } from '@/contexts/ToastContext';
 
 export interface CartItem extends Product {
   cartId: string;
@@ -27,6 +28,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { success, toast } = useToast();
   
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
@@ -64,10 +66,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return [...prev, { ...product, cartId: Math.random().toString(36).substring(7), quantity, selectedVariant }];
     });
     openCart();
+    success(`Added ${product.name} to bag`);
   };
 
   const removeFromCart = (cartId: string) => {
     setCartItems(prev => prev.filter(item => item.cartId !== cartId));
+    toast("Item removed from bag");
   };
 
   const updateQuantity = (cartId: string, delta: number) => {

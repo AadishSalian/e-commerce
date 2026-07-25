@@ -8,6 +8,7 @@ import {
   User, Camera, Lock, Bell, Check, MapPin, Phone, Shield, CreditCard, ChevronRight, LogOut, Sliders, Moon, Sun
 } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useToast } from '@/contexts/ToastContext';
 
 const TABS = [
   { id: 'general', label: 'General', icon: User },
@@ -38,10 +39,10 @@ export default function ProfilePage() {
   const router = useRouter();
   const { user, isLoggedIn, updateUser, logout } = useAuth();
   const { theme, setTheme } = useTheme();
+  const { success } = useToast();
   
   const [activeTab, setActiveTab] = useState('general');
   const [isSaving, setIsSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
 
   // Form states
   const [name, setName] = useState('');
@@ -69,8 +70,7 @@ export default function ProfilePage() {
     setTimeout(() => {
       updateUser({ name, email });
       setIsSaving(false);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
+      success("Profile details updated successfully.");
     }, 800);
   };
 
@@ -178,7 +178,7 @@ export default function ProfilePage() {
                          disabled={isSaving}
                          className="px-8 py-3 bg-accent hover:opacity-90 text-background font-bold rounded-xl transition-all disabled:opacity-70 flex items-center gap-2 text-sm"
                        >
-                         {saved ? <><Check className="w-4 h-4"/> Saved successfully</> : isSaving ? 'Saving changes...' : 'Save Changes'}
+                         {isSaving ? 'Saving changes...' : 'Save Changes'}
                        </button>
                      </div>
                    </div>

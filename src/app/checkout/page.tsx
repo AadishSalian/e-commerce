@@ -5,11 +5,16 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useCart } from '@/contexts/CartContext';
 
 export default function CheckoutPage() {
   const [step, setStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
+  const { cartItems, clearCart } = useCart();
+  
+  const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const total = subtotal; // Assuming free shipping
 
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,6 +26,7 @@ export default function CheckoutPage() {
     setIsProcessing(true);
     // Mock processing delay
     setTimeout(() => {
+      clearCart();
       router.push('/checkout/success');
     }, 2000);
   };
@@ -116,7 +122,7 @@ export default function CheckoutPage() {
                   {isProcessing ? (
                     <div className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    'Pay $448.00'
+                    `Pay $${total.toFixed(2)}`
                   )}
                 </button>
               </motion.form>
@@ -129,39 +135,27 @@ export default function CheckoutPage() {
           <div className="bg-surface rounded-xl border border-border p-6 flex flex-col gap-6 sticky top-24">
             <h3 className="text-lg font-medium text-foreground">Order Summary</h3>
             
-            <div className="flex gap-4">
-               <div className="w-16 h-16 bg-surface-hover rounded flex-shrink-0 flex items-center justify-center border border-border relative overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop" alt="Matte Keyboard 1" className="absolute inset-0 w-full h-full object-cover" />
-                  <span className="absolute -top-2 -right-2 bg-text-muted text-background text-[10px] w-5 h-5 rounded-full flex items-center justify-center z-10">1</span>
-               </div>
-               <div className="flex-grow flex justify-between">
-                 <div>
-                   <p className="text-sm text-foreground">Matte Keyboard 1</p>
-                   <p className="text-xs text-text-muted">Matte Black</p>
+            {cartItems.map(item => (
+              <div key={item.cartId} className="flex gap-4">
+                 <div className="w-16 h-16 bg-surface-hover rounded flex-shrink-0 flex items-center justify-center border border-border relative overflow-hidden">
+                    <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
+                    <span className="absolute -top-2 -right-2 bg-text-muted text-background text-[10px] w-5 h-5 rounded-full flex items-center justify-center z-10">{item.quantity}</span>
                  </div>
-                 <p className="text-sm font-medium">$249.00</p>
-               </div>
-            </div>
-
-            <div className="flex gap-4">
-               <div className="w-16 h-16 bg-surface-hover rounded flex-shrink-0 flex items-center justify-center border border-border relative overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop" alt="Ceramic Earbuds" className="absolute inset-0 w-full h-full object-cover" />
-                  <span className="absolute -top-2 -right-2 bg-text-muted text-background text-[10px] w-5 h-5 rounded-full flex items-center justify-center z-10">2</span>
-               </div>
-               <div className="flex-grow flex justify-between">
-                 <div>
-                   <p className="text-sm text-foreground">Ceramic Earbuds</p>
-                   <p className="text-xs text-text-muted">Sage</p>
+                 <div className="flex-grow flex justify-between">
+                   <div>
+                     <p className="text-sm text-foreground">{item.name}</p>
+                     {item.selectedVariant && <p className="text-xs text-text-muted">{item.selectedVariant}</p>}
+                   </div>
+                   <p className="text-sm font-medium">${(item.price * item.quantity).toFixed(2)}</p>
                  </div>
-                 <p className="text-sm font-medium">$199.00</p>
-               </div>
-            </div>
+              </div>
+            ))}
             
             <div className="w-full h-px bg-border" />
             
             <div className="flex justify-between text-text-muted text-sm">
               <span>Subtotal</span>
-              <span>$448.00</span>
+              <span>${subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-text-muted text-sm">
               <span>Shipping</span>
@@ -169,7 +163,7 @@ export default function CheckoutPage() {
             </div>
             <div className="flex justify-between text-foreground text-lg font-medium pt-2 border-t border-border">
               <span>Total</span>
-              <span>$448.00</span>
+              <span>${total.toFixed(2)}</span>
             </div>
 
           </div>

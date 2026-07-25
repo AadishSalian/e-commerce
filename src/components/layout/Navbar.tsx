@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Search, ShoppingBag, User, Menu, X, ArrowRight, Heart, Package, LogOut } from 'lucide-react';
+import { Search, ShoppingBag, User, Menu, X, ArrowRight, Heart, Package, LogOut, Settings, UserCircle } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { NavAuthButton, ThemeToggle, ExpandableSearch } from '@/components/ui';
@@ -27,7 +27,7 @@ export default function Navbar() {
   const megaMenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const accountRef = useRef<HTMLDivElement>(null);
   
-  const { isLoggedIn, login, logout } = useAuth();
+  const { isLoggedIn, user, login, logout } = useAuth();
 
   // Scroll animations for desktop
   const { scrollY } = useScroll();
@@ -136,11 +136,19 @@ export default function Navbar() {
                 {/* Account Dropdown Container */}
                 <div className="relative" ref={accountRef}>
                   <button 
-                    className={styles.iconButton} 
+                    className={`${styles.iconButton} overflow-hidden rounded-full p-0 w-8 h-8 flex items-center justify-center bg-surface-active border border-border`} 
                     onClick={() => setIsAccountOpen(!isAccountOpen)}
                     aria-label="Account menu"
                   >
-                    <User className="w-4 h-4" />
+                    {user?.avatar ? (
+                      <img src={user.avatar} alt={user?.name} className="w-full h-full object-cover" />
+                    ) : user?.name ? (
+                      <span className="text-xs font-semibold text-foreground">
+                        {user.name.charAt(0).toUpperCase()}
+                      </span>
+                    ) : (
+                      <User className="w-4 h-4" />
+                    )}
                   </button>
                   
                   <AnimatePresence>
@@ -150,13 +158,27 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className={styles.dropdownCapsule}
+                        className={`${styles.dropdownCapsule} min-w-[160px]`}
                       >
+                        <div className="px-3 py-2 border-b border-border mb-1">
+                          <p className="text-sm font-medium text-foreground truncate">{user?.name || 'User'}</p>
+                          <p className="text-xs text-text-muted truncate">{user?.email || 'user@example.com'}</p>
+                        </div>
+                        <Link href="/profile" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                          <UserCircle className="w-4 h-4" /> Profile
+                        </Link>
                         <Link href="/account" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
                           <Package className="w-4 h-4" /> Orders
                         </Link>
+                        <Link href="/wishlist" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                          <Heart className="w-4 h-4" /> Wishlist
+                        </Link>
+                        <Link href="/settings" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                          <Settings className="w-4 h-4" /> Settings
+                        </Link>
+                        <div className="my-1 border-t border-border" />
                         <button className={styles.dropdownItem} onClick={() => { logout(); setIsAccountOpen(false); }}>
-                          <LogOut className="w-4 h-4" /> Logout
+                          <LogOut className="w-4 h-4 text-red-500" /> <span className="text-red-500">Logout</span>
                         </button>
                       </motion.div>
                     )}
@@ -322,6 +344,20 @@ export default function Navbar() {
                       className="text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3"
                     >
                       <Package className="w-5 h-5" /> Orders
+                    </Link>
+                    <Link 
+                      href="/wishlist"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3"
+                    >
+                      <Heart className="w-5 h-5" /> Wishlist
+                    </Link>
+                    <Link 
+                      href="/settings"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3"
+                    >
+                      <Settings className="w-5 h-5" /> Settings
                     </Link>
                     <button
                       onClick={() => { logout(); setIsMobileMenuOpen(false); }}

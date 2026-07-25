@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, AlertTriangle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import styles from './AuthCard.module.css';
+import zxcvbn from 'zxcvbn';
+import { hashPassword, checkHIBP } from '@/lib/auth-utils';
 
 export default function AuthCard() {
   const router = useRouter();
@@ -17,31 +19,109 @@ export default function AuthCard() {
   
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  
+  const [passwordScore, setPasswordScore] = useState(0);
+  const [isBreached, setIsBreached] = useState(false);
+  const [isCheckingBreach, setIsCheckingBreach] = useState(false);
+  const [error, setError] = useState('');
+
+  // Calculate password strength
+  useEffect(() => {
+    if (password) {
+      const evaluation = zxcvbn(password);
+      setPasswordScore(evaluation.score);
+    } else {
+      setPasswordScore(0);
+    }
+  }, [password]);
+
+  // Check HIBP with debounce
+  useEffect(() => {
+    if (!password || isLogin) {
+      setIsBreached(false);
+      return;
+    }
+    
+    const timeoutId = setTimeout(async () => {
+      setIsCheckingBreach(true);
+      const breached = await checkHIBP(password);
+      setIsBreached(breached);
+      setIsCheckingBreach(false);
+    }, 800);
+    
+    return () => clearTimeout(timeoutId);
+  }, [password, isLogin]);
 
   const toggleMode = () => {
     setIsLogin(!isLogin);
-    // Reset password visibility when switching modes
     setShowPassword(false);
     setShowConfirmPassword(false);
+    setError('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     
-    const userData = {
-      id: Math.random().toString(36).substring(7),
-      name: name || (isLogin ? 'Test User' : 'New User'),
-      email: email,
-    };
-    
-    if (isLogin) {
-      console.log('Signing in...', userData);
-    } else {
-      console.log('Creating account...', userData);
+    if (!isLogin) {
+      if (password.length < 8) {
+        setError('Password must be at least 8 characters long.');
+        return;
+      }
+      if (passwordScore < 2) {
+        setError('Password is too weak. Please use a stronger password.');
+        return;
+      }
+      if (password !== confirmPassword) {
+        setError('Passwords do not match.');
+        return;
+      }
+      if (isBreached) {
+        setError('This password has been found in a data breach. Please choose another.');
+        return;
+      }
     }
     
-    login(userData);
-    router.push('/');
+    try {
+      const hashedPassword = await hashPassword(password);
+      
+      const userData = {
+        id: Math.random().toString(36).substring(7),
+        name: name || (isLogin ? 'Test User' : 'New User'),
+        email: email,
+        hashedPassword, // Storing for mock purposes
+      };
+      
+      login(userData);
+      router.push('/');
+    } catch (err) {
+      setError('An error occurred during authentication.');
+      console.error(err);
+    }
+  };
+
+  const getStrengthColor = () => {
+    switch (passwordScore) {
+      case 0: return '#ef4444';
+      case 1: return '#f97316';
+      case 2: return '#eab308';
+      case 3: return '#84cc16';
+      case 4: return '#22c55e';
+      default: return '#3f3f46';
+    }
+  };
+
+  const getStrengthLabel = () => {
+    switch (passwordScore) {
+      case 0: return 'Very Weak';
+      case 1: return 'Weak';
+      case 2: return 'Fair';
+      case 3: return 'Good';
+      case 4: return 'Strong';
+      default: return '';
+    }
   };
 
   return (
@@ -73,6 +153,13 @@ export default function AuthCard() {
                 className={styles.viewContainer}
               >
                 <form onSubmit={handleSubmit} className="w-full flex flex-col">
+                  {error && (
+                    <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-2 text-red-500 text-sm">
+                      <AlertTriangle size={16} className="mt-0.5 shrink-0" />
+                      <p>{error}</p>
+                    </div>
+                  )}
+
                   {!isLogin && (
                     <div className={styles.inputGroup}>
                       <div className={styles.inputForm}>
@@ -81,7 +168,6 @@ export default function AuthCard() {
                           type="text" 
                           className={styles.inputField} 
                           placeholder="Full Name" 
-                          aria-label="Full Name"
                           required={!isLogin}
                           value={name}
                           onChange={(e) => setName(e.target.value)}
@@ -97,7 +183,6 @@ export default function AuthCard() {
                         type="email" 
                         className={styles.inputField} 
                         placeholder="Email Address" 
-                        aria-label="Email Address"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -112,19 +197,41 @@ export default function AuthCard() {
                         type={showPassword ? "text" : "password"} 
                         className={styles.inputField} 
                         placeholder="Password" 
-                        aria-label="Password"
                         required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                       <button 
                         type="button" 
                         className={styles.eyeToggle}
                         onClick={() => setShowPassword(!showPassword)}
-                        aria-label={showPassword ? "Hide password" : "Show password"}
                       >
                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
                   </div>
+
+                  {!isLogin && password && (
+                    <div className="mb-4 flex flex-col gap-1">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-text-muted">Password strength:</span>
+                        <span style={{ color: getStrengthColor(), fontWeight: 600 }}>{getStrengthLabel()}</span>
+                      </div>
+                      <div className="h-1.5 w-full bg-surface-active rounded-full overflow-hidden flex gap-1">
+                        {[0, 1, 2, 3, 4].map((level) => (
+                          <div 
+                            key={level} 
+                            className="h-full flex-1 transition-colors duration-300"
+                            style={{ 
+                              backgroundColor: passwordScore >= level ? getStrengthColor() : 'transparent' 
+                            }}
+                          />
+                        ))}
+                      </div>
+                      {isCheckingBreach && <span className="text-xs text-text-muted mt-1">Checking for data breaches...</span>}
+                      {isBreached && !isCheckingBreach && <span className="text-xs text-red-500 mt-1">⚠️ Password found in data breach!</span>}
+                    </div>
+                  )}
 
                   {!isLogin && (
                     <div className={styles.inputGroup}>
@@ -134,14 +241,14 @@ export default function AuthCard() {
                           type={showConfirmPassword ? "text" : "password"} 
                           className={styles.inputField} 
                           placeholder="Confirm Password" 
-                          aria-label="Confirm Password"
                           required={!isLogin}
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                         <button 
                           type="button" 
                           className={styles.eyeToggle}
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                         >
                           {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
@@ -153,7 +260,7 @@ export default function AuthCard() {
                     {isLogin ? (
                       <>
                         <label className={styles.checkboxWrapper}>
-                          <input type="checkbox" className={styles.checkbox} aria-label="Remember me" />
+                          <input type="checkbox" className={styles.checkbox} />
                           Remember me
                         </label>
                         <button type="button" className={styles.link} style={{ color: '#8ed500' }}>
@@ -162,7 +269,7 @@ export default function AuthCard() {
                       </>
                     ) : (
                       <label className={styles.checkboxWrapper}>
-                        <input type="checkbox" className={styles.checkbox} required={!isLogin} aria-label="I agree to the terms & conditions" />
+                        <input type="checkbox" className={styles.checkbox} required={!isLogin} />
                         I agree to the terms & conditions
                       </label>
                     )}
@@ -172,6 +279,7 @@ export default function AuthCard() {
                     type="submit" 
                     className={styles.primaryButton}
                     style={{ backgroundColor: '#8ed500', color: '#121212' }}
+                    disabled={(!isLogin && (isBreached || passwordScore < 2))}
                   >
                     {isLogin ? 'Sign In' : 'Create Account'}
                   </button>
@@ -180,7 +288,7 @@ export default function AuthCard() {
                 <div className={styles.divider}>Or With</div>
 
                 <div className={styles.socialGroup}>
-                  <button type="button" className={styles.socialBtn} aria-label="Sign in with Google">
+                  <button type="button" className={styles.socialBtn}>
                     <svg className={styles.socialIcon} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                       <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -189,7 +297,7 @@ export default function AuthCard() {
                     </svg>
                     Google
                   </button>
-                  <button type="button" className={styles.socialBtn} aria-label="Sign in with Apple">
+                  <button type="button" className={styles.socialBtn}>
                     <svg className={styles.socialIcon} viewBox="0 0 384 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                       <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
                     </svg>

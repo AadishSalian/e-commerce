@@ -7,6 +7,7 @@ export interface User {
   name: string;
   email: string;
   avatar?: string;
+  hashedPassword?: string;
 }
 
 interface AuthContextType {

@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Search, ShoppingBag, User, Menu, X, ArrowRight, Heart, Package, LogOut, Settings, UserCircle } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import { NavAuthButton, ThemeToggle, ExpandableSearch } from '@/components/ui';
 import styles from './Navbar.module.css';
 
@@ -23,11 +24,11 @@ export default function Navbar() {
   const [activeHover, setActiveHover] = useState<string | null>(null);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(2);
   const megaMenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const accountRef = useRef<HTMLDivElement>(null);
   
   const { isLoggedIn, user, login, logout } = useAuth();
+  const { itemCount: cartCount, openCart } = useCart();
 
   // Scroll animations for desktop
   const { scrollY } = useScroll();
@@ -205,7 +206,7 @@ export default function Navbar() {
                   </AnimatePresence>
                 </div>
 
-                <Link href="/cart" className={styles.iconButton} aria-label="Cart">
+                <button onClick={openCart} className={styles.iconButton} aria-label="Cart">
                   <ShoppingBag className="w-4 h-4" />
                   <AnimatePresence mode="popLayout">
                     {cartCount > 0 && (
@@ -221,7 +222,7 @@ export default function Navbar() {
                       </motion.span>
                     )}
                   </AnimatePresence>
-                </Link>
+                </button>
               </>
             ) : (
               <div className="ml-2 pl-2 border-l border-border flex items-center">
@@ -291,14 +292,14 @@ export default function Navbar() {
               <ThemeToggle />
             </div>
             {isLoggedIn ? (
-              <Link href="/cart" className={styles.iconButton} aria-label="Cart">
+              <button onClick={openCart} className={styles.iconButton} aria-label="Cart">
                 <ShoppingBag className="w-5 h-5" />
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-background">
                     {cartCount}
                   </span>
                 )}
-              </Link>
+              </button>
             ) : (
               <ExpandableSearch />
             )}

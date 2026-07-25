@@ -112,7 +112,6 @@ export default function ProductDetailPage({ params }: Props) {
                     icon={<ShoppingBag size={18} />}
                     onClick={() => {
                       addToCart(product, 1, selectedVariant || undefined);
-                      router.push('/cart');
                     }}
                   >
                     Add to Bag
@@ -155,7 +154,6 @@ export default function ProductDetailPage({ params }: Props) {
             icon={<ShoppingBag size={16} />}
             onClick={() => {
               addToCart(product, 1, selectedVariant || undefined);
-              router.push('/cart');
             }}
           >
             Add to Bag

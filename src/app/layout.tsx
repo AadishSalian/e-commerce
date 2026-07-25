@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
+import { CartDrawer } from "@/components/layout/CartDrawer";
 import BrandReveal from "@/components/ui/BrandReveal";
 import { StoreBackButton } from "@/components/ui/StoreBackButton";
 
@@ -60,6 +61,7 @@ export default function RootLayout({
           <CartProvider>
             <StoreBackButton />
             <Navbar />
+            <CartDrawer />
             <main className="flex-grow pt-24 md:pt-28">
               {children}
             </main>

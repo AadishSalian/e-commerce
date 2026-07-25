@@ -154,32 +154,52 @@ export default function Navbar() {
                   <AnimatePresence>
                     {isAccountOpen && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        initial={{ opacity: 0, y: 15, scale: 0.96 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                        className={`${styles.dropdownCapsule} min-w-[160px]`}
+                        exit={{ opacity: 0, y: 10, scale: 0.96 }}
+                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        className={`${styles.dropdownCapsule} min-w-[220px]`}
                       >
-                        <div className="px-3 py-2 border-b border-border mb-1">
-                          <p className="text-sm font-medium text-foreground truncate">{user?.name || 'User'}</p>
-                          <p className="text-xs text-text-muted truncate">{user?.email || 'user@example.com'}</p>
+                        <motion.div 
+                          initial={{ opacity: 0, x: -10 }} 
+                          animate={{ opacity: 1, x: 0 }} 
+                          transition={{ delay: 0.1 }}
+                          className="px-4 py-3 border-b border-border/50 mb-1"
+                        >
+                          <p className="text-sm font-semibold text-foreground truncate">{user?.name || 'User'}</p>
+                          <p className="text-xs text-text-muted truncate mt-0.5">{user?.email || 'user@example.com'}</p>
+                        </motion.div>
+                        
+                        <div className="p-1.5 flex flex-col gap-1">
+                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}>
+                            <Link href="/profile" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                              <UserCircle className="w-4 h-4" /> <span>Profile</span>
+                            </Link>
+                          </motion.div>
+                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
+                            <Link href="/account" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                              <Package className="w-4 h-4" /> <span>Orders</span>
+                            </Link>
+                          </motion.div>
+                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }}>
+                            <Link href="/wishlist" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                              <Heart className="w-4 h-4" /> <span>Wishlist</span>
+                            </Link>
+                          </motion.div>
+                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
+                            <Link href="/settings" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                              <Settings className="w-4 h-4" /> <span>Settings</span>
+                            </Link>
+                          </motion.div>
+                          
+                          <div className="my-1 border-t border-border/50 mx-2" />
+                          
+                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35 }}>
+                            <button className={`${styles.dropdownItem} ${styles.dropdownItemDanger}`} onClick={() => { logout(); setIsAccountOpen(false); router.push('/'); }}>
+                              <LogOut className="w-4 h-4" /> <span>Logout</span>
+                            </button>
+                          </motion.div>
                         </div>
-                        <Link href="/profile" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                          <UserCircle className="w-4 h-4" /> Profile
-                        </Link>
-                        <Link href="/account" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                          <Package className="w-4 h-4" /> Orders
-                        </Link>
-                        <Link href="/wishlist" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                          <Heart className="w-4 h-4" /> Wishlist
-                        </Link>
-                        <Link href="/settings" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                          <Settings className="w-4 h-4" /> Settings
-                        </Link>
-                        <div className="my-1 border-t border-border" />
-                        <button className={styles.dropdownItem} onClick={() => { logout(); setIsAccountOpen(false); }}>
-                          <LogOut className="w-4 h-4 text-red-500" /> <span className="text-red-500">Logout</span>
-                        </button>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -360,7 +380,7 @@ export default function Navbar() {
                       <Settings className="w-5 h-5" /> Settings
                     </Link>
                     <button
-                      onClick={() => { logout(); setIsMobileMenuOpen(false); }}
+                      onClick={() => { logout(); setIsMobileMenuOpen(false); router.push('/'); }}
                       className="text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3 text-left"
                     >
                       <LogOut className="w-5 h-5" /> Logout

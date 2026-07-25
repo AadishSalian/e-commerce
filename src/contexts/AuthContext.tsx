@@ -2,9 +2,17 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+}
+
 interface AuthContextType {
   isLoggedIn: boolean;
-  login: () => void;
+  user: User | null;
+  login: (userData: User) => void;
   logout: () => void;
 }
 
@@ -12,27 +20,39 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const savedState = localStorage.getItem('mockAuthState');
-    if (savedState === 'true') {
-      // eslint-disable-next-line
-      setIsLoggedIn(true);
+    const savedUser = localStorage.getItem('mockUser');
+    
+    if (savedState === 'true' && savedUser) {
+      try {
+        const parsedUser = JSON.parse(savedUser);
+        setUser(parsedUser);
+        setIsLoggedIn(true);
+      } catch (e) {
+        console.error('Failed to parse user from local storage', e);
+      }
     }
   }, []);
 
-  const login = () => {
+  const login = (userData: User) => {
     setIsLoggedIn(true);
+    setUser(userData);
     localStorage.setItem('mockAuthState', 'true');
+    localStorage.setItem('mockUser', JSON.stringify(userData));
   };
 
   const logout = () => {
     setIsLoggedIn(false);
+    setUser(null);
     localStorage.setItem('mockAuthState', 'false');
+    localStorage.removeItem('mockUser');
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

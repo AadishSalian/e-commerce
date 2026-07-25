@@ -1,14 +1,22 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import styles from './AuthCard.module.css';
 
 export default function AuthCard() {
+  const router = useRouter();
+  const { login } = useAuth();
+  
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
 
   const toggleMode = () => {
     setIsLogin(!isLogin);
@@ -19,13 +27,21 @@ export default function AuthCard() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const userData = {
+      id: Math.random().toString(36).substring(7),
+      name: name || (isLogin ? 'Test User' : 'New User'),
+      email: email,
+    };
+    
     if (isLogin) {
-      // Execute sign in logic
-      console.log('Signing in...');
+      console.log('Signing in...', userData);
     } else {
-      // Execute sign up logic
-      console.log('Creating account...');
+      console.log('Creating account...', userData);
     }
+    
+    login(userData);
+    router.push('/');
   };
 
   return (
@@ -67,6 +83,8 @@ export default function AuthCard() {
                           placeholder="Full Name" 
                           aria-label="Full Name"
                           required={!isLogin}
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
                         />
                       </div>
                     </div>
@@ -81,6 +99,8 @@ export default function AuthCard() {
                         placeholder="Email Address" 
                         aria-label="Email Address"
                         required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                   </div>

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Minus, Plus, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
 // Mock Cart Items
 const initialCart = [
@@ -13,6 +14,7 @@ const initialCart = [
 ];
 
 export default function CartPage() {
+  const { isLoggedIn } = useAuth();
   const [cartItems, setCartItems] = useState(initialCart);
 
   const removeItem = (cartId: string) => {
@@ -128,7 +130,7 @@ export default function CartPage() {
               </div>
 
               <Link 
-                href="/checkout"
+                href={isLoggedIn ? "/checkout" : "/login"}
                 className="w-full md:w-1/2 py-4 bg-foreground text-background font-medium rounded-full hover:scale-[0.98] transition-transform duration-200 text-center"
               >
                 Proceed to Checkout

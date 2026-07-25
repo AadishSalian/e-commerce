@@ -6,30 +6,11 @@ import { Minus, Plus, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-
-// Mock Cart Items
-const initialCart = [
-  { ...MOCK_PRODUCTS[0], cartId: 'c1', quantity: 1, selectedVariant: 'Matte Black' },
-  { ...MOCK_PRODUCTS[1], cartId: 'c2', quantity: 2, selectedVariant: 'Sage' },
-];
+import { useCart } from '@/contexts/CartContext';
 
 export default function CartPage() {
   const { isLoggedIn } = useAuth();
-  const [cartItems, setCartItems] = useState(initialCart);
-
-  const removeItem = (cartId: string) => {
-    setCartItems(cartItems.filter(item => item.cartId !== cartId));
-  };
-
-  const updateQuantity = (cartId: string, delta: number) => {
-    setCartItems(cartItems.map(item => {
-      if (item.cartId === cartId) {
-        const newQty = Math.max(1, item.quantity + delta);
-        return { ...item, quantity: newQty };
-      }
-      return item;
-    }));
-  };
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
 
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const shipping = subtotal > 0 ? 0 : 0; // Free shipping for premium brand
@@ -95,7 +76,7 @@ export default function CartPage() {
                   </div>
 
                   <button 
-                    onClick={() => removeItem(item.cartId)}
+                    onClick={() => removeFromCart(item.cartId)}
                     className="absolute top-8 right-0 text-text-muted hover:text-foreground transition-colors p-2"
                   >
                     <X className="w-5 h-5" />

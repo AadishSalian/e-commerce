@@ -8,6 +8,7 @@ import { Check, ChevronRight, ShoppingBag, Lock } from 'lucide-react';
 import Link from 'next/link';
 import { PrimaryButton, NavAuthButton } from '@/components/ui';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -17,6 +18,7 @@ export default function ProductDetailPage({ params }: Props) {
   const resolvedParams = use(params);
   const product = MOCK_PRODUCTS.find(p => p.id === resolvedParams.id);
   const { isLoggedIn } = useAuth();
+  const { addToCart } = useCart();
   const router = useRouter();
   
   const hasVariants = product?.variants && product.variants.length > 0;
@@ -105,7 +107,14 @@ export default function ProductDetailPage({ params }: Props) {
             <div className="hidden lg:flex flex-col gap-4 mt-auto pt-8 border-t border-border">
               {isLoggedIn ? (
                 <>
-                  <PrimaryButton className="w-full py-4 text-lg" icon={<ShoppingBag size={18} />}>
+                  <PrimaryButton 
+                    className="w-full py-4 text-lg" 
+                    icon={<ShoppingBag size={18} />}
+                    onClick={() => {
+                      addToCart(product, 1, selectedVariant || undefined);
+                      router.push('/cart');
+                    }}
+                  >
                     Add to Bag
                   </PrimaryButton>
                   <p className="text-xs text-text-muted text-center flex items-center justify-center gap-2">
@@ -141,7 +150,14 @@ export default function ProductDetailPage({ params }: Props) {
           <p className="text-xs text-text-muted">Free shipping</p>
         </div>
         {isLoggedIn ? (
-          <PrimaryButton className="px-8" icon={<ShoppingBag size={16} />}>
+          <PrimaryButton 
+            className="px-8" 
+            icon={<ShoppingBag size={16} />}
+            onClick={() => {
+              addToCart(product, 1, selectedVariant || undefined);
+              router.push('/cart');
+            }}
+          >
             Add to Bag
           </PrimaryButton>
         ) : (

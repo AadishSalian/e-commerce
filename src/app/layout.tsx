@@ -11,6 +11,7 @@ import { LenisProvider } from "@/providers/LenisProvider";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import BrandReveal from "@/components/ui/BrandReveal";
 import { StoreBackButton } from "@/components/ui/StoreBackButton";
+import { PageTransition } from "@/components/ui/PageTransition";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -68,8 +69,10 @@ export default function RootLayout({
                 <StoreBackButton />
                 <Navbar />
                 <CartDrawer />
-                <main className="flex-grow pt-24 md:pt-28">
-                  {children}
+                <main className="flex-grow flex flex-col pt-24 md:pt-28">
+                  <PageTransition>
+                    {children}
+                  </PageTransition>
                 </main>
                 <Footer />
               </CartProvider>

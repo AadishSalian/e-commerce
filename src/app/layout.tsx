@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { ToastProvider } from "@/contexts/ToastContext";
+import { LenisProvider } from "@/providers/LenisProvider";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import BrandReveal from "@/components/ui/BrandReveal";
 import { StoreBackButton } from "@/components/ui/StoreBackButton";
@@ -59,7 +60,8 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} min-h-full flex flex-col bg-background text-foreground`}>
         <BrandReveal />
-        <ThemeProvider>
+        <LenisProvider>
+          <ThemeProvider>
           <ToastProvider>
             <AuthProvider>
               <CartProvider>
@@ -74,6 +76,7 @@ export default function RootLayout({
             </AuthProvider>
           </ToastProvider>
         </ThemeProvider>
+        </LenisProvider>
       </body>
     </html>
   );

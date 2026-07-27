@@ -36,7 +36,7 @@ export function CustomSelect({ value, options, onChange, variant = 'pill', class
   const isUnderline = variant === 'underline';
 
   return (
-    <div className={`relative ${className}`} ref={containerRef}>
+    <div className={`relative ${isOpen ? 'z-50' : 'z-40'} ${className}`} ref={containerRef}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -62,8 +62,8 @@ export function CustomSelect({ value, options, onChange, variant = 'pill', class
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className={`absolute z-50 mt-2 w-max min-w-full rounded-2xl border border-border/50 bg-background/90 backdrop-blur-xl shadow-2xl overflow-hidden ${
-              isUnderline ? 'left-0' : 'left-0'
+            className={`absolute top-full z-50 mt-2 w-max min-w-[calc(100%+1rem)] rounded-2xl border border-border/50 bg-background/90 backdrop-blur-xl shadow-2xl overflow-hidden ${
+              isUnderline ? 'left-0' : '-left-2'
             }`}
           >
             <div className="py-2 max-h-60 overflow-y-auto custom-scrollbar">

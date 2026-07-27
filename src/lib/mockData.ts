@@ -9,6 +9,9 @@ export type Product = {
   hoverImage?: string;
   attributes?: Record<string, string | string[]>;
   variants?: { id: string; name: string; value: string; }[];
+  stockCount?: number;
+  hasSizeGuide?: boolean;
+  relatedProducts?: string[];
 };
 
 export const MOCK_PRODUCTS: Product[] = [
@@ -273,6 +276,9 @@ export const MOCK_PRODUCTS: Product[] = [
     isNew: true,
     image: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=1000&auto=format&fit=crop', 
     hoverImage: 'https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1000&auto=format&fit=crop', // Fixed
+    stockCount: 3,
+    hasSizeGuide: true,
+    relatedProducts: ['f-4', 'f-7', 'a-4'],
     variants: [
       { id: 'fv-1', name: 'Color', value: 'Onyx' },
       { id: 'fv-2', name: 'Color', value: 'Camel' },

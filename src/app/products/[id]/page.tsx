@@ -9,6 +9,9 @@ import Link from 'next/link';
 import { PrimaryButton, NavAuthButton } from '@/components/ui';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
+import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
+import { RecentlyViewed } from '@/components/home/RecentlyViewed';
+import { useEffect } from 'react';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -23,6 +26,14 @@ export default function ProductDetailPage({ params }: Props) {
   
   const hasVariants = product?.variants && product.variants.length > 0;
   const [selectedVariant, setSelectedVariant] = useState(hasVariants ? product.variants[0].value : null);
+  const { addViewedProduct } = useRecentlyViewed();
+  const [showSizeGuide, setShowSizeGuide] = useState(false);
+
+  useEffect(() => {
+    if (product) {
+      addViewedProduct(product.id);
+    }
+  }, [product, addViewedProduct]);
 
   if (!product) return notFound();
 
@@ -74,13 +85,33 @@ export default function ProductDetailPage({ params }: Props) {
               <p className="text-text-muted text-base leading-relaxed">
                 {product.description}
               </p>
+              
+              {product.stockCount !== undefined && product.stockCount < 5 && (
+                <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-[#8ed500]/10 text-[#8ed500] rounded-sm font-medium text-sm">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8ed500] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#8ed500]"></span>
+                  </span>
+                  Only {product.stockCount} left in stock - order soon
+                </div>
+              )}
             </div>
 
             {hasVariants && (
               <div className="mb-10">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm font-medium text-foreground uppercase tracking-wider">Color</h3>
-                  <span className="text-sm text-text-muted">{selectedVariant}</span>
+                  <div className="flex items-center gap-4">
+                    {product.hasSizeGuide && (
+                      <button 
+                        onClick={() => setShowSizeGuide(true)}
+                        className="text-sm text-text-muted hover:text-foreground underline underline-offset-4"
+                      >
+                        Size Guide
+                      </button>
+                    )}
+                    <span className="text-sm text-text-muted">{selectedVariant}</span>
+                  </div>
                 </div>
                 <div className="flex gap-4">
                   {product.variants.map((v) => {
@@ -134,13 +165,49 @@ export default function ProductDetailPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Scroll-based storytelling feature section */}
-      <div className="mt-32 w-full bg-surface py-32 border-y border-border">
-         <div className="container mx-auto px-4 text-center max-w-3xl">
-            <h2 className="text-3xl font-bold mb-6">Uncompromising Quality.</h2>
-            <p className="text-text-muted text-lg">Every element is scrutinized. The matte finish is achieved through a meticulous anodization process that creates a micro-texture at the structural level. No coatings. No paint. Just pure, engineered materials.</p>
-         </div>
-      </div>
+      {/* Complete the Look Section */}
+      {product.relatedProducts && product.relatedProducts.length > 0 && (
+        <div className="container mx-auto px-4 md:px-8 mt-24 mb-12">
+          <h2 className="text-2xl font-bold mb-8">Complete the Look</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {product.relatedProducts.map(relId => {
+              const rel = MOCK_PRODUCTS.find(p => p.id === relId);
+              if (!rel) return null;
+              return (
+                <Link key={rel.id} href={`/products/${rel.id}`} className="group block">
+                  <div className="w-full aspect-square bg-muted rounded-xl mb-4 overflow-hidden">
+                    <img src={rel.image} alt={rel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  <h4 className="font-semibold text-foreground text-sm">{rel.name}</h4>
+                  <p className="text-text-muted text-sm">${rel.price.toFixed(2)}</p>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <RecentlyViewed />
+
+      {/* Size Guide Modal Overlay */}
+      {showSizeGuide && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
+          <div className="bg-surface border border-border p-8 rounded-2xl max-w-md w-full relative">
+            <button onClick={() => setShowSizeGuide(false)} className="absolute top-4 right-4 p-2 hover:bg-surface-hover rounded-full">
+              <span className="sr-only">Close</span>
+              ✕
+            </button>
+            <h3 className="text-2xl font-bold mb-4">Size Guide</h3>
+            <p className="text-text-muted mb-6">Our garments are designed with an intentionally oversized, relaxed fit. We recommend taking your true size for the intended look, or sizing down for a more traditional fit.</p>
+            <div className="w-full border-t border-border pt-4">
+              <div className="flex justify-between py-2 border-b border-border/50 text-sm"><span className="text-text-muted">Small</span><span>36-38" Chest</span></div>
+              <div className="flex justify-between py-2 border-b border-border/50 text-sm"><span className="text-text-muted">Medium</span><span>38-40" Chest</span></div>
+              <div className="flex justify-between py-2 border-b border-border/50 text-sm"><span className="text-text-muted">Large</span><span>40-42" Chest</span></div>
+              <div className="flex justify-between py-2 text-sm"><span className="text-text-muted">X-Large</span><span>42-44" Chest</span></div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Sticky "Add to Bag" Bar for Mobile */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 z-40 flex items-center justify-between">

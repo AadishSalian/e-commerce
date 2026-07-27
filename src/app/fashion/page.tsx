@@ -4,9 +4,13 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
-import { ChevronDown, ArrowLeft } from 'lucide-react';
+import { ChevronDown, ArrowLeft, Eye, Layers } from 'lucide-react';
+import { useQuickView } from '@/contexts/QuickViewContext';
+import { useCompare } from '@/contexts/CompareContext';
 
 export default function FashionPage() {
+  const { openQuickView } = useQuickView();
+  const { addToCompare } = useCompare();
   const [sortBy, setSortBy] = useState('newest');
   
   const filteredProducts = MOCK_PRODUCTS.filter(p => p.category === 'Fashion')
@@ -213,13 +217,31 @@ export default function FashionPage() {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                       />
                     )}
+
+                    {/* Action Buttons */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                      <button 
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
+                        className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
+                        title="Quick View"
+                      >
+                        <Eye className="w-5 h-5" />
+                      </button>
+                      <button 
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
+                        className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
+                        title="Compare"
+                      >
+                        <Layers className="w-5 h-5" />
+                      </button>
+                    </div>
                   </div>
                   
                   {/* Product Details - Premium Minimalist style */}
                   <div className="flex justify-between items-start">
                     <div className="flex flex-col">
                       <h3 className="text-foreground font-bold tracking-tight uppercase text-sm mb-1">{product.name}</h3>
-                      <p className="text-text-muted text-xs uppercase tracking-wider font-medium">{product.variants?.length > 0 ? `${product.variants.length} Colors` : '1 Color'}</p>
+                      <p className="text-text-muted text-xs uppercase tracking-wider font-medium">{product.variants && product.variants.length > 0 ? `${product.variants.length} Colors` : '1 Color'}</p>
                     </div>
                     <p className="text-foreground font-medium">${product.price.toFixed(2)}</p>
                   </div>

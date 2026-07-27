@@ -13,6 +13,11 @@ import BrandReveal from "@/components/ui/BrandReveal";
 import { StoreBackButton } from "@/components/ui/StoreBackButton";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { CommandMenu } from "@/components/ui/CommandMenu";
+import { RecentlyViewedProvider } from "@/contexts/RecentlyViewedContext";
+import { CompareProvider } from "@/contexts/CompareContext";
+import { QuickViewProvider } from "@/contexts/QuickViewContext";
+import { CompareDrawer } from "@/components/ui/CompareDrawer";
+import { QuickViewModal } from "@/components/ui/QuickViewModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -66,18 +71,26 @@ export default function RootLayout({
           <ThemeProvider>
           <ToastProvider>
             <AuthProvider>
-              <CartProvider>
-                <StoreBackButton />
-                <Navbar />
-                <CartDrawer />
-                <CommandMenu />
-                <main className="flex-grow flex flex-col pt-24 md:pt-28">
-                  <PageTransition>
-                    {children}
-                  </PageTransition>
-                </main>
-                <Footer />
-              </CartProvider>
+              <RecentlyViewedProvider>
+                <CompareProvider>
+                  <QuickViewProvider>
+                    <CartProvider>
+                      <StoreBackButton />
+                      <Navbar />
+                      <CartDrawer />
+                      <CompareDrawer />
+                      <QuickViewModal />
+                      <CommandMenu />
+                      <main className="flex-grow flex flex-col pt-24 md:pt-28">
+                        <PageTransition>
+                          {children}
+                        </PageTransition>
+                      </main>
+                      <Footer />
+                    </CartProvider>
+                  </QuickViewProvider>
+                </CompareProvider>
+              </RecentlyViewedProvider>
             </AuthProvider>
           </ToastProvider>
         </ThemeProvider>

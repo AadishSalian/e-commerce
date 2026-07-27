@@ -9,12 +9,16 @@ import {
   useTransform,
   AnimatePresence
 } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Eye, Layers } from 'lucide-react';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
+import { useQuickView } from '@/contexts/QuickViewContext';
+import { useCompare } from '@/contexts/CompareContext';
 
 const customEase = [0.65, 0, 0.35, 1] as const;
 
 export default function BeautyPage() {
+  const { openQuickView } = useQuickView();
+  const { addToCompare } = useCompare();
   const prefersReducedMotion = useReducedMotion();
   const beautyProducts = MOCK_PRODUCTS.filter(p => p.category === 'Beauty');
 
@@ -233,6 +237,24 @@ export default function BeautyPage() {
                           className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-[0.16,1,0.3,1] z-10"
                         />
                       )}
+
+                      {/* Action Buttons */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                        <button 
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
+                          className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
+                          title="Quick View"
+                        >
+                          <Eye className="w-5 h-5" />
+                        </button>
+                        <button 
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
+                          className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
+                          title="Compare"
+                        >
+                          <Layers className="w-5 h-5" />
+                        </button>
+                      </div>
                     </div>
                     
                     <div className="flex justify-between items-start px-1">

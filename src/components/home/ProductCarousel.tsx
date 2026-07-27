@@ -3,8 +3,13 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
+import { Eye, Layers } from 'lucide-react';
+import { useQuickView } from '@/contexts/QuickViewContext';
+import { useCompare } from '@/contexts/CompareContext';
 
 export default function ProductCarousel() {
+  const { openQuickView } = useQuickView();
+  const { addToCompare } = useCompare();
   // Get some featured products from MOCK_PRODUCTS
   const featuredProducts = MOCK_PRODUCTS.slice(0, 5);
 
@@ -34,6 +39,24 @@ export default function ProductCarousel() {
                  alt={product.name} 
                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                />
+               
+               {/* Action Buttons */}
+               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                 <button 
+                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
+                   className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
+                   title="Quick View"
+                 >
+                   <Eye className="w-5 h-5" />
+                 </button>
+                 <button 
+                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
+                   className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
+                   title="Compare"
+                 >
+                   <Layers className="w-5 h-5" />
+                 </button>
+               </div>
             </div>
             
             <div className="flex justify-between items-end">

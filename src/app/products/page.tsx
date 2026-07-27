@@ -4,9 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MOCK_PRODUCTS, CATEGORIES } from '@/lib/mockData';
-import { ChevronDown, Filter } from 'lucide-react';
+import { ChevronDown, Filter, Eye, Layers } from 'lucide-react';
+import { useQuickView } from '@/contexts/QuickViewContext';
+import { useCompare } from '@/contexts/CompareContext';
 
 export default function ProductsPage() {
+  const { openQuickView } = useQuickView();
+  const { addToCompare } = useCompare();
   const [activeCategory, setActiveCategory] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
   const [searchQuery, setSearchQuery] = useState('');
@@ -120,6 +124,24 @@ export default function ProductsPage() {
                         alt={product.name}
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
+                      
+                      {/* Action Buttons */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                        <button 
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
+                          className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
+                          title="Quick View"
+                        >
+                          <Eye className="w-5 h-5" />
+                        </button>
+                        <button 
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
+                          className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
+                          title="Compare"
+                        >
+                          <Layers className="w-5 h-5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                   

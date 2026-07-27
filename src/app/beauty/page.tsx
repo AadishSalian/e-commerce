@@ -151,8 +151,8 @@ export default function BeautyPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-6 py-3 rounded-full text-sm md:text-base font-semibold transition-all duration-300 ${
                   activeCategory === cat 
-                    ? 'bg-foreground text-background shadow-lg scale-105' 
-                    : 'bg-muted text-text-muted hover:bg-muted/80 hover:text-foreground'
+                    ? 'bg-[#8ed500] text-[#121212] border-[#8ed500] shadow-sm scale-105 border' 
+                    : 'bg-muted text-text-muted border border-transparent hover:bg-muted/80 hover:text-foreground'
                 }`}
               >
                 {cat}
@@ -217,7 +217,7 @@ export default function BeautyPage() {
                   <Link href={`/products/${product.id}`} className="block">
                     <div className="w-full aspect-[4/5] bg-muted overflow-hidden mb-6 relative rounded-2xl">
                       {product.isNew && (
-                        <span className="absolute top-4 left-4 z-20 bg-foreground text-background px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full shadow-sm">
+                        <span className="absolute top-4 left-4 z-20 bg-[#8ed500] text-[#121212] px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full shadow-sm">
                           New
                         </span>
                       )}
@@ -239,7 +239,7 @@ export default function BeautyPage() {
                       <div className="flex flex-col">
                         <h3 className="text-foreground font-semibold tracking-tight text-xl mb-1">{product.name}</h3>
                         <p className="text-text-muted text-sm tracking-wide font-medium">
-                          {product.variants?.length > 0 ? `${product.variants.length} Options` : '1 Option'}
+                          {product.variants && product.variants.length > 0 ? `${product.variants.length} Options` : '1 Option'}
                         </p>
                       </div>
                       <p className="text-foreground font-medium text-lg">${product.price.toFixed(2)}</p>

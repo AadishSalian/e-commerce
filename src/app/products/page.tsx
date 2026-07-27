@@ -48,17 +48,15 @@ export default function ProductsPage() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shrink-0 ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shrink-0 border ${
                   activeCategory === category 
-                    ? 'bg-accent text-foreground scale-95' // Flat fill, muted accent when active, gentle scale
-                    : 'bg-surface text-text-muted hover:bg-surface-hover'
+                    ? 'bg-[#8ed500] text-[#121212] border-[#8ed500] shadow-sm scale-95' 
+                    : 'bg-surface border-transparent text-text-muted hover:text-foreground hover:bg-surface-hover'
                 }`}
               >
                 {category}
               </button>
             ))}
-          </div>
-
           </div>
 
           <div className="flex items-center gap-4 shrink-0 w-full md:w-auto mt-4 md:mt-0">
@@ -69,7 +67,7 @@ export default function ProductsPage() {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-surface border border-border text-foreground text-sm px-4 py-2 rounded-full focus:outline-none focus:border-accent transition-colors"
+                className="w-full bg-surface border border-border text-foreground text-sm px-4 py-3 rounded-full focus:outline-none focus:border-[#8ed500] focus:ring-1 focus:ring-[#8ed500] transition-all"
               />
             </div>
 
@@ -80,7 +78,7 @@ export default function ProductsPage() {
               <select 
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none bg-surface border border-border text-foreground text-sm font-medium px-4 py-2 pr-10 rounded-full focus:outline-none focus:border-accent transition-colors"
+                className="appearance-none bg-surface border border-border text-foreground text-sm font-medium px-4 py-3 pr-10 rounded-full focus:outline-none focus:border-[#8ed500] focus:ring-1 focus:ring-[#8ed500] transition-all"
               >
                 <option value="newest">Newest</option>
                 <option value="price-low">Price: Low to High</option>
@@ -90,6 +88,8 @@ export default function ProductsPage() {
             </div>
           </div>
         </div>
+      </div>
+      {/* End of Filters & Sorting Toolbar */}
 
         {/* Product Grid */}
         <motion.div 
@@ -108,9 +108,9 @@ export default function ProductsPage() {
               >
                 <Link href={`/products/${product.id}`} className="group block">
                   {/* Matte Flat Product Tile */}
-                  <div className="w-full aspect-[4/5] bg-surface rounded-xl border border-transparent group-hover:border-border transition-colors duration-300 mb-6 flex flex-col p-6 relative overflow-hidden">
+                  <div className="w-full aspect-[4/5] bg-surface rounded-xl border border-transparent group-hover:border-border transition-colors duration-300 mb-6 flex flex-col p-2 relative overflow-hidden">
                     {product.isNew && (
-                      <span className="absolute top-4 left-4 text-[10px] font-bold uppercase tracking-widest text-accent">
+                      <span className="absolute top-6 left-6 z-10 text-[10px] font-bold uppercase tracking-widest bg-[#8ed500] text-[#121212] px-2.5 py-1 rounded-sm shadow-sm">
                         New
                       </span>
                     )}
@@ -127,7 +127,7 @@ export default function ProductsPage() {
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="text-foreground font-medium text-lg mb-1">{product.name}</h3>
-                      <p className="text-text-muted text-sm">{product.variants.length > 0 ? `${product.variants.length} Colors` : '1 Color'}</p>
+                      <p className="text-text-muted text-sm">{product.variants && product.variants.length > 0 ? `${product.variants.length} Colors` : '1 Color'}</p>
                     </div>
                     <p className="text-foreground font-medium text-lg">${product.price.toFixed(2)}</p>
                   </div>

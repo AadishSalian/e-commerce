@@ -12,6 +12,7 @@ import { CartDrawer } from "@/components/layout/CartDrawer";
 import BrandReveal from "@/components/ui/BrandReveal";
 import { StoreBackButton } from "@/components/ui/StoreBackButton";
 import { PageTransition } from "@/components/ui/PageTransition";
+import { CommandMenu } from "@/components/ui/CommandMenu";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -69,6 +70,7 @@ export default function RootLayout({
                 <StoreBackButton />
                 <Navbar />
                 <CartDrawer />
+                <CommandMenu />
                 <main className="flex-grow flex flex-col pt-24 md:pt-28">
                   <PageTransition>
                     {children}

@@ -1,4 +1,17 @@
-export const MOCK_PRODUCTS = [
+export type Product = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  isNew: boolean;
+  image: string;
+  hoverImage?: string;
+  attributes?: Record<string, string | string[]>;
+  variants?: { id: string; name: string; value: string; }[];
+};
+
+export const MOCK_PRODUCTS: Product[] = [
   // --- TECH & HOME (Expanded) ---
   {
     id: 't-1',

@@ -13,6 +13,7 @@ import { ChevronRight, Eye, Layers } from 'lucide-react';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 
 const customEase = [0.65, 0, 0.35, 1] as const;
 
@@ -168,30 +169,22 @@ export default function BeautyPage() {
           <div className="flex flex-wrap items-center gap-4 border-t border-border pt-6">
             <span className="text-sm font-medium text-text-muted mr-2">Filter by:</span>
             
-            <div className="relative">
-              <select 
+            <div className="relative min-w-[180px]">
+              <CustomSelect
                 value={activeType}
-                onChange={(e) => setActiveType(e.target.value)}
-                className="appearance-none bg-surface border border-border text-foreground text-sm font-medium px-4 py-2 pr-10 rounded-full focus:outline-none focus:border-foreground transition-colors cursor-pointer"
-              >
-                {productTypes.map(type => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
-              <ChevronRight className="w-4 h-4 text-text-muted absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
+                onChange={setActiveType}
+                variant="pill"
+                options={productTypes.map(t => ({ label: t, value: t }))}
+              />
             </div>
 
-            <div className="relative">
-              <select 
+            <div className="relative min-w-[200px]">
+              <CustomSelect
                 value={activeFormulation}
-                onChange={(e) => setActiveFormulation(e.target.value)}
-                className="appearance-none bg-surface border border-border text-foreground text-sm font-medium px-4 py-2 pr-10 rounded-full focus:outline-none focus:border-foreground transition-colors cursor-pointer"
-              >
-                {formulationsList.map(form => (
-                  <option key={form} value={form}>{form}</option>
-                ))}
-              </select>
-              <ChevronRight className="w-4 h-4 text-text-muted absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
+                onChange={setActiveFormulation}
+                variant="pill"
+                options={formulationsList.map(t => ({ label: t, value: t }))}
+              />
             </div>
             
             {(activeCategory !== 'All Categories' || activeType !== 'All Types' || activeFormulation !== 'All Formulations') && (

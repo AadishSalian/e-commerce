@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CATEGORIES } from '@/lib/mockData';
 import { searchProducts, SearchResult } from '@/lib/search';
 import { ChevronDown, Filter } from 'lucide-react';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 
 export default function SearchClient() {
   const searchParams = useSearchParams();
@@ -92,19 +93,17 @@ export default function SearchClient() {
             {/* Sort Dropdown */}
             <div className="flex items-center gap-3 shrink-0">
               <span className="text-sm font-medium text-text-muted">Sort by</span>
-              <div className="relative">
-                <select 
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="appearance-none bg-surface border border-border text-foreground text-sm font-medium px-4 py-2 pr-10 rounded-full focus:outline-none focus:border-accent transition-colors"
-                >
-                  <option value="relevance">Relevance</option>
-                  <option value="newest">Newest</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                </select>
-                <ChevronDown className="w-4 h-4 text-text-muted absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
+              <CustomSelect
+                value={sortBy}
+                onChange={setSortBy}
+                variant="pill"
+                options={[
+                  { label: 'Relevance', value: 'relevance' },
+                  { label: 'Newest', value: 'newest' },
+                  { label: 'Price: Low to High', value: 'price-low' },
+                  { label: 'Price: High to Low', value: 'price-high' }
+                ]}
+              />
             </div>
           </div>
         )}

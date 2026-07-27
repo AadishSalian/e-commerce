@@ -10,11 +10,17 @@ import {
   AnimatePresence
 } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
+import { Eye, Layers } from 'lucide-react';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
+import { useQuickView } from '@/contexts/QuickViewContext';
+import { useCompare } from '@/contexts/CompareContext';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 
 const customEase = [0.65, 0, 0.35, 1] as const;
 
 export default function AccessoriesPage() {
+  const { openQuickView } = useQuickView();
+  const { addToCompare } = useCompare();
   const prefersReducedMotion = useReducedMotion();
   const accessories = MOCK_PRODUCTS.filter(p => p.category === 'Accessories');
 
@@ -160,18 +166,22 @@ export default function AccessoriesPage() {
           {/* Secondary Filters: Material */}
           <div className="flex flex-wrap items-center gap-4 border-t border-border pt-6">
             <span className="text-sm font-medium text-text-muted mr-2">Filter by:</span>
-            
-            <div className="relative">
-              <select 
+                        <div className="relative min-w-[160px]">
+              <CustomSelect
+                value={activeType}
+                onChange={setActiveType}
+                variant="pill"
+                options={types.map(t => ({ label: t, value: t }))}
+              />
+            </div>
+
+            <div className="relative min-w-[160px]">
+              <CustomSelect
                 value={activeMaterial}
-                onChange={(e) => setActiveMaterial(e.target.value)}
-                className="appearance-none bg-surface border border-border text-foreground text-sm font-medium px-4 py-2 pr-10 rounded-full focus:outline-none focus:border-foreground transition-colors cursor-pointer"
-              >
-                {materials.map(mat => (
-                  <option key={mat} value={mat}>{mat}</option>
-                ))}
-              </select>
-              <ChevronRight className="w-4 h-4 text-text-muted absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none rotate-90" />
+                onChange={setActiveMaterial}
+                variant="pill"
+                options={materials.map(t => ({ label: t, value: t }))}
+              />
             </div>
             
             {(activeType !== 'All Types' || activeMaterial !== 'All Materials') && (
@@ -217,6 +227,24 @@ export default function AccessoriesPage() {
                           className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-[0.16,1,0.3,1] z-10"
                         />
                       )}
+
+                      {/* Action Buttons */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                        <button 
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
+                          className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
+                          title="Quick View"
+                        >
+                          <Eye className="w-5 h-5" />
+                        </button>
+                        <button 
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
+                          className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
+                          title="Compare"
+                        >
+                          <Layers className="w-5 h-5" />
+                        </button>
+                      </div>
                     </div>
                     
                     <div className="flex flex-col">

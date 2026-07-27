@@ -25,7 +25,7 @@ export default function ProductDetailPage({ params }: Props) {
   const router = useRouter();
   
   const hasVariants = product?.variants && product.variants.length > 0;
-  const [selectedVariant, setSelectedVariant] = useState(hasVariants ? product.variants[0].value : null);
+  const [selectedVariant, setSelectedVariant] = useState(hasVariants ? product.variants![0].value : null);
   const { addViewedProduct } = useRecentlyViewed();
   const [showSizeGuide, setShowSizeGuide] = useState(false);
 
@@ -114,7 +114,7 @@ export default function ProductDetailPage({ params }: Props) {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  {product.variants.map((v) => {
+                  {product.variants?.map((v) => {
                     const isSelected = selectedVariant === v.value;
                     return (
                       <button

@@ -7,6 +7,7 @@ import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { ChevronDown, ArrowLeft, Eye, Layers } from 'lucide-react';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 
 export default function FashionPage() {
   const { openQuickView } = useQuickView();
@@ -159,18 +160,16 @@ export default function FashionPage() {
           {/* Sort Dropdown */}
           <div className="flex items-center gap-3 mt-6 md:mt-0 shrink-0">
             <span className="text-xs font-bold uppercase tracking-widest text-text-muted">Sort</span>
-            <div className="relative">
-              <select 
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none bg-transparent border-b border-border text-foreground text-sm font-bold uppercase tracking-wider px-2 py-2 pr-8 focus:outline-none focus:border-accent transition-colors cursor-pointer"
-              >
-                <option value="newest">Newest</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-              </select>
-              <ChevronDown className="w-4 h-4 text-foreground absolute right-1 top-1/2 -translate-y-1/2 pointer-events-none" />
-            </div>
+            <CustomSelect
+              value={sortBy}
+              onChange={setSortBy}
+              variant="underline"
+              options={[
+                { label: 'Newest', value: 'newest' },
+                { label: 'Price: Low to High', value: 'price-low' },
+                { label: 'Price: High to Low', value: 'price-high' }
+              ]}
+            />
           </div>
         </div>
 

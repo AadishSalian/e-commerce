@@ -12,6 +12,9 @@ import { useCart } from '@/contexts/CartContext';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import { useAlerts } from '@/contexts/AlertsContext';
 import { RecentlyViewed } from '@/components/home/RecentlyViewed';
+import LiveActivityBadge from '@/components/product/LiveActivityBadge';
+import ReviewsSection from '@/components/product/ReviewsSection';
+import QnASection from '@/components/product/QnASection';
 import { useEffect } from 'react';
 
 type Props = {
@@ -87,6 +90,8 @@ export default function ProductDetailPage({ params }: Props) {
               <p className="text-text-muted text-base leading-relaxed">
                 {product.description}
               </p>
+              
+              <LiveActivityBadge productId={product.id} />
               
               {product.stockCount !== undefined && product.stockCount < 5 && (
                 <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-[#8ed500]/10 text-[#8ed500] rounded-sm font-medium text-sm">
@@ -186,6 +191,12 @@ export default function ProductDetailPage({ params }: Props) {
             
           </div>
         </div>
+      </div>
+
+      {/* Social Proof: Reviews and Q&A */}
+      <div className="container mx-auto px-4 md:px-8 mt-16">
+        <ReviewsSection productId={product.id} />
+        <QnASection productId={product.id} />
       </div>
 
       {/* Complete the Look Section */}

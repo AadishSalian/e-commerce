@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
-  User, Camera, Lock, Bell, Check, MapPin, Phone, Shield, CreditCard, ChevronRight, LogOut, Sliders, Moon, Sun
+  User, Camera, Lock, Bell, Check, MapPin, Phone, Shield, CreditCard, ChevronRight, LogOut, Sliders, Moon, Sun, Package
 } from 'lucide-react';
+import OrderHistory from '@/components/profile/OrderHistory';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useToast } from '@/contexts/ToastContext';
 import { usePreferences } from '@/contexts/PreferencesContext';
@@ -15,6 +16,7 @@ import { MOCK_PRODUCTS } from '@/lib/mockData';
 
 const TABS = [
   { id: 'general', label: 'General', icon: User },
+  { id: 'orders', label: 'Orders', icon: Package },
   { id: 'preferences', label: 'Preferences', icon: Sliders },
   { id: 'security', label: 'Security', icon: Shield },
   { id: 'billing', label: 'Billing', icon: CreditCard },
@@ -208,8 +210,17 @@ export default function ProfilePage() {
                    </div>
                  </div>
 
-               </motion.div>
-             )}
+                </motion.div>
+              )}
+
+              {activeTab === 'orders' && (
+                <motion.div 
+                  key="orders"
+                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}
+                >
+                  <OrderHistory />
+                </motion.div>
+              )}
 
              {activeTab === 'preferences' && (
                <motion.div 

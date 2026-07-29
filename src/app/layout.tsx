@@ -20,6 +20,7 @@ import { CompareDrawer } from "@/components/ui/CompareDrawer";
 import { QuickViewModal } from "@/components/ui/QuickViewModal";
 import { PreferencesProvider } from "@/contexts/PreferencesContext";
 import { AlertsProvider } from "@/contexts/AlertsContext";
+import LiveChatWidget from "@/components/support/LiveChatWidget";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -91,6 +92,7 @@ export default function RootLayout({
                               </PageTransition>
                             </main>
                             <Footer />
+                            <LiveChatWidget />
                           </CartProvider>
                         </AlertsProvider>
                       </PreferencesProvider>

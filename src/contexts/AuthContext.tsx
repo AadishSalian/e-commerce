@@ -29,12 +29,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const savedState = localStorage.getItem('mockAuthState');
     const savedUser = localStorage.getItem('mockUser');
+    const lastActive = localStorage.getItem('mockAuthTimestamp');
     
     if (savedState === 'true' && savedUser) {
       try {
         const parsedUser = JSON.parse(savedUser);
+        
+        // 30 days in milliseconds
+        const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+        const now = Date.now();
+        
+        // Check if session has expired due to inactivity
+        if (lastActive && (now - parseInt(lastActive, 10) > THIRTY_DAYS)) {
+          console.log('Session expired due to inactivity');
+          localStorage.setItem('mockAuthState', 'false');
+          localStorage.removeItem('mockUser');
+          localStorage.removeItem('mockAuthTimestamp');
+          return;
+        }
+
+        // Valid session: set user and refresh activity timestamp
         setUser(parsedUser);
         setIsLoggedIn(true);
+        localStorage.setItem('mockAuthTimestamp', now.toString());
       } catch (e) {
         console.error('Failed to parse user from local storage', e);
       }
@@ -46,6 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(userData);
     localStorage.setItem('mockAuthState', 'true');
     localStorage.setItem('mockUser', JSON.stringify(userData));
+    localStorage.setItem('mockAuthTimestamp', Date.now().toString());
     success(`Welcome back, ${userData.name}!`);
   };
 
@@ -54,6 +72,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     localStorage.setItem('mockAuthState', 'false');
     localStorage.removeItem('mockUser');
+    localStorage.removeItem('mockAuthTimestamp');
     toast("You've been securely logged out.");
   };
 

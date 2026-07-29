@@ -18,6 +18,8 @@ import { CompareProvider } from "@/contexts/CompareContext";
 import { QuickViewProvider } from "@/contexts/QuickViewContext";
 import { CompareDrawer } from "@/components/ui/CompareDrawer";
 import { QuickViewModal } from "@/components/ui/QuickViewModal";
+import { PreferencesProvider } from "@/contexts/PreferencesContext";
+import { AlertsProvider } from "@/contexts/AlertsContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -73,27 +75,31 @@ export default function RootLayout({
             <AuthProvider>
               <RecentlyViewedProvider>
                 <CompareProvider>
-                  <QuickViewProvider>
-                    <CartProvider>
-                      <StoreBackButton />
-                      <Navbar />
-                      <CartDrawer />
-                      <CompareDrawer />
-                      <QuickViewModal />
-                      <CommandMenu />
-                      <main className="flex-grow flex flex-col pt-24 md:pt-28">
-                        <PageTransition>
-                          {children}
-                        </PageTransition>
-                      </main>
-                      <Footer />
-                    </CartProvider>
-                  </QuickViewProvider>
-                </CompareProvider>
-              </RecentlyViewedProvider>
-            </AuthProvider>
-          </ToastProvider>
-        </ThemeProvider>
+                    <QuickViewProvider>
+                      <PreferencesProvider>
+                        <AlertsProvider>
+                          <CartProvider>
+                            <StoreBackButton />
+                            <Navbar />
+                            <CartDrawer />
+                            <CompareDrawer />
+                            <QuickViewModal />
+                            <CommandMenu />
+                            <main className="flex-grow flex flex-col pt-24 md:pt-28">
+                              <PageTransition>
+                                {children}
+                              </PageTransition>
+                            </main>
+                            <Footer />
+                          </CartProvider>
+                        </AlertsProvider>
+                      </PreferencesProvider>
+                    </QuickViewProvider>
+                  </CompareProvider>
+                </RecentlyViewedProvider>
+              </AuthProvider>
+            </ToastProvider>
+          </ThemeProvider>
         </LenisProvider>
       </body>
     </html>

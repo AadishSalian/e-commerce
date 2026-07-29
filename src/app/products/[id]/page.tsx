@@ -4,12 +4,13 @@ import { use, useState } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { motion } from 'framer-motion';
-import { Check, ChevronRight, ShoppingBag, Lock } from 'lucide-react';
+import { Check, ChevronRight, ShoppingBag, Lock, Bell } from 'lucide-react';
 import Link from 'next/link';
 import { PrimaryButton, NavAuthButton } from '@/components/ui';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
+import { useAlerts } from '@/contexts/AlertsContext';
 import { RecentlyViewed } from '@/components/home/RecentlyViewed';
 import { useEffect } from 'react';
 
@@ -27,6 +28,7 @@ export default function ProductDetailPage({ params }: Props) {
   const hasVariants = product?.variants && product.variants.length > 0;
   const [selectedVariant, setSelectedVariant] = useState(hasVariants ? product.variants![0].value : null);
   const { addViewedProduct } = useRecentlyViewed();
+  const { hasAlert, addAlert, removeAlert } = useAlerts();
   const [showSizeGuide, setShowSizeGuide] = useState(false);
 
   useEffect(() => {
@@ -150,6 +152,27 @@ export default function ProductDetailPage({ params }: Props) {
                   <p className="text-xs text-text-muted text-center flex items-center justify-center gap-2">
                     <Check className="w-3 h-3" /> In stock and ready to ship
                   </p>
+                  
+                  {/* Alerts Button */}
+                  <div className="mt-4 pt-4 border-t border-border">
+                    <button
+                      onClick={() => {
+                        const type = product.stockCount === 0 ? 'BACK_IN_STOCK' : 'PRICE_DROP';
+                        if (hasAlert(product.id, type)) {
+                          removeAlert(product.id, type);
+                        } else {
+                          addAlert(product.id, type);
+                        }
+                      }}
+                      className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-border text-sm font-medium hover:bg-surface-hover hover:border-text-muted transition-all"
+                    >
+                      <Bell className={`w-4 h-4 ${hasAlert(product.id, product.stockCount === 0 ? 'BACK_IN_STOCK' : 'PRICE_DROP') ? 'fill-accent text-accent' : ''}`} />
+                      {hasAlert(product.id, product.stockCount === 0 ? 'BACK_IN_STOCK' : 'PRICE_DROP') 
+                        ? 'Watching for ' + (product.stockCount === 0 ? 'Restock' : 'Price Drop')
+                        : 'Watch for ' + (product.stockCount === 0 ? 'Restock' : 'Price Drop')
+                      }
+                    </button>
+                  </div>
                 </>
               ) : (
                 <>

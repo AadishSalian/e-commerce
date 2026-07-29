@@ -4,12 +4,14 @@ import CategoryShowcase from '@/components/home/CategoryShowcase';
 import SalesSection from '@/components/home/SalesSection';
 import FeatureSection from '@/components/home/FeatureSection';
 import ProductCarousel from '@/components/home/ProductCarousel';
+import ForYouSection from '@/components/home/ForYouSection';
 
 export default function Home() {
   return (
     <div className="flex flex-col w-full">
       <CategoryWidgets />
       <Hero />
+      <ForYouSection />
       <CategoryShowcase />
       <SalesSection />
       

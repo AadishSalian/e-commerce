@@ -9,6 +9,9 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useToast } from '@/contexts/ToastContext';
+import { usePreferences } from '@/contexts/PreferencesContext';
+import { useAlerts } from '@/contexts/AlertsContext';
+import { MOCK_PRODUCTS } from '@/lib/mockData';
 
 const TABS = [
   { id: 'general', label: 'General', icon: User },
@@ -40,9 +43,30 @@ export default function ProfilePage() {
   const { user, isLoggedIn, updateUser, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const { success } = useToast();
+  const { preferences, updatePreferences } = usePreferences();
+  const { alerts, removeAlert } = useAlerts();
   
   const [activeTab, setActiveTab] = useState('general');
   const [isSaving, setIsSaving] = useState(false);
+
+  const CATEGORIES = ['electronics', 'fashion', 'home-furniture', 'beauty', 'sports', 'accessories'];
+  const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'US 7', 'US 8', 'US 9', 'US 10', 'US 11'];
+
+  const handleCategoryToggle = (category: string) => {
+    const current = preferences.favoriteCategories || [];
+    const next = current.includes(category) 
+      ? current.filter(c => c !== category)
+      : [...current, category];
+    updatePreferences({ favoriteCategories: next });
+  };
+
+  const handleSizeToggle = (size: string) => {
+    const current = preferences.sizes || [];
+    const next = current.includes(size)
+      ? current.filter(s => s !== size)
+      : [...current, size];
+    updatePreferences({ sizes: next });
+  };
 
   // Form states
   const [name, setName] = useState('');
@@ -234,6 +258,58 @@ export default function ProfilePage() {
                          </button>
                        </div>
                      </div>
+
+                     {/* Shopping Preferences */}
+                     <div>
+                       <h4 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">Shopping Preferences</h4>
+                       <div className="flex flex-col gap-6">
+                         
+                         <div>
+                           <p className="text-sm font-medium text-foreground mb-3">Favorite Categories</p>
+                           <div className="flex flex-wrap gap-2">
+                             {CATEGORIES.map(cat => {
+                               const isSelected = preferences.favoriteCategories?.includes(cat);
+                               return (
+                                 <button
+                                   key={cat}
+                                   onClick={() => handleCategoryToggle(cat)}
+                                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                                     isSelected 
+                                       ? 'bg-accent text-background' 
+                                       : 'bg-surface-hover hover:bg-surface-active text-text-muted hover:text-foreground border border-border'
+                                   }`}
+                                 >
+                                   {cat.replace('-', ' ')}
+                                 </button>
+                               );
+                             })}
+                           </div>
+                         </div>
+
+                         <div>
+                           <p className="text-sm font-medium text-foreground mb-3">Sizes</p>
+                           <div className="flex flex-wrap gap-2">
+                             {SIZES.map(size => {
+                               const isSelected = preferences.sizes?.includes(size);
+                               return (
+                                 <button
+                                   key={size}
+                                   onClick={() => handleSizeToggle(size)}
+                                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                                     isSelected 
+                                       ? 'bg-accent text-background' 
+                                       : 'bg-surface-hover hover:bg-surface-active text-text-muted hover:text-foreground border border-border'
+                                   }`}
+                                 >
+                                   {size}
+                                 </button>
+                               );
+                             })}
+                           </div>
+                         </div>
+                         
+                       </div>
+                     </div>
                    </div>
                  </div>
                </motion.div>
@@ -277,9 +353,58 @@ export default function ProfilePage() {
                <motion.div 
                  key="notifications"
                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}
+                 className="flex flex-col gap-8"
                >
-                 <div className="bg-surface border border-border rounded-3xl overflow-hidden shadow-sm p-6 md:p-8 flex items-center justify-center min-h-[300px]">
-                   <p className="text-text-muted">Notification settings coming soon.</p>
+                 <div className="bg-surface border border-border rounded-3xl overflow-hidden shadow-sm">
+                   <div className="p-6 md:p-8 border-b border-border flex justify-between items-center">
+                     <div>
+                       <h3 className="text-xl font-bold text-foreground mb-1">Price & Restock Alerts</h3>
+                       <p className="text-sm text-text-muted">Products you are watching for price drops or restocks.</p>
+                     </div>
+                   </div>
+                   
+                   <div className="p-0">
+                     {alerts.length === 0 ? (
+                       <div className="p-8 text-center flex flex-col items-center justify-center">
+                         <Bell className="w-12 h-12 text-border mb-4" />
+                         <p className="text-foreground font-medium mb-1">No active alerts</p>
+                         <p className="text-sm text-text-muted">You are not watching any products.</p>
+                       </div>
+                     ) : (
+                       <div className="divide-y divide-border">
+                         {alerts.map(alert => {
+                           const product = MOCK_PRODUCTS.find(p => p.id === alert.productId);
+                           if (!product) return null;
+                           
+                           return (
+                             <div key={alert.id} className="p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 hover:bg-surface-hover transition-colors">
+                               <div className="flex items-center gap-4">
+                                 <div className="w-16 h-16 rounded-xl overflow-hidden bg-surface-active shrink-0">
+                                   <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                                 </div>
+                                 <div>
+                                   <h4 className="font-semibold text-foreground">{product.name}</h4>
+                                   <div className="flex items-center gap-2 mt-1">
+                                     <span className="text-xs font-medium px-2 py-1 rounded-md bg-accent/10 text-accent uppercase tracking-wide">
+                                       {alert.type.replace('_', ' ')}
+                                     </span>
+                                     <span className="text-sm text-text-muted">Added {new Date(alert.createdAt).toLocaleDateString()}</span>
+                                   </div>
+                                 </div>
+                               </div>
+                               
+                               <button 
+                                 onClick={() => removeAlert(alert.productId, alert.type)}
+                                 className="px-4 py-2 border border-border rounded-xl text-sm font-medium text-text-muted hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/10 transition-colors"
+                               >
+                                 Remove Alert
+                               </button>
+                             </div>
+                           );
+                         })}
+                       </div>
+                     )}
+                   </div>
                  </div>
                </motion.div>
              )}

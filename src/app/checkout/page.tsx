@@ -1,20 +1,32 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, CreditCard, MapPin, UserCheck, ShieldCheck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function CheckoutPage() {
   const [step, setStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [useSavedInfo, setUseSavedInfo] = useState(true);
   const router = useRouter();
   const { cartItems, clearCart } = useCart();
+  const { isLoggedIn, user } = useAuth();
   
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const total = subtotal; // Assuming free shipping
+
+  useEffect(() => {
+    // If logged in, skip straight to payment (express checkout)
+    if (isLoggedIn && useSavedInfo) {
+      setStep(2);
+    } else {
+      setStep(1);
+    }
+  }, [isLoggedIn, useSavedInfo]);
 
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,44 +54,66 @@ export default function CheckoutPage() {
             <Link href="/cart" className="text-text-muted hover:text-foreground text-sm flex items-center gap-2 transition-colors mb-8">
               Back to Bag
             </Link>
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-3">
               Checkout
+              {isLoggedIn && <span className="text-xs font-semibold px-2.5 py-1 bg-[#8ed500]/10 text-[#8ed500] rounded-full flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5"/> Secure Express</span>}
             </h1>
           </div>
 
           {/* Progress Indicator */}
-          <div className="flex items-center gap-4 mb-12 text-sm">
-            <span className={`font-medium ${step >= 1 ? 'text-foreground' : 'text-text-muted'}`}>Shipping</span>
-            <ChevronRight className="w-4 h-4 text-border" />
-            <span className={`font-medium ${step >= 2 ? 'text-foreground' : 'text-text-muted'}`}>Payment</span>
-          </div>
+          {!isLoggedIn && (
+            <div className="flex items-center gap-4 mb-12 text-sm">
+              <span className={`font-medium ${step >= 1 ? 'text-foreground' : 'text-text-muted'}`}>Shipping</span>
+              <ChevronRight className="w-4 h-4 text-border" />
+              <span className={`font-medium ${step >= 2 ? 'text-foreground' : 'text-text-muted'}`}>Payment</span>
+            </div>
+          )}
 
           <AnimatePresence mode="wait">
-            {step === 1 && (
-              <motion.form 
+            {step === 1 && !isLoggedIn && (
+              <motion.div 
                 key="step1"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
-                onSubmit={handleNext}
-                className="flex flex-col gap-6"
+                className="flex flex-col gap-8"
               >
-                <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="First Name" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
-                  <input type="text" placeholder="Last Name" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
+                {/* Account Notice */}
+                <div className="p-4 bg-surface-active rounded-xl border border-border flex justify-between items-center">
+                  <div>
+                    <h3 className="font-semibold text-sm">Already have an account?</h3>
+                    <p className="text-xs text-text-muted mt-1">Log in for faster checkout with saved details.</p>
+                  </div>
+                  <Link href="/login?redirect=/checkout" className="px-4 py-2 bg-background border border-border rounded-lg text-sm font-medium hover:bg-surface transition-colors">
+                    Log in
+                  </Link>
                 </div>
-                <input type="email" placeholder="Email Address" required className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
-                <input type="text" placeholder="Address" required className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
-                <div className="grid grid-cols-3 gap-4">
-                  <input type="text" placeholder="City" required className="col-span-2 bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
-                  <input type="text" placeholder="Zip" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
-                </div>
-                
-                <button type="submit" className="mt-4 w-full py-4 bg-foreground text-background font-medium rounded-full hover:scale-[0.98] transition-transform duration-200">
-                  Continue to Payment
-                </button>
-              </motion.form>
+
+                <form onSubmit={handleNext} className="flex flex-col gap-6">
+                  <h2 className="text-xl font-semibold">Guest Checkout</h2>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="First Name" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                    <input type="text" placeholder="Last Name" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                  </div>
+                  <input type="email" placeholder="Email Address" required className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                  <input type="text" placeholder="Address" required className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                  <div className="grid grid-cols-3 gap-4">
+                    <input type="text" placeholder="City" required className="col-span-2 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                    <input type="text" placeholder="Zip" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                  </div>
+                  
+                  <label className="flex items-center gap-3 mt-2 cursor-pointer group w-fit">
+                    <input type="checkbox" className="w-4 h-4 rounded border-border text-accent focus:ring-accent accent-accent" />
+                    <span className="text-sm text-text-muted group-hover:text-foreground transition-colors">Save this information for next time</span>
+                  </label>
+
+                  <button type="submit" className="mt-4 w-full py-4 bg-foreground text-background font-medium rounded-full hover:scale-[0.98] transition-transform duration-200">
+                    Continue to Payment
+                  </button>
+                </form>
+              </motion.div>
             )}
 
             {step === 2 && (
@@ -92,37 +126,100 @@ export default function CheckoutPage() {
                 onSubmit={handlePayment}
                 className="flex flex-col gap-6"
               >
-                <div className="p-4 bg-surface rounded-md border border-border mb-4">
-                  <p className="text-sm text-text-muted mb-1">Contact</p>
-                  <p className="text-sm text-foreground">user@example.com</p>
-                  <div className="w-full h-px bg-border my-4" />
-                  <p className="text-sm text-text-muted mb-1">Ship to</p>
-                  <p className="text-sm text-foreground">123 Engineered St, City, 12345</p>
-                </div>
+                {isLoggedIn && useSavedInfo ? (
+                  <div className="flex flex-col gap-4 mb-4">
+                    <h2 className="text-xl font-semibold mb-2">Express Checkout</h2>
+                    
+                    <div className="p-5 bg-surface rounded-xl border border-border flex items-start gap-4 hover:border-accent/50 transition-colors cursor-pointer">
+                      <div className="p-2 bg-surface-active rounded-full shrink-0">
+                        <MapPin className="w-5 h-5 text-accent" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center mb-1">
+                          <p className="font-semibold text-sm">Saved Address</p>
+                          <span className="text-xs text-accent">Default</span>
+                        </div>
+                        <p className="text-sm text-text-muted">{user?.name}</p>
+                        <p className="text-sm text-text-muted">123 Design Avenue, Apt 4B</p>
+                        <p className="text-sm text-text-muted">New York, NY 10001</p>
+                      </div>
+                    </div>
 
-                <h2 className="text-xl font-semibold mt-4 mb-2">Payment Details</h2>
-                
-                {/* Mock Card Input */}
-                <input type="text" placeholder="Card Number" required className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
-                <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="MM / YY" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
-                  <input type="text" placeholder="CVC" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
-                </div>
+                    <div className="p-5 bg-surface rounded-xl border border-border flex items-start gap-4 hover:border-accent/50 transition-colors cursor-pointer">
+                      <div className="p-2 bg-surface-active rounded-full shrink-0">
+                        <CreditCard className="w-5 h-5 text-accent" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center mb-1">
+                          <p className="font-semibold text-sm">Saved Payment</p>
+                          <span className="text-xs text-accent">Default</span>
+                        </div>
+                        <p className="text-sm text-text-muted">Visa ending in 4242</p>
+                        <p className="text-xs text-text-muted mt-1">Expires 12/28</p>
+                      </div>
+                    </div>
+
+                    <button 
+                      type="button" 
+                      onClick={() => setUseSavedInfo(false)}
+                      className="text-sm text-text-muted hover:text-foreground text-left mt-2 underline underline-offset-4"
+                    >
+                      Use a different address or payment method
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <div className="p-5 bg-surface rounded-xl border border-border mb-4">
+                      <div className="flex justify-between items-center mb-4">
+                        <p className="text-sm text-text-muted">Contact</p>
+                        <p className="text-sm text-foreground font-medium">{isLoggedIn ? user?.email : 'user@example.com'}</p>
+                        {!isLoggedIn && <button type="button" onClick={() => setStep(1)} className="text-xs text-accent">Change</button>}
+                      </div>
+                      <div className="w-full h-px bg-border mb-4" />
+                      <div className="flex justify-between items-center">
+                        <p className="text-sm text-text-muted">Ship to</p>
+                        <p className="text-sm text-foreground font-medium truncate max-w-[200px]">123 Engineered St, City, 12345</p>
+                        {!isLoggedIn && <button type="button" onClick={() => setStep(1)} className="text-xs text-accent">Change</button>}
+                      </div>
+                    </div>
+
+                    <h2 className="text-xl font-semibold mt-4 mb-2">Payment Details</h2>
+                    
+                    {/* Mock Card Input */}
+                    <input type="text" placeholder="Card Number" required className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                    <div className="grid grid-cols-2 gap-4">
+                      <input type="text" placeholder="MM / YY" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                      <input type="text" placeholder="CVC" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                    </div>
+
+                    {isLoggedIn && !useSavedInfo && (
+                      <button 
+                        type="button" 
+                        onClick={() => setUseSavedInfo(true)}
+                        className="text-sm text-text-muted hover:text-foreground text-left mt-2 underline underline-offset-4"
+                      >
+                        Back to Express Checkout
+                      </button>
+                    )}
+                  </>
+                )}
 
                 {/* Apple Pay mock button */}
-                <div className="w-full py-3 bg-[#1a1a1a] border border-[#2a2a2a] text-foreground font-medium rounded-full flex items-center justify-center mt-2 cursor-pointer hover:bg-[#232323] transition-colors">
-                  Pay with Apple Pay
-                </div>
+                {!isLoggedIn && (
+                  <div className="w-full py-3 bg-[#1a1a1a] border border-[#2a2a2a] text-foreground font-medium rounded-full flex items-center justify-center mt-2 cursor-pointer hover:bg-[#232323] transition-colors">
+                    Pay with Apple Pay
+                  </div>
+                )}
 
                 <button 
                   type="submit" 
                   disabled={isProcessing}
-                  className="mt-4 w-full py-4 bg-foreground text-background font-medium rounded-full hover:scale-[0.98] transition-transform duration-200 disabled:opacity-50 disabled:hover:scale-100 flex justify-center items-center h-[56px]"
+                  className="mt-6 w-full py-4 bg-foreground text-background font-medium rounded-full hover:scale-[0.98] transition-transform duration-200 disabled:opacity-50 disabled:hover:scale-100 flex justify-center items-center h-[56px] shadow-lg shadow-foreground/10"
                 >
                   {isProcessing ? (
                     <div className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    `Pay $${total.toFixed(2)}`
+                    `Place Order • $${total.toFixed(2)}`
                   )}
                 </button>
               </motion.form>
@@ -143,8 +240,8 @@ export default function CheckoutPage() {
                  </div>
                  <div className="flex-grow flex justify-between">
                    <div>
-                     <p className="text-sm text-foreground">{item.name}</p>
-                     {item.selectedVariant && <p className="text-xs text-text-muted">{item.selectedVariant}</p>}
+                     <p className="text-sm text-foreground font-medium">{item.name}</p>
+                     {item.selectedVariant && <p className="text-xs text-text-muted mt-0.5">{item.selectedVariant}</p>}
                    </div>
                    <p className="text-sm font-medium">${(item.price * item.quantity).toFixed(2)}</p>
                  </div>
@@ -159,9 +256,9 @@ export default function CheckoutPage() {
             </div>
             <div className="flex justify-between text-text-muted text-sm">
               <span>Shipping</span>
-              <span>Free</span>
+              <span className="text-foreground font-medium">Free</span>
             </div>
-            <div className="flex justify-between text-foreground text-lg font-medium pt-2 border-t border-border">
+            <div className="flex justify-between text-foreground text-lg font-bold pt-4 border-t border-border mt-2">
               <span>Total</span>
               <span>${total.toFixed(2)}</span>
             </div>

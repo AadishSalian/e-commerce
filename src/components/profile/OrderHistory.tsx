@@ -2,17 +2,20 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Package, Truck, CheckCircle2, Clock, ChevronRight, CornerDownLeft, X } from 'lucide-react';
+import { Package, Truck, CheckCircle2, Clock, ChevronRight, CornerDownLeft, X, ShoppingCart } from 'lucide-react';
 import { MOCK_ORDERS, Order, OrderItem } from '@/lib/mockOrders';
+import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { PrimaryButton } from '../ui';
 import Link from 'next/link';
 import { useToast } from '@/contexts/ToastContext';
+import { useCart } from '@/contexts/CartContext';
 
 export default function OrderHistory() {
   const [orders] = useState<Order[]>(MOCK_ORDERS);
   const [returnOrder, setReturnOrder] = useState<{order: Order, item: OrderItem} | null>(null);
   const [returnReason, setReturnReason] = useState('');
-  const { success } = useToast();
+  const { success, error } = useToast();
+  const { addToCart } = useCart();
 
   const getStatusIcon = (status: Order['status']) => {
     switch (status) {
@@ -32,6 +35,15 @@ export default function OrderHistory() {
     success(`Return label generated for ${returnOrder?.item.name}. Check your email.`);
     setReturnOrder(null);
     setReturnReason('');
+  };
+
+  const handleBuyAgain = (item: OrderItem) => {
+    const product = MOCK_PRODUCTS.find(p => p.id === item.productId);
+    if (product) {
+      addToCart(product, 1, item.variant);
+    } else {
+      error("Product is no longer available.");
+    }
   };
 
   return (
@@ -137,15 +149,24 @@ export default function OrderHistory() {
                           <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
                             <span className="font-semibold">${item.price.toFixed(2)}</span>
                             
-                            {/* Return Button (Only if delivered) */}
-                            {order.status === 'delivered' && (
+                            <div className="flex gap-2">
                               <button 
-                                onClick={() => setReturnOrder({ order, item })}
-                                className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-background border border-border rounded-md hover:bg-surface-hover hover:border-text-muted transition-all"
+                                onClick={() => handleBuyAgain(item)}
+                                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-foreground text-background border border-foreground rounded-md hover:opacity-90 transition-all"
                               >
-                                <CornerDownLeft className="w-3.5 h-3.5" /> Return / Exchange
+                                <ShoppingCart className="w-3.5 h-3.5" /> Buy Again
                               </button>
-                            )}
+                              
+                              {/* Return Button (Only if delivered) */}
+                              {order.status === 'delivered' && (
+                                <button 
+                                  onClick={() => setReturnOrder({ order, item })}
+                                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-background text-text-muted border border-border rounded-md hover:bg-surface-hover hover:text-foreground transition-all"
+                                >
+                                  <CornerDownLeft className="w-3.5 h-3.5" /> Return
+                                </button>
+                              )}
+                            </div>
                           </div>
                         </div>
                       ))}

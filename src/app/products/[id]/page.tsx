@@ -15,6 +15,7 @@ import { RecentlyViewed } from '@/components/home/RecentlyViewed';
 import LiveActivityBadge from '@/components/product/LiveActivityBadge';
 import ReviewsSection from '@/components/product/ReviewsSection';
 import QnASection from '@/components/product/QnASection';
+import StickyAddToCart from '@/components/product/StickyAddToCart';
 import { useEffect } from 'react';
 
 type Props = {
@@ -141,52 +142,41 @@ export default function ProductDetailPage({ params }: Props) {
               </div>
             )}
 
-            {/* Desktop Add to Bag (Sticky bar handles mobile) */}
+            {/* Desktop Add to Bag (Sticky bar handles mobile/scrolling) */}
             <div className="hidden lg:flex flex-col gap-4 mt-auto pt-8 border-t border-border">
-              {isLoggedIn ? (
-                <>
-                  <PrimaryButton 
-                    className="w-full py-4 text-lg" 
-                    icon={<ShoppingBag size={18} />}
-                    onClick={() => {
-                      addToCart(product, 1, selectedVariant || undefined);
-                    }}
-                  >
-                    Add to Bag
-                  </PrimaryButton>
-                  <p className="text-xs text-text-muted text-center flex items-center justify-center gap-2">
-                    <Check className="w-3 h-3" /> In stock and ready to ship
-                  </p>
-                  
-                  {/* Alerts Button */}
-                  <div className="mt-4 pt-4 border-t border-border">
-                    <button
-                      onClick={() => {
-                        const type = product.stockCount === 0 ? 'BACK_IN_STOCK' : 'PRICE_DROP';
-                        if (hasAlert(product.id, type)) {
-                          removeAlert(product.id, type);
-                        } else {
-                          addAlert(product.id, type);
-                        }
-                      }}
-                      className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-border text-sm font-medium hover:bg-surface-hover hover:border-text-muted transition-all"
-                    >
-                      <Bell className={`w-4 h-4 ${hasAlert(product.id, product.stockCount === 0 ? 'BACK_IN_STOCK' : 'PRICE_DROP') ? 'fill-accent text-accent' : ''}`} />
-                      {hasAlert(product.id, product.stockCount === 0 ? 'BACK_IN_STOCK' : 'PRICE_DROP') 
-                        ? 'Watching for ' + (product.stockCount === 0 ? 'Restock' : 'Price Drop')
-                        : 'Watch for ' + (product.stockCount === 0 ? 'Restock' : 'Price Drop')
-                      }
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <NavAuthButton className="w-full py-4" label="Sign In to Purchase" onClick={() => router.push('/login')} />
-                  <p className="text-xs text-text-muted text-center flex items-center justify-center gap-2">
-                    <Lock className="w-3 h-3" /> Please sign in to unlock checkout
-                  </p>
-                </>
-              )}
+              <PrimaryButton 
+                className="w-full py-4 text-lg" 
+                icon={<ShoppingBag size={18} />}
+                onClick={() => {
+                  addToCart(product, 1, selectedVariant || undefined);
+                }}
+              >
+                Add to Bag
+              </PrimaryButton>
+              <p className="text-xs text-text-muted text-center flex items-center justify-center gap-2">
+                <Check className="w-3 h-3" /> In stock and ready to ship
+              </p>
+              
+              {/* Alerts Button */}
+              <div className="mt-4 pt-4 border-t border-border">
+                <button
+                  onClick={() => {
+                    const type = product.stockCount === 0 ? 'BACK_IN_STOCK' : 'PRICE_DROP';
+                    if (hasAlert(product.id, type)) {
+                      removeAlert(product.id, type);
+                    } else {
+                      addAlert(product.id, type);
+                    }
+                  }}
+                  className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-border text-sm font-medium hover:bg-surface-hover hover:border-text-muted transition-all"
+                >
+                  <Bell className={`w-4 h-4 ${hasAlert(product.id, product.stockCount === 0 ? 'BACK_IN_STOCK' : 'PRICE_DROP') ? 'fill-accent text-accent' : ''}`} />
+                  {hasAlert(product.id, product.stockCount === 0 ? 'BACK_IN_STOCK' : 'PRICE_DROP') 
+                    ? 'Watching for ' + (product.stockCount === 0 ? 'Restock' : 'Price Drop')
+                    : 'Watch for ' + (product.stockCount === 0 ? 'Restock' : 'Price Drop')
+                  }
+                </button>
+              </div>
             </div>
             
           </div>
@@ -243,26 +233,12 @@ export default function ProductDetailPage({ params }: Props) {
         </div>
       )}
 
-      {/* Sticky "Add to Bag" Bar for Mobile */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 z-40 flex items-center justify-between">
-        <div>
-          <p className="text-foreground font-medium text-lg">${product.price.toFixed(2)}</p>
-          <p className="text-xs text-text-muted">Free shipping</p>
-        </div>
-        {isLoggedIn ? (
-          <PrimaryButton 
-            className="px-8" 
-            icon={<ShoppingBag size={16} />}
-            onClick={() => {
-              addToCart(product, 1, selectedVariant || undefined);
-            }}
-          >
-            Add to Bag
-          </PrimaryButton>
-        ) : (
-          <NavAuthButton className="px-6" label="Sign In to Purchase" onClick={() => router.push('/login')} />
-        )}
-      </div>
+      {/* Sticky Add to Cart Bar */}
+      <StickyAddToCart 
+        product={product} 
+        selectedVariant={selectedVariant || undefined} 
+        onAddToCart={() => addToCart(product, 1, selectedVariant || undefined)} 
+      />
 
     </div>
   );

@@ -39,24 +39,22 @@ export function AlertsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const addAlert = (productId: string, type: AlertType) => {
-    setAlerts((prev) => {
-      // Prevent duplicates
-      if (prev.some(a => a.productId === productId && a.type === type)) {
-        return prev;
-      }
-      
-      const newAlert: ProductAlert = {
-        id: `${productId}-${type}`,
-        productId,
-        type,
-        createdAt: Date.now()
-      };
-      
-      const updated = [...prev, newAlert];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-      success(`You will be notified when this product is ${type === 'PRICE_DROP' ? 'discounted' : 'back in stock'}.`);
-      return updated;
-    });
+    // Prevent duplicates
+    if (alerts.some(a => a.productId === productId && a.type === type)) {
+      return;
+    }
+    
+    const newAlert: ProductAlert = {
+      id: `${productId}-${type}`,
+      productId,
+      type,
+      createdAt: Date.now()
+    };
+    
+    const updated = [...alerts, newAlert];
+    setAlerts(updated);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    success(`You will be notified when this product is ${type === 'PRICE_DROP' ? 'discounted' : 'back in stock'}.`);
   };
 
   const removeAlert = (productId: string, type: AlertType) => {

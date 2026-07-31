@@ -48,15 +48,16 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <motion.div
               key={t.id}
               layout
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-              className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg border backdrop-blur-md ${
+              initial={{ opacity: 0, x: 50, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border backdrop-blur-xl ${
                 t.type === 'success' 
-                  ? 'bg-accent/10 border-accent/20 text-foreground' 
+                  ? 'bg-surface-hover/90 border-border text-foreground' 
                   : t.type === 'error'
-                  ? 'bg-red-500/10 border-red-500/20 text-foreground'
-                  : 'bg-surface border-border text-foreground'
+                  ? 'bg-red-950/90 border-red-900/50 text-foreground'
+                  : 'bg-surface-hover/90 border-border text-foreground'
               }`}
             >
               {t.type === 'success' && <Check className="w-5 h-5 text-accent" />}

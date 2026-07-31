@@ -157,7 +157,7 @@ export default function SearchClient() {
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="text-foreground font-medium text-lg mb-1">{product.name}</h3>
-                        <p className="text-text-muted text-sm">{product.variants.length > 0 ? `${product.variants.length} Colors` : '1 Color'}</p>
+                        <p className="text-text-muted text-sm">{(product.variants?.length || 0) > 0 ? `${product.variants?.length} Colors` : product.category}</p>
                       </div>
                       <p className="text-foreground font-medium text-lg">${product.price.toFixed(2)}</p>
                     </div>

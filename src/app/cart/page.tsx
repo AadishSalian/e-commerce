@@ -2,8 +2,9 @@
 
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import Link from 'next/link';
-import { Minus, Plus, X } from 'lucide-react';
+import { Minus, Plus, X, ShoppingBag } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { EmptyState } from '@/components/ui';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
@@ -86,8 +87,12 @@ export default function CartPage() {
             </AnimatePresence>
             
             {cartItems.length === 0 && (
-              <div className="py-12 text-center text-text-muted">
-                Your bag is empty.
+              <div className="py-12 border-b border-border">
+                <EmptyState 
+                  icon={<ShoppingBag />} 
+                  title="Your bag is empty" 
+                  description="Looks like you haven't added anything to your bag yet. Explore our latest arrivals." 
+                />
               </div>
             )}
           </div>

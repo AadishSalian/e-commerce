@@ -7,8 +7,10 @@ export type Product = {
   isNew: boolean;
   image: string;
   hoverImage?: string;
+  images?: string[];
+  spinImages?: string[];
   attributes?: Record<string, string | string[]>;
-  variants?: { id: string; name: string; value: string; }[];
+  variants?: { id: string; name: string; value: string; materialImage?: string; }[];
   stockCount?: number;
   hasSizeGuide?: boolean;
   relatedProducts?: string[];
@@ -26,9 +28,16 @@ export const MOCK_PRODUCTS: Product[] = [
     image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop',
     hoverImage: 'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=800&auto=format&fit=crop',
     attributes: { techCategory: ['Workspace'], productType: 'Peripherals', feature: 'Wireless' },
+    images: [
+      'https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=800&auto=format&fit=crop'
+    ],
+    spinImages: Array.from({ length: 36 }).map((_, i) => `https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop&rot=${i * 10}`), // Simulated 360 images
     variants: [
-      { id: 'v-1', name: 'Color', value: 'Matte Black' },
-      { id: 'v-2', name: 'Color', value: 'Graphite' },
+      { id: 'v-1', name: 'Color', value: 'Matte Black', materialImage: 'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?q=80&w=200&auto=format&fit=crop' },
+      { id: 'v-2', name: 'Color', value: 'Graphite', materialImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop' },
     ]
   },
   {

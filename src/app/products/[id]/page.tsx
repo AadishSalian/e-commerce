@@ -16,6 +16,7 @@ import LiveActivityBadge from '@/components/product/LiveActivityBadge';
 import ReviewsSection from '@/components/product/ReviewsSection';
 import QnASection from '@/components/product/QnASection';
 import StickyAddToCart from '@/components/product/StickyAddToCart';
+import ProductViewer from '@/components/product/ProductViewer';
 import { useEffect } from 'react';
 
 type Props = {
@@ -57,25 +58,8 @@ export default function ProductDetailPage({ params }: Props) {
         <div className="flex flex-col lg:flex-row gap-16 items-start">
           
           {/* Left: Product Images */}
-          <div className="w-full lg:w-2/3 flex flex-col gap-6">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              className="w-full aspect-square md:aspect-[4/3] bg-surface rounded-2xl flex items-center justify-center relative border border-border overflow-hidden"
-            >
-              <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
-            </motion.div>
-            
-            <div className="grid grid-cols-2 gap-6">
-               <div className="w-full aspect-square bg-surface rounded-2xl flex items-center justify-center border border-border relative overflow-hidden">
-                  {product.hoverImage ? <img src={product.hoverImage} alt={`${product.name} detail 1`} className="absolute inset-0 w-full h-full object-cover" /> : <span className="text-xs text-text-muted uppercase relative z-10">Detail 1</span>}
-               </div>
-               <div className="w-full aspect-square bg-surface rounded-2xl flex items-center justify-center border border-border relative overflow-hidden">
-                  <img src={product.image} alt={`${product.name} detail 2`} className="absolute inset-0 w-full h-full object-cover" />
-               </div>
-            </div>
+          <div className="w-full lg:w-2/3 h-[50vh] lg:h-[80vh]">
+            <ProductViewer product={product} />
           </div>
 
           {/* Right: Sticky Configurator Panel */}
@@ -121,21 +105,37 @@ export default function ProductDetailPage({ params }: Props) {
                     <span className="text-sm text-text-muted">{selectedVariant}</span>
                   </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-4">
                   {product.variants?.map((v) => {
                     const isSelected = selectedVariant === v.value;
+                    const style = v.materialImage 
+                      ? { backgroundImage: `url(${v.materialImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                      : { backgroundColor: v.value.toLowerCase().includes('sage') ? '#6b8a7a' : v.value.toLowerCase().includes('gray') ? '#232323' : '#121212' };
+                      
                     return (
-                      <button
-                        key={v.id}
-                        onClick={() => setSelectedVariant(v.value)}
-                        className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
-                          isSelected ? 'border-accent' : 'border-border hover:border-text-muted'
-                        }`}
-                        // Simple color mapping for demo purposes
-                        style={{ backgroundColor: v.value.toLowerCase().includes('sage') ? '#6b8a7a' : v.value.toLowerCase().includes('gray') ? '#232323' : '#121212' }}
-                      >
-                        {isSelected && <Check className="w-5 h-5 text-foreground" />}
-                      </button>
+                      <div key={v.id} className="relative group">
+                        <button
+                          onClick={() => setSelectedVariant(v.value)}
+                          className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-200 overflow-hidden ${
+                            isSelected ? 'border-accent ring-2 ring-accent ring-offset-2 ring-offset-background' : 'border-border hover:border-text-muted'
+                          }`}
+                          style={style}
+                        >
+                          {isSelected && !v.materialImage && <Check className="w-5 h-5 text-foreground drop-shadow-md" />}
+                          {isSelected && v.materialImage && <div className="absolute inset-0 bg-black/20 flex items-center justify-center"><Check className="w-5 h-5 text-white drop-shadow-md" /></div>}
+                        </button>
+                        
+                        {/* Live Material Preview Hover */}
+                        {v.materialImage && (
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-48 h-48 bg-surface border border-border rounded-xl shadow-2xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 pointer-events-none z-50 overflow-hidden flex flex-col">
+                            <div className="h-3/4 w-full" style={{ backgroundImage: `url(${v.materialImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+                            <div className="h-1/4 w-full flex items-center justify-center bg-background text-xs font-medium border-t border-border">
+                              {v.value} Texture
+                            </div>
+                            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-background border-b border-r border-border rotate-45" />
+                          </div>
+                        )}
+                      </div>
                     )
                   })}
                 </div>

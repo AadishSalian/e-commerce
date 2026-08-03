@@ -3,7 +3,8 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '@/lib/mockData';
-import { Maximize2, RotateCcw } from 'lucide-react';
+import { Maximize2, RotateCcw, Box } from 'lucide-react';
+import ModelViewerWrapper from './ModelViewerWrapper';
 
 type ProductViewerProps = {
   product: Product;
@@ -15,6 +16,7 @@ export default function ProductViewer({ product }: ProductViewerProps) {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [is360Mode, setIs360Mode] = useState(false);
+  const [is3DMode, setIs3DMode] = useState(false);
   const [spinIndex, setSpinIndex] = useState(0);
 
   // Zoom state
@@ -71,9 +73,18 @@ export default function ProductViewer({ product }: ProductViewerProps) {
     <div className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-6 h-full">
       {/* Thumbnail Filmstrip */}
       <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto w-full lg:w-24 shrink-0 pb-2 lg:pb-0 hide-scrollbar" style={{ scrollbarWidth: 'none' }}>
+        {product.modelUrl && (
+          <button
+            onClick={() => { setIs3DMode(true); setIs360Mode(false); }}
+            className={`w-20 h-20 lg:w-full lg:h-24 shrink-0 rounded-xl overflow-hidden border-2 flex flex-col items-center justify-center gap-1 transition-colors ${is3DMode ? 'border-accent text-accent bg-accent/5' : 'border-border text-text-muted hover:border-text-muted'}`}
+          >
+            <Box size={24} />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-center">3D / AR View</span>
+          </button>
+        )}
         {has360 && (
           <button
-            onClick={() => setIs360Mode(true)}
+            onClick={() => { setIs360Mode(true); setIs3DMode(false); }}
             className={`w-20 h-20 lg:w-full lg:h-24 shrink-0 rounded-xl overflow-hidden border-2 flex flex-col items-center justify-center gap-1 transition-colors ${is360Mode ? 'border-accent text-accent bg-accent/5' : 'border-border text-text-muted hover:border-text-muted'}`}
           >
             <RotateCcw size={24} />
@@ -86,8 +97,9 @@ export default function ProductViewer({ product }: ProductViewerProps) {
             onClick={() => {
               setActiveIndex(idx);
               setIs360Mode(false);
+              setIs3DMode(false);
             }}
-            className={`w-20 h-20 lg:w-full lg:h-24 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${!is360Mode && activeIndex === idx ? 'border-accent opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
+            className={`w-20 h-20 lg:w-full lg:h-24 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${!is360Mode && !is3DMode && activeIndex === idx ? 'border-accent opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
           >
             <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
           </button>
@@ -97,7 +109,21 @@ export default function ProductViewer({ product }: ProductViewerProps) {
       {/* Main Viewer area */}
       <div className="relative w-full aspect-square lg:aspect-[4/5] bg-surface rounded-2xl overflow-hidden border border-border">
         <AnimatePresence mode="wait">
-          {is360Mode && product.spinImages ? (
+          {is3DMode && product.modelUrl ? (
+            <motion.div
+              key="3d-view"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 z-10 bg-surface"
+            >
+              <ModelViewerWrapper 
+                src={product.modelUrl} 
+                iosSrc={product.iosModelUrl} 
+                alt={product.name} 
+              />
+            </motion.div>
+          ) : is360Mode && product.spinImages ? (
             <motion.div
               key="360-view"
               initial={{ opacity: 0 }}

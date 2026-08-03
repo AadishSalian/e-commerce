@@ -84,7 +84,7 @@ export function QuickViewModal() {
                       price: activeProduct.price,
                       image: activeProduct.image,
                       quantity: 1
-                    });
+                    } as any, 1);
                     closeQuickView();
                   }}
                   className="flex-1 bg-foreground text-background py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"

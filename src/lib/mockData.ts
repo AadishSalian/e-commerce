@@ -14,6 +14,8 @@ export type Product = {
   stockCount?: number;
   hasSizeGuide?: boolean;
   relatedProducts?: string[];
+  modelUrl?: string;
+  iosModelUrl?: string;
 };
 
 export const MOCK_PRODUCTS: Product[] = [
@@ -159,6 +161,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isNew: true,
     image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?q=80&w=800&auto=format&fit=crop',
     hoverImage: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=800&auto=format&fit=crop',
+    modelUrl: 'https://modelviewer.dev/shared-assets/models/Chair.glb',
     attributes: { room: ['Living Room', 'Bedroom'], productType: 'Chairs', style: 'Minimalist' },
     variants: [
       { id: 'v-12', name: 'Color', value: 'Oatmeal' },

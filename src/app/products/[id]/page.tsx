@@ -6,7 +6,7 @@ import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { motion } from 'framer-motion';
 import { Check, ChevronRight, ShoppingBag, Lock, Bell } from 'lucide-react';
 import Link from 'next/link';
-import { PrimaryButton, NavAuthButton } from '@/components/ui';
+import { PrimaryButton, NavAuthButton, Accordion } from '@/components/ui';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
@@ -44,6 +44,32 @@ export default function ProductDetailPage({ params }: Props) {
 
   if (!product) return notFound();
 
+  const productAccordionItems = [
+    {
+      id: 'description',
+      title: 'Description',
+      content: <p>{product.description}</p>
+    },
+    ...(product.hasSizeGuide ? [{
+      id: 'size-guide',
+      title: 'Size Guide',
+      content: (
+        <div className="w-full text-sm">
+          <p className="mb-4">Our garments are designed with an intentionally oversized, relaxed fit. We recommend taking your true size for the intended look, or sizing down for a more traditional fit.</p>
+          <div className="flex justify-between py-2 border-b border-border/50"><span className="text-foreground font-medium">Small</span><span>36-38" Chest</span></div>
+          <div className="flex justify-between py-2 border-b border-border/50"><span className="text-foreground font-medium">Medium</span><span>38-40" Chest</span></div>
+          <div className="flex justify-between py-2 border-b border-border/50"><span className="text-foreground font-medium">Large</span><span>40-42" Chest</span></div>
+          <div className="flex justify-between py-2"><span className="text-foreground font-medium">X-Large</span><span>42-44" Chest</span></div>
+        </div>
+      )
+    }] : []),
+    {
+      id: 'shipping',
+      title: 'Shipping & Returns',
+      content: <p>Free standard shipping on orders over $150. Returns accepted within 30 days of delivery for unworn items in original condition.</p>
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-background relative pb-32">
       
@@ -72,9 +98,7 @@ export default function ProductDetailPage({ params }: Props) {
               <p className="text-2xl text-foreground font-medium mb-6">
                 ${product.price.toFixed(2)}
               </p>
-              <p className="text-text-muted text-base leading-relaxed">
-                {product.description}
-              </p>
+
               
               <LiveActivityBadge productId={product.id} />
               
@@ -94,14 +118,7 @@ export default function ProductDetailPage({ params }: Props) {
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm font-medium text-foreground uppercase tracking-wider">Color</h3>
                   <div className="flex items-center gap-4">
-                    {product.hasSizeGuide && (
-                      <button 
-                        onClick={() => setShowSizeGuide(true)}
-                        className="text-sm text-text-muted hover:text-foreground underline underline-offset-4"
-                      >
-                        Size Guide
-                      </button>
-                    )}
+
                     <span className="text-sm text-text-muted">{selectedVariant}</span>
                   </div>
                 </div>
@@ -141,6 +158,10 @@ export default function ProductDetailPage({ params }: Props) {
                 </div>
               </div>
             )}
+
+            <div className="mb-10">
+              <Accordion items={productAccordionItems} />
+            </div>
 
             {/* Desktop Add to Bag (Sticky bar handles mobile/scrolling) */}
             <div className="hidden lg:flex flex-col gap-4 mt-auto pt-8 border-t border-border">
@@ -212,26 +233,6 @@ export default function ProductDetailPage({ params }: Props) {
       )}
 
       <RecentlyViewed />
-
-      {/* Size Guide Modal Overlay */}
-      {showSizeGuide && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
-          <div className="bg-surface border border-border p-8 rounded-2xl max-w-md w-full relative">
-            <button onClick={() => setShowSizeGuide(false)} className="absolute top-4 right-4 p-2 hover:bg-surface-hover rounded-full">
-              <span className="sr-only">Close</span>
-              ✕
-            </button>
-            <h3 className="text-2xl font-bold mb-4">Size Guide</h3>
-            <p className="text-text-muted mb-6">Our garments are designed with an intentionally oversized, relaxed fit. We recommend taking your true size for the intended look, or sizing down for a more traditional fit.</p>
-            <div className="w-full border-t border-border pt-4">
-              <div className="flex justify-between py-2 border-b border-border/50 text-sm"><span className="text-text-muted">Small</span><span>36-38" Chest</span></div>
-              <div className="flex justify-between py-2 border-b border-border/50 text-sm"><span className="text-text-muted">Medium</span><span>38-40" Chest</span></div>
-              <div className="flex justify-between py-2 border-b border-border/50 text-sm"><span className="text-text-muted">Large</span><span>40-42" Chest</span></div>
-              <div className="flex justify-between py-2 text-sm"><span className="text-text-muted">X-Large</span><span>42-44" Chest</span></div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Sticky Add to Cart Bar */}
       <StickyAddToCart 

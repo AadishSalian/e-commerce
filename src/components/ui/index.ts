@@ -11,3 +11,5 @@ export * from './ExpandableSearch';
 export * from './StoreBackButton';
 export * from './Skeleton';
 export * from './EmptyState';
+export * from './AnimatedCounter';
+export * from './Accordion';

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { getProductQnA } from '@/lib/mockSocialProof';
-import { PrimaryButton } from '../ui';
+import { PrimaryButton, Accordion } from '../ui';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
@@ -67,40 +67,44 @@ export default function QnASection({ productId }: Props) {
         </div>
 
         {/* Q&A List */}
-        <div className="w-full md:w-2/3 flex flex-col gap-6">
+        <div className="w-full md:w-2/3">
           {filteredQnas.length === 0 ? (
             <div className="text-center py-12 text-text-muted bg-surface rounded-xl border border-border border-dashed">
               <p>{searchQuery ? 'No questions match your search.' : 'No questions yet. Be the first to ask!'}</p>
             </div>
           ) : (
-            filteredQnas.map((qna) => (
-              <div key={qna.id} className="border border-border p-6 rounded-xl bg-surface">
-                <div className="flex gap-4">
-                  <div className="font-bold text-lg text-accent">Q:</div>
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-foreground text-base mb-1">{qna.question}</h4>
-                    <p className="text-xs text-text-muted mb-4">Asked by {qna.asker} on {new Date(qna.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                  </div>
-                </div>
-                
-                {qna.answer ? (
-                  <div className="flex gap-4 mt-2">
-                    <div className="font-bold text-lg text-text-muted">A:</div>
-                    <div className="flex-1">
-                      <p className="text-sm text-text-muted leading-relaxed">{qna.answer}</p>
-                      <p className="text-xs text-text-muted mt-2 font-medium">Answered by {qna.responder}</p>
+            <div className="bg-surface rounded-xl p-4 md:p-8 border border-border">
+              <Accordion 
+                items={filteredQnas.map(qna => ({
+                  id: qna.id,
+                  title: `Q: ${qna.question}`,
+                  content: (
+                    <div className="pt-2">
+                      <p className="text-xs text-text-muted mb-4 border-b border-border/50 pb-4">
+                        Asked by {qna.asker} on {new Date(qna.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                      </p>
+                      
+                      {qna.answer ? (
+                        <div className="flex gap-4">
+                          <div className="font-bold text-lg text-text-muted">A:</div>
+                          <div className="flex-1">
+                            <p className="text-sm text-text-muted leading-relaxed">{qna.answer}</p>
+                            <p className="text-xs text-text-muted mt-2 font-medium">Answered by {qna.responder}</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex gap-4">
+                          <div className="font-bold text-lg text-text-muted">A:</div>
+                          <div className="flex-1">
+                            <p className="text-sm text-text-muted italic">No answers yet.</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                ) : (
-                  <div className="flex gap-4 mt-2">
-                    <div className="font-bold text-lg text-text-muted">A:</div>
-                    <div className="flex-1">
-                      <p className="text-sm text-text-muted italic">No answers yet.</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))
+                  )
+                }))}
+              />
+            </div>
           )}
         </div>
       </div>

@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Star, ShieldCheck, Image as ImageIcon } from 'lucide-react';
+import { Star, ShieldCheck, Image as ImageIcon, Quote } from 'lucide-react';
 import { getProductReviews, Review } from '@/lib/mockSocialProof';
-import { PrimaryButton } from '../ui';
+import { PrimaryButton, AnimatedCounter } from '../ui';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
@@ -27,14 +27,16 @@ export default function ReviewsSection({ productId }: Props) {
           <h2 className="text-2xl font-bold text-foreground mb-6">Customer Reviews</h2>
           
           <div className="flex items-end gap-4 mb-6">
-            <span className="text-5xl font-bold text-foreground">{averageRating}</span>
+            <AnimatedCounter value={Number(averageRating)} decimals={1} className="text-5xl font-bold text-foreground" />
             <div className="flex flex-col mb-1">
               <div className="flex text-accent">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star key={star} className={`w-5 h-5 ${star <= Math.round(Number(averageRating)) ? 'fill-accent' : 'text-border'}`} />
                 ))}
               </div>
-              <span className="text-sm text-text-muted mt-1">Based on {reviews.length} reviews</span>
+              <span className="text-sm text-text-muted mt-1 flex gap-1">
+                Based on <AnimatedCounter value={reviews.length} /> reviews
+              </span>
             </div>
           </div>
           
@@ -89,8 +91,38 @@ export default function ReviewsSection({ productId }: Props) {
           </AnimatePresence>
         </div>
 
-        {/* Reviews List */}
+        {/* Reviews List & Highlights */}
         <div className="w-full md:w-2/3 flex flex-col gap-8">
+          
+          {/* Pull-quote style highlights */}
+          {reviews.length > 0 && reviews.filter(r => r.rating >= 4 && r.content.length > 60).slice(0, 1).map((highlight) => (
+            <div key={`highlight-${highlight.id}`} className="bg-surface border border-border p-8 rounded-2xl relative mb-4">
+              <Quote className="absolute top-6 left-6 w-12 h-12 text-accent/20 rotate-180" />
+              <div className="relative z-10 pl-6">
+                <div className="flex gap-1 mb-4">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star key={star} className={`w-4 h-4 ${star <= highlight.rating ? 'fill-accent text-accent' : 'text-border'}`} />
+                  ))}
+                </div>
+                <p className="text-xl md:text-2xl font-medium text-foreground leading-snug mb-6 italic">
+                  "{highlight.content}"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent font-bold">
+                    {highlight.author.charAt(0)}
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground text-sm flex items-center gap-2">
+                      {highlight.author}
+                      {highlight.verifiedPurchase && <ShieldCheck className="w-4 h-4 text-[#8ed500]" />}
+                    </div>
+                    <div className="text-xs text-text-muted">Verified Customer</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+
           {reviews.length === 0 ? (
             <div className="text-center py-12 text-text-muted">
               <p>No reviews yet. Be the first to share your thoughts!</p>

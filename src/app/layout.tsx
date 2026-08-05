@@ -20,6 +20,7 @@ import { CompareDrawer } from "@/components/ui/CompareDrawer";
 import { QuickViewModal } from "@/components/ui/QuickViewModal";
 import { PreferencesProvider } from "@/contexts/PreferencesContext";
 import { AlertsProvider } from "@/contexts/AlertsContext";
+import { WishlistProvider } from "@/contexts/WishlistContext";
 import LiveChatWidget from "@/components/support/LiveChatWidget";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -79,8 +80,9 @@ export default function RootLayout({
                     <QuickViewProvider>
                       <PreferencesProvider>
                         <AlertsProvider>
-                          <CartProvider>
-                            <StoreBackButton />
+                          <WishlistProvider>
+                            <CartProvider>
+                              <StoreBackButton />
                             <Navbar />
                             <CartDrawer />
                             <CompareDrawer />
@@ -92,8 +94,9 @@ export default function RootLayout({
                               </PageTransition>
                             </main>
                             <Footer />
-                            <LiveChatWidget />
-                          </CartProvider>
+                              <LiveChatWidget />
+                            </CartProvider>
+                          </WishlistProvider>
                         </AlertsProvider>
                       </PreferencesProvider>
                     </QuickViewProvider>

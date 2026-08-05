@@ -12,6 +12,7 @@ import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
+import { WishlistButton } from '@/components/ui';
 
 const customEase = [0.65, 0, 0.35, 1] as const;
 

@@ -8,6 +8,7 @@ import { ChevronDown, Filter, Eye, Layers } from 'lucide-react';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
+import { WishlistButton } from '@/components/ui';
 
 export default function ProductsPage() {
   const { openQuickView } = useQuickView();

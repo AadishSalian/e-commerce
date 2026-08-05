@@ -5,9 +5,12 @@ import { motion } from 'framer-motion';
 import { Package, User, Heart, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useWishlist } from '@/contexts/WishlistContext';
+import { WishlistButton } from '@/components/ui';
 
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState('orders');
+  const { wishlistItems } = useWishlist();
 
   return (
     <div className="min-h-screen bg-background pt-24 pb-32">
@@ -122,24 +125,34 @@ export default function AccountPage() {
               animate={{ opacity: 1, y: 0 }}
             >
               <h2 className="text-2xl font-bold text-foreground mb-8">Your Wishlist</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {MOCK_PRODUCTS.slice(0, 3).map((product) => (
-                  <Link href={`/products/${product.id}`} key={product.id} className="group block">
-                    <div className="w-full aspect-[4/5] bg-surface rounded-xl border border-transparent group-hover:border-border transition-colors duration-300 mb-4 flex flex-col p-6 relative overflow-hidden">
-                      <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-background flex items-center justify-center border border-border z-10">
-                        <Heart className="w-4 h-4 text-foreground fill-foreground" />
-                      </div>
-                      <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center relative overflow-hidden">
-                        <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="text-foreground font-medium mb-1">{product.name}</h3>
-                      <p className="text-foreground font-medium">${product.price.toFixed(2)}</p>
-                    </div>
+              {wishlistItems.length === 0 ? (
+                <div className="text-center py-12 bg-surface rounded-xl border border-border">
+                  <Heart className="w-8 h-8 mx-auto text-text-muted mb-4" />
+                  <p className="text-text-muted">Your wishlist is empty.</p>
+                  <Link href="/products" className="text-accent hover:underline mt-2 inline-block">
+                    Explore products
                   </Link>
-                ))}
-              </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {wishlistItems.map((product) => (
+                    <Link href={`/products/${product.id}`} key={product.id} className="group block">
+                      <div className="w-full aspect-[4/5] bg-surface rounded-xl border border-transparent group-hover:border-border transition-colors duration-300 mb-4 flex flex-col p-6 relative overflow-hidden">
+                        <div className="absolute top-4 right-4 z-10">
+                          <WishlistButton product={product} />
+                        </div>
+                        <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center relative overflow-hidden">
+                          <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-foreground font-medium mb-1">{product.name}</h3>
+                        <p className="text-foreground font-medium">${product.price.toFixed(2)}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </motion.div>
           )}
 

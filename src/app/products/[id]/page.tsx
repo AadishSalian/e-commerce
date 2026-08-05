@@ -18,6 +18,7 @@ import QnASection from '@/components/product/QnASection';
 import StickyAddToCart from '@/components/product/StickyAddToCart';
 import ProductViewer from '@/components/product/ProductViewer';
 import { useEffect } from 'react';
+import { WishlistButton } from '@/components/ui';
 
 type Props = {
   params: Promise<{ id: string }>;

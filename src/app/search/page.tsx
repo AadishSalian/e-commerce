@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import SearchClient from './SearchClient';
+import { WishlistButton } from '@/components/ui';
 
 export const metadata = {
   title: 'Search | MATTE.',

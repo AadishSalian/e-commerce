@@ -15,6 +15,20 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { cartItems, clearCart } = useCart();
   const { isLoggedIn, user } = useAuth();
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [zip, setZip] = useState('');
+
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [addressError, setAddressError] = useState('');
+  const [cityError, setCityError] = useState('');
+  const [zipError, setZipError] = useState('');
   
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const total = subtotal; // Assuming free shipping
@@ -30,7 +44,50 @@ export default function CheckoutPage() {
 
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
+    if (firstNameError || lastNameError || emailError || addressError || cityError || zipError) return;
     setStep(2);
+  };
+
+  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setFirstName(val);
+    if (val.trim().length === 0) setFirstNameError('First name is required.');
+    else setFirstNameError('');
+  };
+
+  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setLastName(val);
+    if (val.trim().length === 0) setLastNameError('Last name is required.');
+    else setLastNameError('');
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setEmail(val);
+    if (val && !/\S+@\S+\.\S+/.test(val)) setEmailError('Invalid email address.');
+    else setEmailError('');
+  };
+
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setAddress(val);
+    if (val.trim().length === 0) setAddressError('Address is required.');
+    else setAddressError('');
+  };
+
+  const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setCity(val);
+    if (val.trim().length === 0) setCityError('City is required.');
+    else setCityError('');
+  };
+
+  const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setZip(val);
+    if (val.trim().length === 0) setZipError('Zip code is required.');
+    else setZipError('');
   };
 
   const handlePayment = (e: React.FormEvent) => {
@@ -94,14 +151,32 @@ export default function CheckoutPage() {
                   <h2 className="text-xl font-semibold">Guest Checkout</h2>
                   
                   <div className="grid grid-cols-2 gap-4">
-                    <input type="text" placeholder="First Name" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
-                    <input type="text" placeholder="Last Name" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                    <div>
+                      <input type="text" placeholder="First Name" required className={`w-full bg-surface border ${firstNameError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={firstName} onChange={handleFirstNameChange} />
+                      <AnimatePresence>{firstNameError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{firstNameError}</motion.p>}</AnimatePresence>
+                    </div>
+                    <div>
+                      <input type="text" placeholder="Last Name" required className={`w-full bg-surface border ${lastNameError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={lastName} onChange={handleLastNameChange} />
+                      <AnimatePresence>{lastNameError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{lastNameError}</motion.p>}</AnimatePresence>
+                    </div>
                   </div>
-                  <input type="email" placeholder="Email Address" required className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
-                  <input type="text" placeholder="Address" required className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                  <div>
+                    <input type="email" placeholder="Email Address" required className={`w-full bg-surface border ${emailError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={email} onChange={handleEmailChange} />
+                    <AnimatePresence>{emailError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{emailError}</motion.p>}</AnimatePresence>
+                  </div>
+                  <div>
+                    <input type="text" placeholder="Address" required className={`w-full bg-surface border ${addressError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={address} onChange={handleAddressChange} />
+                    <AnimatePresence>{addressError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{addressError}</motion.p>}</AnimatePresence>
+                  </div>
                   <div className="grid grid-cols-3 gap-4">
-                    <input type="text" placeholder="City" required className="col-span-2 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
-                    <input type="text" placeholder="Zip" required className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                    <div className="col-span-2">
+                      <input type="text" placeholder="City" required className={`w-full bg-surface border ${cityError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={city} onChange={handleCityChange} />
+                      <AnimatePresence>{cityError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{cityError}</motion.p>}</AnimatePresence>
+                    </div>
+                    <div className="col-span-1">
+                      <input type="text" placeholder="Zip" required className={`w-full bg-surface border ${zipError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={zip} onChange={handleZipChange} />
+                      <AnimatePresence>{zipError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{zipError}</motion.p>}</AnimatePresence>
+                    </div>
                   </div>
                   
                   <label className="flex items-center gap-3 mt-2 cursor-pointer group w-fit">
@@ -109,7 +184,7 @@ export default function CheckoutPage() {
                     <span className="text-sm text-text-muted group-hover:text-foreground transition-colors">Save this information for next time</span>
                   </label>
 
-                  <button type="submit" className="mt-4 w-full py-4 bg-foreground text-background font-medium rounded-full hover:scale-[0.98] transition-transform duration-200">
+                  <button type="submit" disabled={!!firstNameError || !!lastNameError || !!emailError || !!addressError || !!cityError || !!zipError} className="mt-4 w-full py-4 bg-foreground text-background font-medium rounded-full hover:scale-[0.98] transition-transform duration-200 disabled:opacity-50 disabled:hover:scale-100">
                     Continue to Payment
                   </button>
                 </form>

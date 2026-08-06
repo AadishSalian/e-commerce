@@ -26,6 +26,11 @@ export default function AuthCard() {
   const [isBreached, setIsBreached] = useState(false);
   const [isCheckingBreach, setIsCheckingBreach] = useState(false);
   const [error, setError] = useState('');
+  
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
   // Calculate password strength
   useEffect(() => {
@@ -59,6 +64,56 @@ export default function AuthCard() {
     setShowPassword(false);
     setShowConfirmPassword(false);
     setError('');
+    setNameError('');
+    setEmailError('');
+    setPasswordError('');
+    setConfirmPasswordError('');
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setName(val);
+    if (!isLogin && val.length > 0 && val.trim().length < 2) {
+      setNameError('Name must be at least 2 characters.');
+    } else {
+      setNameError('');
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setEmail(val);
+    if (val && !/\S+@\S+\.\S+/.test(val)) {
+      setEmailError('Please enter a valid email address.');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setPassword(val);
+    if (!isLogin && val.length > 0 && val.length < 8) {
+      setPasswordError('Password must be at least 8 characters.');
+    } else {
+      setPasswordError('');
+    }
+    
+    if (!isLogin && confirmPassword && val !== confirmPassword) {
+      setConfirmPasswordError('Passwords do not match.');
+    } else if (!isLogin && val === confirmPassword) {
+      setConfirmPasswordError('');
+    }
+  };
+
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setConfirmPassword(val);
+    if (val && val !== password) {
+      setConfirmPasswordError('Passwords do not match.');
+    } else {
+      setConfirmPasswordError('');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -166,13 +221,25 @@ export default function AuthCard() {
                         <User className={styles.inputIcon} size={18} />
                         <input 
                           type="text" 
-                          className={styles.inputField} 
+                          className={`${styles.inputField} ${nameError ? 'border-red-500/50 focus:border-red-500' : ''}`} 
                           placeholder="Full Name" 
                           required={!isLogin}
                           value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          onChange={handleNameChange}
                         />
                       </div>
+                      <AnimatePresence>
+                        {nameError && (
+                          <motion.p 
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="text-red-500 text-xs mt-1 ml-1"
+                          >
+                            {nameError}
+                          </motion.p>
+                        )}
+                      </AnimatePresence>
                     </div>
                   )}
 
@@ -181,13 +248,25 @@ export default function AuthCard() {
                       <Mail className={styles.inputIcon} size={18} />
                       <input 
                         type="email" 
-                        className={styles.inputField} 
+                        className={`${styles.inputField} ${emailError ? 'border-red-500/50 focus:border-red-500' : ''}`} 
                         placeholder="Email Address" 
                         required
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleEmailChange}
                       />
                     </div>
+                    <AnimatePresence>
+                      {emailError && (
+                        <motion.p 
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="text-red-500 text-xs mt-1 ml-1"
+                        >
+                          {emailError}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   <div className={styles.inputGroup}>
@@ -195,11 +274,11 @@ export default function AuthCard() {
                       <Lock className={styles.inputIcon} size={18} />
                       <input 
                         type={showPassword ? "text" : "password"} 
-                        className={styles.inputField} 
+                        className={`${styles.inputField} ${passwordError ? 'border-red-500/50 focus:border-red-500' : ''}`} 
                         placeholder="Password" 
                         required
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={handlePasswordChange}
                       />
                       <button 
                         type="button" 
@@ -209,6 +288,18 @@ export default function AuthCard() {
                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
+                    <AnimatePresence>
+                      {passwordError && (
+                        <motion.p 
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="text-red-500 text-xs mt-1 ml-1"
+                        >
+                          {passwordError}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   {!isLogin && password && (
@@ -239,11 +330,11 @@ export default function AuthCard() {
                         <Lock className={styles.inputIcon} size={18} />
                         <input 
                           type={showConfirmPassword ? "text" : "password"} 
-                          className={styles.inputField} 
+                          className={`${styles.inputField} ${confirmPasswordError ? 'border-red-500/50 focus:border-red-500' : ''}`} 
                           placeholder="Confirm Password" 
                           required={!isLogin}
                           value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          onChange={handleConfirmPasswordChange}
                         />
                         <button 
                           type="button" 
@@ -253,6 +344,18 @@ export default function AuthCard() {
                           {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
                       </div>
+                      <AnimatePresence>
+                        {confirmPasswordError && (
+                          <motion.p 
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="text-red-500 text-xs mt-1 ml-1"
+                          >
+                            {confirmPasswordError}
+                          </motion.p>
+                        )}
+                      </AnimatePresence>
                     </div>
                   )}
 
@@ -279,7 +382,7 @@ export default function AuthCard() {
                     type="submit" 
                     className={styles.primaryButton}
                     style={{ backgroundColor: '#8ed500', color: '#121212' }}
-                    disabled={(!isLogin && (isBreached || passwordScore < 2))}
+                    disabled={(!isLogin && (isBreached || passwordScore < 2 || !!nameError || !!emailError || !!passwordError || !!confirmPasswordError)) || !!emailError}
                   >
                     {isLogin ? 'Sign In' : 'Create Account'}
                   </button>

@@ -164,3 +164,16 @@ html {
 html[data-intro="played"] #intro-overlay {
   display: none !important;
 }
+
+/* Image treatment per theme */
+img {
+  /* Dark mode (default) - slightly reduced brightness to avoid harsh contrast against dark backgrounds */
+  filter: brightness(0.92) contrast(1.05);
+  transition: filter 0.3s ease;
+}
+
+[data-theme="light"] img {
+  /* Light mode - natural or slightly enhanced brightness */
+  filter: brightness(1.0) contrast(1.02);
+}
+

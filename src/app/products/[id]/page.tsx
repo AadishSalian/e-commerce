@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useState } from 'react';
+import { use, useState, useEffect } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { motion } from 'framer-motion';
@@ -17,7 +17,7 @@ import ReviewsSection from '@/components/product/ReviewsSection';
 import QnASection from '@/components/product/QnASection';
 import StickyAddToCart from '@/components/product/StickyAddToCart';
 import ProductViewer from '@/components/product/ProductViewer';
-import { useEffect } from 'react';
+import SizeFitQuiz from '@/components/product/SizeFitQuiz';
 import { WishlistButton } from '@/components/ui';
 
 type Props = {
@@ -160,6 +160,21 @@ export default function ProductDetailPage({ params }: Props) {
               </div>
             )}
 
+            {product.category === 'Fashion' && (
+              <div className="mb-6 border border-accent/20 bg-accent/5 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-bold text-foreground">Find Your Perfect Fit</h4>
+                  <p className="text-xs text-text-muted mt-1">Take our 2-minute quiz for a personalized recommendation.</p>
+                </div>
+                <button
+                  onClick={() => setShowSizeGuide(true)}
+                  className="px-4 py-2 bg-foreground text-background text-sm font-medium rounded-full hover:bg-foreground/90 transition-colors whitespace-nowrap"
+                >
+                  Start Quiz
+                </button>
+              </div>
+            )}
+
             <div className="mb-10">
               <Accordion items={productAccordionItems} />
             </div>
@@ -242,6 +257,11 @@ export default function ProductDetailPage({ params }: Props) {
         onAddToCart={() => addToCart(product, 1, selectedVariant || undefined)} 
       />
 
+      <SizeFitQuiz 
+        isOpen={showSizeGuide} 
+        onClose={() => setShowSizeGuide(false)} 
+        productName={product.name} 
+      />
     </div>
   );
 }

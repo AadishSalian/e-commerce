@@ -9,6 +9,7 @@ import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
 import { WishlistButton } from '@/components/ui';
+import ProductCard from '@/components/product/ProductCard';
 
 export default function FashionPage() {
   const { openQuickView } = useQuickView();
@@ -189,63 +190,7 @@ export default function FashionPage() {
                 key={product.id}
                 className="group cursor-pointer"
               >
-                <Link href={`/products/${product.id}`} className="block">
-                  {/* Image Container with Hover Crossfade */}
-                  <div className="w-full aspect-[4/5] bg-surface overflow-hidden mb-6 relative rounded-sm border border-transparent hover:border-border/50 transition-colors">
-                    {product.isNew && (
-                      <span className="absolute top-4 left-4 z-20 bg-foreground text-background px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-sm">
-                        New
-                      </span>
-                    )}
-                    
-                    {/* Primary Image */}
-                    <motion.img 
-                      src={product.image} 
-                      alt={product.name} 
-                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
-                      whileHover={{ scale: 1.03 }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                    />
-                    
-                    {/* Hover Image */}
-                    {product.hoverImage && (
-                      <motion.img 
-                        src={product.hoverImage} 
-                        alt={`${product.name} alternate view`} 
-                        className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
-                        whileHover={{ scale: 1.03 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                      />
-                    )}
-
-                    {/* Action Buttons */}
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                      <button 
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
-                        className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
-                        title="Quick View"
-                      >
-                        <Eye className="w-5 h-5" />
-                      </button>
-                      <button 
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
-                        className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
-                        title="Compare"
-                      >
-                        <Layers className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                  
-                  {/* Product Details - Premium Minimalist style */}
-                  <div className="flex justify-between items-start">
-                    <div className="flex flex-col">
-                      <h3 className="text-foreground font-bold tracking-tight uppercase text-sm mb-1">{product.name}</h3>
-                      <p className="text-text-muted text-xs uppercase tracking-wider font-medium">{product.variants && product.variants.length > 0 ? `${product.variants.length} Colors` : '1 Color'}</p>
-                    </div>
-                    <p className="text-foreground font-medium">${product.price.toFixed(2)}</p>
-                  </div>
-                </Link>
+                <ProductCard product={product} variant="editorial" />
               </motion.div>
             ))}
           </AnimatePresence>

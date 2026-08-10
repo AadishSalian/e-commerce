@@ -9,6 +9,7 @@ import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
 import { WishlistButton } from '@/components/ui';
+import ProductCard from '@/components/product/ProductCard';
 
 export default function ProductsPage() {
   const { openQuickView } = useQuickView();
@@ -110,50 +111,7 @@ export default function ProductsPage() {
                 transition={{ duration: 0.4, delay: idx * 0.05 }}
                 key={product.id}
               >
-                <Link href={`/products/${product.id}`} className="group block">
-                  {/* Matte Flat Product Tile */}
-                  <div className="w-full aspect-[4/5] bg-surface rounded-xl border border-transparent group-hover:border-border transition-colors duration-300 mb-6 flex flex-col p-2 relative overflow-hidden">
-                    {product.isNew && (
-                      <span className="absolute top-6 left-6 z-10 text-[10px] font-bold uppercase tracking-widest bg-[#8ed500] text-[#121212] px-2.5 py-1 rounded-sm shadow-sm">
-                        New
-                      </span>
-                    )}
-                    <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center relative overflow-hidden">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      
-                      {/* Action Buttons */}
-                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                        <button 
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
-                          className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
-                          title="Quick View"
-                        >
-                          <Eye className="w-5 h-5" />
-                        </button>
-                        <button 
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
-                          className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
-                          title="Compare"
-                        >
-                          <Layers className="w-5 h-5" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Product Details */}
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="text-foreground font-medium text-lg mb-1">{product.name}</h3>
-                      <p className="text-text-muted text-sm">{product.variants && product.variants.length > 0 ? `${product.variants.length} Colors` : '1 Color'}</p>
-                    </div>
-                    <p className="text-foreground font-medium text-lg">${product.price.toFixed(2)}</p>
-                  </div>
-                </Link>
+                <ProductCard product={product} variant="default" />
               </motion.div>
             ))}
           </AnimatePresence>

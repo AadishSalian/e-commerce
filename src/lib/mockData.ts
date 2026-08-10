@@ -16,6 +16,7 @@ export type Product = {
   relatedProducts?: string[];
   modelUrl?: string;
   iosModelUrl?: string;
+  tier?: 'Good' | 'Better' | 'Best';
 };
 
 export const MOCK_PRODUCTS: Product[] = [
@@ -40,7 +41,8 @@ export const MOCK_PRODUCTS: Product[] = [
     variants: [
       { id: 'v-1', name: 'Color', value: 'Matte Black', materialImage: 'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?q=80&w=200&auto=format&fit=crop' },
       { id: 'v-2', name: 'Color', value: 'Graphite', materialImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop' },
-    ]
+    ],
+    tier: 'Best'
   },
   {
     id: 't-2',
@@ -55,7 +57,8 @@ export const MOCK_PRODUCTS: Product[] = [
     variants: [
       { id: 'v-3', name: 'Color', value: 'Charcoal' },
       { id: 'v-4', name: 'Color', value: 'Sage' },
-    ]
+    ],
+    tier: 'Better'
   },
   {
     id: 't-3',
@@ -294,7 +297,8 @@ export const MOCK_PRODUCTS: Product[] = [
     variants: [
       { id: 'fv-1', name: 'Color', value: 'Onyx' },
       { id: 'fv-2', name: 'Color', value: 'Camel' },
-    ]
+    ],
+    tier: 'Best'
   },
   {
     id: 'f-2',
@@ -308,7 +312,8 @@ export const MOCK_PRODUCTS: Product[] = [
     variants: [
       { id: 'fv-3', name: 'Color', value: 'Midnight' },
       { id: 'fv-4', name: 'Color', value: 'Pearl' },
-    ]
+    ],
+    tier: 'Good'
   },
   {
     id: 'f-3',

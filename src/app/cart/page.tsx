@@ -89,9 +89,11 @@ export default function CartPage() {
             {cartItems.length === 0 && (
               <div className="py-12 border-b border-border">
                 <EmptyState 
-                  icon={<ShoppingBag />} 
-                  title="Your bag is empty" 
-                  description="Looks like you haven't added anything to your bag yet. Explore our latest arrivals." 
+                  icon={<ShoppingBag className="w-12 h-12" />} 
+                  title="Your bag is empty." 
+                  description="Your setup is waiting for its next addition. Discover our premium hardware." 
+                  actionText="Explore Products"
+                  actionHref="/products"
                 />
               </div>
             )}

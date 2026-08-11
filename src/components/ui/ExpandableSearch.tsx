@@ -5,6 +5,7 @@ import { Search, ArrowRight, Clock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import styles from './ExpandableSearch.module.css';
 import { searchProducts, SearchResult } from '@/lib/search';
+import { Loader } from '@/components/ui/Loader';
 
 export function ExpandableSearch() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -13,6 +14,7 @@ export function ExpandableSearch() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
+  const [isSearching, setIsSearching] = useState(false);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -43,14 +45,17 @@ export function ExpandableSearch() {
   // Execute search when debounced query changes
   useEffect(() => {
     if (debouncedQuery.trim()) {
-      const searchRes = searchProducts(debouncedQuery);
-      // eslint-disable-next-line
-      setResults(searchRes.slice(0, 5)); // Show up to 5 matches in dropdown
+      setIsSearching(true);
+      const timer = setTimeout(() => {
+        const searchRes = searchProducts(debouncedQuery);
+        setResults(searchRes.slice(0, 5)); // Show up to 5 matches in dropdown
+        setIsSearching(false);
+      }, 500);
+      return () => clearTimeout(timer);
     } else {
-      // eslint-disable-next-line
       setResults([]);
+      setIsSearching(false);
     }
-    // eslint-disable-next-line
     setFocusedIndex(-1); // reset focus
   }, [debouncedQuery]);
 
@@ -194,7 +199,11 @@ export function ExpandableSearch() {
           {/* Results State */}
           {isShowingResults && (
             <>
-              {results.length > 0 ? (
+              {isSearching ? (
+                <div className="flex justify-center py-8">
+                  <Loader size="sm" fullScreen={false} showCaption={false} />
+                </div>
+              ) : results.length > 0 ? (
                 <>
                   <div className={styles.dropdownHeader}>Products</div>
                   <ul className={styles.dropdownList}>

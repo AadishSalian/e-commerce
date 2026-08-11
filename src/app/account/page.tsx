@@ -6,7 +6,7 @@ import { Package, User, Heart, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useWishlist } from '@/contexts/WishlistContext';
-import { WishlistButton } from '@/components/ui';
+import { WishlistButton, EmptyState } from '@/components/ui';
 
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState('orders');
@@ -126,12 +126,14 @@ export default function AccountPage() {
             >
               <h2 className="text-2xl font-bold text-foreground mb-8">Your Wishlist</h2>
               {wishlistItems.length === 0 ? (
-                <div className="text-center py-12 bg-surface rounded-xl border border-border">
-                  <Heart className="w-8 h-8 mx-auto text-text-muted mb-4" />
-                  <p className="text-text-muted">Your wishlist is empty.</p>
-                  <Link href="/products" className="text-accent hover:underline mt-2 inline-block">
-                    Explore products
-                  </Link>
+                <div className="py-8 bg-surface rounded-xl border border-border">
+                  <EmptyState 
+                    icon={<Heart className="w-8 h-8" />} 
+                    title="Nothing saved yet." 
+                    description="Curate your perfect setup. Start exploring our collections to find your next obsession." 
+                    actionText="Start Browsing" 
+                    actionHref="/products" 
+                  />
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

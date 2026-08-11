@@ -1,10 +1,33 @@
 import React from 'react';
 import './Loader.css';
 
-export const Loader: React.FC = () => {
+export interface LoaderProps {
+  size?: 'sm' | 'md' | 'lg';
+  fullScreen?: boolean;
+  className?: string;
+  showCaption?: boolean;
+}
+
+export const Loader: React.FC<LoaderProps> = ({ 
+  size = 'md', 
+  fullScreen = true,
+  className = '',
+  showCaption = true
+}) => {
+  const sizeScale = size === 'sm' ? 0.4 : size === 'md' ? 0.7 : 1;
+  const gap = size === 'sm' ? 12 : size === 'md' ? 20 : 28;
+
   return (
-    <div className="matte-loader-container">
-      <div className="matte-loader" role="img" aria-label="Loading">
+    <div 
+      className={`matte-loader-container ${fullScreen ? 'matte-loader-fullscreen' : ''} ${className}`}
+      style={{ gap: `${gap}px` }}
+    >
+      <div 
+        className="matte-loader" 
+        role="img" 
+        aria-label="Loading"
+        style={{ transform: `scale(${sizeScale})`, transformOrigin: 'center' }}
+      >
         <svg height="0" width="0">
           <defs>
             <linearGradient id="letterGrad" gradientUnits="userSpaceOnUse" x1="0" y1="60" x2="0" y2="2">
@@ -58,7 +81,7 @@ export const Loader: React.FC = () => {
 
       </div>
 
-      <div className="matte-loader-caption">Loading</div>
+      {showCaption && <div className="matte-loader-caption">Loading</div>}
     </div>
   );
 };

@@ -30,9 +30,11 @@ export default function WishlistPage() {
       {wishlistItems.length === 0 ? (
         <div className="border-t border-border pt-24 pb-32">
           <EmptyState 
-            icon={<Heart />} 
-            title="Nothing to see here" 
-            description="You haven't saved any items to your wishlist yet. Keep track of what you love." 
+            icon={<Heart className="w-12 h-12" />} 
+            title="Nothing saved yet." 
+            description="Curate your perfect setup. Start exploring our collections to find your next obsession." 
+            actionText="Start Browsing" 
+            actionHref="/products" 
           />
         </div>
       ) : (

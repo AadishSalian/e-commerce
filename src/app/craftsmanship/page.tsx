@@ -1,73 +1,116 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import Link from 'next/link';
+
+// Storytelling Components
+import CinematicHero from '@/components/storytelling/CinematicHero';
+import EditorialIntro from '@/components/storytelling/EditorialIntro';
+import CraftingJourney from '@/components/storytelling/CraftingJourney';
+import InteractiveHotspots from '@/components/storytelling/InteractiveHotspots';
+import MaterialShowcase from '@/components/storytelling/MaterialShowcase';
+import PhilosophySection from '@/components/storytelling/PhilosophySection';
 import SplitRevealSlider from '@/components/storytelling/SplitRevealSlider';
-import ParallaxProductShadow from '@/components/storytelling/ParallaxProductShadow';
-import AnimatedStitching from '@/components/storytelling/AnimatedStitching';
+import CraftsmanshipDetails from '@/components/storytelling/CraftsmanshipDetails';
+
+// UI Components
+import ProductCard from '@/components/product/ProductCard';
+import { PrimaryButton } from '@/components/ui/PrimaryButton';
+import { MOCK_PRODUCTS } from '@/lib/mockData';
 
 export const metadata: Metadata = {
   title: 'Our Craftsmanship | Shop',
-  description: 'Discover the meticulous attention to detail and high-quality materials that go into every product we make.',
+  description: 'From material to masterpiece. Explore the meticulous attention to detail and high-quality materials that go into every product we make.',
 };
 
 export default function CraftsmanshipPage() {
-  return (
-    <div className="flex flex-col w-full min-h-screen bg-zinc-50 overflow-x-hidden selection:bg-zinc-900 selection:text-white">
-      {/* Hero Section */}
-      <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-100 to-zinc-50 pointer-events-none" />
-        <h1 className="relative text-5xl md:text-7xl font-serif font-semibold tracking-tight text-zinc-900 mb-8 max-w-4xl">
-          The Art of <span className="italic font-light">Making</span>
-        </h1>
-        <p className="relative text-lg md:text-xl text-zinc-600 max-w-2xl font-light leading-relaxed">
-          We believe in creating products that aren't just used, but cherished. 
-          Explore the techniques and materials that set our pieces apart.
-        </p>
-      </section>
+  // Grab a few products for the recommendation section
+  const recommendedProducts = MOCK_PRODUCTS.slice(28, 32); // Using some fashion/accessories products as placeholders
 
-      {/* Storytelling Components Showcase */}
-      <div className="w-full flex flex-col gap-24 md:gap-40 pb-40">
+  return (
+    <div className="flex flex-col w-full min-h-screen bg-background overflow-x-hidden selection:bg-accent selection:text-background">
+      
+      {/* SECTION 1 — CINEMATIC HERO */}
+      <CinematicHero />
+
+      {/* SECTION 2 & 3 — INTRODUCTION & HANDS BEHIND THE CRAFT */}
+      <EditorialIntro />
+
+      {/* SECTION 4 — THE CRAFTING JOURNEY */}
+      <CraftingJourney />
+
+      {/* SECTION 5 — EVERY MARK HAS A STORY */}
+      <InteractiveHotspots />
+
+      {/* SECTION 6 — MATERIAL SHOWCASE */}
+      <MaterialShowcase />
+
+      {/* SECTION 7 — FULL-SCREEN PHILOSOPHY */}
+      <PhilosophySection />
+
+      {/* SECTION 8 — RAW TO REFINED */}
+      <section className="w-full py-24 md:py-32 bg-surface">
+        <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
+          <h2 className="text-4xl md:text-5xl font-serif font-bold uppercase tracking-tight text-foreground mb-4">
+            From Raw<br />
+            To Refined
+          </h2>
+          <p className="text-lg text-text-muted font-light max-w-2xl mx-auto">
+            Drag the slider to see the transformation of raw material into finished product.
+          </p>
+        </div>
         
-        {/* Split Reveal Section */}
-        <section className="w-full max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="mb-16 text-center max-w-3xl mx-auto">
-            <span className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-4 block">Chapter 01</span>
-            <h2 className="text-4xl font-serif font-medium text-zinc-900 mb-6">Material Transformation</h2>
-            <p className="text-lg text-zinc-600 font-light leading-relaxed">See the raw, untreated leather transform into our signature supple finish through our proprietary natural tanning process.</p>
-          </div>
+        <div className="px-6">
           <SplitRevealSlider 
             beforeImage="https://images.unsplash.com/photo-1590740523293-6a97825a07aa?q=80&w=1200&auto=format&fit=crop"
             afterImage="https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?q=80&w=1200&auto=format&fit=crop"
             beforeAlt="Raw Material"
-            afterAlt="Finished Leather"
+            afterAlt="Finished Product"
           />
-        </section>
+        </div>
+      </section>
 
-        {/* Parallax Shadow Section */}
-        <section className="w-full max-w-7xl mx-auto px-6 lg:px-8">
-           <div className="mb-16 text-center max-w-3xl mx-auto">
-            <span className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-4 block">Chapter 02</span>
-            <h2 className="text-4xl font-serif font-medium text-zinc-900 mb-6">Featherlight Engineering</h2>
-            <p className="text-lg text-zinc-600 font-light leading-relaxed">Designed to feel almost weightless. Interact with the product below to see it float effortlessly in space, reacting to your every move.</p>
-          </div>
-          <div className="bg-white rounded-3xl p-8 md:p-16 shadow-sm border border-zinc-100 transition-all hover:shadow-md">
-            <ParallaxProductShadow 
-              imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop"
-              imageAlt="Floating Sneaker"
+      {/* SECTION 9 — CRAFTSMANSHIP DETAILS */}
+      <CraftsmanshipDetails />
+
+      {/* SECTION 10 — FINAL PRODUCT REVEAL */}
+      <section className="w-full py-24 md:py-32 bg-background flex flex-col items-center justify-center text-center px-6">
+        <span className="text-sm font-semibold tracking-widest text-text-muted uppercase mb-4 block">The Result</span>
+        
+        <div className="w-full max-w-4xl aspect-[21/9] bg-surface rounded-2xl overflow-hidden mb-12 shadow-2xl">
+           <img 
+              src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1600&auto=format&fit=crop" 
+              alt="The final product" 
+              className="w-full h-full object-cover"
             />
-          </div>
-        </section>
+        </div>
 
-        {/* Animated Stitching Section */}
-        <section className="w-full bg-white border-y border-zinc-200 mt-12">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 md:py-20">
-            <div className="mb-12 text-center max-w-3xl mx-auto md:hidden">
-              <span className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-4 block">Chapter 03</span>
-            </div>
-            <AnimatedStitching />
-          </div>
-        </section>
+        <h2 className="text-5xl md:text-7xl font-serif font-bold uppercase tracking-tight text-foreground leading-[0.9] mb-12">
+          Made To Be Used.<br />
+          Made To Be Kept.
+        </h2>
 
-      </div>
+        <Link href="/products">
+          <PrimaryButton className="text-base px-8 py-4 uppercase tracking-widest font-bold">
+            Explore The Collection
+          </PrimaryButton>
+        </Link>
+      </section>
+
+      {/* SECTION 11 — PRODUCT RECOMMENDATION */}
+      <section className="w-full py-24 bg-surface border-t border-border">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-3xl font-serif font-bold uppercase tracking-tight text-foreground mb-12">
+            Explore The Collection
+          </h2>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {recommendedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

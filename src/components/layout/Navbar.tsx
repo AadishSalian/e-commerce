@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { label: 'Shop', href: '/products' },
   { label: 'New Arrivals', href: '/products?category=new' },
   { label: 'Collections', href: '/products?category=collections' },
+  { label: 'Craftsmanship', href: '/craftsmanship' },
   { label: 'Fit Quiz', href: '/fit-quiz' },
   { label: 'About', href: '/about' },
 ];
@@ -88,7 +89,7 @@ export default function Navbar() {
           >
             {NAV_LINKS.map((link) => {
               const isActive = activeHover === link.label || (!activeHover && pathname === link.href);
-              const hasMegaMenu = !['About', 'Fit Quiz'].includes(link.label);
+              const hasMegaMenu = !['Craftsmanship', 'About', 'Fit Quiz'].includes(link.label);
               return (
                 <Link
                   key={link.label}

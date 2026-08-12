@@ -84,17 +84,17 @@ export default function AnimatedStitching({
             strokeWidth="4" 
             strokeLinecap="round"
             strokeDasharray="12 12"
-            className="text-zinc-800"
+            className="text-foreground"
             mask="url(#stitching-mask)"
           />
         </svg>
       </div>
       
       <div className={`w-full md:w-1/2 space-y-6 transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}>
-        <h3 className="text-3xl md:text-4xl font-serif font-medium tracking-tight text-zinc-900">
+        <h3 className="text-3xl md:text-4xl font-serif font-medium tracking-tight text-foreground">
           {title}
         </h3>
-        <p className="text-lg text-zinc-600 leading-relaxed max-w-md">
+        <p className="text-lg text-text-muted leading-relaxed max-w-md">
           {description}
         </p>
       </div>

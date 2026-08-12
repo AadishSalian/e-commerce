@@ -59,7 +59,7 @@ export default function SplitRevealSlider({
   return (
     <div 
       ref={containerRef}
-      className={`relative w-full max-w-4xl mx-auto aspect-[16/9] overflow-hidden rounded-2xl bg-zinc-100 select-none group shadow-2xl ${isDragging ? 'cursor-ew-resize' : 'cursor-auto'}`}
+      className={`relative w-full max-w-4xl mx-auto aspect-[16/9] overflow-hidden rounded-2xl bg-surface select-none group shadow-2xl ${isDragging ? 'cursor-ew-resize' : 'cursor-auto'}`}
       onPointerDown={onPointerDown}
       style={{ touchAction: 'none' }}
     >

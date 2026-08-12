@@ -11,7 +11,7 @@ export function StoreBackButton() {
   if (pathname === '/') return null;
 
   return (
-    <div className="fixed top-8 left-4 md:left-8 z-[60]">
+    <div className="fixed top-24 md:top-28 left-4 md:left-8 z-[60]">
       <Link 
         href="/" 
         className="inline-flex items-center gap-2 text-text-muted hover:text-foreground transition-colors font-medium text-xs tracking-[0.2em] uppercase"

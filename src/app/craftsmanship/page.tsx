@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function CraftsmanshipPage() {
   return (
-    <div className="flex flex-col w-full min-h-screen bg-zinc-50 overflow-hidden selection:bg-zinc-900 selection:text-white">
+    <div className="flex flex-col w-full min-h-screen bg-zinc-50 overflow-x-hidden selection:bg-zinc-900 selection:text-white">
       {/* Hero Section */}
       <section className="relative w-full py-32 md:py-48 flex flex-col items-center justify-center text-center px-6 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-100 to-zinc-50 pointer-events-none" />

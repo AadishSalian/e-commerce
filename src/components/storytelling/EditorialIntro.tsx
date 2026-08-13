@@ -27,10 +27,10 @@ export default function EditorialIntro() {
     <div className="w-full bg-background text-foreground py-24 md:py-32 flex flex-col gap-32 overflow-hidden">
       
       {/* SECTION 2 - THE ART OF TAKING TIME */}
-      <section ref={artRef} className="max-w-7xl mx-auto w-full px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-        {/* Left: Large craftsmanship image */}
+      <section ref={artRef} className="w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-0 items-center">
+        {/* Left: Large craftsmanship image, full bleed left */}
         <motion.div 
-          className="relative aspect-[3/4] w-full overflow-hidden"
+          className="relative aspect-[4/3] md:aspect-[4/5] w-full overflow-hidden md:col-span-6 lg:col-span-5"
           initial={{ opacity: 0, x: -40 }}
           animate={artInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -44,7 +44,7 @@ export default function EditorialIntro() {
 
         {/* Right: Typography and copy */}
         <motion.div 
-          className="flex flex-col relative pl-0 md:pl-12"
+          className="flex flex-col relative px-6 md:px-0 md:col-span-5 md:col-start-8"
           variants={containerVariants}
           initial="hidden"
           animate={artInView ? "visible" : "hidden"}
@@ -76,10 +76,10 @@ export default function EditorialIntro() {
       </section>
 
       {/* SECTION 3 - THE HANDS BEHIND THE CRAFT */}
-      <section ref={handsRef} className="max-w-7xl mx-auto w-full px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+      <section ref={handsRef} className="w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-0 items-center mt-12 md:mt-32">
         {/* Left: Typography and Stats */}
         <motion.div 
-          className="flex flex-col order-2 md:order-1 pr-0 md:pr-12 relative"
+          className="flex flex-col order-2 md:order-1 relative px-6 md:px-0 md:col-span-5 md:col-start-2 lg:col-start-3"
           variants={containerVariants}
           initial="hidden"
           animate={handsInView ? "visible" : "hidden"}
@@ -124,9 +124,9 @@ export default function EditorialIntro() {
           </motion.div>
         </motion.div>
 
-        {/* Right: Artisan Image */}
+        {/* Right: Artisan Image, full bleed right */}
         <motion.div 
-          className="relative aspect-square md:aspect-[4/5] w-full overflow-hidden order-1 md:order-2"
+          className="relative aspect-[4/3] md:aspect-[3/4] w-full overflow-hidden order-1 md:order-2 md:col-span-5 md:col-start-8"
           initial={{ opacity: 0, x: 40 }}
           animate={handsInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}

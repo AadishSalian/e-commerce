@@ -42,14 +42,14 @@ export default function InteractiveHotspots() {
         </p>
       </div>
 
-      <div className="max-w-5xl mx-auto relative px-6 md:px-0">
-        <div className="relative w-full aspect-square md:aspect-[16/9] bg-surface rounded-2xl shadow-2xl group border border-border">
+      <div className="w-full relative">
+        <div className="relative w-full aspect-[4/3] md:aspect-[21/9] bg-surface group">
           
           {/* Main Product Image with subtle zoom on active hotspot */}
           <motion.img 
-            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1600&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=2400&auto=format&fit=crop"
             alt="Product detail"
-            className="w-full h-full object-cover rounded-2xl"
+            className="w-full h-full object-cover"
             animate={{ 
               scale: activeHotspot ? 1.05 : 1,
               filter: activeHotspot ? 'brightness(0.7)' : 'brightness(1)'
@@ -90,7 +90,7 @@ export default function InteractiveHotspots() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
-                      className={`absolute top-10 w-64 bg-background/90 backdrop-blur-xl border border-border p-6 rounded-xl shadow-2xl pointer-events-none z-50 ${
+                      className={`absolute top-12 w-64 bg-background border border-border p-6 shadow-none pointer-events-none z-50 ${
                         hotspot.x > 70 ? 'right-0' : hotspot.x < 30 ? 'left-0' : 'left-1/2 -translate-x-1/2'
                       }`}
                     >

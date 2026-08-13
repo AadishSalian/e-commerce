@@ -8,19 +8,19 @@ const journeySteps = [
     id: '01',
     title: 'Material',
     description: 'We source only the finest raw materials, ensuring sustainability and durability from the very beginning.',
-    image: 'https://images.unsplash.com/photo-1590740523293-6a97825a07aa?q=80&w=1000&auto=format&fit=crop'
+    image: 'https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=1000&auto=format&fit=crop'
   },
   {
     id: '02',
     title: 'Shaping',
     description: 'The initial form is meticulously cut and shaped, guided by years of intuition and precision tools.',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop'
+    image: 'https://images.unsplash.com/photo-1616781295982-f472851954ed?q=80&w=1000&auto=format&fit=crop'
   },
   {
     id: '03',
     title: 'Handcraft',
     description: 'Every edge is burnished and every surface treated by hand. This is where the product gains its soul.',
-    image: 'https://images.unsplash.com/photo-1616781295982-f472851954ed?q=80&w=1000&auto=format&fit=crop'
+    image: 'https://images.unsplash.com/photo-1590740523293-6a97825a07aa?q=80&w=1000&auto=format&fit=crop'
   },
   {
     id: '04',
@@ -32,7 +32,7 @@ const journeySteps = [
     id: '05',
     title: 'The Final Piece',
     description: 'A masterpiece ready for a lifetime of use. It will only grow more beautiful as it ages with you.',
-    image: 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1000&auto=format&fit=crop'
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop'
   }
 ];
 
@@ -120,12 +120,12 @@ export default function CraftingJourney() {
                   </div>
                 </div>
                 
-                <div className="relative z-10 bg-background/90 backdrop-blur-md p-8 translate-y-8 max-w-lg">
+                <div className="relative z-10 bg-background border border-border p-8 translate-y-8 max-w-lg shadow-none">
                   <div className="flex items-center gap-4 mb-4">
-                    <span className="text-sm font-semibold tracking-widest text-accent">{step.id}</span>
-                    <h3 className="text-3xl font-serif font-bold text-foreground uppercase tracking-tight">{step.title}</h3>
+                    <span className="text-xs font-bold tracking-widest text-accent">0{index + 1} / 05</span>
                   </div>
-                  <p className="text-lg text-text-muted leading-relaxed font-light">
+                  <h3 className="text-3xl font-serif font-bold text-foreground uppercase tracking-tight mb-4">{step.title}</h3>
+                  <p className="text-base text-text-muted leading-relaxed font-light">
                     {step.description}
                   </p>
                 </div>

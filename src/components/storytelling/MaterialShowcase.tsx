@@ -67,9 +67,9 @@ export default function MaterialShowcase() {
         </h2>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="w-full">
         {/* Navigation Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-12">
+        <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-12 px-6">
           {materials.map((mat, idx) => (
             <button
               key={mat.id}
@@ -93,7 +93,7 @@ export default function MaterialShowcase() {
           ref={containerRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="relative w-full aspect-[4/3] md:aspect-[21/9] bg-surface overflow-hidden cursor-crosshair rounded-xl"
+          className="relative w-full aspect-[4/3] md:aspect-[21/9] bg-surface overflow-hidden cursor-crosshair"
         >
           {/* Spotlight Effect (Desktop only) */}
           <div 
@@ -116,31 +116,30 @@ export default function MaterialShowcase() {
               <img 
                 src={activeMaterial.image} 
                 alt={activeMaterial.name} 
-                className="w-full h-full object-cover grayscale-[20%]"
+                className="w-full h-full object-cover grayscale-[10%]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
             </motion.div>
           </AnimatePresence>
 
           {/* Content Overlay */}
-          <div className="absolute inset-0 z-10 flex flex-col justify-end p-8 md:p-12 pointer-events-none">
+          <div className="absolute inset-0 z-10 pointer-events-none">
             <AnimatePresence mode="wait">
               <motion.div
                 key={`content-${activeMaterial.id}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
-                className="max-w-2xl"
+                className="absolute bottom-0 left-0 md:left-24 md:bottom-24 w-full md:w-[500px] bg-background p-8 md:p-12 border border-border pointer-events-auto"
               >
-                <p className="text-xl md:text-3xl font-serif text-white mb-2">{activeMaterial.tagline}</p>
-                <p className="text-sm md:text-lg text-zinc-300 font-light leading-relaxed mb-6">
+                <p className="text-xl md:text-3xl font-serif text-foreground mb-4 uppercase tracking-widest">{activeMaterial.tagline}</p>
+                <p className="text-sm md:text-base text-text-muted font-light leading-relaxed mb-8">
                   {activeMaterial.description}
                 </p>
                 
-                <div className="flex items-center gap-4 text-xs font-bold tracking-widest text-white/50">
+                <div className="flex items-center gap-4 text-xs font-bold tracking-widest text-text-muted uppercase">
                   <span>0{activeIndex + 1}</span>
-                  <div className="w-12 h-[1px] bg-white/20" />
+                  <div className="w-12 h-[1px] bg-border" />
                   <span>0{materials.length}</span>
                 </div>
               </motion.div>

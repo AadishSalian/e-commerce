@@ -73,7 +73,7 @@ export default function CraftsmanshipDetails() {
               </div>
               
               <div className={`absolute z-10 ${detail.textPlacement}`}>
-                <span className="text-xs font-bold text-accent tracking-[0.2em] uppercase mb-2 block">
+                <span className="text-xs font-bold text-accent tracking-[0.3em] uppercase mb-2 block">
                   0{detail.id}
                 </span>
                 <h3 className="text-2xl font-serif font-bold text-foreground mb-3 uppercase tracking-widest">{detail.title}</h3>

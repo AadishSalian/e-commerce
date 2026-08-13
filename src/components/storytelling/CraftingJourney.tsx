@@ -39,20 +39,12 @@ const journeySteps = [
 export default function CraftingJourney() {
   const targetRef = useRef<HTMLDivElement>(null);
   const [activeStep, setActiveStep] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     // Map scroll progress (0 to 1) to active step index (0 to 4)
@@ -60,9 +52,10 @@ export default function CraftingJourney() {
     setActiveStep(step);
   });
 
-  if (isMobile) {
-    return (
-      <section className="w-full bg-background py-24">
+  return (
+    <>
+      {/* Mobile Version - Standard Vertical Stack */}
+      <section className="w-full bg-background py-24 md:hidden">
         <div className="max-w-7xl mx-auto px-6 mb-16">
           <h2 className="text-4xl font-serif font-bold uppercase tracking-tight text-foreground">
             From Material<br />
@@ -82,12 +75,10 @@ export default function CraftingJourney() {
           ))}
         </div>
       </section>
-    );
-  }
 
-  return (
-    <section ref={targetRef} className="relative h-[500vh] bg-background">
-      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+      {/* Desktop Version - Horizontal Scroll */}
+      <section ref={targetRef} className="relative h-[500vh] bg-background hidden md:block">
+        <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
         
         {/* Header and Progress Indicator */}
         <div className="absolute top-24 left-0 w-full px-12 md:px-24 flex items-end justify-between z-10">
@@ -142,7 +133,8 @@ export default function CraftingJourney() {
             );
           })}
         </motion.div>
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   );
 }

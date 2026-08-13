@@ -43,13 +43,13 @@ export default function InteractiveHotspots() {
       </div>
 
       <div className="max-w-5xl mx-auto relative px-6 md:px-0">
-        <div className="relative w-full aspect-square md:aspect-[16/9] bg-surface rounded-2xl overflow-hidden shadow-2xl group border border-border">
+        <div className="relative w-full aspect-square md:aspect-[16/9] bg-surface rounded-2xl shadow-2xl group border border-border">
           
           {/* Main Product Image with subtle zoom on active hotspot */}
           <motion.img 
             src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1600&auto=format&fit=crop"
             alt="Product detail"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-2xl"
             animate={{ 
               scale: activeHotspot ? 1.05 : 1,
               filter: activeHotspot ? 'brightness(0.7)' : 'brightness(1)'
@@ -71,7 +71,7 @@ export default function InteractiveHotspots() {
                 onClick={() => setActiveHotspot(isActive ? null : hotspot.id)}
               >
                 {/* Hotspot Dot */}
-                <div className="relative -translate-x-1/2 -translate-y-1/2 cursor-pointer group/dot">
+                <div className="relative -translate-x-1/2 -translate-y-1/2 cursor-pointer group/dot flex items-center justify-center w-8 h-8">
                   {/* Outer pulse */}
                   <motion.div 
                     className="absolute inset-0 bg-accent rounded-full opacity-30"
@@ -79,7 +79,7 @@ export default function InteractiveHotspots() {
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                   />
                   {/* Inner dot */}
-                  <div className={`w-4 h-4 rounded-full border-[2px] border-white transition-colors duration-300 ${isActive ? 'bg-accent' : 'bg-transparent group-hover/dot:bg-accent/50'}`} />
+                  <div className={`relative z-10 w-4 h-4 rounded-full border-[2px] border-white transition-colors duration-300 ${isActive ? 'bg-accent' : 'bg-transparent group-hover/dot:bg-accent/50'}`} />
                 </div>
 
                 {/* Info Panel */}
@@ -90,7 +90,9 @@ export default function InteractiveHotspots() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
-                      className="absolute top-8 left-1/2 -translate-x-1/2 w-64 bg-background/90 backdrop-blur-xl border border-border p-6 rounded-xl shadow-2xl pointer-events-none"
+                      className={`absolute top-10 w-64 bg-background/90 backdrop-blur-xl border border-border p-6 rounded-xl shadow-2xl pointer-events-none z-50 ${
+                        hotspot.x > 70 ? 'right-0' : hotspot.x < 30 ? 'left-0' : 'left-1/2 -translate-x-1/2'
+                      }`}
                     >
                       <div className="flex items-center gap-3 mb-3">
                         <span className="text-xs font-bold text-accent tracking-widest">{hotspot.id}</span>

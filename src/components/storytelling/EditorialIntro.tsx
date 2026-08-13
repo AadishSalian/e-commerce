@@ -57,21 +57,23 @@ export default function EditorialIntro() {
             transition={{ duration: 1.5, ease: "easeInOut" }}
           />
 
-          <motion.h2 
-            variants={itemVariants}
-            className="text-5xl md:text-7xl font-serif font-bold uppercase leading-none tracking-tight mb-8"
-          >
-            The Art Of<br />
-            Taking<br />
-            Time.
-          </motion.h2>
+          <div className="max-w-[280px] md:ml-16">
+            <motion.h2 
+              variants={itemVariants}
+              className="text-5xl md:text-7xl font-serif font-bold uppercase leading-[0.85] tracking-tighter mb-12"
+            >
+              The Art Of<br />
+              Taking<br />
+              Time.
+            </motion.h2>
 
-          <motion.p 
-            variants={itemVariants}
-            className="text-lg md:text-xl text-text-muted font-light max-w-md leading-relaxed"
-          >
-            Every piece begins with raw material, skilled hands, and a process that refuses to be rushed.
-          </motion.p>
+            <motion.p 
+              variants={itemVariants}
+              className="text-sm md:text-base text-text-muted font-light leading-relaxed"
+            >
+              Every piece begins with raw material, skilled hands, and a process that refuses to be rushed. Patience is woven into the very fabric of our ethos.
+            </motion.p>
+          </div>
         </motion.div>
       </section>
 
@@ -84,44 +86,46 @@ export default function EditorialIntro() {
           initial="hidden"
           animate={handsInView ? "visible" : "hidden"}
         >
-          <motion.h2 
-            variants={itemVariants}
-            className="text-5xl md:text-7xl font-serif font-bold uppercase leading-none tracking-tight mb-8"
-          >
-            The Hands<br />
-            Behind<br />
-            The Craft
-          </motion.h2>
+          <div className="max-w-[320px]">
+            <motion.h2 
+              variants={itemVariants}
+              className="text-5xl md:text-7xl font-serif font-bold uppercase leading-[0.85] tracking-tighter mb-8"
+            >
+              The Hands<br />
+              Behind<br />
+              The Craft
+            </motion.h2>
 
-          <motion.p 
-            variants={itemVariants}
-            className="text-lg md:text-xl text-text-muted font-light max-w-md leading-relaxed mb-12"
-          >
-            Meet the people who transform carefully selected materials into something meaningful.
-          </motion.p>
+            <motion.p 
+              variants={itemVariants}
+              className="text-sm md:text-base text-text-muted font-light leading-relaxed mb-12"
+            >
+              Meet the people who transform carefully selected materials into something meaningful. True mastery cannot be automated.
+            </motion.p>
 
-          <motion.div variants={itemVariants} className="grid grid-cols-2 gap-8 border-t border-border pt-8">
-            <div className="flex flex-col">
-              <span className="text-4xl font-serif font-bold text-foreground mb-2 flex items-baseline">
-                <AnimatedCounter value={25} />+
-              </span>
-              <span className="text-sm uppercase tracking-widest text-text-muted font-medium">Years of experience</span>
-            </div>
-            
-            <div className="flex flex-col">
-              <span className="text-4xl font-serif font-bold text-foreground mb-2 flex items-baseline">
-                <AnimatedCounter value={1200} />+
-              </span>
-              <span className="text-sm uppercase tracking-widest text-text-muted font-medium">Pieces crafted</span>
-            </div>
-            
-            <div className="flex flex-col mt-4">
-              <span className="text-4xl font-serif font-bold text-foreground mb-2 flex items-baseline">
-                <AnimatedCounter value={100} />%
-              </span>
-              <span className="text-sm uppercase tracking-widest text-text-muted font-medium">Hand finished</span>
-            </div>
-          </motion.div>
+            <motion.div variants={itemVariants} className="grid grid-cols-2 gap-x-12 gap-y-8 border-t border-border pt-8">
+              <div className="flex flex-col">
+                <span className="text-4xl font-serif font-bold text-foreground mb-1 flex items-baseline">
+                  <AnimatedCounter value={25} />+
+                </span>
+                <span className="text-[10px] uppercase tracking-widest text-text-muted font-bold">Years of experience</span>
+              </div>
+              
+              <div className="flex flex-col">
+                <span className="text-4xl font-serif font-bold text-foreground mb-1 flex items-baseline">
+                  <AnimatedCounter value={1200} />+
+                </span>
+                <span className="text-[10px] uppercase tracking-widest text-text-muted font-bold">Pieces crafted</span>
+              </div>
+              
+              <div className="flex flex-col mt-4">
+                <span className="text-4xl font-serif font-bold text-foreground mb-1 flex items-baseline">
+                  <AnimatedCounter value={100} />%
+                </span>
+                <span className="text-[10px] uppercase tracking-widest text-text-muted font-bold">Hand finished</span>
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
 
         {/* Right: Artisan Image, full bleed right */}

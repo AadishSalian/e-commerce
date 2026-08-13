@@ -8,31 +8,36 @@ const journeySteps = [
     id: '01',
     title: 'Material',
     description: 'We source only the finest raw materials, ensuring sustainability and durability from the very beginning.',
-    image: 'https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=1000&auto=format&fit=crop'
+    image: 'https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=1000&auto=format&fit=crop',
+    duration: 1
   },
   {
     id: '02',
     title: 'Shaping',
     description: 'The initial form is meticulously cut and shaped, guided by years of intuition and precision tools.',
-    image: 'https://images.unsplash.com/photo-1616781295982-f472851954ed?q=80&w=1000&auto=format&fit=crop'
+    image: 'https://images.unsplash.com/photo-1616781295982-f472851954ed?q=80&w=1000&auto=format&fit=crop',
+    duration: 2
   },
   {
     id: '03',
     title: 'Handcraft',
     description: 'Every edge is burnished and every surface treated by hand. This is where the product gains its soul.',
-    image: 'https://images.unsplash.com/photo-1590740523293-6a97825a07aa?q=80&w=1000&auto=format&fit=crop'
+    image: 'https://images.unsplash.com/photo-1590740523293-6a97825a07aa?q=80&w=1000&auto=format&fit=crop',
+    duration: 5
   },
   {
     id: '04',
     title: 'Finishing',
     description: 'The detailed finishing process ensures resilience. We apply proprietary natural treatments to protect the integrity.',
-    image: 'https://images.unsplash.com/photo-1537832816519-689ad163238b?q=80&w=1000&auto=format&fit=crop'
+    image: 'https://images.unsplash.com/photo-1537832816519-689ad163238b?q=80&w=1000&auto=format&fit=crop',
+    duration: 3
   },
   {
     id: '05',
     title: 'The Final Piece',
     description: 'A masterpiece ready for a lifetime of use. It will only grow more beautiful as it ages with you.',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop'
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop',
+    duration: 0
   }
 ];
 
@@ -101,7 +106,12 @@ export default function CraftingJourney() {
         </div>
 
         {/* Horizontal Scrolling Track */}
-        <motion.div style={{ x }} className="flex gap-24 px-12 md:px-24 pt-32 h-[60vh] min-h-[500px] items-center">
+        <motion.div 
+          style={{ x }}
+          className="flex px-[10vw] md:px-[30vw] items-center h-full relative"
+        >
+          {/* Continuous Timeline Track */}
+          <div className="absolute top-1/2 left-0 w-[400vw] h-[1px] bg-border -translate-y-1/2 -z-20" />
           {journeySteps.map((step, index) => {
             const isActive = index === activeStep;
             
@@ -109,6 +119,7 @@ export default function CraftingJourney() {
               <div 
                 key={step.id}
                 className={`relative w-[80vw] md:w-[40vw] h-[60vh] flex flex-col justify-end shrink-0 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}
+                style={{ marginRight: `${Math.max(4, step.duration * 15)}vw` }}
               >
                 {/* Ghost Numeral */}
                 <div className="absolute -top-24 -left-12 md:-left-24 text-[300px] md:text-[400px] font-serif font-bold text-foreground opacity-[0.03] pointer-events-none select-none z-0 leading-none">

@@ -108,9 +108,14 @@ export default function CraftingJourney() {
             return (
               <div 
                 key={step.id}
-                className={`relative w-[60vw] md:w-[40vw] shrink-0 h-full flex flex-col justify-end transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}
+                className={`relative w-[80vw] md:w-[40vw] h-[60vh] flex flex-col justify-end shrink-0 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-40'}`}
               >
-                <div className="absolute top-0 left-0 w-full h-full overflow-hidden flex items-center justify-center pointer-events-none">
+                {/* Ghost Numeral */}
+                <div className="absolute -top-24 -left-12 md:-left-24 text-[300px] md:text-[400px] font-serif font-bold text-foreground opacity-[0.03] pointer-events-none select-none z-0 leading-none">
+                  {step.id}
+                </div>
+
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden flex items-center justify-center pointer-events-none z-10">
                   <div className="w-full h-4/5 overflow-hidden">
                     <img 
                       src={step.image} 

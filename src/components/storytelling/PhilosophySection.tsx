@@ -1,57 +1,52 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function PhilosophySection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-20%" });
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { staggerChildren: 0.3, delayChildren: 0.2 }
-    }
-  };
-
-  const wordVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }
-  };
-
-  const text = ["Good", "Things", "Take", "Time."];
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   return (
-    <section className="w-full min-h-screen bg-background flex items-center justify-center py-32 px-6">
-      <div className="max-w-4xl mx-auto flex flex-col items-center justify-center text-center">
-        
-        <motion.div 
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="flex flex-wrap justify-center gap-x-6 gap-y-4 mb-16"
-        >
-          {text.map((word, index) => (
-            <motion.h2 
-              key={index}
-              variants={wordVariants}
-              className="text-6xl md:text-8xl lg:text-9xl font-serif font-bold uppercase tracking-tighter text-foreground"
-            >
-              {word}
-            </motion.h2>
-          ))}
-        </motion.div>
+    <section 
+      ref={containerRef}
+      className="w-full h-screen bg-background relative overflow-hidden flex items-center"
+    >
+      {/* Massive Background Typography */}
+      <motion.div 
+        style={{ y }}
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0"
+      >
+        <h2 className="text-[28vw] font-serif font-bold uppercase tracking-tighter text-foreground opacity-[0.03] leading-none whitespace-nowrap">
+          TIME
+        </h2>
+      </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 1, delay: 1.5, ease: "easeOut" }}
-          className="text-xl md:text-2xl text-text-muted font-light max-w-2xl leading-relaxed"
+      {/* Foreground Content */}
+      <div className="w-full max-w-7xl mx-auto px-6 md:px-12 relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6">
+        <motion.div 
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-20%" }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="md:col-span-5 md:col-start-2 lg:col-start-2 flex flex-col justify-center"
         >
-          Craftsmanship is not about speed. It is about intention. Every hour invested is an assurance of a lifetime of quality.
-        </motion.p>
+          <span className="text-xs font-bold tracking-[0.2em] uppercase text-accent mb-6 block">
+            Our Philosophy
+          </span>
+          <h3 className="text-4xl md:text-5xl font-serif font-bold uppercase tracking-tight text-foreground mb-8 leading-[0.9]">
+            Good Things<br />Take Time.
+          </h3>
+          <p className="text-sm md:text-base text-text-muted font-light leading-relaxed max-w-[280px]">
+            Craftsmanship is not about speed. It is about intention. Every hour invested is an assurance of a lifetime of quality. We refuse to rush what is meant to endure.
+          </p>
+        </motion.div>
       </div>
     </section>
   );

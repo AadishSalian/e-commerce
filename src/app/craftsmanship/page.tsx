@@ -39,16 +39,26 @@ export default function CraftsmanshipPage() {
       <CraftingJourney />
 
       {/* SECTION 5 — EVERY MARK HAS A STORY */}
-      <InteractiveHotspots />
+      <div className="w-full bg-surface" style={{ clipPath: 'polygon(0 5vw, 100% 0, 100% 100%, 0 calc(100% - 5vw))', marginTop: '-5vw', paddingBottom: '5vw' }}>
+        <div className="pt-[10vw]">
+          <InteractiveHotspots />
+        </div>
+      </div>
 
       {/* SECTION 6 — MATERIAL SHOWCASE */}
-      <MaterialShowcase />
+      <div className="w-full bg-background relative z-10" style={{ clipPath: 'polygon(0 0, 100% 5vw, 100% 100%, 0 100%)', marginTop: '-5vw' }}>
+        <div className="pt-[10vw]">
+          <MaterialShowcase />
+        </div>
+      </div>
 
       {/* SECTION 7 — FULL-SCREEN PHILOSOPHY */}
-      <PhilosophySection />
+      <div className="w-full relative z-20" style={{ clipPath: 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)', marginTop: '-5vw' }}>
+        <PhilosophySection />
+      </div>
 
       {/* SECTION 8 — RAW TO REFINED */}
-      <section className="w-full py-24 md:py-32 bg-surface">
+      <section className="w-full py-24 md:py-32 bg-surface relative z-30" style={{ clipPath: 'polygon(0 0, 100% 5vw, 100% 100%, 0 100%)', marginTop: '-5vw', paddingTop: '10vw' }}>
         <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
           <h2 className="text-4xl md:text-5xl font-serif font-bold uppercase tracking-tight text-foreground mb-4">
             From Raw<br />
@@ -73,7 +83,7 @@ export default function CraftsmanshipPage() {
       <CraftsmanshipDetails />
 
       {/* SECTION 10 — FINAL PRODUCT REVEAL */}
-      <section className="w-full py-24 md:py-32 bg-background flex flex-col items-center justify-center text-center px-6">
+      <section className="w-full py-24 md:py-32 bg-background flex flex-col items-center justify-center text-center px-6 relative z-40" style={{ clipPath: 'polygon(0 5vw, 100% 0, 100% 100%, 0 100%)', marginTop: '-5vw', paddingTop: '10vw' }}>
         <span className="text-sm font-semibold tracking-widest text-text-muted uppercase mb-4 block">The Result</span>
         
         <div className="w-full max-w-4xl aspect-[21/9] bg-surface rounded-2xl overflow-hidden mb-12 shadow-2xl">

@@ -1,7 +1,24 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+
+function MaskRevealImage({ children, aspect, index }: { children: React.ReactNode, aspect: string, index: number }) {
+  const ref = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 90%", "center center"]
+  });
+  
+  // Wipe from top (0 0) to bottom (100% 100%)
+  const clipPath = useTransform(scrollYProgress, [0, 1], ["polygon(0 0, 100% 0, 100% 0, 0 0)", "polygon(0 0, 100% 0, 100% 100%, 0 100%)"]);
+  
+  return (
+    <motion.div ref={ref} style={{ clipPath }} className={`w-full overflow-hidden ${aspect}`}>
+      {children}
+    </motion.div>
+  );
+}
 
 const details = [
   {
@@ -64,13 +81,13 @@ export default function CraftsmanshipDetails() {
               transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
               className={`relative ${detail.className}`}
             >
-              <div className={`w-full overflow-hidden ${detail.imageAspect}`}>
+              <MaskRevealImage aspect={detail.imageAspect} index={index}>
                 <img 
                   src={detail.image} 
                   alt={detail.title} 
                   className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700"
                 />
-              </div>
+              </MaskRevealImage>
               
               <div className={`absolute z-10 ${detail.textPlacement}`}>
                 <span className="text-xs font-bold text-accent tracking-[0.3em] uppercase mb-2 block">

@@ -1,8 +1,48 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { AnimatedCounter } from '../ui/AnimatedCounter';
+
+// Helper for scroll-tied image wipe
+function ScrollMaskReveal({ children, className }: { children: React.ReactNode, className?: string }) {
+  const ref = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 90%", "center center"]
+  });
+  const clipPath = useTransform(scrollYProgress, [0, 1], ["polygon(0 0, 100% 0, 100% 0, 0 0)", "polygon(0 0, 100% 0, 100% 100%, 0 100%)"]);
+  return (
+    <motion.div ref={ref} style={{ clipPath }} className={className}>
+      {children}
+    </motion.div>
+  );
+}
+
+// Helper for word-split stagger text
+function StaggeredText({ text, className }: { text: string, className?: string }) {
+  const ref = React.useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  const words = text.split(" ");
+  
+  return (
+    <h2 ref={ref} className={`${className} flex flex-wrap gap-x-4`}>
+      {words.map((word, index) => (
+        <span key={index} className="overflow-hidden inline-block leading-[0.85] pb-2">
+          <motion.span
+            initial={{ y: "100%" }}
+            animate={isInView ? { y: 0 } : { y: "100%" }}
+            transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-block"
+          >
+            {word}
+          </motion.span>
+        </span>
+      ))}
+    </h2>
+  );
+}
 
 export default function EditorialIntro() {
   const artRef = useRef(null);
@@ -29,18 +69,13 @@ export default function EditorialIntro() {
       {/* SECTION 2 - THE ART OF TAKING TIME */}
       <section ref={artRef} className="w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-0 items-center">
         {/* Left: Large craftsmanship image, full bleed left */}
-        <motion.div 
-          className="relative aspect-[4/3] md:aspect-[4/5] w-full overflow-hidden md:col-span-6 lg:col-span-5"
-          initial={{ opacity: 0, x: -40 }}
-          animate={artInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 1, ease: "easeOut" }}
-        >
+        <ScrollMaskReveal className="relative aspect-[4/3] md:aspect-[4/5] w-full overflow-hidden md:col-span-6 lg:col-span-5">
           <img 
             src="https://images.unsplash.com/photo-1616781295982-f472851954ed?q=80&w=1000&auto=format&fit=crop" 
             alt="Artisan working" 
             className="w-full h-full object-cover"
           />
-        </motion.div>
+        </ScrollMaskReveal>
 
         {/* Right: Typography and copy */}
         <motion.div 
@@ -58,14 +93,10 @@ export default function EditorialIntro() {
           />
 
           <div className="max-w-[280px] md:ml-16">
-            <motion.h2 
-              variants={itemVariants}
-              className="text-5xl md:text-7xl font-serif font-bold uppercase leading-[0.85] tracking-tighter mb-12"
-            >
-              The Art Of<br />
-              Taking<br />
-              Time.
-            </motion.h2>
+            <StaggeredText 
+              text="The Art Of Taking Time." 
+              className="text-5xl md:text-7xl font-serif font-bold uppercase tracking-tighter mb-12"
+            />
 
             <motion.p 
               variants={itemVariants}
@@ -87,14 +118,10 @@ export default function EditorialIntro() {
           animate={handsInView ? "visible" : "hidden"}
         >
           <div className="max-w-[320px]">
-            <motion.h2 
-              variants={itemVariants}
-              className="text-5xl md:text-7xl font-serif font-bold uppercase leading-[0.85] tracking-tighter mb-8"
-            >
-              The Hands<br />
-              Behind<br />
-              The Craft
-            </motion.h2>
+            <StaggeredText 
+              text="The Hands Behind The Craft"
+              className="text-5xl md:text-7xl font-serif font-bold uppercase tracking-tighter mb-8"
+            />
 
             <motion.p 
               variants={itemVariants}
@@ -129,25 +156,13 @@ export default function EditorialIntro() {
         </motion.div>
 
         {/* Right: Artisan Image, full bleed right */}
-        <motion.div 
-          className="relative aspect-[4/3] md:aspect-[3/4] w-full overflow-hidden order-1 md:order-2 md:col-span-5 md:col-start-8"
-          initial={{ opacity: 0, x: 40 }}
-          animate={handsInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-        >
+        <ScrollMaskReveal className="relative aspect-[4/3] md:aspect-[3/4] w-full overflow-hidden order-1 md:order-2 md:col-span-5 md:col-start-8">
            <img 
             src="https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=1000&auto=format&fit=crop" 
             alt="Portrait of an artisan" 
             className="w-full h-full object-cover"
           />
-          {/* Vertical progress line */}
-          <motion.div 
-            className="absolute right-0 top-0 w-1 h-full bg-accent origin-top"
-            initial={{ scaleY: 0 }}
-            animate={handsInView ? { scaleY: 1 } : {}}
-            transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
-          />
-        </motion.div>
+        </ScrollMaskReveal>
       </section>
 
     </div>

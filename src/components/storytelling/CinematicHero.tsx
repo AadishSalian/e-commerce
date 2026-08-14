@@ -12,10 +12,14 @@ export default function CinematicHero() {
     offset: ["start start", "end start"]
   });
 
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "80%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  
+  // Parallax foreground elements
+  const foregroundY1 = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
+  const foregroundY2 = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
 
   return (
     <section 
@@ -37,6 +41,20 @@ export default function CinematicHero() {
         />
         {/* Overlay to ensure text readability */}
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+      </motion.div>
+
+      {/* Multi-Layer Parallax Foreground Shots */}
+      <motion.div 
+        className="absolute top-1/4 right-24 md:right-48 w-48 aspect-[3/4] hidden md:block z-0 pointer-events-none opacity-80 mix-blend-screen"
+        style={{ y: foregroundY1 }}
+      >
+        <img src="https://images.unsplash.com/photo-1590740523293-6a97825a07aa?q=80&w=400&auto=format&fit=crop" className="w-full h-full object-cover grayscale brightness-125" alt="" />
+      </motion.div>
+      <motion.div 
+        className="absolute bottom-1/4 left-12 md:left-32 w-64 aspect-[4/3] hidden md:block z-0 pointer-events-none opacity-60 mix-blend-screen"
+        style={{ y: foregroundY2 }}
+      >
+        <img src="https://images.unsplash.com/photo-1537832816519-689ad163238b?q=80&w=400&auto=format&fit=crop" className="w-full h-full object-cover grayscale brightness-125" alt="" />
       </motion.div>
 
       {/* Main Content */}

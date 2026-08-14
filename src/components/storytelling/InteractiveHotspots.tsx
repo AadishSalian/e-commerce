@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
 const hotspots = [
   {
@@ -29,9 +29,17 @@ const hotspots = [
 
 export default function InteractiveHotspots() {
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const imageY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   return (
-    <section className="w-full py-24 md:py-40 bg-background overflow-hidden">
+    <section ref={containerRef} className="w-full py-24 md:py-40 bg-background overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
         <h2 className="text-4xl md:text-6xl font-serif font-bold uppercase tracking-tight text-foreground mb-4">
           Every Mark<br />
@@ -43,19 +51,21 @@ export default function InteractiveHotspots() {
       </div>
 
       <div className="w-full relative">
-        <div className="relative w-full aspect-[4/3] md:aspect-[21/9] bg-surface group">
+        <div className="relative w-full aspect-[4/3] md:aspect-[21/9] bg-surface group overflow-hidden">
           
           {/* Main Product Image with subtle zoom on active hotspot */}
-          <motion.img 
-            src="https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=2400&auto=format&fit=crop"
-            alt="Product detail"
-            className="w-full h-full object-cover"
-            animate={{ 
-              scale: activeHotspot ? 1.05 : 1,
-              filter: activeHotspot ? 'brightness(0.7)' : 'brightness(1)'
-            }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          />
+          <motion.div className="absolute inset-0 w-full h-full" style={{ y: imageY, scale: 1.15 }}>
+            <motion.img 
+              src="https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=2400&auto=format&fit=crop"
+              alt="Product detail"
+              className="w-full h-full object-cover"
+              animate={{ 
+                scale: activeHotspot ? 1.05 : 1,
+                filter: activeHotspot ? 'brightness(0.7)' : 'brightness(1)'
+              }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            />
+          </motion.div>
 
           {/* Hotspots */}
           {hotspots.map((hotspot) => {

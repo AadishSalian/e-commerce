@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { HandwrittenAnnotation } from '../ui/HandwrittenAnnotation';
 
 function MaskRevealImage({ children, aspect, index }: { children: React.ReactNode, aspect: string, index: number }) {
   const ref = React.useRef(null);
@@ -98,6 +99,24 @@ export default function CraftsmanshipDetails() {
                   {detail.description}
                 </p>
               </div>
+
+              {/* Hand-written annotations to break the grid */}
+              {detail.id === 1 && (
+                <HandwrittenAnnotation 
+                  text="Notice the burnish gradient" 
+                  className="top-1/4 -right-16 hidden lg:block" 
+                  rotation={-8}
+                  lineDirection="bottom-left" 
+                />
+              )}
+              {detail.id === 3 && (
+                <HandwrittenAnnotation 
+                  text="Checked under harsh light" 
+                  className="top-12 -left-12 hidden lg:block" 
+                  rotation={4}
+                  lineDirection="bottom-right" 
+                />
+              )}
             </motion.div>
           ))}
         </div>

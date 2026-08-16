@@ -8,7 +8,9 @@ import { AnimatedCounter } from '../ui/AnimatedCounter';
 function ScrollMaskReveal({ children, className }: { children: React.ReactNode, className?: string }) {
   return (
     <div className={`relative ${className}`}>
-      {children}
+      <div className="absolute inset-0 w-full h-full">
+        {children}
+      </div>
     </div>
   );
 }

@@ -49,7 +49,7 @@ export default function CraftingJourney() {
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0vw", "-330vw"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0vw", "-265vw"]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     // Map scroll progress (0 to 1) to active step index (0 to 4)

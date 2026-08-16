@@ -34,18 +34,14 @@ export default function CinematicHero() {
           scale: backgroundScale,
         }}
       >
-        {/* We use a high quality craftsmanship video for the hero */}
-        <video 
+        {/* Reverted to high quality static image to ensure maximum compatibility */}
+        <img 
+          src="https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=2400&auto=format&fit=crop"
+          alt="Leather craftsmanship"
           className="absolute inset-0 w-full h-full object-cover"
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-        >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-tailor-working-with-leather-43527-large.mp4" type="video/mp4" />
-        </video>
+        />
         {/* Overlay to ensure text readability */}
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
       </motion.div>
 
       {/* Multi-Layer Parallax Foreground Shots */}

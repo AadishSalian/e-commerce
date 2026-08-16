@@ -5,21 +5,9 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { HandwrittenAnnotation } from '../ui/HandwrittenAnnotation';
 
 function MaskRevealImage({ children, aspect, index }: { children: React.ReactNode, aspect: string, index: number }) {
-  const ref = React.useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 90%", "center center"]
-  });
-  
-  const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  
   return (
-    <div ref={ref} className={`relative w-full ${aspect}`}>
-      <motion.div style={{ height }} className="absolute top-0 left-0 w-full overflow-hidden">
-        <div className={`w-full ${aspect}`} style={{ position: 'relative' }}>
-          {children}
-        </div>
-      </motion.div>
+    <div className={`relative w-full ${aspect} overflow-hidden`}>
+      {children}
     </div>
   );
 }

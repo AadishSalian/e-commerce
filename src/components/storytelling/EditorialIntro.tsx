@@ -4,21 +4,11 @@ import React, { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { AnimatedCounter } from '../ui/AnimatedCounter';
 
-// Helper for scroll-tied image wipe
+// Helper for simple image container (animations removed for stability)
 function ScrollMaskReveal({ children, className }: { children: React.ReactNode, className?: string }) {
-  const ref = React.useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 90%", "center center"]
-  });
-  const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   return (
-    <div ref={ref} className={`relative ${className}`}>
-      <motion.div style={{ height }} className="absolute top-0 left-0 w-full overflow-hidden">
-        <div className={className} style={{ position: 'relative' }}>
-          {children}
-        </div>
-      </motion.div>
+    <div className={`relative ${className}`}>
+      {children}
     </div>
   );
 }

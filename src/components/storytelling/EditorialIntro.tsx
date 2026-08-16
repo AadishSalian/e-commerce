@@ -11,11 +11,15 @@ function ScrollMaskReveal({ children, className }: { children: React.ReactNode, 
     target: ref,
     offset: ["start 90%", "center center"]
   });
-  const clipPath = useTransform(scrollYProgress, [0, 1], ["polygon(0 0, 100% 0, 100% 0, 0 0)", "polygon(0 0, 100% 0, 100% 100%, 0 100%)"]);
+  const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   return (
-    <motion.div ref={ref} style={{ clipPath }} className={className}>
-      {children}
-    </motion.div>
+    <div ref={ref} className={`relative ${className}`}>
+      <motion.div style={{ height }} className="absolute top-0 left-0 w-full overflow-hidden">
+        <div className={className} style={{ position: 'relative' }}>
+          {children}
+        </div>
+      </motion.div>
+    </div>
   );
 }
 

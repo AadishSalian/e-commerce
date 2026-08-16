@@ -127,18 +127,22 @@ export default function CraftingJourney() {
                 </div>
 
                 <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-10">
-                  <motion.div 
-                    className="w-full h-4/5 overflow-hidden"
-                    initial={{ clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)" }}
-                    animate={{ clipPath: activeStep >= index ? "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" : "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)" }}
-                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    <img 
-                      src={step.image} 
-                      alt={step.title} 
-                      className={`w-full h-full object-cover transition-transform duration-1000 ${isActive ? 'scale-100' : 'scale-110'}`} 
-                    />
-                  </motion.div>
+                  <div className="w-full h-4/5 relative">
+                    <motion.div 
+                      className="absolute top-0 left-0 h-full overflow-hidden"
+                      initial={{ width: "0%" }}
+                      animate={{ width: activeStep >= index ? "100%" : "0%" }}
+                      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <div className="w-[80vw] md:w-[40vw] h-full relative">
+                        <img 
+                          src={step.image} 
+                          alt={step.title} 
+                          className={`absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 ${isActive ? 'scale-100' : 'scale-110'}`} 
+                        />
+                      </div>
+                    </motion.div>
+                  </div>
                 </div>
                 
                 <div className="relative z-10 bg-background border border-border p-8 translate-y-8 max-w-lg shadow-none">

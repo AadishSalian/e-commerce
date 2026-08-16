@@ -99,7 +99,7 @@ export function HandwrittenAnnotation({
       style={{ zIndex: 50 }}
     >
       <span 
-        className="font-serif italic text-accent opacity-90 drop-shadow-sm whitespace-nowrap block bg-background/50 backdrop-blur-sm px-2 py-1 rounded-sm"
+        className="font-serif italic text-accent opacity-80 whitespace-nowrap block bg-background/40 backdrop-blur-sm px-2 py-1 rounded-sm"
         style={{ fontSize: 'clamp(0.8rem, 1.2vw, 1rem)', letterSpacing: '0.05em' }}
       >
         {text}

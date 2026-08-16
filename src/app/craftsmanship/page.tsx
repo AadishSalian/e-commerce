@@ -71,8 +71,8 @@ export default function CraftsmanshipPage() {
         
         <div className="px-6">
           <SplitRevealSlider 
-            beforeImage="/images/craft-5.svg"
-            afterImage="/images/craft-1.svg"
+            beforeImage="/images/craft-final.jpg"
+            afterImage="/images/craft-hero.jpg"
             beforeAlt="Raw Material"
             afterAlt="Finished Product"
           />
@@ -88,7 +88,7 @@ export default function CraftsmanshipPage() {
         
         <div className="w-full max-w-4xl aspect-[21/9] bg-surface rounded-2xl overflow-hidden mb-12 shadow-2xl">
            <img 
-              src="/images/craft-2.svg" 
+              src="/images/craft-tools.jpg" 
               alt="The final product" 
               className="w-full h-full object-cover"
             />

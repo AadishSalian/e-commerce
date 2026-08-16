@@ -19,7 +19,7 @@ const details = [
     id: 1,
     title: 'The Edge',
     description: 'Burnished and sealed to prevent fraying. No folded corners, just raw, treated edges that tell the truth of the material.',
-    image: '/images/craft-4.svg',
+    image: '/images/craft-hero.jpg',
     className: 'col-span-12 md:col-span-7',
     imageAspect: 'aspect-[4/3] md:aspect-[3/4]',
     textPlacement: 'bottom-0 right-0 md:translate-y-12 md:translate-x-12 bg-background p-8 border border-border w-11/12 md:w-80'
@@ -28,7 +28,7 @@ const details = [
     id: 2,
     title: 'The Stitch',
     description: 'Double lock-stitched for permanence. We use high-tensile braided thread that refuses to yield.',
-    image: '/images/craft-5.svg',
+    image: '/images/craft-tools.jpg',
     className: 'col-span-12 md:col-span-4 md:col-start-9 md:mt-32',
     imageAspect: 'aspect-square',
     textPlacement: 'top-0 left-0 md:-translate-y-8 md:-translate-x-8 bg-surface p-6 w-11/12 md:w-64'
@@ -37,7 +37,7 @@ const details = [
     id: 3,
     title: 'The Grain',
     description: 'Selected for uniform texture and strength. Every hide is inspected under harsh light to reveal its true character.',
-    image: '/images/craft-1.svg',
+    image: '/images/craft-stitch.jpg',
     className: 'col-span-12 md:col-span-5 md:col-start-2 md:mt-16',
     imageAspect: 'aspect-[3/4]',
     textPlacement: 'bottom-0 left-0 md:-translate-x-16 md:translate-y-16 bg-background p-8 border-l-4 border-accent w-11/12 md:w-96'
@@ -46,7 +46,7 @@ const details = [
     id: 4,
     title: 'The Form',
     description: 'Molded to perfection by expert hands. Tools passed down through generations are the only machinery we trust.',
-    image: '/images/craft-2.svg',
+    image: '/images/craft-final.jpg',
     className: 'col-span-12 md:col-span-9 md:col-start-4 md:mt-24',
     imageAspect: 'aspect-video',
     textPlacement: 'bottom-0 left-0 md:translate-x-24 md:-translate-y-12 bg-surface p-10 max-w-sm'

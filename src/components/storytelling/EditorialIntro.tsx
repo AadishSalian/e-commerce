@@ -67,7 +67,7 @@ export default function EditorialIntro() {
         {/* Left: Large craftsmanship image, full bleed left */}
         <ScrollMaskReveal className="relative aspect-[4/3] md:aspect-[4/5] w-full overflow-hidden md:col-span-6 lg:col-span-5">
           <img 
-            src="/images/craft-3.svg" 
+            src="/images/craft-hero.jpg" 
             alt="Artisan working" 
             className="w-full h-full object-cover"
           />
@@ -154,7 +154,7 @@ export default function EditorialIntro() {
         {/* Right: Artisan Image, full bleed right */}
         <ScrollMaskReveal className="relative aspect-[4/3] md:aspect-[3/4] w-full overflow-hidden order-1 md:order-2 md:col-span-5 md:col-start-8">
            <img 
-            src="/images/craft-4.svg" 
+            src="/images/craft-tools.jpg" 
             alt="Portrait of an artisan" 
             className="w-full h-full object-cover"
           />

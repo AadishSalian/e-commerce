@@ -30,7 +30,7 @@ export default function CinematicHero() {
       <div className="absolute inset-0 z-0">
         {/* Reverted to high quality static image to ensure maximum compatibility */}
         <img 
-          src="/images/craft-1.svg"
+          src="/images/craft-hero.jpg"
           alt="Leather craftsmanship"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -43,13 +43,13 @@ export default function CinematicHero() {
         className="absolute top-1/4 right-24 md:right-48 w-48 aspect-[3/4] hidden md:block z-0 pointer-events-none opacity-80 mix-blend-screen"
         style={{ y: foregroundY1 }}
       >
-        <img src="/images/craft-2.svg" className="w-full h-full object-cover grayscale brightness-125" alt="" />
+        <img src="/images/craft-tools.jpg" className="w-full h-full object-cover grayscale brightness-125" alt="" />
       </motion.div>
       <motion.div 
         className="absolute bottom-1/4 left-12 md:left-32 w-64 aspect-[4/3] hidden md:block z-0 pointer-events-none opacity-60 mix-blend-screen"
         style={{ y: foregroundY2 }}
       >
-        <img src="/images/craft-3.svg" className="w-full h-full object-cover grayscale brightness-125" alt="" />
+        <img src="/images/craft-stitch.jpg" className="w-full h-full object-cover grayscale brightness-125" alt="" />
       </motion.div>
 
       {/* Main Content */}

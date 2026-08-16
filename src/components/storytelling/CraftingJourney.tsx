@@ -8,35 +8,35 @@ const journeySteps = [
     id: '01',
     title: 'Material',
     description: 'We source only the finest raw materials, ensuring sustainability and durability from the very beginning.',
-    image: '/images/craft-4.svg',
+    image: '/images/craft-final.jpg',
     duration: 1
   },
   {
     id: '02',
     title: 'Shaping',
     description: 'The initial form is meticulously cut and shaped, guided by years of intuition and precision tools.',
-    image: '/images/craft-5.svg',
+    image: '/images/craft-hero.jpg',
     duration: 2
   },
   {
     id: '03',
     title: 'Handcraft',
     description: 'Every edge is burnished and every surface treated by hand. This is where the product gains its soul.',
-    image: '/images/craft-1.svg',
+    image: '/images/craft-tools.jpg',
     duration: 5
   },
   {
     id: '04',
     title: 'Finishing',
     description: 'The detailed finishing process ensures resilience. We apply proprietary natural treatments to protect the integrity.',
-    image: '/images/craft-2.svg',
+    image: '/images/craft-stitch.jpg',
     duration: 3
   },
   {
     id: '05',
     title: 'The Final Piece',
     description: 'A masterpiece ready for a lifetime of use. It will only grow more beautiful as it ages with you.',
-    image: '/images/craft-3.svg',
+    image: '/images/craft-final.jpg',
     duration: 0
   }
 ];

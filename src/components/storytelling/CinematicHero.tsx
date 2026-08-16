@@ -34,13 +34,18 @@ export default function CinematicHero() {
           scale: backgroundScale,
         }}
       >
-        {/* We use a high quality craftsmanship image for the hero */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1542385154-20a2e379435f?q=80&w=2000&auto=format&fit=crop")' }}
-        />
+        {/* We use a high quality craftsmanship video for the hero */}
+        <video 
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+        >
+          <source src="https://cdn.coverr.co/videos/coverr-a-man-making-a-leather-wallet-5152/1080p.mp4" type="video/mp4" />
+        </video>
         {/* Overlay to ensure text readability */}
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
       </motion.div>
 
       {/* Multi-Layer Parallax Foreground Shots */}

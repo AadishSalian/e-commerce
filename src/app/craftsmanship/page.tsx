@@ -71,8 +71,8 @@ export default function CraftsmanshipPage() {
         
         <div className="px-6">
           <SplitRevealSlider 
-            beforeImage="https://images.unsplash.com/photo-1590740523293-6a97825a07aa?q=80&w=1200&auto=format&fit=crop"
-            afterImage="https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?q=80&w=1200&auto=format&fit=crop"
+            beforeImage="/images/craft-5.svg"
+            afterImage="/images/craft-1.svg"
             beforeAlt="Raw Material"
             afterAlt="Finished Product"
           />
@@ -88,7 +88,7 @@ export default function CraftsmanshipPage() {
         
         <div className="w-full max-w-4xl aspect-[21/9] bg-surface rounded-2xl overflow-hidden mb-12 shadow-2xl">
            <img 
-              src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=1600&auto=format&fit=crop" 
+              src="/images/craft-2.svg" 
               alt="The final product" 
               className="w-full h-full object-cover"
             />

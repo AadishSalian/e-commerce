@@ -9,28 +9,28 @@ const materials = [
     name: 'Leather',
     tagline: 'Naturally textured.',
     description: 'Carefully selected full-grain leather that develops a unique patina over time, telling the story of its journey with you.',
-    image: 'https://images.unsplash.com/photo-1590740523293-6a97825a07aa?q=80&w=1600&auto=format&fit=crop',
+    image: '/images/craft-1.svg',
   },
   {
     id: 'wood',
     name: 'Wood',
     tagline: 'Responsibly sourced.',
     description: 'Solid hardwoods chosen for their distinct grain patterns and strength, hand-finished to a smooth, resilient surface.',
-    image: 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?q=80&w=1600&auto=format&fit=crop',
+    image: '/images/craft-2.svg',
   },
   {
     id: 'metal',
     name: 'Metal',
     tagline: 'Precision engineered.',
     description: 'Aerospace-grade aluminum and brass accents, machined to exacting tolerances for both function and aesthetic brilliance.',
-    image: 'https://images.unsplash.com/photo-1509345791726-25f0a8d799de?q=80&w=1600&auto=format&fit=crop',
+    image: '/images/craft-3.svg',
   },
   {
     id: 'fabric',
     name: 'Fabric',
     tagline: 'Woven for resilience.',
     description: 'High-density technical weaves and natural fibers combined to offer breathability without sacrificing durability.',
-    image: 'https://images.unsplash.com/photo-1605330372220-3023e387c2fb?q=80&w=1600&auto=format&fit=crop',
+    image: '/images/craft-4.svg',
   }
 ];
 

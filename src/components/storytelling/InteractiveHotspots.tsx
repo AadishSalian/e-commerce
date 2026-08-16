@@ -57,7 +57,7 @@ export default function InteractiveHotspots() {
           {/* Main Product Image with subtle zoom on active hotspot */}
           <motion.div className="absolute inset-0 w-full h-full" style={{ y: imageY, scale: 1.15 }}>
             <motion.img 
-              src="https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=2400&auto=format&fit=crop"
+              src="/images/craft-5.svg"
               alt="Product detail"
               className="w-full h-full object-cover"
               animate={{ 

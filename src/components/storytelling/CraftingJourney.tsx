@@ -8,35 +8,35 @@ const journeySteps = [
     id: '01',
     title: 'Material',
     description: 'We source only the finest raw materials, ensuring sustainability and durability from the very beginning.',
-    image: 'https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=1000&auto=format&fit=crop',
+    image: '/images/craft-4.svg',
     duration: 1
   },
   {
     id: '02',
     title: 'Shaping',
     description: 'The initial form is meticulously cut and shaped, guided by years of intuition and precision tools.',
-    image: 'https://images.unsplash.com/photo-1616781295982-f472851954ed?q=80&w=1000&auto=format&fit=crop',
+    image: '/images/craft-5.svg',
     duration: 2
   },
   {
     id: '03',
     title: 'Handcraft',
     description: 'Every edge is burnished and every surface treated by hand. This is where the product gains its soul.',
-    image: 'https://images.unsplash.com/photo-1590740523293-6a97825a07aa?q=80&w=1000&auto=format&fit=crop',
+    image: '/images/craft-1.svg',
     duration: 5
   },
   {
     id: '04',
     title: 'Finishing',
     description: 'The detailed finishing process ensures resilience. We apply proprietary natural treatments to protect the integrity.',
-    image: 'https://images.unsplash.com/photo-1537832816519-689ad163238b?q=80&w=1000&auto=format&fit=crop',
+    image: '/images/craft-2.svg',
     duration: 3
   },
   {
     id: '05',
     title: 'The Final Piece',
     description: 'A masterpiece ready for a lifetime of use. It will only grow more beautiful as it ages with you.',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop',
+    image: '/images/craft-3.svg',
     duration: 0
   }
 ];

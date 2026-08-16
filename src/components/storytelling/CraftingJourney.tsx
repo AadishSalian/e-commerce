@@ -49,7 +49,7 @@ export default function CraftingJourney() {
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0vw", "-330vw"]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     // Map scroll progress (0 to 1) to active step index (0 to 4)
@@ -129,8 +129,8 @@ export default function CraftingJourney() {
                 <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-10">
                   <motion.div 
                     className="w-full h-4/5 overflow-hidden"
-                    initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)" }}
-                    animate={{ clipPath: activeStep >= index ? "polygon(0 0, 100% 0, 100% 100%, 0 100%)" : "polygon(0 0, 0 0, 0 100%, 0 100%)" }}
+                    initial={{ clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)" }}
+                    animate={{ clipPath: activeStep >= index ? "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" : "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)" }}
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <img 

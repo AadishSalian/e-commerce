@@ -35,10 +35,10 @@ export default function PhilosophySection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-20%" }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="md:col-span-8 md:col-start-2 flex flex-col justify-center relative"
+          className="md:col-span-8 md:col-start-2 flex flex-col justify-center relative z-20 py-12"
         >
           {/* Giant quotation mark for editorial styling */}
-          <span className="absolute -top-16 -left-8 md:-top-24 md:-left-12 text-[120px] md:text-[180px] font-serif text-accent opacity-20 leading-none select-none">
+          <span className="absolute -top-4 -left-2 md:-top-24 md:-left-12 text-[100px] md:text-[180px] font-serif text-accent opacity-20 leading-none select-none z-0">
             &ldquo;
           </span>
           
@@ -46,7 +46,7 @@ export default function PhilosophySection() {
             From the Workshop
           </span>
           
-          <h3 className="text-3xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight text-foreground mb-12 leading-[1.1] relative z-10 max-w-4xl">
+          <h3 className="text-2xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight text-foreground mb-12 leading-[1.2] relative z-10 max-w-4xl bg-background/50 backdrop-blur-sm p-4 md:p-0 md:bg-transparent md:backdrop-blur-none rounded-lg">
             If you try to rush the burnishing, the material fights back. You have to wait for it. You can't force the hide to take a shape it hasn't earned.
           </h3>
           

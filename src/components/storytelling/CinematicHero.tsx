@@ -42,7 +42,7 @@ export default function CinematicHero() {
           muted 
           playsInline
         >
-          <source src="https://cdn.coverr.co/videos/coverr-a-man-making-a-leather-wallet-5152/1080p.mp4" type="video/mp4" />
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-tailor-working-with-leather-43527-large.mp4" type="video/mp4" />
         </video>
         {/* Overlay to ensure text readability */}
         <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />

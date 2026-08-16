@@ -11,8 +11,8 @@ function MaskRevealImage({ children, aspect, index }: { children: React.ReactNod
     offset: ["start 90%", "center center"]
   });
   
-  // Wipe from top (0 0) to bottom (100% 100%)
-  const clipPath = useTransform(scrollYProgress, [0, 1], ["polygon(0 0, 100% 0, 100% 0, 0 0)", "polygon(0 0, 100% 0, 100% 100%, 0 100%)"]);
+  // Wipe from top (0% 0%) to bottom (100% 100%)
+  const clipPath = useTransform(scrollYProgress, [0, 1], ["polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)", "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"]);
   
   return (
     <motion.div ref={ref} style={{ clipPath }} className={`w-full overflow-hidden ${aspect}`}>

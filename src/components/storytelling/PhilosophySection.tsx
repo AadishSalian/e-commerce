@@ -35,17 +35,28 @@ export default function PhilosophySection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-20%" }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="md:col-span-5 md:col-start-2 lg:col-start-2 flex flex-col justify-center"
+          className="md:col-span-8 md:col-start-2 flex flex-col justify-center relative"
         >
-          <span className="text-xs font-bold tracking-[0.2em] uppercase text-accent mb-6 block">
-            Our Philosophy
+          {/* Giant quotation mark for editorial styling */}
+          <span className="absolute -top-16 -left-8 md:-top-24 md:-left-12 text-[120px] md:text-[180px] font-serif text-accent opacity-20 leading-none select-none">
+            &ldquo;
           </span>
-          <h3 className="text-4xl md:text-5xl font-serif font-bold uppercase tracking-tight text-foreground mb-8 leading-[0.9]">
-            Good Things<br />Take Time.
+          
+          <span className="text-xs font-bold tracking-[0.2em] uppercase text-accent mb-8 block relative z-10">
+            From the Workshop
+          </span>
+          
+          <h3 className="text-3xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight text-foreground mb-12 leading-[1.1] relative z-10 max-w-4xl">
+            If you try to rush the burnishing, the material fights back. You have to wait for it. You can't force the hide to take a shape it hasn't earned.
           </h3>
-          <p className="text-sm md:text-base text-text-muted font-light leading-relaxed max-w-[280px]">
-            Craftsmanship is not about speed. It is about intention. Every hour invested is an assurance of a lifetime of quality. We refuse to rush what is meant to endure.
-          </p>
+          
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="w-12 h-[1px] bg-accent" />
+            <div>
+              <p className="font-serif font-bold text-foreground tracking-wider uppercase text-sm">Marcus</p>
+              <p className="text-xs text-text-muted tracking-widest uppercase mt-1">Master Leatherworker, 24 Yrs</p>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

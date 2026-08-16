@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { HandwrittenAnnotation } from '../ui/HandwrittenAnnotation';
 
 const hotspots = [
   {
@@ -66,6 +67,22 @@ export default function InteractiveHotspots() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
           </motion.div>
+          
+          {/* Static Designer Annotations */}
+          <HandwrittenAnnotation 
+            text="Thread tension must be exact"
+            className="top-[15%] left-[10%] hidden md:block"
+            rotation={-5}
+            lineDirection="bottom-right"
+            delay={1}
+          />
+          <HandwrittenAnnotation 
+            text="Natural grain variations"
+            className="bottom-[15%] right-[10%] hidden md:block"
+            rotation={3}
+            lineDirection="top-left"
+            delay={1.2}
+          />
 
           {/* Hotspots */}
           {hotspots.map((hotspot) => {

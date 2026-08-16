@@ -26,14 +26,8 @@ export default function CinematicHero() {
       ref={containerRef}
       className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-background"
     >
-      {/* Background Image with Parallax */}
-      <motion.div 
-        className="absolute inset-0 z-0"
-        style={{
-          y: backgroundY,
-          scale: backgroundScale,
-        }}
-      >
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
         {/* Reverted to high quality static image to ensure maximum compatibility */}
         <img 
           src="https://images.unsplash.com/photo-1544485559-00566ff6d25b?q=80&w=2400&auto=format&fit=crop"
@@ -42,7 +36,7 @@ export default function CinematicHero() {
         />
         {/* Overlay to ensure text readability */}
         <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
-      </motion.div>
+      </div>
 
       {/* Multi-Layer Parallax Foreground Shots */}
       <motion.div 

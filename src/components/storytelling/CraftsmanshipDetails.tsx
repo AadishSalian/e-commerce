@@ -1,13 +1,15 @@
 'use client';
 
 import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { HandwrittenAnnotation } from '../ui/HandwrittenAnnotation';
 
 function MaskRevealImage({ children, aspect, index }: { children: React.ReactNode, aspect: string, index: number }) {
   return (
     <div className={`relative w-full ${aspect} overflow-hidden`}>
-      {children}
+      <div className="absolute top-0 left-0 w-full h-full">
+        {children}
+      </div>
     </div>
   );
 }
@@ -65,12 +67,8 @@ export default function CraftsmanshipDetails() {
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-12 gap-y-24 md:gap-y-0 md:gap-x-6">
           {details.map((detail, index) => (
-            <motion.div 
+            <div 
               key={detail.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
               className={`relative ${detail.className}`}
             >
               <MaskRevealImage aspect={detail.imageAspect} index={index}>
@@ -108,7 +106,7 @@ export default function CraftsmanshipDetails() {
                   lineDirection="bottom-right" 
                 />
               )}
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

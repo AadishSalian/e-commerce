@@ -12,7 +12,7 @@ export default function WelcomeBanner() {
   }
 
   return (
-    <div className="bg-neutral-900 text-white px-4 py-3 text-sm flex items-center justify-center gap-2">
+    <div className="bg-gradient-to-r from-neutral-950 via-neutral-900 to-neutral-950 text-white px-4 py-3 text-sm flex items-center justify-center gap-2 border-b border-white/5">
       <span className="font-medium">Welcome back, {user.name}!</span>
       <span className="text-neutral-400 hidden sm:inline">|</span>
       <span className="text-neutral-300">Ready to discover your next favorite item?</span>

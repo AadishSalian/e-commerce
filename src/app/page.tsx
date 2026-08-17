@@ -5,10 +5,12 @@ import SalesSection from '@/components/home/SalesSection';
 import FeatureSection from '@/components/home/FeatureSection';
 import ProductCarousel from '@/components/home/ProductCarousel';
 import ForYouSection from '@/components/home/ForYouSection';
+import WelcomeBanner from '@/components/home/WelcomeBanner';
 
 export default function Home() {
   return (
     <div className="flex flex-col w-full">
+      <WelcomeBanner />
       <CategoryWidgets />
       <Hero />
       <ForYouSection />

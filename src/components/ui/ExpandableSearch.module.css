@@ -258,26 +258,38 @@
   color: var(--foreground);
 }
 
-.recentSearchItem {
+.chipList {
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+.chip {
+  display: inline-flex;
   align-items: center;
-  padding: 10px 16px;
-  gap: 12px;
-  cursor: pointer;
-  color: var(--foreground);
-  font-size: 14px;
-  transition: background-color 0.15s ease;
-}
-
-.recentSearchItem:hover,
-.recentSearchItem[aria-selected="true"] {
+  padding: 6px 12px;
+  border-radius: 9999px;
   background-color: var(--surface-hover);
+  border: 1px solid var(--border-subtle);
+  color: var(--foreground);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.recentSearchIcon {
+.chip:hover,
+.chip[aria-selected="true"] {
+  background-color: var(--text-primary, var(--foreground));
+  color: var(--background);
+  border-color: var(--text-primary, var(--foreground));
+}
+
+.chipIcon {
   width: 14px;
   height: 14px;
-  color: var(--text-muted);
+  margin-right: 6px;
+  opacity: 0.7;
 }
 
 .emptyState {

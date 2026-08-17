@@ -261,27 +261,26 @@ export function ExpandableSearch() {
           {!isShowingResults && recentSearches.length > 0 && (
             <>
               <div className={styles.dropdownHeader}>Recent Searches</div>
-              <ul className={styles.dropdownList}>
+              <div className={styles.chipList}>
                 {recentSearches.map((term, idx) => (
-                  <li key={term}>
-                    <button
-                      id={`search-item-${idx}`}
-                      type="button"
-                      className={styles.recentSearchItem}
-                      role="option"
-                      aria-selected={focusedIndex === idx}
-                      onClick={() => {
-                        setQuery(term);
-                        handleSubmit(term);
-                      }}
-                      onMouseEnter={() => setFocusedIndex(idx)}
-                    >
-                      <Clock className={styles.recentSearchIcon} />
-                      {term}
-                    </button>
-                  </li>
+                  <button
+                    key={term}
+                    id={`search-item-${idx}`}
+                    type="button"
+                    className={styles.chip}
+                    role="option"
+                    aria-selected={focusedIndex === idx}
+                    onClick={() => {
+                      setQuery(term);
+                      handleSubmit(term);
+                    }}
+                    onMouseEnter={() => setFocusedIndex(idx)}
+                  >
+                    <Clock className={styles.chipIcon} />
+                    {term}
+                  </button>
                 ))}
-              </ul>
+              </div>
             </>
           )}
 

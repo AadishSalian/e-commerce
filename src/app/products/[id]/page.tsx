@@ -18,6 +18,7 @@ import QnASection from '@/components/product/QnASection';
 import StickyAddToCart from '@/components/product/StickyAddToCart';
 import ProductViewer from '@/components/product/ProductViewer';
 import SizeFitQuiz from '@/components/product/SizeFitQuiz';
+import InPageNavigation from '@/components/product/InPageNavigation';
 import { WishlistButton, ScrollProgress } from '@/components/ui';
 
 type Props = {
@@ -74,6 +75,7 @@ export default function ProductDetailPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-background relative pb-32">
       <ScrollProgress />
+      <InPageNavigation />
       
       {/* Breadcrumbs */}
       <div className="container mx-auto px-4 md:px-8 py-6 flex items-center text-sm text-text-muted">
@@ -82,7 +84,7 @@ export default function ProductDetailPage({ params }: Props) {
         <span className="text-foreground">{product.name}</span>
       </div>
 
-      <div className="container mx-auto px-4 md:px-8">
+      <div id="overview" className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col lg:flex-row gap-16 items-start">
           
           {/* Left: Product Images */}
@@ -176,7 +178,7 @@ export default function ProductDetailPage({ params }: Props) {
               </div>
             )}
 
-            <div className="mb-10">
+            <div id="details" className="mb-10">
               <Accordion items={productAccordionItems} />
             </div>
 
@@ -223,13 +225,13 @@ export default function ProductDetailPage({ params }: Props) {
 
       {/* Social Proof: Reviews and Q&A */}
       <div className="container mx-auto px-4 md:px-8 mt-16">
-        <ReviewsSection productId={product.id} />
-        <QnASection productId={product.id} />
+        <div id="reviews"><ReviewsSection productId={product.id} /></div>
+        <div id="qna"><QnASection productId={product.id} /></div>
       </div>
 
       {/* Complete the Look Section */}
       {product.relatedProducts && product.relatedProducts.length > 0 && (
-        <div className="container mx-auto px-4 md:px-8 mt-24 mb-12">
+        <div id="related" className="container mx-auto px-4 md:px-8 mt-24 mb-12">
           <h2 className="text-2xl font-bold mb-8">Complete the Look</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {product.relatedProducts.map(relId => {

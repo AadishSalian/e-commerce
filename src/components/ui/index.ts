@@ -16,3 +16,4 @@ export * from './Accordion';
 export * from './WishlistButton';
 export * from './ScrollProgress';
 export * from './BackToTop';
+export * from './Breadcrumbs';

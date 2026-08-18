@@ -19,7 +19,7 @@ import StickyAddToCart from '@/components/product/StickyAddToCart';
 import ProductViewer from '@/components/product/ProductViewer';
 import SizeFitQuiz from '@/components/product/SizeFitQuiz';
 import InPageNavigation from '@/components/product/InPageNavigation';
-import { WishlistButton, ScrollProgress } from '@/components/ui';
+import { WishlistButton, ScrollProgress, Breadcrumbs } from '@/components/ui';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -78,11 +78,7 @@ export default function ProductDetailPage({ params }: Props) {
       <InPageNavigation />
       
       {/* Breadcrumbs */}
-      <div className="container mx-auto px-4 md:px-8 py-6 flex items-center text-sm text-text-muted">
-        <Link href="/products" className="hover:text-foreground transition-colors">Products</Link>
-        <ChevronRight className="w-4 h-4 mx-2" />
-        <span className="text-foreground">{product.name}</span>
-      </div>
+      <Breadcrumbs product={product} />
 
       <div id="overview" className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col lg:flex-row gap-16 items-start">

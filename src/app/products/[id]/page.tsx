@@ -18,7 +18,7 @@ import QnASection from '@/components/product/QnASection';
 import StickyAddToCart from '@/components/product/StickyAddToCart';
 import ProductViewer from '@/components/product/ProductViewer';
 import SizeFitQuiz from '@/components/product/SizeFitQuiz';
-import { WishlistButton } from '@/components/ui';
+import { WishlistButton, ScrollProgress } from '@/components/ui';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -73,6 +73,7 @@ export default function ProductDetailPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-background relative pb-32">
+      <ScrollProgress />
       
       {/* Breadcrumbs */}
       <div className="container mx-auto px-4 md:px-8 py-6 flex items-center text-sm text-text-muted">

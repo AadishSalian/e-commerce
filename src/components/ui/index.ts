@@ -14,3 +14,4 @@ export * from './EmptyState';
 export * from './AnimatedCounter';
 export * from './Accordion';
 export * from './WishlistButton';
+export * from './ScrollProgress';

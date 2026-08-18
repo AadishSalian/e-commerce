@@ -64,7 +64,7 @@ export default function InPageNavigation() {
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${isActive ? 'bg-accent scale-150' : 'bg-border group-hover:bg-text-muted group-hover:scale-125'}`}
               />
               <span 
-                className={`absolute left-6 text-xs font-medium whitespace-nowrap transition-all duration-300 ${isActive ? 'text-foreground opacity-100 translate-x-0' : 'text-text-muted opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`}
+                className={`absolute left-6 text-xs font-medium whitespace-nowrap transition-all duration-300 ${isActive ? 'text-foreground opacity-100 translate-x-0 font-bold' : 'text-text-muted opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`}
               >
                 {section.label}
               </span>

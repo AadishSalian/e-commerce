@@ -22,6 +22,7 @@ import { PreferencesProvider } from "@/contexts/PreferencesContext";
 import { AlertsProvider } from "@/contexts/AlertsContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import LiveChatWidget from "@/components/support/LiveChatWidget";
+import { BackToTop } from "@/components/ui";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -95,6 +96,7 @@ export default function RootLayout({
                             </main>
                             <Footer />
                               <LiveChatWidget />
+                              <BackToTop />
                             </CartProvider>
                           </WishlistProvider>
                         </AlertsProvider>

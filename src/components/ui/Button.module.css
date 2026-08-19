@@ -38,6 +38,12 @@
   box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
 }
 
+.success {
+  background: #8ed500 !important;
+  border-color: #8ed500 !important;
+  color: #121212 !important;
+}
+
 .primaryContent {
   display: flex;
   align-items: center;

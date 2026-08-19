@@ -37,6 +37,15 @@ export default function ProductDetailPage({ params }: Props) {
   const { addViewedProduct } = useRecentlyViewed();
   const { hasAlert, addAlert, removeAlert } = useAlerts();
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+
+  const handleAddToCart = () => {
+    addToCart(product, 1, selectedVariant || undefined);
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 1500);
+  };
 
   useEffect(() => {
     if (product) {
@@ -178,14 +187,12 @@ export default function ProductDetailPage({ params }: Props) {
               <Accordion items={productAccordionItems} />
             </div>
 
-            {/* Desktop Add to Bag (Sticky bar handles mobile/scrolling) */}
             <div className="hidden lg:flex flex-col gap-4 mt-auto pt-8 border-t border-border">
               <PrimaryButton 
                 className="w-full py-4 text-lg" 
                 icon={<ShoppingBag size={18} />}
-                onClick={() => {
-                  addToCart(product, 1, selectedVariant || undefined);
-                }}
+                onClick={handleAddToCart}
+                isSuccess={isAdded}
               >
                 Add to Bag
               </PrimaryButton>

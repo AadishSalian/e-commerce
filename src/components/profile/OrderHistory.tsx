@@ -37,10 +37,14 @@ export default function OrderHistory() {
     setReturnReason('');
   };
 
+  const [addedItemId, setAddedItemId] = useState<string | null>(null);
+
   const handleBuyAgain = (item: OrderItem) => {
     const product = MOCK_PRODUCTS.find(p => p.id === item.productId);
     if (product) {
       addToCart(product, 1, item.variant);
+      setAddedItemId(item.id);
+      setTimeout(() => setAddedItemId(null), 1000);
     } else {
       error("Product is no longer available.");
     }
@@ -152,9 +156,33 @@ export default function OrderHistory() {
                             <div className="flex gap-2">
                               <button 
                                 onClick={() => handleBuyAgain(item)}
-                                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-foreground text-background border border-foreground rounded-md hover:opacity-90 transition-all"
+                                className="relative flex items-center justify-center min-w-[100px] h-8 px-3 text-xs font-medium bg-foreground text-background border border-foreground rounded-md hover:opacity-90 transition-all overflow-hidden"
                               >
-                                <ShoppingCart className="w-3.5 h-3.5" /> Buy Again
+                                <AnimatePresence mode="wait">
+                                  {addedItemId === item.id ? (
+                                    <motion.div
+                                      key="success"
+                                      initial={{ opacity: 0, scale: 0.8 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      exit={{ opacity: 0, scale: 0.8 }}
+                                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                                      className="flex items-center gap-1.5 text-[#8ed500]"
+                                    >
+                                      <CheckCircle2 className="w-3.5 h-3.5" /> Added
+                                    </motion.div>
+                                  ) : (
+                                    <motion.div
+                                      key="default"
+                                      initial={{ opacity: 0, scale: 0.8 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      exit={{ opacity: 0, scale: 0.8 }}
+                                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                                      className="flex items-center gap-1.5"
+                                    >
+                                      <ShoppingCart className="w-3.5 h-3.5" /> Buy Again
+                                    </motion.div>
+                                  )}
+                                </AnimatePresence>
                               </button>
                               
                               {/* Return Button (Only if delivered) */}

@@ -14,6 +14,7 @@ interface Props {
 
 export default function StickyAddToCart({ product, selectedVariant, onAddToCart, showAfterY = 600 }: Props) {
   const [isVisible, setIsVisible] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +28,14 @@ export default function StickyAddToCart({ product, selectedVariant, onAddToCart,
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [showAfterY]);
+
+  const handleAddToCart = () => {
+    onAddToCart();
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 1500);
+  };
 
   return (
     <AnimatePresence>
@@ -53,8 +62,9 @@ export default function StickyAddToCart({ product, selectedVariant, onAddToCart,
           <div className="flex items-center gap-4 shrink-0">
             <span className="font-bold text-foreground hidden sm:block">${product.price.toFixed(2)}</span>
             <PrimaryButton 
-              onClick={onAddToCart}
-              className="px-6 py-2 text-sm whitespace-nowrap shadow-lg shadow-accent/20"
+              onClick={handleAddToCart}
+              isSuccess={isAdded}
+              className="px-6 py-2 text-sm whitespace-nowrap shadow-lg shadow-accent/20 min-w-[120px]"
             >
               Add to Bag
             </PrimaryButton>

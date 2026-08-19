@@ -1,14 +1,16 @@
 'use client';
-
+import { useState } from 'react';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCart } from '@/contexts/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
+import { PrimaryButton } from './PrimaryButton';
 
 export function QuickViewModal() {
   const { activeProduct, isOpen, closeQuickView } = useQuickView();
   const { addToCart } = useCart();
+  const [isAdded, setIsAdded] = useState(false);
 
   if (!activeProduct) return null;
 
@@ -76,7 +78,7 @@ export function QuickViewModal() {
               )}
 
               <div className="mt-auto pt-8 flex gap-4">
-                <button 
+                <PrimaryButton 
                   onClick={() => {
                     addToCart({
                       id: activeProduct.id,
@@ -85,12 +87,18 @@ export function QuickViewModal() {
                       image: activeProduct.image,
                       quantity: 1
                     } as any, 1);
-                    closeQuickView();
+                    setIsAdded(true);
+                    setTimeout(() => {
+                      setIsAdded(false);
+                      closeQuickView();
+                    }, 1000);
                   }}
-                  className="flex-1 bg-foreground text-background py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                  isSuccess={isAdded}
+                  className="flex-1 py-4 font-bold uppercase tracking-widest text-sm"
+                  icon={<ShoppingBag className="w-4 h-4" />}
                 >
-                  <ShoppingBag className="w-4 h-4" /> Add to Bag
-                </button>
+                  Add to Bag
+                </PrimaryButton>
                 <Link 
                   href={`/products/${activeProduct.id}`}
                   onClick={closeQuickView}

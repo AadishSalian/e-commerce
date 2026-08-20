@@ -5,7 +5,7 @@ import { NewsletterCard } from '@/components/ui';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-background border-t border-border pt-16 pb-8">
+    <footer className="w-full bg-background border-t border-border pt-16 pb-[calc(4rem+env(safe-area-inset-bottom)+2rem)] md:pb-8">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16">
           {/* Brand */}

@@ -18,7 +18,7 @@ export default function CartPage() {
   const total = subtotal + shipping;
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-32">
+    <div className="min-h-screen bg-background pt-8 md:pt-4 pb-32">
       <div className="container mx-auto px-4 max-w-3xl">
         
         <h1 className="text-4xl font-bold tracking-tight text-foreground mb-12">

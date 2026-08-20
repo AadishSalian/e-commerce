@@ -107,7 +107,7 @@ export default function ProductViewer({ product }: ProductViewerProps) {
       </div>
 
       {/* Mobile Swipeable Gallery */}
-      <div className="md:hidden relative w-[100vw] aspect-square -mx-4 border-y border-border overflow-hidden">
+      <div className="md:hidden relative w-[calc(100%+2rem)] aspect-square -mx-4 border-y border-border overflow-hidden">
         <div 
           className="flex overflow-x-auto snap-x snap-mandatory w-full h-full hide-scrollbar"
           style={{ scrollbarWidth: 'none' }}

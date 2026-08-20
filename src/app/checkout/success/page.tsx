@@ -3,7 +3,7 @@ import { Check } from 'lucide-react';
 
 export default function CheckoutSuccessPage() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center pt-24 pb-32">
+    <div className="min-h-screen bg-background flex items-center justify-center pt-8 md:pt-4 pb-32">
       <div className="container mx-auto px-4 text-center flex flex-col items-center max-w-lg">
         
         <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center border border-border mb-8">

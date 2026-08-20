@@ -10,7 +10,7 @@ export default function WishlistPage() {
   const { wishlistItems, removeFromWishlist } = useWishlist();
 
   return (
-    <div className="min-h-screen pt-24 pb-32 px-4 md:px-8 max-w-7xl mx-auto">
+    <div className="min-h-screen pt-8 md:pt-4 pb-32 px-4 md:px-8 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
         <div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
@@ -28,7 +28,7 @@ export default function WishlistPage() {
       </div>
 
       {wishlistItems.length === 0 ? (
-        <div className="border-t border-border pt-24 pb-32">
+        <div className="border-t border-border pt-8 md:pt-4 pb-32">
           <EmptyState 
             icon={<Heart className="w-12 h-12" />} 
             title="Nothing saved yet." 

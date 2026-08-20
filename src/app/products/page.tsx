@@ -38,7 +38,7 @@ export default function ProductsPage() {
 
   return (
     <PullToRefresh onRefresh={handleRefresh}>
-      <div className="min-h-screen bg-background pt-24 pb-32">
+      <div className="min-h-screen bg-background pt-8 md:pt-4 pb-32">
         <div className="container mx-auto px-4 md:px-8">
           
           {/* Header Section */}

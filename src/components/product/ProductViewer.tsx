@@ -71,12 +71,12 @@ export default function ProductViewer({ product }: ProductViewerProps) {
 
   return (
     <div className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-6 h-full">
-      {/* Thumbnail Filmstrip */}
-      <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto w-full lg:w-24 shrink-0 pb-2 lg:pb-0 hide-scrollbar" style={{ scrollbarWidth: 'none' }}>
+      {/* Thumbnail Filmstrip (Desktop only) */}
+      <div className="hidden md:flex flex-col gap-3 overflow-y-auto w-24 shrink-0 hide-scrollbar" style={{ scrollbarWidth: 'none' }}>
         {product.modelUrl && (
           <button
             onClick={() => { setIs3DMode(true); setIs360Mode(false); }}
-            className={`w-20 h-20 lg:w-full lg:h-24 shrink-0 rounded-xl overflow-hidden border-2 flex flex-col items-center justify-center gap-1 transition-colors ${is3DMode ? 'border-accent text-accent bg-accent/5' : 'border-border text-text-muted hover:border-text-muted'}`}
+            className={`w-full h-24 shrink-0 rounded-xl overflow-hidden border-2 flex flex-col items-center justify-center gap-1 transition-colors ${is3DMode ? 'border-accent text-accent bg-accent/5' : 'border-border text-text-muted hover:border-text-muted'}`}
           >
             <Box size={24} />
             <span className="text-[10px] font-bold uppercase tracking-wider text-center">3D / AR View</span>
@@ -85,7 +85,7 @@ export default function ProductViewer({ product }: ProductViewerProps) {
         {has360 && (
           <button
             onClick={() => { setIs360Mode(true); setIs3DMode(false); }}
-            className={`w-20 h-20 lg:w-full lg:h-24 shrink-0 rounded-xl overflow-hidden border-2 flex flex-col items-center justify-center gap-1 transition-colors ${is360Mode ? 'border-accent text-accent bg-accent/5' : 'border-border text-text-muted hover:border-text-muted'}`}
+            className={`w-full h-24 shrink-0 rounded-xl overflow-hidden border-2 flex flex-col items-center justify-center gap-1 transition-colors ${is360Mode ? 'border-accent text-accent bg-accent/5' : 'border-border text-text-muted hover:border-text-muted'}`}
           >
             <RotateCcw size={24} />
             <span className="text-[10px] font-bold uppercase tracking-wider">360° View</span>
@@ -99,15 +99,44 @@ export default function ProductViewer({ product }: ProductViewerProps) {
               setIs360Mode(false);
               setIs3DMode(false);
             }}
-            className={`w-20 h-20 lg:w-full lg:h-24 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${!is360Mode && !is3DMode && activeIndex === idx ? 'border-accent opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
+            className={`w-full h-24 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${!is360Mode && !is3DMode && activeIndex === idx ? 'border-accent opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
           >
             <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
           </button>
         ))}
       </div>
 
-      {/* Main Viewer area */}
-      <div className="relative w-full aspect-square lg:aspect-[4/5] bg-surface rounded-2xl overflow-hidden border border-border">
+      {/* Mobile Swipeable Gallery */}
+      <div className="md:hidden relative w-[100vw] aspect-square -mx-4 border-y border-border overflow-hidden">
+        <div 
+          className="flex overflow-x-auto snap-x snap-mandatory w-full h-full hide-scrollbar"
+          style={{ scrollbarWidth: 'none' }}
+          onScroll={(e) => {
+            const el = e.currentTarget;
+            const idx = Math.round(el.scrollLeft / el.clientWidth);
+            if (activeIndex !== idx) setActiveIndex(idx);
+          }}
+        >
+          {images.map((img, idx) => (
+            <div key={idx} className="w-full h-full shrink-0 snap-center relative">
+              <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </div>
+        
+        {/* Dot Indicators */}
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+          {images.map((_, idx) => (
+            <div 
+              key={idx} 
+              className={`h-1.5 rounded-full transition-all ${activeIndex === idx ? 'w-4 bg-foreground' : 'w-1.5 bg-foreground/30'}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Main Viewer area (Desktop) */}
+      <div className="hidden md:block relative w-full aspect-square lg:aspect-[4/5] bg-surface rounded-2xl overflow-hidden border border-border">
         <AnimatePresence mode="wait">
           {is3DMode && product.modelUrl ? (
             <motion.div

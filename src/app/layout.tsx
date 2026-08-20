@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
+import BottomNavigation from "@/components/layout/BottomNavigation";
 import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
@@ -85,6 +86,7 @@ export default function RootLayout({
                             <CartProvider>
                               <StoreBackButton />
                             <Navbar />
+                            <BottomNavigation />
                             <CartDrawer />
                             <CompareDrawer />
                             <QuickViewModal />

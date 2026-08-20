@@ -52,6 +52,15 @@ export default function Navbar() {
     }, 150);
   };
 
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    handleResize(); // initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Close account dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -66,14 +75,15 @@ export default function Navbar() {
   return (
     <>
       {/* Desktop Split-Island Navbar */}
-      <motion.header 
-        className="fixed top-0 left-0 right-0 z-50 hidden md:flex flex-col items-center pointer-events-none"
-        style={{ marginTop: topMargin }}
-      >
-        <motion.div 
-          className="flex items-center pointer-events-auto relative"
-          style={{ gap: islandGap }}
+      {isDesktop && (
+        <motion.header 
+          className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none"
+          style={{ marginTop: topMargin }}
         >
+          <motion.div 
+            className="flex items-center pointer-events-auto relative"
+            style={{ gap: islandGap }}
+          >
           {/* Left Island: Logo */}
           <motion.div className={styles.island} style={{ padding: islandPadding }}>
             <Link href="/" className="px-4 font-bold text-xl tracking-wide text-foreground flex items-center justify-center">
@@ -282,9 +292,10 @@ export default function Navbar() {
           </AnimatePresence>
         </motion.div>
       </motion.header>
+    )}
 
       {/* Mobile Navbar (Compact Bar) */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 p-4">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 p-4 bg-background/90 backdrop-blur-lg border-b border-border/50">
         <div className={styles.mobileNavContainer}>
           <Link href="/" className="font-bold text-lg tracking-wide text-foreground">
             MATTE.

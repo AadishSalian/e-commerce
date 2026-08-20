@@ -74,10 +74,10 @@ export function PullToRefresh({ children, onRefresh }: { children: React.ReactNo
     <div ref={containerRef} className="relative w-full h-full">
       <motion.div
         className="absolute top-0 left-0 right-0 flex items-center justify-center pointer-events-none z-10"
-        style={{ height: '50px', y: -50 }}
+        style={{ height: '50px', y: -50, opacity: pullDistance > 0 || refreshing ? 1 : 0 }}
         animate={controls}
       >
-        <div className="bg-surface shadow-md rounded-full p-2 flex items-center justify-center mt-8">
+        <div className="bg-surface shadow-md rounded-full p-2 flex items-center justify-center">
           <Loader2 
             className={`w-6 h-6 text-foreground ${refreshing ? 'animate-spin' : ''}`}
             style={{ transform: !refreshing ? `rotate(${pullDistance * 2}deg)` : 'none' }}

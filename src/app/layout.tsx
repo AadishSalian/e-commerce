@@ -91,7 +91,7 @@ export default function RootLayout({
                             <CompareDrawer />
                             <QuickViewModal />
                             <CommandMenu />
-                            <main className="flex-grow flex flex-col pt-24 md:pt-28">
+                            <main className="flex-grow flex flex-col pt-36 md:pt-28">
                               <PageTransition>
                                 {children}
                               </PageTransition>

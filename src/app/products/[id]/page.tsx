@@ -40,6 +40,7 @@ export default function ProductDetailPage({ params }: Props) {
   const [isAdded, setIsAdded] = useState(false);
 
   const handleAddToCart = () => {
+    if (!product) return;
     addToCart(product, 1, selectedVariant || undefined);
     setIsAdded(true);
     setTimeout(() => {

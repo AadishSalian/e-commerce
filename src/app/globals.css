@@ -177,3 +177,6 @@ img {
   filter: brightness(1.0) contrast(1.02);
 }
 
+
+@utility pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+@utility pt-safe { padding-top: env(safe-area-inset-top); }

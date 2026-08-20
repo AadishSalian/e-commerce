@@ -17,7 +17,7 @@ export function QuickViewModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4" data-lenis-prevent="true">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center px-4" data-lenis-prevent="true">
           {/* Backdrop */}
           <motion.div 
             initial={{ opacity: 0 }}

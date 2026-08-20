@@ -19,7 +19,7 @@ export function CompareDrawer() {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="w-full bg-surface border-t border-border shadow-[0_-10px_40px_rgba(0,0,0,0.1)] pointer-events-auto max-h-[80vh] overflow-y-auto"
+            className="w-full bg-surface border-t border-border shadow-[0_-10px_40px_rgba(0,0,0,0.1)] pointer-events-auto max-h-[80vh] overflow-y-auto pb-safe"
           >
             <div className="container mx-auto px-4 py-6">
               <div className="flex justify-between items-center mb-6">
@@ -85,7 +85,7 @@ export function CompareDrawer() {
             initial={{ y: 100 }}
             animate={{ y: 0 }}
             exit={{ y: 100 }}
-            className="absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-auto"
+            className="absolute bottom-[calc(5rem+env(safe-area-inset-bottom))] md:bottom-6 left-1/2 -translate-x-1/2 pointer-events-auto"
           >
             <button 
               onClick={() => setIsCompareDrawerOpen(true)}

@@ -8,7 +8,7 @@ import { ChevronDown, Filter, Eye, Layers } from 'lucide-react';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
-import { WishlistButton, PullToRefresh } from '@/components/ui';
+import { WishlistButton, PullToRefresh, BottomSheet } from '@/components/ui';
 import ProductCard from '@/components/product/ProductCard';
 
 export default function ProductsPage() {
@@ -17,6 +17,7 @@ export default function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   
   const filteredProducts = MOCK_PRODUCTS.filter(p => {
     const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
@@ -50,8 +51,8 @@ export default function ProductsPage() {
             </p>
           </div>
 
-          {/* Filters & Sorting Toolbar */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-y border-border py-4">
+          {/* Desktop Filters & Sorting Toolbar */}
+          <div className="hidden md:flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-y border-border py-4">
             
             {/* Category Pill Filters */}
             <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar flex-1 w-full md:w-auto">
@@ -102,6 +103,82 @@ export default function ProductsPage() {
           </div>
         </div>
         {/* End of Filters & Sorting Toolbar */}
+
+        {/* Mobile Filter Button */}
+        <div className="md:hidden flex justify-between items-center mb-8 gap-4">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-surface border border-border text-foreground text-sm px-4 py-3 rounded-full focus:outline-none focus:border-[#8ed500]"
+            />
+          </div>
+          <button 
+            onClick={() => setIsFilterDrawerOpen(true)}
+            className="flex items-center gap-2 bg-surface border border-border px-4 py-3 rounded-full text-sm font-medium"
+          >
+            <Filter size={16} /> Filters
+          </button>
+        </div>
+
+        <BottomSheet 
+          isOpen={isFilterDrawerOpen} 
+          onClose={() => setIsFilterDrawerOpen(false)} 
+          title="Filters & Sorting"
+        >
+          <div className="flex flex-col gap-8">
+            <div>
+              <h3 className="text-foreground font-semibold mb-4">Categories</h3>
+              <div className="flex flex-wrap gap-2">
+                {CATEGORIES.map(category => (
+                  <button
+                    key={category}
+                    onClick={() => setActiveCategory(category)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      activeCategory === category 
+                        ? 'bg-[#8ed500] text-[#121212] border-[#8ed500]' 
+                        : 'bg-surface border border-border text-text-muted hover:text-foreground'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-foreground font-semibold mb-4">Sort By</h3>
+              <div className="flex flex-col gap-2">
+                {[
+                  { label: 'Newest', value: 'newest' },
+                  { label: 'Price: Low to High', value: 'price-low' },
+                  { label: 'Price: High to Low', value: 'price-high' }
+                ].map(option => (
+                  <button
+                    key={option.value}
+                    onClick={() => setSortBy(option.value)}
+                    className={`text-left px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                      sortBy === option.value 
+                        ? 'bg-surface-active text-foreground border border-border' 
+                        : 'bg-transparent text-text-muted hover:bg-surface border border-transparent'
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            <button 
+              onClick={() => setIsFilterDrawerOpen(false)}
+              className="w-full bg-foreground text-background py-4 rounded-xl font-bold mt-4"
+            >
+              Show Results
+            </button>
+          </div>
+        </BottomSheet>
 
           {/* Product Grid */}
           <motion.div 

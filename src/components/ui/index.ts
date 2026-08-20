@@ -17,3 +17,4 @@ export * from './WishlistButton';
 export * from './ScrollProgress';
 export * from './BackToTop';
 export * from './Breadcrumbs';
+export * from './PullToRefresh';

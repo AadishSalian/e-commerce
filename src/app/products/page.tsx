@@ -8,7 +8,7 @@ import { ChevronDown, Filter, Eye, Layers } from 'lucide-react';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
-import { WishlistButton } from '@/components/ui';
+import { WishlistButton, PullToRefresh } from '@/components/ui';
 import ProductCard from '@/components/product/ProductCard';
 
 export default function ProductsPage() {
@@ -29,101 +29,109 @@ export default function ProductsPage() {
     return 0; // default 'newest'
   });
 
-  return (
-    <div className="min-h-screen bg-background pt-24 pb-32">
-      <div className="container mx-auto px-4 md:px-8">
-        
-        {/* Header Section */}
-        <div className="mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
-            The Collection.
-          </h1>
-          <p className="text-text-muted text-lg max-w-2xl">
-            Precision-engineered objects for your daily workflow. Designed to integrate seamlessly, built to last.
-          </p>
-        </div>
+  const handleRefresh = async () => {
+    // simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    // just dummy refresh
+  };
 
-        {/* Filters & Sorting Toolbar */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-y border-border py-4">
+  return (
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="min-h-screen bg-background pt-24 pb-32">
+        <div className="container mx-auto px-4 md:px-8">
           
-          {/* Category Pill Filters */}
-          <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar flex-1 w-full md:w-auto">
-            <span className="text-sm font-medium text-text-muted mr-2 flex items-center gap-2 shrink-0">
-              <Filter className="w-4 h-4" /> Filter
-            </span>
-            {CATEGORIES.map(category => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shrink-0 border ${
-                  activeCategory === category 
-                    ? 'bg-[#8ed500] text-[#121212] border-[#8ed500] shadow-sm scale-95' 
-                    : 'bg-surface border-transparent text-text-muted hover:text-foreground hover:bg-surface-hover'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+          {/* Header Section */}
+          <div className="mb-16">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+              The Collection.
+            </h1>
+            <p className="text-text-muted text-lg max-w-2xl">
+              Precision-engineered objects for your daily workflow. Designed to integrate seamlessly, built to last.
+            </p>
           </div>
 
-          <div className="flex items-center gap-4 shrink-0 w-full md:w-auto mt-4 md:mt-0">
-            {/* Search Bar */}
-            <div className="relative flex-1 md:w-64">
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-surface border border-border text-foreground text-sm px-4 py-3 rounded-full focus:outline-none focus:border-[#8ed500] focus:ring-1 focus:ring-[#8ed500] transition-all"
-              />
+          {/* Filters & Sorting Toolbar */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-y border-border py-4">
+            
+            {/* Category Pill Filters */}
+            <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar flex-1 w-full md:w-auto">
+              <span className="text-sm font-medium text-text-muted mr-2 flex items-center gap-2 shrink-0">
+                <Filter className="w-4 h-4" /> Filter
+              </span>
+              {CATEGORIES.map(category => (
+                <button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shrink-0 border ${
+                    activeCategory === category 
+                      ? 'bg-[#8ed500] text-[#121212] border-[#8ed500] shadow-sm scale-95' 
+                      : 'bg-surface border-transparent text-text-muted hover:text-foreground hover:bg-surface-hover'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
             </div>
 
-            {/* Sort Dropdown (Simplified for UI mockup) */}
-            <div className="flex items-center gap-3 shrink-0">
-              <span className="text-sm font-medium text-text-muted hidden sm:inline">Sort by</span>
-            <CustomSelect
-              value={sortBy}
-              onChange={setSortBy}
-              variant="pill"
-              options={[
-                { label: 'Newest', value: 'newest' },
-                { label: 'Price: Low to High', value: 'price-low' },
-                { label: 'Price: High to Low', value: 'price-high' }
-              ]}
-            />
+            <div className="flex items-center gap-4 shrink-0 w-full md:w-auto mt-4 md:mt-0">
+              {/* Search Bar */}
+              <div className="relative flex-1 md:w-64">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-surface border border-border text-foreground text-sm px-4 py-3 rounded-full focus:outline-none focus:border-[#8ed500] focus:ring-1 focus:ring-[#8ed500] transition-all"
+                />
+              </div>
+
+              {/* Sort Dropdown (Simplified for UI mockup) */}
+              <div className="flex items-center gap-3 shrink-0">
+                <span className="text-sm font-medium text-text-muted hidden sm:inline">Sort by</span>
+              <CustomSelect
+                value={sortBy}
+                onChange={setSortBy}
+                variant="pill"
+                options={[
+                  { label: 'Newest', value: 'newest' },
+                  { label: 'Price: Low to High', value: 'price-low' },
+                  { label: 'Price: High to Low', value: 'price-high' }
+                ]}
+              />
+            </div>
           </div>
         </div>
+        {/* End of Filters & Sorting Toolbar */}
+
+          {/* Product Grid */}
+          <motion.div 
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"
+          >
+            <AnimatePresence>
+              {filteredProducts.map((product, idx) => (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, delay: idx * 0.05 }}
+                  key={product.id}
+                >
+                  <ProductCard product={product} variant="default" />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+
+          {filteredProducts.length === 0 && (
+            <div className="py-24 text-center">
+              <p className="text-text-muted text-lg">No products found for this category.</p>
+            </div>
+          )}
+
+        </div>
       </div>
-      {/* End of Filters & Sorting Toolbar */}
-
-        {/* Product Grid */}
-        <motion.div 
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"
-        >
-          <AnimatePresence>
-            {filteredProducts.map((product, idx) => (
-              <motion.div
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                key={product.id}
-              >
-                <ProductCard product={product} variant="default" />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {filteredProducts.length === 0 && (
-          <div className="py-24 text-center">
-            <p className="text-text-muted text-lg">No products found for this category.</p>
-          </div>
-        )}
-
-      </div>
-    </div>
+    </PullToRefresh>
   );
 }

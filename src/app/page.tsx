@@ -6,12 +6,14 @@ import FeatureSection from '@/components/home/FeatureSection';
 import ProductCarousel from '@/components/home/ProductCarousel';
 import ForYouSection from '@/components/home/ForYouSection';
 import WelcomeBanner from '@/components/home/WelcomeBanner';
+import { PullToRefreshWrapper } from '@/components/home/PullToRefreshWrapper';
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-full">
-      <WelcomeBanner />
-      <CategoryWidgets />
+    <PullToRefreshWrapper>
+      <div className="flex flex-col w-full">
+        <WelcomeBanner />
+        <CategoryWidgets />
       <Hero />
       <ForYouSection />
       <CategoryShowcase />
@@ -27,14 +29,15 @@ export default function Home() {
       
       <ProductCarousel />
       
-      <FeatureSection 
-        title="Designed to disappear."
-        description="Technology shouldn't demand your attention. We believe in tools that quietly facilitate your work. Flat surfaces, muted tones, and intuitive interfaces that get out of your way."
-        imageAlt="Workspace with matte products"
-        imageUrl="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=1000&auto=format&fit=crop"
-        reverse={true}
-        matteVariant="deep"
-      />
-    </div>
+        <FeatureSection 
+          title="Designed to disappear."
+          description="Technology shouldn't demand your attention. We believe in tools that quietly facilitate your work. Flat surfaces, muted tones, and intuitive interfaces that get out of your way."
+          imageAlt="Workspace with matte products"
+          imageUrl="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=1000&auto=format&fit=crop"
+          reverse={true}
+          matteVariant="deep"
+        />
+      </div>
+    </PullToRefreshWrapper>
   );
 }

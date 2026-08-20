@@ -314,6 +314,18 @@ export default function Navbar() {
             </button>
           </div>
         </div>
+        {/* Mobile Swipeable Category Chips */}
+        <div className="mt-2 -mx-4 px-4 overflow-x-auto hide-scrollbar flex items-center gap-2 pb-2">
+          {['New', 'Tech', 'Objects', 'Fashion', 'Beauty'].map(cat => (
+            <Link 
+              key={cat} 
+              href={`/products?category=${cat}`}
+              className="px-4 py-1.5 rounded-full border border-border bg-surface text-sm font-medium whitespace-nowrap text-text-muted hover:text-foreground hover:bg-surface-active transition-colors shrink-0"
+            >
+              {cat}
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* Mobile Drawer */}

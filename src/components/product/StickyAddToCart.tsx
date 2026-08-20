@@ -41,11 +41,11 @@ export default function StickyAddToCart({ product, selectedVariant, onAddToCart,
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ y: -100, opacity: 0 }}
+          initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -100, opacity: 0 }}
+          exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="fixed top-0 left-0 right-0 z-[60] bg-surface/90 backdrop-blur-xl border-b border-border shadow-sm py-3 px-4 md:px-8 flex items-center justify-between gap-4"
+          className="fixed bottom-0 sm:top-0 sm:bottom-auto left-0 right-0 z-[60] bg-surface/90 backdrop-blur-xl border-t sm:border-t-0 sm:border-b border-border shadow-[0_-4px_20px_rgba(0,0,0,0.1)] sm:shadow-sm py-3 px-4 md:px-8 flex items-center justify-between gap-4 pb-safe sm:pb-3"
         >
           <div className="flex items-center gap-4 min-w-0">
             <div className="w-12 h-12 bg-surface-active rounded-md overflow-hidden shrink-0 border border-border hidden sm:block">
@@ -59,12 +59,12 @@ export default function StickyAddToCart({ product, selectedVariant, onAddToCart,
             </div>
           </div>
           
-          <div className="flex items-center gap-4 shrink-0">
+          <div className="flex items-center gap-4 shrink-0 ml-auto">
             <span className="font-bold text-foreground hidden sm:block">${product.price.toFixed(2)}</span>
             <PrimaryButton 
               onClick={handleAddToCart}
               isSuccess={isAdded}
-              className="px-6 py-2 text-sm whitespace-nowrap shadow-lg shadow-accent/20 min-w-[120px]"
+              className="px-8 py-3 sm:py-2 text-base sm:text-sm whitespace-nowrap shadow-lg shadow-accent/20 min-w-[140px] sm:min-w-[120px] rounded-full sm:rounded-md"
             >
               Add to Bag
             </PrimaryButton>

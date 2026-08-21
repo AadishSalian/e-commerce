@@ -6,6 +6,9 @@ import { Eye, Layers } from 'lucide-react';
 import { Product } from '@/lib/mockData';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
+import { useWishlist } from '@/contexts/WishlistContext';
+import { Heart } from 'lucide-react';
+import { useRef, useState } from 'react';
 
 type ProductCardProps = {
   product: Product;
@@ -15,6 +18,40 @@ type ProductCardProps = {
 export default function ProductCard({ product, variant = 'default' }: ProductCardProps) {
   const { openQuickView } = useQuickView();
   const { addToCompare } = useCompare();
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  
+  const [showWishlistAnimation, setShowWishlistAnimation] = useState(false);
+  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+  const [wasLongPressed, setWasLongPressed] = useState(false);
+
+  const handlePointerDown = () => {
+    setWasLongPressed(false);
+    longPressTimer.current = setTimeout(() => {
+      setWasLongPressed(true);
+      toggleWishlist(product);
+      setShowWishlistAnimation(true);
+      
+      if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(50);
+      }
+      
+      setTimeout(() => {
+        setShowWishlistAnimation(false);
+      }, 1000);
+    }, 500);
+  };
+
+  const handlePointerUp = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (wasLongPressed) {
+      e.preventDefault();
+    }
+  };
 
   // Badge Styling based on Tier
   const tierStyles = {
@@ -26,7 +63,26 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
   if (variant === 'editorial') {
     return (
       <div className="group cursor-pointer">
-        <Link href={`/products/${product.id}`} className="block">
+        <Link 
+          href={`/products/${product.id}`} 
+          className="block relative select-none"
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerUp}
+          onClick={handleClick}
+        >
+          <AnimatePresence>
+            {showWishlistAnimation && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1.5 }}
+                exit={{ opacity: 0, scale: 2 }}
+                className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
+              >
+                <Heart className={`w-16 h-16 ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-white'}`} drop-shadow-2xl />
+              </motion.div>
+            )}
+          </AnimatePresence>
           <div className="w-full aspect-[4/5] bg-surface overflow-hidden mb-6 relative rounded-sm border border-transparent hover:border-border/50 transition-colors">
             <div className="absolute top-4 left-4 z-20 flex flex-col gap-2 items-start">
               {product.isNew && (
@@ -109,7 +165,26 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
         
         {/* Link wraps only the image area so buttons inside can still be clicked if layered properly, 
             or we handle navigation entirely via Link and buttons use stopPropagation. */}
-        <Link href={`/products/${product.id}`} className="block flex-1 bg-surface-hover rounded-lg mb-6 flex items-center justify-center overflow-hidden relative">
+        <Link 
+          href={`/products/${product.id}`} 
+          className="block flex-1 bg-surface-hover rounded-lg mb-6 flex items-center justify-center overflow-hidden relative select-none"
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerUp}
+          onClick={handleClick}
+        >
+          <AnimatePresence>
+            {showWishlistAnimation && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1.5 }}
+                exit={{ opacity: 0, scale: 2 }}
+                className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
+              >
+                <Heart className={`w-16 h-16 ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-white'}`} drop-shadow-2xl />
+              </motion.div>
+            )}
+          </AnimatePresence>
            <img 
              src={product.image} 
              alt={product.name} 
@@ -147,7 +222,26 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
 
   // Default variant
   return (
-    <Link href={`/products/${product.id}`} className="group block">
+    <Link 
+      href={`/products/${product.id}`} 
+      className="group block relative select-none"
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerLeave={handlePointerUp}
+      onClick={handleClick}
+    >
+      <AnimatePresence>
+        {showWishlistAnimation && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1.5 }}
+            exit={{ opacity: 0, scale: 2 }}
+            className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
+          >
+            <Heart className={`w-16 h-16 ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-white'}`} drop-shadow-2xl />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="w-full aspect-[4/5] bg-surface rounded-xl border border-transparent group-hover:border-border transition-colors duration-300 mb-6 flex flex-col p-2 relative overflow-hidden">
         <div className="absolute top-6 left-6 z-10 flex flex-col gap-2 items-start">
           {product.isNew && (

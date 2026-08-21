@@ -34,10 +34,9 @@ export function QuickViewModal() {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             className="relative w-full max-w-4xl bg-surface border border-border shadow-2xl rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
           >
-            {/* Close Button */}
             <button 
               onClick={closeQuickView}
-              className="absolute top-4 right-4 z-10 p-2 bg-background/50 backdrop-blur-md rounded-full hover:bg-background transition-colors"
+              className="absolute top-4 right-4 z-10 w-11 h-11 flex items-center justify-center bg-background/50 backdrop-blur-md rounded-full hover:bg-background transition-colors"
             >
               <X className="w-5 h-5 text-foreground" />
             </button>

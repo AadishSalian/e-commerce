@@ -39,7 +39,7 @@ export function CartDrawer() {
               </h2>
               <button 
                 onClick={closeCart}
-                className="p-2 hover:bg-surface-hover rounded-full transition-colors text-text-muted hover:text-foreground"
+                className="w-11 h-11 flex items-center justify-center hover:bg-surface-hover rounded-full transition-colors text-text-muted hover:text-foreground"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -79,19 +79,19 @@ export function CartDrawer() {
                       </div>
                       
                       <div className="flex justify-between items-end mt-2">
-                        <div className="flex items-center gap-3 bg-background rounded-full px-2 py-1 border border-border">
+                        <div className="flex items-center bg-background rounded-full border border-border overflow-hidden h-11">
                           <button 
                             onClick={() => updateQuantity(item.cartId, -1)}
-                            className="text-text-muted hover:text-foreground"
+                            className="w-11 h-11 flex items-center justify-center text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
                           >
-                            <Minus className="w-3 h-3" />
+                            <Minus className="w-4 h-4" />
                           </button>
-                          <span className="text-xs font-medium w-4 text-center">{item.quantity}</span>
+                          <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
                           <button 
                             onClick={() => updateQuantity(item.cartId, 1)}
-                            className="text-text-muted hover:text-foreground"
+                            className="w-11 h-11 flex items-center justify-center text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
                           >
-                            <Plus className="w-3 h-3" />
+                            <Plus className="w-4 h-4" />
                           </button>
                         </div>
                         <p className="text-sm font-medium">${(item.price * item.quantity).toFixed(2)}</p>

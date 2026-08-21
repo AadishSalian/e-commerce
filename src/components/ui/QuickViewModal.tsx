@@ -17,7 +17,7 @@ export function QuickViewModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center px-4" data-lenis-prevent="true">
+        <div className="fixed inset-0 z-[70] flex items-end md:items-center justify-center px-0 md:px-4" data-lenis-prevent="true">
           {/* Backdrop */}
           <motion.div 
             initial={{ opacity: 0 }}
@@ -29,10 +29,11 @@ export function QuickViewModal() {
 
           {/* Modal */}
           <motion.div 
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            initial={{ opacity: 0, y: '100%', scale: 1 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="relative w-full max-w-4xl bg-surface border border-border shadow-2xl rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+            exit={{ opacity: 0, y: '100%', scale: 1 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="relative w-full max-w-4xl bg-surface md:border border-border shadow-2xl rounded-t-[2rem] md:rounded-2xl rounded-b-none md:rounded-b-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] pb-safe md:pb-0"
           >
             <button 
               onClick={closeQuickView}

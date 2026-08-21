@@ -49,7 +49,7 @@ export default function SizeFitQuiz({ isOpen, onClose, productName }: SizeFitQui
   const modalContent = (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0">
+        <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-0 md:p-4">
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -59,14 +59,15 @@ export default function SizeFitQuiz({ isOpen, onClose, productName }: SizeFitQui
           />
           
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            initial={{ opacity: 0, y: '100%', scale: 1 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="relative z-10 bg-surface w-full max-w-md rounded-2xl shadow-2xl border border-border overflow-hidden flex flex-col min-h-[400px]"
+            exit={{ opacity: 0, y: '100%', scale: 1 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="relative z-10 bg-surface w-full max-w-md rounded-t-[2rem] md:rounded-2xl rounded-b-none md:rounded-b-2xl shadow-2xl border-t md:border border-border overflow-hidden flex flex-col min-h-[400px] mt-auto md:mt-0 pb-safe md:pb-0"
           >
             <button 
               onClick={onClose}
-              className="absolute top-4 right-4 text-text-muted hover:text-foreground z-10"
+              className="absolute top-4 right-4 text-text-muted hover:text-foreground z-10 w-11 h-11 flex items-center justify-center rounded-full hover:bg-surface-active transition-colors"
             >
               <X className="w-5 h-5" />
             </button>

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MOCK_PRODUCTS, CATEGORIES } from '@/lib/mockData';

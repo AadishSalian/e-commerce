@@ -1,10 +1,10 @@
 import React from 'react';
-import { Loader } from '@/components/ui/Loader';
+import { ProductGridSkeleton } from '@/components/ui/Skeleton';
 
 export default function Loading() {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <Loader size="lg" fullScreen={false} />
+    <div className="container mx-auto px-4 md:px-8 py-8 md:py-16">
+      <ProductGridSkeleton count={9} />
     </div>
   );
 }

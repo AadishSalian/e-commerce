@@ -1,7 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Eye, Layers } from 'lucide-react';
 import { Product } from '@/lib/mockData';
 import { useQuickView } from '@/contexts/QuickViewContext';
@@ -14,6 +15,28 @@ type ProductCardProps = {
   product: Product;
   variant?: 'default' | 'editorial' | 'carousel';
 };
+
+
+const shimmer = (w: number, h: number) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#333" offset="20%" />
+      <stop stop-color="#222" offset="50%" />
+      <stop stop-color="#333" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#333" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
+
+const toBase64 = (str: string) =>
+  typeof window === 'undefined'
+    ? Buffer.from(str).toString('base64')
+    : window.btoa(str);
+
+const getBlurDataURL = () => `data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`;
 
 export default function ProductCard({ product, variant = 'default' }: ProductCardProps) {
   const { openQuickView } = useQuickView();
@@ -97,21 +120,37 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
               )}
             </div>
             
-            <motion.img 
-              src={product.image} 
-              alt={product.name} 
-              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+            <motion.div 
+              className="absolute inset-0 w-full h-full"
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-            />
+            >
+              <Image 
+                src={product.image} 
+                alt={product.name} 
+                fill
+                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+                placeholder="blur"
+                blurDataURL={getBlurDataURL()}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </motion.div>
             {product.hoverImage && (
-              <motion.img 
-                src={product.hoverImage} 
-                alt={`${product.name} alternate view`} 
-                className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+              <motion.div 
+                className="absolute inset-0 w-full h-full"
                 whileHover={{ scale: 1.03 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-              />
+              >
+                <Image 
+                  src={product.hoverImage} 
+                  alt={`${product.name} alternate view`} 
+                  fill
+                  className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+                  placeholder="blur"
+                  blurDataURL={getBlurDataURL()}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </motion.div>
             )}
 
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
@@ -185,10 +224,14 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
               </motion.div>
             )}
           </AnimatePresence>
-           <img 
+           <Image 
              src={product.image} 
              alt={product.name} 
+             fill
              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+             placeholder="blur"
+             blurDataURL={getBlurDataURL()}
+             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
            />
            
            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
@@ -256,11 +299,15 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
           )}
         </div>
         <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center relative overflow-hidden">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
+          <Image 
+             src={product.image} 
+             alt={product.name} 
+             fill
+             className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+             placeholder="blur"
+             blurDataURL={getBlurDataURL()}
+             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+           />
           
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
             <button 

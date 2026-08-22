@@ -8,6 +8,7 @@ interface WishlistContextType {
   wishlistItems: Product[];
   addToWishlist: (product: Product) => void;
   removeFromWishlist: (productId: string) => void;
+  toggleWishlist: (product: Product) => void;
   isInWishlist: (productId: string) => boolean;
   clearWishlist: () => void;
   itemCount: number;
@@ -58,12 +59,20 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     return wishlistItems.some(item => item.id === productId);
   };
 
+  const toggleWishlist = (product: Product) => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
+
   const clearWishlist = () => setWishlistItems([]);
 
   const itemCount = wishlistItems.length;
 
   return (
-    <WishlistContext.Provider value={{ wishlistItems, addToWishlist, removeFromWishlist, isInWishlist, clearWishlist, itemCount }}>
+    <WishlistContext.Provider value={{ wishlistItems, addToWishlist, removeFromWishlist, toggleWishlist, isInWishlist, clearWishlist, itemCount }}>
       {children}
     </WishlistContext.Provider>
   );

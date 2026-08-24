@@ -184,6 +184,7 @@ export function ExpandableSearch() {
         
         <div className={`${styles.extraActions} ${isExpanded && !query ? styles.extraActionsVisible : ''}`}>
           <button type="button" className={styles.actionIcon} aria-label="Voice search">
+            {/* TODO: Integrate Web Speech API for voice search functionality */}
             <Mic className="w-4 h-4" />
           </button>
           <button type="button" className={styles.actionIcon} aria-label="Barcode search">

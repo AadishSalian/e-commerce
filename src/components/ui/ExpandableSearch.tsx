@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, KeyboardEvent } from 'react';
-import { Search, ArrowRight, Clock } from 'lucide-react';
+import { Search, ArrowRight, Clock, Mic, Scan } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import styles from './ExpandableSearch.module.css';
 import { searchProducts, SearchResult } from '@/lib/search';
@@ -170,7 +170,7 @@ export function ExpandableSearch() {
         <input
           ref={inputRef}
           type="text"
-          className={styles.input}
+          className={`${styles.input} ${!query ? styles.inputEmpty : ''}`}
           placeholder="Search products..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -182,9 +182,18 @@ export function ExpandableSearch() {
           tabIndex={isExpanded ? 0 : -1}
         />
         
+        <div className={`${styles.extraActions} ${isExpanded && !query ? styles.extraActionsVisible : ''}`}>
+          <button type="button" className={styles.actionIcon} aria-label="Voice search">
+            <Mic className="w-4 h-4" />
+          </button>
+          <button type="button" className={styles.actionIcon} aria-label="Barcode search">
+            <Scan className="w-4 h-4" />
+          </button>
+        </div>
+
         <button
           type="submit"
-          className={styles.submitBtn}
+          className={`${styles.submitBtn} ${isExpanded && query ? styles.submitBtnVisible : ''}`}
           aria-label="Submit search"
           tabIndex={isExpanded ? 0 : -1}
         >

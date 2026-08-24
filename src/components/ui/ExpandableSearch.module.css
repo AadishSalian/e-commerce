@@ -82,6 +82,10 @@
   pointer-events: none;
 }
 
+.input.inputEmpty {
+  padding-right: 84px;
+}
+
 .searchWrapper.expanded .input {
   opacity: 1;
   pointer-events: auto;
@@ -90,6 +94,45 @@
 
 .input::placeholder {
   color: var(--text-muted);
+}
+
+.extraActions {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.extraActions.extraActionsVisible {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0.15s;
+}
+
+.actionIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.actionIcon:hover {
+  color: var(--foreground);
+  background-color: var(--surface-hover);
 }
 
 .submitBtn {
@@ -113,7 +156,7 @@
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.searchWrapper.expanded .submitBtn {
+.submitBtn.submitBtnVisible {
   opacity: 1;
   pointer-events: auto;
   transform: scale(1);

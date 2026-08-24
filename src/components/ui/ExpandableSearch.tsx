@@ -183,11 +183,11 @@ export function ExpandableSearch() {
         />
         
         <div className={`${styles.extraActions} ${isExpanded && !query ? styles.extraActionsVisible : ''}`}>
-          <button type="button" className={styles.actionIcon} aria-label="Voice search">
+          <button type="button" className={styles.actionIcon} aria-label="Voice search" title="Voice Search">
             {/* TODO: Integrate Web Speech API for voice search functionality */}
             <Mic className="w-4 h-4" />
           </button>
-          <button type="button" className={styles.actionIcon} aria-label="Barcode search">
+          <button type="button" className={styles.actionIcon} aria-label="Barcode search" title="Scan Barcode">
             {/* TODO: Integrate WebRTC or barcode scanning library for image search */}
             <Scan className="w-4 h-4" />
           </button>

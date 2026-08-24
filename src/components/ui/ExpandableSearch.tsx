@@ -188,6 +188,7 @@ export function ExpandableSearch() {
             <Mic className="w-4 h-4" />
           </button>
           <button type="button" className={styles.actionIcon} aria-label="Barcode search">
+            {/* TODO: Integrate WebRTC or barcode scanning library for image search */}
             <Scan className="w-4 h-4" />
           </button>
         </div>

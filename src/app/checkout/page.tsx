@@ -85,6 +85,71 @@ export default function CheckoutPage() {
     setZipError(e.target.value ? '' : 'Zip code is required');
   };
 
+  const handleNativePayment = async (method: 'apple' | 'google') => {
+    if (!window.PaymentRequest) {
+      alert(`${method === 'apple' ? 'Apple Pay' : 'Google Pay'} is not supported on this browser/device.`);
+      return;
+    }
+
+    const supportedInstruments = [
+      {
+        supportedMethods: 'https://google.com/pay',
+        data: {
+          environment: 'TEST',
+          apiVersion: 2,
+          apiVersionMinor: 0,
+          merchantInfo: { merchantName: 'Example Shop' },
+          allowedPaymentMethods: [{
+            type: 'CARD',
+            parameters: {
+              allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+              allowedCardNetworks: ['MASTERCARD', 'VISA'],
+            },
+            tokenizationSpecification: {
+              type: 'PAYMENT_GATEWAY',
+              parameters: { gateway: 'example', gatewayMerchantId: 'exampleGatewayMerchantId' },
+            },
+          }],
+        },
+      },
+      {
+        supportedMethods: 'https://apple.com/apple-pay',
+        data: {
+          version: 3,
+          merchantIdentifier: 'merchant.com.example',
+          merchantCapabilities: ['supports3DS'],
+          supportedNetworks: ['visa', 'masterCard'],
+          countryCode: 'US',
+        }
+      }
+    ];
+
+    const details = {
+      total: {
+        label: 'Total',
+        amount: { currency: 'USD', value: total.toFixed(2) },
+      },
+      displayItems: cartItems.map(item => ({
+        label: item.name,
+        amount: { currency: 'USD', value: (item.price * item.quantity).toFixed(2) }
+      }))
+    };
+
+    try {
+      const request = new PaymentRequest(supportedInstruments, details);
+      const response = await request.show();
+      await response.complete('success');
+      
+      setIsProcessing(true);
+      setTimeout(() => {
+        clearCart();
+        router.push('/checkout/success');
+      }, 1000);
+    } catch (e) {
+      console.log('Payment Request aborted or failed', e);
+    }
+  };
+
   const handlePayment = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isLoggedIn || !useSavedInfo) {
@@ -143,10 +208,10 @@ export default function CheckoutPage() {
             <div className="flex flex-col gap-4">
               <h2 className="text-xl font-semibold mb-2">Express Checkout</h2>
               <div className="grid grid-cols-2 gap-4">
-                <button type="button" className="w-full py-4 bg-[#1a1a1a] border border-[#2a2a2a] text-foreground font-medium rounded-xl flex items-center justify-center gap-2 hover:bg-[#232323] transition-colors shadow-sm">
+                <button type="button" onClick={() => handleNativePayment('apple')} className="w-full py-4 bg-[#1a1a1a] border border-[#2a2a2a] text-foreground font-medium rounded-xl flex items-center justify-center gap-2 hover:bg-[#232323] transition-colors shadow-sm">
                   <Smartphone className="w-5 h-5" /> Apple Pay
                 </button>
-                <button type="button" className="w-full py-4 bg-white border border-gray-200 text-black font-medium rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors shadow-sm">
+                <button type="button" onClick={() => handleNativePayment('google')} className="w-full py-4 bg-white border border-gray-200 text-black font-medium rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors shadow-sm">
                   Google Pay
                 </button>
               </div>
@@ -277,7 +342,7 @@ export default function CheckoutPage() {
               {isProcessing ? (
                 <div className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
               ) : (
-                `Place Order • $${total.toFixed(2)}`
+                `Place Order ΓÇó $${total.toFixed(2)}`
               )}
             </button>
           </form>

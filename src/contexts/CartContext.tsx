@@ -67,14 +67,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           if (res.ok) {
             const data = await res.json();
             if (data.items && data.items.length > 0) {
-              // Merge logic: in a real app you'd merge local cart with DB cart.
-              // For simplicity here, we'll just use the DB cart if it has items, 
-              // otherwise we will sync our local items up to the DB.
               setCartItems(prev => {
-                if (data.items.length > 0) {
-                  return data.items;
-                }
-                return prev;
+                const newItems = [...prev];
+                data.items.forEach((dbItem: CartItem) => {
+                  const existingIndex = newItems.findIndex(
+                    item => item.id === dbItem.id && item.selectedVariant === dbItem.selectedVariant
+                  );
+                  if (existingIndex >= 0) {
+                    // Use max quantity instead of adding to avoid runaway quantities on repeated logins
+                    newItems[existingIndex].quantity = Math.max(newItems[existingIndex].quantity, dbItem.quantity);
+                  } else {
+                    newItems.push(dbItem);
+                  }
+                });
+                return newItems;
               });
             }
           }

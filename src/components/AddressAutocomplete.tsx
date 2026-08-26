@@ -55,6 +55,8 @@ export function AddressAutocomplete({ onAddressSelect, error }: AddressAutocompl
           onAddressSelect({ address, city, zip });
         }}
         placeholder="Address (Start typing...)"
+        name="address"
+        autoComplete="street-address"
         className={`w-full bg-surface border ${error ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`}
         defaultValue=""
       />

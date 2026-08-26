@@ -267,22 +267,28 @@ export default function CheckoutPage() {
                     </div>
                   </div>
 
-                  <div>
+                  <div className="flex flex-col gap-3">
                     <AddressAutocomplete onAddressSelect={handleAddressSelect} error={addressError} />
-                    {/* Fallback manual input if they want to edit further */}
-                    <input type="text" placeholder="Address line 1" required autoComplete="street-address" className={`w-full bg-surface border ${addressError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors mt-3`} value={address} onChange={handleAddressChange} />
-                    <AnimatePresence>{addressError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{addressError}</motion.p>}</AnimatePresence>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="col-span-2">
-                      <input type="text" placeholder="City" required autoComplete="address-level2" className={`w-full bg-surface border ${cityError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={city} onChange={handleCityChange} />
-                      <AnimatePresence>{cityError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{cityError}</motion.p>}</AnimatePresence>
-                    </div>
-                    <div className="col-span-1">
-                      <input type="text" placeholder="Zip" required autoComplete="postal-code" className={`w-full bg-surface border ${zipError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={zip} onChange={handleZipChange} />
-                      <AnimatePresence>{zipError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{zipError}</motion.p>}</AnimatePresence>
-                    </div>
+                    
+                    {/* Only show detailed address fields if they need to manually edit or if autocomplete failed */}
+                    {(!city || !zip) && (
+                      <>
+                        <div>
+                          <input type="text" placeholder="Address line 1" required autoComplete="street-address" className={`w-full bg-surface border ${addressError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={address} onChange={handleAddressChange} />
+                          <AnimatePresence>{addressError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{addressError}</motion.p>}</AnimatePresence>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="col-span-2">
+                            <input type="text" placeholder="City" required autoComplete="address-level2" className={`w-full bg-surface border ${cityError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={city} onChange={handleCityChange} />
+                            <AnimatePresence>{cityError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{cityError}</motion.p>}</AnimatePresence>
+                          </div>
+                          <div className="col-span-1">
+                            <input type="text" inputMode="numeric" placeholder="Zip" required autoComplete="postal-code" className={`w-full bg-surface border ${zipError ? 'border-red-500/50 focus:border-red-500' : 'border-border focus:border-accent'} text-foreground px-4 py-3 rounded-lg focus:outline-none transition-colors`} value={zip} onChange={handleZipChange} />
+                            <AnimatePresence>{zipError && <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-red-500 text-xs mt-1 ml-1">{zipError}</motion.p>}</AnimatePresence>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               )}

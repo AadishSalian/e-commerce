@@ -321,10 +321,10 @@ export default function CheckoutPage() {
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  <input type="text" placeholder="Card Number" required autoComplete="cc-number" className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                  <input type="text" inputMode="numeric" placeholder="Card Number" required autoComplete="cc-number" className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
                   <div className="grid grid-cols-2 gap-4">
-                    <input type="text" placeholder="MM / YY" required autoComplete="cc-exp" className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
-                    <input type="text" placeholder="CVC" required autoComplete="cc-csc" className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                    <input type="text" inputMode="numeric" placeholder="MM / YY" required autoComplete="cc-exp" className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
+                    <input type="text" inputMode="numeric" placeholder="CVC" required autoComplete="cc-csc" className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors" />
                   </div>
 
                   {isLoggedIn && !useSavedInfo && (

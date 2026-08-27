@@ -41,33 +41,34 @@ model Product {
   wishlistedBy Wishlist[]
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
+  cartItems    CartItem[]
 }
 
 model Category {
-  id          String    @id @default(cuid())
-  name        String    @unique
-  slug        String    @unique
-  products    Product[]
+  id       String    @id @default(cuid())
+  name     String    @unique
+  slug     String    @unique
+  products Product[]
 }
 
 model Variant {
-  id          String    @id @default(cuid())
-  productId   String
-  product     Product   @relation(fields: [productId], references: [id])
-  name        String    // e.g., "Color", "Storage"
-  value       String    // e.g., "Matte Black", "1TB"
-  stock       Int       @default(0)
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  name      String // e.g., "Color", "Storage"
+  value     String // e.g., "Matte Black", "1TB"
+  stock     Int     @default(0)
 }
 
 model Order {
-  id          String      @id @default(cuid())
-  userId      String
-  user        User        @relation(fields: [userId], references: [id])
-  status      OrderStatus @default(PENDING)
-  total       Float
-  items       OrderItem[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  status    OrderStatus @default(PENDING)
+  total     Float
+  items     OrderItem[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 enum OrderStatus {
@@ -125,6 +126,6 @@ model CartItem {
   quantity  Int      @default(1)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   @@unique([cartId, productId, variant])
 }

@@ -17,6 +17,8 @@ export type Product = {
   modelUrl?: string;
   iosModelUrl?: string;
   tier?: 'Good' | 'Better' | 'Best';
+  rating?: number;
+  reviewCount?: number;
 };
 
 export const MOCK_PRODUCTS: Product[] = [

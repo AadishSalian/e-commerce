@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Eye, Layers } from 'lucide-react';
+import { Eye, Layers, Star } from 'lucide-react';
 import { Product } from '@/lib/mockData';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
@@ -42,6 +42,9 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
   const { openQuickView } = useQuickView();
   const { addToCompare } = useCompare();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  
+  const mockRating = product.rating || (4 + (product.id.charCodeAt(product.id.length - 1) % 10) / 10).toFixed(1);
+  const mockReviews = product.reviewCount || (product.id.charCodeAt(0) * 3 + 12);
   
   const [showWishlistAnimation, setShowWishlistAnimation] = useState(false);
   const longPressTimer = useRef<NodeJS.Timeout | null>(null);
@@ -158,6 +161,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
                 className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
                 title="Quick View"
+                aria-label="Quick View"
               >
                 <Eye className="w-5 h-5" />
               </button>
@@ -165,6 +169,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
                 className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
                 title="Compare"
+                aria-label="Compare Product"
               >
                 <Layers className="w-5 h-5" />
               </button>
@@ -187,11 +192,11 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
     return (
       <motion.div
         whileHover={{ y: -4, borderColor: 'var(--border-hover, #3a3a3a)' }}
-        className="snap-start shrink-0 w-[280px] md:w-[320px] aspect-[4/5] bg-surface rounded-xl border border-border flex flex-col p-6 transition-all duration-300 relative group cursor-pointer"
+        className="snap-start shrink-0 w-[240px] md:w-[280px] aspect-[4/5] bg-surface rounded-xl border border-border flex flex-col relative group cursor-pointer overflow-hidden mb-4"
       >
         <div className="absolute top-4 left-4 z-10 flex flex-col gap-2 items-start">
           {product.isNew && (
-             <span className="text-[10px] font-bold uppercase tracking-widest bg-[#8ed500] text-[#121212] px-2.5 py-1 rounded-sm shadow-sm">
+             <span className="text-[10px] font-bold uppercase tracking-widest bg-foreground text-background px-2.5 py-1 rounded-sm shadow-sm">
                New
              </span>
           )}
@@ -206,7 +211,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
             or we handle navigation entirely via Link and buttons use stopPropagation. */}
         <Link 
           href={`/products/${product.id}`} 
-          className="block flex-1 bg-surface-hover rounded-lg mb-6 flex items-center justify-center overflow-hidden relative select-none"
+          className="block flex-1 bg-surface-hover rounded-lg flex items-center justify-center overflow-hidden relative select-none"
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerUp}
@@ -239,6 +244,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
                onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
                className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
                title="Quick View"
+               aria-label="Quick View"
              >
                <Eye className="w-5 h-5" />
              </button>
@@ -246,18 +252,29 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
                onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
                className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
                title="Compare"
+               aria-label="Compare Product"
              >
                <Layers className="w-5 h-5" />
              </button>
            </div>
         </Link>
         
-        <Link href={`/products/${product.id}`} className="flex justify-between items-end">
-          <div>
-            <p className="text-xs text-text-muted uppercase tracking-wider mb-1">{product.category}</p>
-            <h3 className="text-foreground font-medium">{product.name}</h3>
+        <Link href={`/products/${product.id}`} className="flex flex-col gap-1 p-3">
+          <div className="flex justify-between items-start gap-4">
+            <h3 className="text-foreground font-medium text-sm md:text-base leading-tight truncate flex-1">{product.name}</h3>
+            <p className="text-foreground font-bold text-sm md:text-base">${product.price.toFixed(2)}</p>
           </div>
-          <p className="text-foreground font-medium">${product.price}</p>
+          <div className="flex items-center gap-2 text-xs">
+            <div className="flex items-center text-foreground">
+              <Star className="w-3.5 h-3.5 fill-foreground mr-1" />
+              <span className="font-medium">{mockRating}</span>
+            </div>
+            <span className="text-text-muted">({mockReviews})</span>
+            <span className="text-border mx-1">•</span>
+            <span className="text-text-muted truncate uppercase tracking-wider">
+              {product.category}
+            </span>
+          </div>
         </Link>
       </motion.div>
     );
@@ -285,10 +302,10 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="w-full aspect-[4/5] bg-surface rounded-xl border border-transparent group-hover:border-border transition-colors duration-300 mb-6 flex flex-col p-2 relative overflow-hidden">
-        <div className="absolute top-6 left-6 z-10 flex flex-col gap-2 items-start">
+      <div className="w-full aspect-[4/5] bg-surface rounded-xl border border-transparent group-hover:border-border transition-colors duration-300 mb-4 flex flex-col relative overflow-hidden">
+        <div className="absolute top-4 left-4 z-10 flex flex-col gap-2 items-start">
           {product.isNew && (
-            <span className="text-[10px] font-bold uppercase tracking-widest bg-[#8ed500] text-[#121212] px-2.5 py-1 rounded-sm shadow-sm">
+            <span className="text-[10px] font-bold uppercase tracking-widest bg-foreground text-background px-2.5 py-1 rounded-sm shadow-sm">
               New
             </span>
           )}
@@ -314,6 +331,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
               className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
               title="Quick View"
+              aria-label="Quick View"
             >
               <Eye className="w-5 h-5" />
             </button>
@@ -321,6 +339,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
               className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
               title="Compare"
+              aria-label="Compare Product"
             >
               <Layers className="w-5 h-5" />
             </button>
@@ -328,12 +347,22 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
         </div>
       </div>
       
-      <div className="flex justify-between items-start">
-        <div>
-          <h3 className="text-foreground font-medium text-lg mb-1">{product.name}</h3>
-          <p className="text-text-muted text-sm">{product.variants && product.variants.length > 0 ? `${product.variants.length} Colors` : '1 Color'}</p>
+      <div className="flex flex-col gap-1">
+        <div className="flex justify-between items-start gap-4">
+          <h3 className="text-foreground font-medium text-sm md:text-base leading-tight truncate flex-1">{product.name}</h3>
+          <p className="text-foreground font-bold text-sm md:text-base">${product.price.toFixed(2)}</p>
         </div>
-        <p className="text-foreground font-medium text-lg">${product.price.toFixed(2)}</p>
+        <div className="flex items-center gap-2 text-xs">
+          <div className="flex items-center text-foreground">
+            <Star className="w-3.5 h-3.5 fill-foreground mr-1" />
+            <span className="font-medium">{mockRating}</span>
+          </div>
+          <span className="text-text-muted">({mockReviews})</span>
+          <span className="text-border mx-1">•</span>
+          <span className="text-text-muted truncate">
+            {product.variants && product.variants.length > 0 ? `${product.variants.length} Colors` : '1 Color'}
+          </span>
+        </div>
       </div>
     </Link>
   );

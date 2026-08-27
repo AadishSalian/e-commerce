@@ -57,7 +57,7 @@ export default function ForYouSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {recommendedProducts.map((product, index) => (
             <motion.div
               key={product.id}
@@ -67,7 +67,7 @@ export default function ForYouSection() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
               <Link href={`/products/${product.id}`} className="group block">
-                <div className="relative aspect-[4/5] bg-surface rounded-2xl mb-4 overflow-hidden border border-border">
+                <div className="relative aspect-[4/5] bg-surface rounded-xl mb-4 overflow-hidden border border-border">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -75,12 +75,12 @@ export default function ForYouSection() {
                   />
                   <div className="absolute inset-0 bg-background/0 group-hover:bg-background/10 transition-colors duration-300" />
                 </div>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-foreground font-semibold text-lg">{product.name}</h3>
-                    <p className="text-text-muted text-sm capitalize">{product.category.replace('-', ' ')}</p>
+                <div className="flex flex-col gap-1">
+                  <div className="flex justify-between items-start gap-2">
+                    <h3 className="text-foreground font-medium text-sm md:text-base leading-tight truncate flex-1">{product.name}</h3>
+                    <p className="text-foreground font-bold text-sm md:text-base">${product.price.toFixed(2)}</p>
                   </div>
-                  <p className="text-foreground font-medium">${product.price.toFixed(2)}</p>
+                  <p className="text-text-muted text-xs capitalize truncate">{product.category.replace('-', ' ')}</p>
                 </div>
               </Link>
             </motion.div>

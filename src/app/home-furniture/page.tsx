@@ -201,7 +201,7 @@ export default function HomeFurniturePage() {
         </div>
         
         {filteredProducts.length > 0 ? (
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-8 gap-y-16">
+          <motion.div layout className="grid grid-cols-2 lg:grid-cols-2 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-16">
             <AnimatePresence mode="popLayout">
               {filteredProducts.map((product) => (
                 <motion.div

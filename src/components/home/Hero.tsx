@@ -20,7 +20,7 @@ export default function Hero() {
       <div className="relative z-10 flex flex-col md:flex-row items-center justify-between text-center md:text-left px-4 max-w-6xl w-full gap-12 md:gap-8 pb-12 md:pb-24 pt-4 md:pt-4">
         
         {/* Mobile: Spinning Card Above Text */}
-        <div className="block md:hidden -translate-y-[125px]">
+        <div className="block md:hidden pb-8">
           <SpinningBrandCard size={150} />
         </div>
 
@@ -78,7 +78,7 @@ export default function Hero() {
         </div>
 
         {/* Right side: Desktop Spinning Card */}
-        <div className="hidden md:flex flex-shrink-0 items-center justify-center pl-8 -translate-y-[250px]">
+        <div className="hidden md:flex flex-shrink-0 items-center justify-center pl-8">
           <SpinningBrandCard size={260} />
         </div>
 

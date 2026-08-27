@@ -34,11 +34,11 @@ export const NewsletterCard: React.FC = () => {
         <div className="brutalist-card">
           <span className="brutalist-card__title">Newsletter</span>
           <p className="brutalist-card__content">
-            Get existential crisis delivered straight to your inbox every week.
+            Sign up for our newsletter to receive the latest updates and exclusive offers.
           </p>
           <form className="brutalist-card__form" onSubmit={(e) => e.preventDefault()}>
-            <input required type="email" placeholder="Your life" />
-            <button type="submit" className="brutalist-card__button">Click me</button>
+            <input required type="email" placeholder="Email address" aria-label="Email address" />
+            <button type="submit" className="brutalist-card__button">Subscribe</button>
           </form>
         </div>
       </div>

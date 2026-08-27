@@ -362,6 +362,7 @@ export default function Navbar() {
                 <button 
                   className={styles.iconButton}
                   onClick={() => setIsMobileMenuOpen(false)}
+                  aria-label="Close mobile menu"
                 >
                   <X className="w-6 h-6" />
                 </button>

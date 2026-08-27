@@ -28,7 +28,7 @@ export function CompareDrawer() {
                   <button onClick={clearCompare} className="text-sm font-medium text-text-muted hover:text-foreground">
                     Clear All
                   </button>
-                  <button onClick={() => setIsCompareDrawerOpen(false)} className="w-11 h-11 flex items-center justify-center bg-muted rounded-full hover:bg-surface-hover">
+                  <button onClick={() => setIsCompareDrawerOpen(false)} className="w-11 h-11 flex items-center justify-center bg-muted rounded-full hover:bg-surface-hover" aria-label="Minimize Compare Drawer">
                     <ChevronDown className="w-5 h-5" />
                   </button>
                 </div>
@@ -40,6 +40,7 @@ export function CompareDrawer() {
                     <button 
                       onClick={() => removeFromCompare(product.id)}
                       className="absolute top-2 right-2 w-11 h-11 flex items-center justify-center bg-background rounded-full border border-border z-10 hover:bg-surface"
+                      aria-label="Remove from comparison"
                     >
                       <X className="w-4 h-4" />
                     </button>

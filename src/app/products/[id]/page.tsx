@@ -4,11 +4,12 @@ import { use, useState, useEffect } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { motion } from 'framer-motion';
-import { Check, ChevronRight, ShoppingBag, Lock, Bell } from 'lucide-react';
+import { Check, ChevronRight, ShoppingBag, Lock, Bell, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { PrimaryButton, NavAuthButton, Accordion } from '@/components/ui';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
+import { useToast } from '@/contexts/ToastContext';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import { useAlerts } from '@/contexts/AlertsContext';
 import { RecentlyViewed } from '@/components/home/RecentlyViewed';
@@ -31,6 +32,7 @@ export default function ProductDetailPage({ params }: Props) {
   const { isLoggedIn } = useAuth();
   const { addToCart } = useCart();
   const router = useRouter();
+  const { success } = useToast();
   
   const hasVariants = product?.variants && product.variants.length > 0;
   const [selectedVariant, setSelectedVariant] = useState(hasVariants ? product.variants![0].value : null);
@@ -46,6 +48,24 @@ export default function ProductDetailPage({ params }: Props) {
     setTimeout(() => {
       setIsAdded(false);
     }, 1500);
+  };
+
+  const handleShare = async () => {
+    if (!product) return;
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: product.name,
+          text: `Check out ${product.name} on MATTE.`,
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        success('Link copied to clipboard!');
+      }
+    } catch (error) {
+      console.log('Error sharing', error);
+    }
   };
 
   useEffect(() => {
@@ -102,9 +122,18 @@ export default function ProductDetailPage({ params }: Props) {
           <div className="w-full lg:w-1/3 lg:sticky lg:top-24 flex flex-col">
             <div className="mb-8">
               <p className="text-sm text-accent uppercase tracking-widest mb-2 font-medium">New Release</p>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
-                {product.name}
-              </h1>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+                  {product.name}
+                </h1>
+                <button 
+                  onClick={handleShare}
+                  className="p-2 rounded-full border border-border hover:bg-surface hover:text-accent transition-colors shrink-0"
+                  aria-label="Share product"
+                >
+                  <Share2 className="w-5 h-5" />
+                </button>
+              </div>
               <p className="text-2xl text-foreground font-medium mb-6">
                 ${product.price.toFixed(2)}
               </p>

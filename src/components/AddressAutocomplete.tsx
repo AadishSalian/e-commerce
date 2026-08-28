@@ -30,7 +30,7 @@ export function AddressAutocomplete({ onAddressSelect, error }: AddressAutocompl
           let streetNumber = '';
           let route = '';
 
-          place.address_components.forEach((component) => {
+          place.address_components.forEach((component: any) => {
             const types = component.types;
             if (types.includes('street_number')) {
               streetNumber = component.long_name;

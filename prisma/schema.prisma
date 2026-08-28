@@ -16,9 +16,11 @@ model User {
   orders        Order[]
   reviews       Review[]
   wishlist      Wishlist?
-  cart          Cart?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  cart                Cart?
+  pushSubscriptions   PushSubscription[]
+  webAuthnCredentials WebAuthnCredential[]
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 }
 
 enum Role {
@@ -128,4 +130,26 @@ model CartItem {
   updatedAt DateTime @updatedAt
 
   @@unique([cartId, productId, variant])
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+}
+
+model WebAuthnCredential {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  credentialID String   @unique
+  publicKey    Bytes
+  counter      BigInt
+  transports   String?
+  createdAt    DateTime @default(now())
+  lastUsedAt   DateTime @default(now())
 }

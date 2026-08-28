@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
@@ -24,12 +24,25 @@ import { AlertsProvider } from "@/contexts/AlertsContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import LiveChatWidget from "@/components/support/LiveChatWidget";
 import { BackToTop, OfflineBanner } from "@/components/ui";
+import PwaRegister from "@/components/PwaRegister";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "MATTE. | Premium Engineered Products",
   description: "A premium e-commerce experience designed with restraint, precision, and an obsession for detail.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "MATTE.",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#121212",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 const themeScript = `
@@ -72,6 +85,7 @@ export default function RootLayout({
         <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className={`${inter.className} min-h-full flex flex-col bg-background text-foreground`}>
+        <PwaRegister />
         <BrandReveal />
         <LenisProvider>
           <ThemeProvider>

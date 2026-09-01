@@ -31,15 +31,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { success, toast } = useToast();
   
-  // Try to use auth if available. If CartProvider is above AuthProvider, this will fail.
-  // Actually, we must be careful. If CartProvider is outside AuthProvider, useAuth() will throw.
-  // Let's assume AuthProvider is above CartProvider. If it throws, we have to catch it, or better yet, make sure the layout wraps properly.
-  let auth: any;
-  try {
-    auth = useAuth();
-  } catch (e) {
-    auth = { isLoggedIn: false, user: null };
-  }
+  const auth = useAuth();
   const { isLoggedIn, user } = auth;
   
   const openCart = () => setIsCartOpen(true);

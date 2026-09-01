@@ -26,7 +26,7 @@ export function ExpandableSearch() {
     try {
       const stored = localStorage.getItem('recentSearches');
       if (stored) {
-        // eslint-disable-next-line
+         
         setRecentSearches(JSON.parse(stored).slice(0, 5));
       }
     } catch (e) {

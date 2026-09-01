@@ -25,7 +25,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem('wishlistItems');
     if (saved) {
       try {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+         
         setWishlistItems(JSON.parse(saved));
       } catch (e) {
         console.error('Failed to parse wishlist items', e);

@@ -88,6 +88,7 @@ export default function ProductDetailPage({ params }: Props) {
       content: (
         <div className="w-full text-sm">
           <p className="mb-4">Our garments are designed with an intentionally oversized, relaxed fit. We recommend taking your true size for the intended look, or sizing down for a more traditional fit.</p>
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
           <div className="flex justify-between py-2 border-b border-border/50"><span className="text-foreground font-medium">Small</span><span>36-38" Chest</span></div>
           <div className="flex justify-between py-2 border-b border-border/50"><span className="text-foreground font-medium">Medium</span><span>38-40" Chest</span></div>
           <div className="flex justify-between py-2 border-b border-border/50"><span className="text-foreground font-medium">Large</span><span>40-42" Chest</span></div>

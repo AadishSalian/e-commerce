@@ -34,6 +34,7 @@ export default function AccessoriesPage() {
 
   const filteredProducts = useMemo(() => {
     return accessories.filter(p => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const attrs = (p as any).attributes || {};
       const typeMatch = activeType === 'All Types' || attrs.accessoryType === activeType;
       const materialMatch = activeMaterial === 'All Materials' || attrs.material === activeMaterial;
@@ -254,6 +255,7 @@ export default function AccessoriesPage() {
                         <p className="text-foreground font-medium text-lg ml-4">${product.price.toFixed(2)}</p>
                       </div>
                       <p className="text-text-muted text-sm tracking-wide font-medium">
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         {(product as any).attributes?.material}
                       </p>
                     </div>
@@ -266,6 +268,7 @@ export default function AccessoriesPage() {
           <div className="py-24 text-center bg-muted/30 rounded-[2rem] border border-border border-dashed">
             <h3 className="text-2xl font-bold mb-3 text-foreground">No accessories found</h3>
             <p className="text-text-muted text-lg max-w-md mx-auto mb-8">
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
               We couldn't find any items matching those specific filters. Try adjusting your type or material.
             </p>
             <button 

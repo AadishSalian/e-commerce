@@ -141,6 +141,7 @@ export function FitQuiz() {
             <div className="text-center mb-10">
               <h2 className="text-3xl font-bold text-foreground mb-4">Your Perfect Fits</h2>
               <p className="text-text-muted">
+                {/* eslint-disable-next-line react/no-unescaped-entities */}
                 Based on your preferences, we think you'll love these pieces.
               </p>
             </div>

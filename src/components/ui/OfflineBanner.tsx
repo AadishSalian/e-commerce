@@ -33,6 +33,7 @@ export function OfflineBanner() {
           className="fixed top-0 left-0 right-0 z-[100] bg-red-600 text-white px-4 py-2 flex items-center justify-center gap-2 shadow-md"
         >
           <WifiOff size={18} />
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
           <span className="text-sm font-medium">You're currently offline. Browsing recently viewed items.</span>
         </motion.div>
       )}

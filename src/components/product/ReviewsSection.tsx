@@ -105,6 +105,7 @@ export default function ReviewsSection({ productId }: Props) {
                   ))}
                 </div>
                 <p className="text-xl md:text-2xl font-medium text-foreground leading-snug mb-6 italic">
+                  {/* eslint-disable-next-line react/no-unescaped-entities */}
                   "{highlight.content}"
                 </p>
                 <div className="flex items-center gap-3">

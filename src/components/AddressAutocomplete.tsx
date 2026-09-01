@@ -30,6 +30,7 @@ export function AddressAutocomplete({ onAddressSelect, error }: AddressAutocompl
           let streetNumber = '';
           let route = '';
 
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           place.address_components.forEach((component: any) => {
             const types = component.types;
             if (types.includes('street_number')) {

@@ -15,13 +15,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { cartItems, clearCart } = useCart();
   
-  // See comment in CartContext regarding useAuth
-  let auth: any;
-  try {
-    auth = useAuth();
-  } catch(e) {
-    auth = { isLoggedIn: false, user: null };
-  }
+  const auth = useAuth();
   const { isLoggedIn, user } = auth;
 
   const [firstName, setFirstName] = useState('');

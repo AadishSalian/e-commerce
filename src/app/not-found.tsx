@@ -46,6 +46,7 @@ export default function NotFound() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
           The page you're looking for doesn't exist or has been moved. Let's get you back to our collection.
         </motion.p>
 

@@ -54,7 +54,7 @@ export default function ProductViewer({ product }: ProductViewerProps) {
     const sensitivity = 5;
     
     if (Math.abs(deltaX) > sensitivity) {
-      let change = deltaX > 0 ? -1 : 1;
+      const change = deltaX > 0 ? -1 : 1;
       let newIndex = (spinIndex + change) % product.spinImages.length;
       if (newIndex < 0) newIndex = product.spinImages.length - 1;
       

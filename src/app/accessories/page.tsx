@@ -34,7 +34,6 @@ export default function AccessoriesPage() {
 
   const filteredProducts = useMemo(() => {
     return accessories.filter(p => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const attrs = (p as any).attributes || {};
       const typeMatch = activeType === 'All Types' || attrs.accessoryType === activeType;
       const materialMatch = activeMaterial === 'All Materials' || attrs.material === activeMaterial;
@@ -255,7 +254,6 @@ export default function AccessoriesPage() {
                         <p className="text-foreground font-medium text-lg ml-4">${product.price.toFixed(2)}</p>
                       </div>
                       <p className="text-text-muted text-sm tracking-wide font-medium">
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         {(product as any).attributes?.material}
                       </p>
                     </div>

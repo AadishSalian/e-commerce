@@ -22,8 +22,6 @@ const TABS = [
   { id: 'billing', label: 'Billing', icon: CreditCard },
   { id: 'notifications', label: 'Notifications', icon: Bell },
 ];
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const InputField = ({ label, type = 'text', value, onChange, placeholder, disabled = false }: any) => (
   <div className="flex flex-col gap-2">
     <label className="text-sm font-medium text-neutral-400">{label}</label>
@@ -193,13 +191,9 @@ export default function ProfilePage() {
                    
                    <div className="p-6 md:p-8">
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                        <InputField label="Full Name" value={name} onChange={(e: any) => setName(e.target.value)} />
-                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                        <InputField label="Email Address" type="email" value={email} onChange={(e: any) => setEmail(e.target.value)} />
-                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                        <InputField label="Phone Number" value={phone} onChange={(e: any) => setPhone(e.target.value)} />
-                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                        <InputField label="Location" value={location} onChange={(e: any) => setLocation(e.target.value)} />
                      </div>
                      

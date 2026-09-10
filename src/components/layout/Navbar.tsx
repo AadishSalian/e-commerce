@@ -10,6 +10,8 @@ import { useCart } from '@/contexts/CartContext';
 import { NavAuthButton, ThemeToggle, ExpandableSearch } from '@/components/ui';
 import styles from './Navbar.module.css';
 
+import Image from 'next/image';
+
 const NAV_LINKS = [
   { label: 'Shop', href: '/products' },
   { label: 'New Arrivals', href: '/products?category=new' },
@@ -154,7 +156,7 @@ export default function Navbar() {
                     aria-label="Account menu"
                   >
                     {user?.avatar ? (
-                      <img src={user.avatar} alt={user?.name} className="w-full h-full object-cover" />
+                      <Image src={user.avatar} alt={user?.name} className="w-full h-full object-cover"  width={800} height={800} />
                     ) : user?.name ? (
                       <span className="text-xs font-semibold text-foreground">
                         {user.name.charAt(0).toUpperCase()}
@@ -278,7 +280,7 @@ export default function Navbar() {
                   </div>
                   <div className="col-span-2 flex gap-4">
                     <Link href="/products?category=new" className="flex-1 bg-surface-hover rounded-xl border border-border flex items-center justify-center p-6 relative overflow-hidden group cursor-pointer block">
-                      <img src="https://images.unsplash.com/photo-1542272201-b1ca555f8505?q=80&w=800&auto=format&fit=crop" alt="Signature Collection" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <Image src="https://images.unsplash.com/photo-1542272201-b1ca555f8505?q=80&w=800&auto=format&fit=crop" alt="Signature Collection" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"  width={800} height={800} />
                       <div className="absolute inset-0 bg-gradient-to-tr from-background/80 to-transparent z-0" />
                       <div className="relative z-10 text-center mt-auto pb-2 w-full text-left flex flex-col justify-end h-full items-start pl-4">
                         <p className="text-accent text-xs font-bold uppercase tracking-widest mb-1">New</p>

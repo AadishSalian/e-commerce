@@ -6,6 +6,8 @@ import { getProductReviews, Review } from '@/lib/mockSocialProof';
 import { PrimaryButton, AnimatedCounter } from '../ui';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import Image from 'next/image';
+
 interface Props {
   productId: string;
 }
@@ -163,7 +165,7 @@ export default function ReviewsSection({ productId }: Props) {
                         onClick={() => setSelectedPhoto(photo)}
                         className="w-20 h-20 rounded-lg overflow-hidden border border-border hover:opacity-80 transition-opacity"
                       >
-                        <img src={photo} alt="Review upload" className="w-full h-full object-cover" />
+                        <Image src={photo} alt="Review upload" className="w-full h-full object-cover"  width={800} height={800} />
                       </button>
                     ))}
                   </div>
@@ -181,7 +183,7 @@ export default function ReviewsSection({ productId }: Props) {
             <button onClick={() => setSelectedPhoto(null)} className="absolute top-4 right-4 z-10 w-10 h-10 bg-background/50 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-background/80 transition-colors">
               ✕
             </button>
-            <img src={selectedPhoto} alt="Review upload full size" className="w-full h-full object-contain" />
+            <Image src={selectedPhoto} alt="Review upload full size" className="w-full h-full object-contain"  width={800} height={800} />
           </div>
         </div>
       )}

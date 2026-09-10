@@ -6,6 +6,8 @@ import { MOCK_PRODUCTS } from '@/lib/mockData';
 import Link from 'next/link';
 import { ArrowRight, RotateCcw } from 'lucide-react';
 
+import Image from 'next/image';
+
 type QuizStep = {
   question: string;
   options: { label: string; value: string }[];
@@ -150,11 +152,10 @@ export function FitQuiz() {
               {getRecommendations().map(product => (
                 <Link href={`/products/${product.id}`} key={product.id} className="group flex flex-col">
                   <div className="w-full aspect-[4/5] bg-muted rounded-xl mb-3 overflow-hidden relative">
-                    <img 
-                      src={product.image} 
+                    <Image src={product.image} 
                       alt={product.name} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                     width={800} height={800} />
                   </div>
                   <h3 className="text-sm font-medium text-foreground truncate">{product.name}</h3>
                   <p className="text-sm text-text-muted">${product.price.toFixed(2)}</p>

@@ -6,6 +6,8 @@ import { Product } from '@/lib/mockData';
 import { Maximize2, RotateCcw, Box } from 'lucide-react';
 import ModelViewerWrapper from './ModelViewerWrapper';
 
+import Image from 'next/image';
+
 type ProductViewerProps = {
   product: Product;
 };
@@ -101,7 +103,7 @@ export default function ProductViewer({ product }: ProductViewerProps) {
             }}
             className={`w-full h-24 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${!is360Mode && !is3DMode && activeIndex === idx ? 'border-accent opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
           >
-            <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+            <Image src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover"  width={800} height={800} />
           </button>
         ))}
       </div>
@@ -119,7 +121,7 @@ export default function ProductViewer({ product }: ProductViewerProps) {
         >
           {images.map((img, idx) => (
             <div key={idx} className="w-full h-full shrink-0 snap-center relative">
-              <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+              <Image src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover"  width={800} height={800} />
             </div>
           ))}
         </div>
@@ -168,12 +170,11 @@ export default function ProductViewer({ product }: ProductViewerProps) {
               onPointerUp={handlePointerUp}
               onPointerLeave={handlePointerUp}
             >
-              <img 
-                src={product.spinImages[spinIndex]} 
+              <Image src={product.spinImages[spinIndex]} 
                 alt="360 view" 
                 className="w-full h-full object-cover pointer-events-none"
                 draggable={false}
-              />
+               width={800} height={800} />
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-background/80 backdrop-blur-md px-4 py-2 rounded-full border border-border shadow-lg pointer-events-none text-sm font-medium">
                 <RotateCcw size={16} className="text-foreground" />
                 <span className="text-foreground">Drag to Rotate</span>
@@ -197,11 +198,10 @@ export default function ProductViewer({ product }: ProductViewerProps) {
               onClick={() => setIsHovering(!isHovering)} // Toggle for mobile/click
             >
               {/* Normal Image */}
-              <img 
-                src={images[activeIndex]} 
+              <Image src={images[activeIndex]} 
                 alt={product.name} 
                 className={`w-full h-full object-cover transition-opacity duration-300 ${isHovering ? 'opacity-0' : 'opacity-100'}`} 
-              />
+               width={800} height={800} />
               
               {/* Zoomed Image Overlay */}
               <div 

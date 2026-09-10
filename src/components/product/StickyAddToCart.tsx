@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '@/lib/mockData';
 import { PrimaryButton } from '../ui';
 
+import Image from 'next/image';
+
 interface Props {
   product: Product;
   selectedVariant?: string;
@@ -49,7 +51,7 @@ export default function StickyAddToCart({ product, selectedVariant, onAddToCart,
         >
           <div className="flex items-center gap-4 min-w-0">
             <div className="w-12 h-12 bg-surface-active rounded-md overflow-hidden shrink-0 border border-border hidden sm:block">
-              <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+              <Image src={product.image} alt={product.name} className="w-full h-full object-cover"  width={800} height={800} />
             </div>
             <div className="truncate">
               <h3 className="font-bold text-foreground text-sm sm:text-base truncate">{product.name}</h3>

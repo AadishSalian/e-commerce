@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { useToast } from '@/contexts/ToastContext';
 import { useCart } from '@/contexts/CartContext';
 
+import Image from 'next/image';
+
 export default function OrderHistory() {
   const [orders] = useState<Order[]>(MOCK_ORDERS);
   const [returnOrder, setReturnOrder] = useState<{order: Order, item: OrderItem} | null>(null);
@@ -140,7 +142,7 @@ export default function OrderHistory() {
                         <div key={item.id} className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between p-4 bg-surface-active/30 rounded-xl border border-border/50">
                           <div className="flex items-center gap-4">
                             <div className="w-16 h-16 rounded-lg bg-surface border border-border overflow-hidden shrink-0">
-                              <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                              <Image src={item.image} alt={item.name} className="w-full h-full object-cover"  width={800} height={800} />
                             </div>
                             <div>
                               <Link href={`/products/${item.productId}`} className="font-semibold text-foreground hover:underline">

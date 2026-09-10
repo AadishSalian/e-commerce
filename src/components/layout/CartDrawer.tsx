@@ -6,6 +6,8 @@ import { useCart } from '@/contexts/CartContext';
 import { X, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
+import Image from 'next/image';
+
 export function CartDrawer() {
   const { isCartOpen, closeCart, cartItems, updateQuantity, removeFromCart } = useCart();
   
@@ -81,7 +83,7 @@ export function CartDrawer() {
                       className="flex gap-4 relative z-10 bg-surface touch-pan-y h-full"
                     >
                       <div className="w-20 h-20 bg-surface-hover rounded-lg flex-shrink-0 border border-border relative overflow-hidden">
-                        <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
+                        <Image src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover"  width={800} height={800} />
                       </div>
                       
                       <div className="flex flex-col flex-grow justify-between">

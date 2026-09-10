@@ -17,6 +17,8 @@ import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
 import { WishlistButton } from '@/components/ui';
 
+import Image from 'next/image';
+
 const customEase = [0.65, 0, 0.35, 1] as const;
 
 export default function HomeFurniturePage() {
@@ -72,11 +74,10 @@ export default function HomeFurniturePage() {
           transition={{ duration: 1.5, ease: customEase }}
           className="absolute inset-0 z-0"
         >
-          <img 
-            src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=2000&auto=format&fit=crop" 
+          <Image src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=2000&auto=format&fit=crop" 
             alt="Beautiful minimal living space" 
             className="w-full h-full object-cover opacity-90"
-          />
+           width={800} height={800} />
           <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         </motion.div>
@@ -107,21 +108,19 @@ export default function HomeFurniturePage() {
                 style={{ y: img1Y }}
                 className="absolute top-0 left-0 w-2/3 h-4/5 rounded-3xl overflow-hidden shadow-2xl bg-muted"
               >
-                <img 
-                  src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=800&auto=format&fit=crop" 
+                <Image src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=800&auto=format&fit=crop" 
                   alt="Minimalist interior"
                   className="w-full h-full object-cover"
-                />
+                 width={800} height={800} />
               </motion.div>
               <motion.div 
                 style={{ y: img2Y }}
                 className="absolute bottom-0 right-0 w-1/2 h-3/5 rounded-3xl overflow-hidden shadow-2xl border-4 border-background bg-muted z-10"
               >
-                <img 
-                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600&auto=format&fit=crop" 
+                <Image src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600&auto=format&fit=crop" 
                   alt="Ceramics and textures"
                   className="w-full h-full object-cover"
-                />
+                 width={800} height={800} />
               </motion.div>
             </div>
 
@@ -221,17 +220,15 @@ export default function HomeFurniturePage() {
                           New
                         </span>
                       )}
-                      <img 
-                        src={product.image} 
+                      <Image src={product.image} 
                         alt={product.name} 
                         className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[0.16,1,0.3,1]"
-                      />
+                       width={800} height={800} />
                       {product.hoverImage && (
-                        <img 
-                          src={product.hoverImage} 
+                        <Image src={product.hoverImage} 
                           alt={`${product.name} alternate view`} 
                           className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-[0.16,1,0.3,1] z-10"
-                        />
+                         width={800} height={800} />
                       )}
 
                       {/* Action Buttons */}
@@ -305,7 +302,7 @@ export default function HomeFurniturePage() {
                 className="bg-card p-6 rounded-[2rem] border border-border shadow-sm hover:shadow-md hover:border-foreground/20 transition-all duration-300 group flex flex-col"
               >
                 <div className="aspect-[4/5] bg-muted rounded-2xl mb-6 overflow-hidden relative">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[0.16,1,0.3,1]" />
+                  <Image src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[0.16,1,0.3,1]"  width={800} height={800} />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-foreground">{item.name}</h3>
                 <p className="text-text-muted text-sm mb-6 flex-grow">{item.description}</p>

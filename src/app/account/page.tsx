@@ -8,6 +8,8 @@ import { useState } from 'react';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { WishlistButton, EmptyState } from '@/components/ui';
 
+import Image from 'next/image';
+
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState('orders');
   const { wishlistItems } = useWishlist();
@@ -102,7 +104,7 @@ export default function AccountPage() {
 
                 <div className="p-6 flex flex-col sm:flex-row gap-6">
                   <div className="w-24 h-24 bg-surface-hover rounded-lg flex items-center justify-center border border-border shrink-0 relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop" alt="Matte Keyboard 1" className="absolute inset-0 w-full h-full object-cover" />
+                    <Image src="https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop" alt="Matte Keyboard 1" className="absolute inset-0 w-full h-full object-cover"  width={800} height={800} />
                   </div>
                   <div className="flex-1 flex flex-col justify-center">
                     <Link href={`/products/p-1`} className="text-lg font-medium text-foreground hover:text-accent transition-colors">Matte Keyboard 1</Link>
@@ -144,7 +146,7 @@ export default function AccountPage() {
                           <WishlistButton product={product} />
                         </div>
                         <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center relative overflow-hidden">
-                          <img src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
+                          <Image src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover"  width={800} height={800} />
                         </div>
                       </div>
                       <div>

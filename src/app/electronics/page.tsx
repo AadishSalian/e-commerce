@@ -14,6 +14,8 @@ import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
 import { WishlistButton } from '@/components/ui';
 
+import Image from 'next/image';
+
 const customEase = [0.65, 0, 0.35, 1] as const;
 
 export default function ElectronicsCategoryPage() {
@@ -98,11 +100,10 @@ export default function ElectronicsCategoryPage() {
               transition={{ duration: 1, ease: customEase }}
               className="w-full lg:w-1/2 aspect-square md:aspect-[4/3] bg-background rounded-3xl overflow-hidden relative"
             >
-              <img 
-                src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=1200&auto=format&fit=crop" 
+              <Image src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=1200&auto=format&fit=crop" 
                 alt="Unified Ecosystem" 
                 className="w-full h-full object-cover opacity-80" 
-              />
+               width={800} height={800} />
             </motion.div>
             
             <motion.div 
@@ -151,11 +152,10 @@ export default function ElectronicsCategoryPage() {
               transition={{ duration: 1, ease: customEase, delay: 0.2 }}
               className="w-full lg:w-1/2 aspect-square md:aspect-[4/3] bg-muted rounded-3xl overflow-hidden relative"
             >
-              <img 
-                src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=1200&auto=format&fit=crop" 
+              <Image src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=1200&auto=format&fit=crop" 
                 alt="Material Close Up" 
                 className="w-full h-full object-cover opacity-100 scale-110" 
-              />
+               width={800} height={800} />
             </motion.div>
           </div>
         </div>
@@ -322,7 +322,7 @@ export default function ElectronicsCategoryPage() {
                 className="bg-card p-6 rounded-2xl border border-border/50 hover:border-border transition-colors group flex flex-col"
               >
                 <div className="aspect-square bg-muted rounded-xl mb-6 overflow-hidden relative">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                  <Image src={item.image} alt={item.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"  width={800} height={800} />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-foreground">{item.name}</h3>
                 <p className="text-text-muted text-sm mb-6 flex-grow">{item.description}</p>

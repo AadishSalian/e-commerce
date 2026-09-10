@@ -17,6 +17,8 @@ import ProductCard from '@/components/product/ProductCard';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 
+import Image from 'next/image';
+
 export const metadata: Metadata = {
   title: 'Our Craftsmanship | Shop',
   description: 'From material to masterpiece. Explore the meticulous attention to detail and high-quality materials that go into every product we make.',
@@ -87,11 +89,10 @@ export default function CraftsmanshipPage() {
         <span className="text-sm font-semibold tracking-widest text-text-muted uppercase mb-4 block">The Result</span>
         
         <div className="w-full max-w-4xl aspect-[21/9] bg-surface rounded-2xl overflow-hidden mb-12 shadow-2xl">
-           <img 
-              src="/images/craft-tools.jpg" 
+           <Image src="/images/craft-tools.jpg" 
               alt="The final product" 
               className="w-full h-full object-cover"
-            />
+             width={800} height={800} />
         </div>
 
         <h2 className="text-5xl md:text-7xl font-serif font-bold uppercase tracking-tight text-foreground leading-[0.9] mb-12">

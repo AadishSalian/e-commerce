@@ -9,6 +9,8 @@ import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 
+import Image from 'next/image';
+
 export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [useSavedInfo, setUseSavedInfo] = useState(true);
@@ -356,7 +358,7 @@ export default function CheckoutPage() {
             {cartItems.map(item => (
               <div key={item.cartId} className="flex gap-4">
                  <div className="w-16 h-16 bg-surface-hover rounded flex-shrink-0 flex items-center justify-center border border-border relative overflow-hidden">
-                    <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
+                    <Image src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover"  width={800} height={800} />
                     <span className="absolute -top-2 -right-2 bg-text-muted text-background text-[10px] w-5 h-5 rounded-full flex items-center justify-center z-10">{item.quantity}</span>
                  </div>
                  <div className="flex-grow flex justify-between">

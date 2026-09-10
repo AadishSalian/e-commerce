@@ -6,6 +6,8 @@ import { Product } from '@/lib/mockData';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 
+import Image from 'next/image';
+
 // Map categories to an image for the hover preview
 const CATEGORY_IMAGES: Record<string, string> = {
   'Tech': 'https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=300&auto=format&fit=crop',
@@ -48,11 +50,10 @@ export function Breadcrumbs({ product }: { product: Product }) {
               className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 bg-surface border border-border rounded-xl shadow-xl overflow-hidden z-50 pointer-events-none"
             >
               <div className="h-32 w-full relative">
-                <img 
-                  src={categoryImage} 
+                <Image src={categoryImage} 
                   alt={product.category} 
                   className="w-full h-full object-cover"
-                />
+                 width={800} height={800} />
                 <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
                   <span className="text-white font-medium drop-shadow-md">View {product.category}</span>
                 </div>

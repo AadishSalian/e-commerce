@@ -4,6 +4,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { HandwrittenAnnotation } from '../ui/HandwrittenAnnotation';
 
+import Image from 'next/image';
+
 function MaskRevealImage({ children, aspect, index }: { children: React.ReactNode, aspect: string, index: number }) {
   return (
     <div className={`relative w-full ${aspect} overflow-hidden`}>
@@ -72,11 +74,10 @@ export default function CraftsmanshipDetails() {
               className={`relative ${detail.className}`}
             >
               <MaskRevealImage aspect={detail.imageAspect} index={index}>
-                <img 
-                  src={detail.image} 
+                <Image src={detail.image} 
                   alt={detail.title} 
                   className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700"
-                />
+                 width={800} height={800} />
               </MaskRevealImage>
               
               <div className={`absolute z-10 ${detail.textPlacement}`}>

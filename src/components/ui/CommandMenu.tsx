@@ -8,6 +8,8 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 
+import Image from 'next/image';
+
 export function CommandMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -112,7 +114,7 @@ export function CommandMenu() {
                             className="flex items-center gap-4 px-4 py-3 w-full text-left rounded-2xl hover:bg-surface-hover/80 transition-all duration-200 group"
                           >
                             <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-surface-active/50 shadow-sm border border-border/30">
-                              <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                              <Image src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  width={800} height={800} />
                             </div>
                             <div className="flex-1">
                               <p className="text-foreground font-medium text-sm">{product.name}</p>

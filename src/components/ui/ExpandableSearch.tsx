@@ -7,6 +7,8 @@ import styles from './ExpandableSearch.module.css';
 import { searchProducts, SearchResult } from '@/lib/search';
 import { Loader } from '@/components/ui/Loader';
 
+import Image from 'next/image';
+
 export function ExpandableSearch() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [query, setQuery] = useState('');
@@ -234,11 +236,10 @@ export function ExpandableSearch() {
                           onMouseEnter={() => setFocusedIndex(idx)}
                         >
                           {res.product.image && (
-                            <img 
-                              src={res.product.image} 
+                            <Image src={res.product.image} 
                               alt=""
                               className={styles.thumbnail}
-                            />
+                             width={800} height={800} />
                           )}
                           <div className={styles.productInfo}>
                             <span className={styles.productName}>{res.product.name}</span>

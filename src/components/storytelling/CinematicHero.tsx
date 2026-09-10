@@ -4,6 +4,8 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 
+import Image from 'next/image';
+
 export default function CinematicHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -29,11 +31,10 @@ export default function CinematicHero() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         {/* Reverted to high quality static image to ensure maximum compatibility */}
-        <img 
-          src="/images/craft-hero.jpg"
+        <Image src="/images/craft-hero.jpg"
           alt="Leather craftsmanship"
           className="absolute inset-0 w-full h-full object-cover"
-        />
+         width={800} height={800} />
         {/* Overlay to ensure text readability */}
         <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
       </div>
@@ -43,13 +44,13 @@ export default function CinematicHero() {
         className="absolute top-1/4 right-24 md:right-48 w-48 aspect-[3/4] hidden md:block z-0 pointer-events-none opacity-80 mix-blend-screen"
         style={{ y: foregroundY1 }}
       >
-        <img src="/images/craft-tools.jpg" className="w-full h-full object-cover grayscale brightness-125" alt="" />
+        <Image src="/images/craft-tools.jpg" className="w-full h-full object-cover grayscale brightness-125" alt=""  width={800} height={800} />
       </motion.div>
       <motion.div 
         className="absolute bottom-1/4 left-12 md:left-32 w-64 aspect-[4/3] hidden md:block z-0 pointer-events-none opacity-60 mix-blend-screen"
         style={{ y: foregroundY2 }}
       >
-        <img src="/images/craft-stitch.jpg" className="w-full h-full object-cover grayscale brightness-125" alt="" />
+        <Image src="/images/craft-stitch.jpg" className="w-full h-full object-cover grayscale brightness-125" alt=""  width={800} height={800} />
       </motion.div>
 
       {/* Main Content */}

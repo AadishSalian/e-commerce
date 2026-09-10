@@ -3,6 +3,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 
+import Image from 'next/image';
+
 const journeySteps = [
   {
     id: '01',
@@ -73,7 +75,7 @@ export default function CraftingJourney() {
               <span className="text-sm font-semibold tracking-widest text-text-muted">{step.id}</span>
               <h3 className="text-3xl font-serif font-medium text-foreground">{step.title}</h3>
               <div className="w-full aspect-[4/3] overflow-hidden">
-                <img src={step.image} alt={step.title} className="w-full h-full object-cover" />
+                <Image src={step.image} alt={step.title} className="w-full h-full object-cover"  width={800} height={800} />
               </div>
               <p className="text-text-muted text-lg leading-relaxed">{step.description}</p>
             </div>
@@ -128,11 +130,10 @@ export default function CraftingJourney() {
 
                 <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none z-10">
                   <div className="w-full h-4/5 relative overflow-hidden">
-                    <img 
-                      src={step.image} 
+                    <Image src={step.image} 
                       alt={step.title} 
                       className={`absolute top-0 left-0 w-full h-full object-cover transition-transform duration-1000 ${isActive ? 'scale-100' : 'scale-110'}`} 
-                    />
+                     width={800} height={800} />
                   </div>
                 </div>
                 

@@ -7,6 +7,8 @@ import { X, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { PrimaryButton } from './PrimaryButton';
 
+import Image from 'next/image';
+
 export function QuickViewModal() {
   const { activeProduct, isOpen, closeQuickView } = useQuickView();
   const { addToCart } = useCart();
@@ -45,11 +47,10 @@ export function QuickViewModal() {
 
             {/* Image */}
             <div className="w-full md:w-1/2 h-64 md:h-auto bg-muted relative">
-              <img 
-                src={activeProduct.image} 
+              <Image src={activeProduct.image} 
                 alt={activeProduct.name}
                 className="absolute inset-0 w-full h-full object-cover"
-              />
+               width={800} height={800} />
             </div>
 
             {/* Details */}

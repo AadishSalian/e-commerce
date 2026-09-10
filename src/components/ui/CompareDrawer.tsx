@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronUp, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
+import Image from 'next/image';
+
 export function CompareDrawer() {
   const { compareQueue, removeFromCompare, clearCompare, isCompareDrawerOpen, setIsCompareDrawerOpen } = useCompare();
 
@@ -46,7 +48,7 @@ export function CompareDrawer() {
                     </button>
                     
                     <div className="w-full aspect-square bg-muted rounded-lg mb-4 overflow-hidden relative">
-                      <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                      <Image src={product.image} alt={product.name} className="w-full h-full object-cover"  width={800} height={800} />
                     </div>
                     
                     <h4 className="font-bold text-lg mb-1">{product.name}</h4>

@@ -3,6 +3,8 @@
 import React, { useState, useRef, MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import Image from 'next/image';
+
 const materials = [
   {
     id: 'leather',
@@ -113,11 +115,10 @@ export default function MaterialShowcase() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="absolute inset-0"
             >
-              <img 
-                src={activeMaterial.image} 
+              <Image src={activeMaterial.image} 
                 alt={activeMaterial.name} 
                 className="w-full h-full object-cover grayscale-[10%]"
-              />
+               width={800} height={800} />
             </motion.div>
           </AnimatePresence>
 

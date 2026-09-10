@@ -4,6 +4,8 @@ import React, { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { AnimatedCounter } from '../ui/AnimatedCounter';
 
+import Image from 'next/image';
+
 // Helper for simple image container (animations removed for stability)
 function ScrollMaskReveal({ children, className }: { children: React.ReactNode, className?: string }) {
   return (
@@ -66,11 +68,10 @@ export default function EditorialIntro() {
       <section ref={artRef} className="w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-0 items-center">
         {/* Left: Large craftsmanship image, full bleed left */}
         <ScrollMaskReveal className="relative aspect-[4/3] md:aspect-[4/5] w-full overflow-hidden md:col-span-6 lg:col-span-5">
-          <img 
-            src="/images/craft-hero.jpg" 
+          <Image src="/images/craft-hero.jpg" 
             alt="Artisan working" 
             className="w-full h-full object-cover"
-          />
+           width={800} height={800} />
         </ScrollMaskReveal>
 
         {/* Right: Typography and copy */}
@@ -153,11 +154,10 @@ export default function EditorialIntro() {
 
         {/* Right: Artisan Image, full bleed right */}
         <ScrollMaskReveal className="relative aspect-[4/3] md:aspect-[3/4] w-full overflow-hidden order-1 md:order-2 md:col-span-5 md:col-start-8">
-           <img 
-            src="/images/craft-tools.jpg" 
+           <Image src="/images/craft-tools.jpg" 
             alt="Portrait of an artisan" 
             className="w-full h-full object-cover"
-          />
+           width={800} height={800} />
         </ScrollMaskReveal>
       </section>
 

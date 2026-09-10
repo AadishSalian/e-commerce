@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import Image from 'next/image';
+
 const valuesData = [
   { 
     title: 'Quality', 
@@ -67,11 +69,10 @@ export default function ValuesTabs() {
             className="absolute inset-0 flex flex-col"
           >
             <div className="relative h-full w-full">
-              <img 
-                src={valuesData[activeIndex].image} 
+              <Image src={valuesData[activeIndex].image} 
                 alt={valuesData[activeIndex].title}
                 className="w-full h-full object-cover"
-              />
+               width={800} height={800} />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end">
                 <p className="text-lg md:text-xl text-foreground leading-relaxed font-medium drop-shadow-md">

@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import styles from './CategoryWidgets.module.css';
 
+import Image from 'next/image';
+
 const WIDGETS = [
   { label: 'Fashion / Apparel', href: '/fashion', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=200&auto=format&fit=crop' },
   { label: 'Electronics / Gadgets', href: '/electronics', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=200&auto=format&fit=crop' },
@@ -48,7 +50,7 @@ export default function CategoryWidgets() {
           <motion.div key={widget.label} variants={itemVariants}>
             <Link href={widget.href} className={styles.widget}>
               <div className={styles.imageWrapper}>
-                <img src={widget.image} alt={widget.label} className={styles.image} loading="lazy" />
+                <Image src={widget.image} alt={widget.label} className={styles.image} loading="lazy"  width={800} height={800} />
               </div>
               <span className={styles.label}>{widget.label}</span>
             </Link>

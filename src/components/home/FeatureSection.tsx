@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 
+import Image from 'next/image';
+
 interface FeatureProps {
   title: string;
   description: string;
@@ -58,11 +60,10 @@ export default function FeatureSection({
             className="flex-1 w-full aspect-square md:aspect-[4/3] bg-surface-hover rounded-xl flex items-center justify-center relative overflow-hidden"
           >
             {imageUrl ? (
-              <img 
-                src={imageUrl} 
+              <Image src={imageUrl} 
                 alt={imageAlt} 
                 className="absolute inset-0 w-full h-full object-cover"
-              />
+               width={800} height={800} />
             ) : (
               <>
                 {/* Soft matte placeholder without shadows */}

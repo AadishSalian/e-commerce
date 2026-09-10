@@ -3,6 +3,8 @@
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import Link from 'next/link';
 
+import Image from 'next/image';
+
 export function RecentlyViewed() {
   const { recentProducts } = useRecentlyViewed();
 
@@ -21,11 +23,10 @@ export function RecentlyViewed() {
               className="group block w-48 shrink-0"
             >
               <div className="w-full aspect-square bg-muted rounded-xl mb-4 overflow-hidden relative">
-                <img 
-                  src={product.image} 
+                <Image src={product.image} 
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+                 width={800} height={800} />
               </div>
               <h4 className="font-semibold text-foreground text-sm truncate">{product.name}</h4>
               <p className="text-text-muted text-sm">${product.price.toFixed(2)}</p>

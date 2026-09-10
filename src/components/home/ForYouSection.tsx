@@ -8,6 +8,8 @@ import { usePreferences } from '@/contexts/PreferencesContext';
 import { useRecentlyViewed } from '@/contexts/RecentlyViewedContext';
 import { useAuth } from '@/contexts/AuthContext';
 
+import Image from 'next/image';
+
 export default function ForYouSection() {
   const { preferences } = usePreferences();
   const { recentProducts } = useRecentlyViewed();
@@ -68,11 +70,10 @@ export default function ForYouSection() {
             >
               <Link href={`/products/${product.id}`} className="group block">
                 <div className="relative aspect-[4/5] bg-surface rounded-xl mb-4 overflow-hidden border border-border">
-                  <img
-                    src={product.image}
+                  <Image src={product.image}
                     alt={product.name}
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
+                   width={800} height={800} />
                   <div className="absolute inset-0 bg-background/0 group-hover:bg-background/10 transition-colors duration-300" />
                 </div>
                 <div className="flex flex-col gap-1">

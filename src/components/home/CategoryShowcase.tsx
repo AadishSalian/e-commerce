@@ -4,6 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import styles from './CategoryShowcase.module.css';
 
+import Image from 'next/image';
+
 const CATEGORIES = [
   {
     id: 'fashion',
@@ -75,12 +77,11 @@ export default function CategoryShowcase() {
             >
               {/* Background Image */}
               <div className={styles.imageWrapper}>
-                <img 
-                  src={cat.image} 
+                <Image src={cat.image} 
                   alt="" 
                   className={styles.image}
                   loading="lazy"
-                />
+                 width={800} height={800} />
               </div>
 
               {/* Overlays */}

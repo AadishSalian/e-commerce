@@ -17,6 +17,8 @@ import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
 import { WishlistButton } from '@/components/ui';
 
+import Image from 'next/image';
+
 const customEase = [0.65, 0, 0.35, 1] as const;
 
 export default function SportsPage() {
@@ -72,11 +74,10 @@ export default function SportsPage() {
           transition={{ duration: 1.5, ease: customEase }}
           className="absolute inset-0 z-0"
         >
-          <img 
-            src="/sports/hero.png" 
+          <Image src="/sports/hero.png" 
             alt="Mountain climbing extreme environment" 
             className="w-full h-full object-cover opacity-90"
-          />
+           width={800} height={800} />
           <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         </motion.div>
@@ -107,21 +108,19 @@ export default function SportsPage() {
                 style={{ y: img1Y }}
                 className="absolute top-0 left-0 w-2/3 h-4/5 rounded-3xl overflow-hidden shadow-2xl bg-muted"
               >
-                <img 
-                  src="/sports/harness.png" 
+                <Image src="/sports/harness.png" 
                   alt="Technical gear detail"
                   className="w-full h-full object-cover"
-                />
+                 width={800} height={800} />
               </motion.div>
               <motion.div 
                 style={{ y: img2Y }}
                 className="absolute bottom-0 right-0 w-1/2 h-3/5 rounded-3xl overflow-hidden shadow-2xl border-4 border-background bg-muted z-10"
               >
-                <img 
-                  src="/sports/pack.png" 
+                <Image src="/sports/pack.png" 
                   alt="Outdoor endurance"
                   className="w-full h-full object-cover"
-                />
+                 width={800} height={800} />
               </motion.div>
             </div>
 
@@ -222,17 +221,15 @@ export default function SportsPage() {
                           New
                         </span>
                       )}
-                      <img 
-                        src={product.image} 
+                      <Image src={product.image} 
                         alt={product.name} 
                         className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[0.16,1,0.3,1]"
-                      />
+                       width={800} height={800} />
                       {product.hoverImage && (
-                        <img 
-                          src={product.hoverImage} 
+                        <Image src={product.hoverImage} 
                           alt={`${product.name} alternate view`} 
                           className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-[0.16,1,0.3,1] z-10"
-                        />
+                         width={800} height={800} />
                       )}
 
                       {/* Action Buttons */}
@@ -309,7 +306,7 @@ export default function SportsPage() {
                   <span className="absolute top-4 left-4 z-20 bg-background text-foreground px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full shadow-sm shadow-black/10">
                     Kit Piece {idx + 1}
                   </span>
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[0.16,1,0.3,1]" />
+                  <Image src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[0.16,1,0.3,1]"  width={800} height={800} />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-foreground">{item.name}</h3>
                 <p className="text-text-muted text-sm mb-6 flex-grow">{item.description}</p>

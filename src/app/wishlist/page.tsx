@@ -6,6 +6,8 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
+import Image from 'next/image';
+
 export default function WishlistPage() {
   const { wishlistItems, removeFromWishlist } = useWishlist();
 
@@ -65,11 +67,10 @@ export default function WishlistPage() {
                   </Link>
                   
                   {/* Image Background */}
-                  <img
-                    src={product.image}
+                  <Image src={product.image}
                     alt={product.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                   width={800} height={800} />
                   
                   {/* Overlay Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-60 group-hover:opacity-80 transition-opacity duration-300" />

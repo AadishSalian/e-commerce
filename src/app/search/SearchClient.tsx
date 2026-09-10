@@ -9,6 +9,8 @@ import { searchProducts, SearchResult } from '@/lib/search';
 import { ChevronDown, Filter } from 'lucide-react';
 import { CustomSelect } from '@/components/ui/CustomSelect';
 
+import Image from 'next/image';
+
 export default function SearchClient() {
   const searchParams = useSearchParams();
   const rawQuery = searchParams.get('q') || searchParams.get('search') || '';
@@ -134,18 +136,16 @@ export default function SearchClient() {
                       )}
                       <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center relative overflow-hidden">
                         {product.image ? (
-                          <img 
-                            src={product.image} 
+                          <Image src={product.image} 
                             alt={product.name}
                             className="absolute inset-0 w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
-                          />
+                           width={800} height={800} />
                         ) : null}
                         {product.hoverImage ? (
-                          <img 
-                            src={product.hoverImage} 
+                          <Image src={product.hoverImage} 
                             alt={`${product.name} Alternate`}
                             className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                          />
+                           width={800} height={800} />
                         ) : null}
                         {!product.image && (
                           <span className="text-xs text-text-muted uppercase tracking-widest">{product.name}</span>

@@ -22,6 +22,8 @@ import SizeFitQuiz from '@/components/product/SizeFitQuiz';
 import InPageNavigation from '@/components/product/InPageNavigation';
 import { WishlistButton, ScrollProgress, Breadcrumbs } from '@/components/ui';
 
+import Image from 'next/image';
+
 type Props = {
   params: Promise<{ id: string }>;
 };
@@ -274,7 +276,7 @@ export default function ProductDetailPage({ params }: Props) {
               return (
                 <Link key={rel.id} href={`/products/${rel.id}`} className="group block">
                   <div className="w-full aspect-square bg-muted rounded-xl mb-4 overflow-hidden">
-                    <img src={rel.image} alt={rel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image src={rel.image} alt={rel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  width={800} height={800} />
                   </div>
                   <h4 className="font-semibold text-foreground text-sm">{rel.name}</h4>
                   <p className="text-text-muted text-sm">${rel.price.toFixed(2)}</p>

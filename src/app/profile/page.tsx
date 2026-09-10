@@ -17,6 +17,8 @@ import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { Fingerprint } from 'lucide-react';
 import { startRegistration } from '@simplewebauthn/browser';
 
+import Image from 'next/image';
+
 const VAPID_PUBLIC = 'BESTfY0xd1ywct3nY8pv0Q2CLGQDuRXEN626yWSPJy5q0MPVfRTw4MJ83veT0_jvH2H8nfdU9aBdaj_7FzlN4Xw';
 
 function urlBase64ToUint8Array(base64String: string) {
@@ -265,7 +267,7 @@ export default function ProfilePage() {
                    <div className="flex items-center gap-6">
                      <div className="relative w-24 h-24 rounded-full bg-surface-active border border-border overflow-hidden group shadow-md">
                        {user.avatar ? (
-                         <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                         <Image src={user.avatar} alt={user.name} className="w-full h-full object-cover"  width={800} height={800} />
                        ) : (
                          <span className="w-full h-full flex items-center justify-center text-3xl font-bold text-foreground bg-gradient-to-br from-surface to-surface-active">
                            {name ? name.charAt(0).toUpperCase() : '?'}
@@ -543,7 +545,7 @@ export default function ProfilePage() {
                              <div key={alert.id} className="p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 hover:bg-surface-hover transition-colors">
                                <div className="flex items-center gap-4">
                                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-surface-active shrink-0">
-                                   <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                                   <Image src={product.image} alt={product.name} className="w-full h-full object-cover"  width={800} height={800} />
                                  </div>
                                  <div>
                                    <h4 className="font-semibold text-foreground">{product.name}</h4>

@@ -59,8 +59,9 @@ $ git clone https://github.com/yourusername/matte-shop.git
 $ cd matte-shop && npm install
 > added 412 packages, and audited 413 packages in 3s
 
-# IMPORTANT: Create a .env file in the root and add your database URL
-$ echo 'DATABASE_URL="postgresql://user:password@localhost:5432/matte_db"' > .env
+# IMPORTANT: Copy the environment template and add your credentials
+$ cp .env.example .env
+# Make sure to update your DATABASE_URL in the .env file
 
 $ npx prisma db push
 > Environment variables loaded from .env

@@ -57,7 +57,7 @@ export async function POST(request: Request) {
 
     // Replace the user's entire cart
     // Using an interactive transaction for safety
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       // 1. Find or create the user's cart
       let cart = await tx.cart.findUnique({ where: { userId } });
       if (!cart) {

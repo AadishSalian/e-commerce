@@ -1,6 +1,4 @@
-export { PrimaryButton } from './PrimaryButton';
-export { SecondaryButton } from './SecondaryButton';
-export { PromoButton } from './PromoButton';
+export { Button } from './Button';
 export * from './NavAuthButton';
 export * from './TeamMemberCard';
 export * from './SalesCard';

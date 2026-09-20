@@ -1,4 +1,4 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import webpush from 'web-push';
 import { PrismaClient } from '@prisma/client';
 
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       const payload = JSON.stringify({ title, body, icon: '/icon.svg' });
 
       // Send to all
-      await Promise.all(subscriptions.map(sub => {
+      await Promise.all(subscriptions.map((sub: any) => {
         const pushConfig = {
           endpoint: sub.endpoint,
           keys: { p256dh: sub.p256dh, auth: sub.auth }

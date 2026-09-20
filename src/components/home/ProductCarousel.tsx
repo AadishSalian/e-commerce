@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { Eye, Layers } from 'lucide-react';

@@ -4,7 +4,8 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '@/lib/mockData';
 import { Maximize2, RotateCcw, Box } from 'lucide-react';
-import ModelViewerWrapper from './ModelViewerWrapper';
+import dynamic from 'next/dynamic';
+const ModelViewerWrapper = dynamic(() => import('./ModelViewerWrapper'), { ssr: false });
 
 import Image from 'next/image';
 

@@ -1,12 +1,14 @@
+import dynamic from 'next/dynamic';
 import Hero from '@/components/home/Hero';
 import CategoryWidgets from '@/components/home/CategoryWidgets';
-import CategoryShowcase from '@/components/home/CategoryShowcase';
-import SalesSection from '@/components/home/SalesSection';
-import FeatureSection from '@/components/home/FeatureSection';
-import ProductCarousel from '@/components/home/ProductCarousel';
-import ForYouSection from '@/components/home/ForYouSection';
 import WelcomeBanner from '@/components/home/WelcomeBanner';
 import { PullToRefreshWrapper } from '@/components/home/PullToRefreshWrapper';
+
+const CategoryShowcase = dynamic(() => import('@/components/home/CategoryShowcase'), { ssr: true });
+const SalesSection = dynamic(() => import('@/components/home/SalesSection'), { ssr: true });
+const FeatureSection = dynamic(() => import('@/components/home/FeatureSection'), { ssr: true });
+const ProductCarousel = dynamic(() => import('@/components/home/ProductCarousel'), { ssr: true });
+const ForYouSection = dynamic(() => import('@/components/home/ForYouSection'), { ssr: true });
 
 export default function Home() {
   return (

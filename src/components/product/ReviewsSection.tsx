@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Star, ShieldCheck, Image as ImageIcon, Quote } from 'lucide-react';
 import { getProductReviews, Review } from '@/lib/mockSocialProof';
-import { PrimaryButton, AnimatedCounter } from '../ui';
+import { Button, AnimatedCounter } from '../ui';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import Image from 'next/image';
@@ -60,12 +60,12 @@ export default function ReviewsSection({ productId }: Props) {
             })}
           </div>
 
-          <PrimaryButton 
+          <Button variant="primary" 
             className="w-full py-3 bg-surface text-foreground border border-border hover:bg-surface-hover"
             onClick={() => setShowReviewForm(!showReviewForm)}
           >
             {showReviewForm ? 'Cancel Review' : 'Write a Review'}
-          </PrimaryButton>
+          </Button>
 
           <AnimatePresence>
             {showReviewForm && (
@@ -85,7 +85,7 @@ export default function ReviewsSection({ productId }: Props) {
                     <button className="flex items-center gap-2 text-sm text-text-muted hover:text-foreground">
                       <ImageIcon className="w-4 h-4" /> Add Photos
                     </button>
-                    <PrimaryButton className="ml-auto px-6 py-2 text-sm">Submit</PrimaryButton>
+                    <Button variant="primary" className="ml-auto px-6 py-2 text-sm">Submit</Button>
                   </div>
                 </div>
               </motion.div>

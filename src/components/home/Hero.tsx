@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { PrimaryButton, SecondaryButton, PromoButton, SalesCard } from '@/components/ui';
+import { Button, SalesCard } from '@/components/ui';
 import SpinningBrandCard from './SpinningBrandCard';
 
 export default function Hero() {
@@ -51,25 +51,24 @@ export default function Hero() {
           className="w-full flex flex-col items-center md:items-start"
         >
           <div className="flex flex-col md:flex-row items-center gap-4 mb-12">
-            <PrimaryButton 
+            <Button variant="primary" 
               onClick={() => router.push('/products?category=new')}
             >
               Shop the Collection
-            </PrimaryButton>
-            <SecondaryButton 
+            </Button>
+            <Button variant="secondary" 
               onClick={() => router.push('/about')}
             >
               Discover the Story
-            </SecondaryButton>
+            </Button>
           </div>
 
           <div className="flex flex-col items-center md:items-start gap-6 w-full max-w-[320px]">
-            <PromoButton 
-              label="Claim Launch Deal"
-              topText="expires in..."
+            <Button variant="promo" 
+              promoTextTop="expires in..."
               targetDate={targetDate}
               onClick={() => router.push('/products')}
-            />
+            >Claim Launch Deal</Button>
             <div className="w-full">
               <SalesCard />
             </div>

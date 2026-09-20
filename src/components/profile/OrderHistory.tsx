@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Package, Truck, CheckCircle2, Clock, ChevronRight, CornerDownLeft, X, ShoppingCart } from 'lucide-react';
 import { MOCK_ORDERS, Order, OrderItem } from '@/lib/mockOrders';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
-import { PrimaryButton } from '../ui';
+import { Button } from '../ui';
 import Link from 'next/link';
 import { useToast } from '@/contexts/ToastContext';
 import { useCart } from '@/contexts/CartContext';
@@ -256,9 +256,9 @@ export default function OrderHistory() {
                   </p>
                 </div>
                 
-                <PrimaryButton type="submit" className="w-full py-3 mt-2">
+                <Button variant="primary" type="submit" className="w-full py-3 mt-2">
                   Generate Return Label
-                </PrimaryButton>
+                </Button>
               </form>
             </motion.div>
           </div>

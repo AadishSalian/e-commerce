@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { getProductQnA } from '@/lib/mockSocialProof';
-import { PrimaryButton, Accordion } from '../ui';
+import { Button, Accordion } from '../ui';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
@@ -37,12 +37,12 @@ export default function QnASection({ productId }: Props) {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             
-            <PrimaryButton 
+            <Button variant="primary" 
               className="w-full py-3"
               onClick={() => setShowAskForm(!showAskForm)}
             >
               {showAskForm ? 'Cancel' : 'Ask a Question'}
-            </PrimaryButton>
+            </Button>
 
             <AnimatePresence>
               {showAskForm && (
@@ -57,7 +57,7 @@ export default function QnASection({ productId }: Props) {
                       className="w-full bg-background border border-border rounded-lg p-3 text-sm mb-4 min-h-[100px] focus:outline-none focus:border-accent" 
                       placeholder="What would you like to know?"
                     ></textarea>
-                    <PrimaryButton className="w-full py-2 text-sm">Post Question</PrimaryButton>
+                    <Button variant="primary" className="w-full py-2 text-sm">Post Question</Button>
                     <p className="text-xs text-text-muted text-center mt-3">Answers generally arrive within 24 hours.</p>
                   </div>
                 </motion.div>

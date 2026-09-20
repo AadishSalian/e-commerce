@@ -6,7 +6,7 @@ import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { motion } from 'framer-motion';
 import { Check, ChevronRight, ShoppingBag, Lock, Bell, Share2 } from 'lucide-react';
 import Link from 'next/link';
-import { PrimaryButton, NavAuthButton, Accordion } from '@/components/ui';
+import { Button, NavAuthButton, Accordion } from '@/components/ui';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/contexts/ToastContext';
@@ -221,14 +221,14 @@ export default function ProductDetailPage({ params }: Props) {
             </div>
 
             <div className="hidden lg:flex flex-col gap-4 mt-auto pt-8 border-t border-border">
-              <PrimaryButton 
+              <Button variant="primary" 
                 className="w-full py-4 text-lg" 
                 icon={<ShoppingBag size={18} />}
                 onClick={handleAddToCart}
                 isSuccess={isAdded}
               >
                 Add to Bag
-              </PrimaryButton>
+              </Button>
               <p className="text-xs text-text-muted text-center flex items-center justify-center gap-2">
                 <Check className="w-3 h-3" /> In stock and ready to ship
               </p>

@@ -5,7 +5,7 @@ import { useCart } from '@/contexts/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
-import { PrimaryButton } from './PrimaryButton';
+import { Button } from './Button';
 
 import Image from 'next/image';
 
@@ -80,7 +80,7 @@ export function QuickViewModal() {
               )}
 
               <div className="mt-auto pt-8 flex gap-4">
-                <PrimaryButton 
+                <Button variant="primary" 
                   onClick={() => {
                     addToCart({
                       id: activeProduct.id,
@@ -101,7 +101,7 @@ export function QuickViewModal() {
                   icon={<ShoppingBag className="w-4 h-4" />}
                 >
                   Add to Bag
-                </PrimaryButton>
+                </Button>
                 <Link 
                   href={`/products/${activeProduct.id}`}
                   onClick={closeQuickView}

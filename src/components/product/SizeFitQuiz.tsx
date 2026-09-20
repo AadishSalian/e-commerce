@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Check } from 'lucide-react';
-import { PrimaryButton } from '@/components/ui';
+import { Button } from '@/components/ui';
 
 type SizeFitQuizProps = {
   isOpen: boolean;
@@ -111,13 +111,13 @@ export default function SizeFitQuiz({ isOpen, onClose, productName }: SizeFitQui
                       </div>
                     </div>
                     
-                    <PrimaryButton 
+                    <Button variant="primary" 
                       onClick={handleNext} 
                       disabled={!height || !weight}
                       className="w-full mt-6"
                     >
                       Next
-                    </PrimaryButton>
+                    </Button>
                   </motion.div>
                 )}
 
@@ -158,13 +158,13 @@ export default function SizeFitQuiz({ isOpen, onClose, productName }: SizeFitQui
                       >
                         Back
                       </button>
-                      <PrimaryButton 
+                      <Button variant="primary" 
                         onClick={handleNext} 
                         disabled={!fitPreference}
                         className="flex-1"
                       >
                         Find My Size
-                      </PrimaryButton>
+                      </Button>
                     </div>
                   </motion.div>
                 )}
@@ -187,12 +187,12 @@ export default function SizeFitQuiz({ isOpen, onClose, productName }: SizeFitQui
                       {getRecommendation()}
                     </div>
                     
-                    <PrimaryButton 
+                    <Button variant="primary" 
                       onClick={handleReset}
                       className="w-full"
                     >
                       Done
-                    </PrimaryButton>
+                    </Button>
                   </motion.div>
                 )}
               </AnimatePresence>

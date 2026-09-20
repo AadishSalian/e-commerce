@@ -14,7 +14,7 @@ import CraftsmanshipDetails from '@/components/storytelling/CraftsmanshipDetails
 
 // UI Components
 import ProductCard from '@/components/product/ProductCard';
-import { PrimaryButton } from '@/components/ui/PrimaryButton';
+import { Button } from '@/components/ui/Button';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 
 import Image from 'next/image';
@@ -101,9 +101,9 @@ export default function CraftsmanshipPage() {
         </h2>
 
         <Link href="/products">
-          <PrimaryButton className="text-base px-8 py-4 uppercase tracking-widest font-bold">
+          <Button variant="primary" className="text-base px-8 py-4 uppercase tracking-widest font-bold">
             Explore The Collection
-          </PrimaryButton>
+          </Button>
         </Link>
       </section>
 

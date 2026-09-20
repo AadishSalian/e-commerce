@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '@/lib/mockData';
-import { PrimaryButton } from '../ui';
+import { Button } from '../ui';
 
 import Image from 'next/image';
 
@@ -63,13 +63,13 @@ export default function StickyAddToCart({ product, selectedVariant, onAddToCart,
           
           <div className="flex items-center gap-4 shrink-0 ml-auto">
             <span className="font-bold text-foreground hidden sm:block">${product.price.toFixed(2)}</span>
-            <PrimaryButton 
+            <Button variant="primary" 
               onClick={handleAddToCart}
               isSuccess={isAdded}
               className="px-8 py-3 sm:py-2 text-base sm:text-sm whitespace-nowrap shadow-lg shadow-accent/20 min-w-[140px] sm:min-w-[120px] rounded-full sm:rounded-md"
             >
               Add to Bag
-            </PrimaryButton>
+            </Button>
           </div>
         </motion.div>
       )}

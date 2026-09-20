@@ -19,6 +19,8 @@
   --shadow-color: rgba(0, 0, 0, 0.5);
   
   --success: #2e7d32;
+  --success-bg: var(--accent);
+  --success-text: #121212;
   --error: #d32f2f;
   --warning: #ed6c02;
   

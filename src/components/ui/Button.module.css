@@ -39,9 +39,9 @@
 }
 
 .success {
-  background: #8ed500 !important;
-  border-color: #8ed500 !important;
-  color: #121212 !important;
+  background: var(--success-bg) !important;
+  border-color: var(--success-bg) !important;
+  color: var(--success-text) !important;
 }
 
 .primaryContent {

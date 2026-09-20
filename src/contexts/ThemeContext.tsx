@@ -1,40 +1,11 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
-
-type Theme = 'light' | 'dark';
-
-interface ThemeContextType {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+import React, { useEffect } from 'react';
+import { useThemeStore, Theme } from '@/store/useThemeStore';
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
-  const isTransitioningRef = useRef(false);
-  const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const applyTheme = (newTheme: Theme, save: boolean = true) => {
-    if (isTransitioningRef.current) return;
-    
-    isTransitioningRef.current = true;
-    document.documentElement.classList.add('theme-transitioning');
-    
-    setThemeState(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    if (save) {
-      localStorage.setItem('theme', newTheme);
-    }
-    
-    if (transitionTimeoutRef.current) clearTimeout(transitionTimeoutRef.current);
-    transitionTimeoutRef.current = setTimeout(() => {
-      document.documentElement.classList.remove('theme-transitioning');
-      isTransitioningRef.current = false;
-    }, 300);
-  };
+  const setThemeState = useThemeStore(state => state.setThemeState);
+  const setTheme = useThemeStore(state => state.setTheme);
 
   useEffect(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme') as Theme | null;
@@ -46,28 +17,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (e.key === 'theme') {
         const newTheme = e.newValue as Theme;
         if (newTheme === 'dark' || newTheme === 'light') {
-          applyTheme(newTheme, false);
+          // pass false equivalent to not save in local storage twice, but our store expects simple call
+          // To mimic applyTheme(newTheme, false), we just set state and attribute
+          setThemeState(newTheme);
+          document.documentElement.setAttribute('data-theme', newTheme);
         }
       }
     };
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
-  }, []);
+  }, [setThemeState]);
 
-  const setTheme = (newTheme: Theme) => applyTheme(newTheme, true);
-  const toggleTheme = () => applyTheme(theme === 'dark' ? 'light' : 'dark', true);
-
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <>{children}</>;
 }
 
 export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
+  return useThemeStore();
 };

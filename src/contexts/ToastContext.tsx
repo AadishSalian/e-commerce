@@ -1,46 +1,17 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, AlertCircle, Info, X } from 'lucide-react';
+import { useUIStore } from '@/store/useUIStore';
+export type { ToastType, Toast } from '@/store/useUIStore';
 
-export type ToastType = 'success' | 'error' | 'info';
-
-export interface Toast {
-  id: string;
-  message: string;
-  type: ToastType;
-}
-
-interface ToastContextType {
-  toast: (message: string, type?: ToastType) => void;
-  success: (message: string) => void;
-  error: (message: string) => void;
-}
-
-const ToastContext = createContext<ToastContextType | undefined>(undefined);
-
-export function ToastProvider({ children }: { children: ReactNode }) {
-  const [toasts, setToasts] = useState<Toast[]>([]);
-
-  const removeToast = useCallback((id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
-
-  const addToast = useCallback((message: string, type: ToastType = 'info') => {
-    const id = Math.random().toString(36).substring(2, 9);
-    setToasts((prev) => [...prev, { id, message, type }]);
-
-    setTimeout(() => {
-      removeToast(id);
-    }, 4000);
-  }, [removeToast]);
-
-  const success = useCallback((message: string) => addToast(message, 'success'), [addToast]);
-  const error = useCallback((message: string) => addToast(message, 'error'), [addToast]);
+export function ToastProvider({ children }: { children: React.ReactNode }) {
+  const toasts = useUIStore(state => state.toasts);
+  const removeToast = useUIStore(state => state.removeToast);
 
   return (
-    <ToastContext.Provider value={{ toast: addToast, success, error }}>
+    <>
       {children}
       <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
         <AnimatePresence>
@@ -76,14 +47,11 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           ))}
         </AnimatePresence>
       </div>
-    </ToastContext.Provider>
+    </>
   );
 }
 
 export function useToast() {
-  const context = useContext(ToastContext);
-  if (context === undefined) {
-    throw new Error('useToast must be used within a ToastProvider');
-  }
-  return context;
+  const { addToast, success, error } = useUIStore();
+  return { toast: addToast, success, error };
 }

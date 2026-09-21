@@ -126,11 +126,11 @@ export default function AdminProductsPage() {
               {products.map(product => (
                 <tr key={product.id} className="hover:bg-muted/30 transition-colors">
                   <td className="px-6 py-4 font-medium">{product.name}</td>
-                  <td className="px-6 py-4 text-muted-foreground">{product.category?.name || 'Uncategorized'}</td>
+                  <td className="px-6 py-4 text-muted-foreground">{typeof product.category === 'object' ? product.category?.name : (product.category || 'Uncategorized')}</td>
                   <td className="px-6 py-4">${product.price.toFixed(2)}</td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${product.stock > 10 ? 'bg-green-500/10 text-green-500' : product.stock > 0 ? 'bg-yellow-500/10 text-yellow-500' : 'bg-red-500/10 text-red-500'}`}>
-                      {product.stock} in stock
+                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${(product.stockCount ?? 15) > 10 ? 'bg-green-500/10 text-green-500' : (product.stockCount ?? 15) > 0 ? 'bg-yellow-500/10 text-yellow-500' : 'bg-red-500/10 text-red-500'}`}>
+                      {product.stockCount ?? 15} in stock
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">

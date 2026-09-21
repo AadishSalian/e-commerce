@@ -37,7 +37,7 @@ export default function BeautyPage() {
 
   const filteredProducts = useMemo(() => {
     return beautyProducts.filter(p => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       const attrs = (p as any).attributes || {};
       const catMatch = activeCategory === 'All Categories' || (attrs.beautyCategory && attrs.beautyCategory.includes(activeCategory));
       const typeMatch = activeType === 'All Types' || attrs.productType === activeType;
@@ -267,7 +267,7 @@ export default function BeautyPage() {
           <div className="py-24 text-center bg-muted/30 rounded-[2rem] border border-border border-dashed">
             <h3 className="text-2xl font-bold mb-3 text-foreground">No items found</h3>
             <p className="text-text-muted text-lg max-w-md mx-auto mb-8">
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
+              { }
               We couldn't find any beauty products matching those specific filters. Try adjusting your category, type, or formulation.
             </p>
             <button 

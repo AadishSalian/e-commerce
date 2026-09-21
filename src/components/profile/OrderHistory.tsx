@@ -64,7 +64,7 @@ export default function OrderHistory() {
           {orders.length === 0 ? (
             <div className="p-12 text-center text-text-muted">
               <Package className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
+              { }
               <p>You haven't placed any orders yet.</p>
             </div>
           ) : (

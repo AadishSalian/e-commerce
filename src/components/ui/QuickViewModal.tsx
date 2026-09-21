@@ -88,7 +88,7 @@ export function QuickViewModal() {
                       price: activeProduct.price,
                       image: activeProduct.image,
                       quantity: 1
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                       
                     } as any, 1);
                     setIsAdded(true);
                     setTimeout(() => {

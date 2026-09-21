@@ -47,7 +47,7 @@ export default function PhilosophySection() {
           </span>
           
           <h3 className="text-2xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight text-foreground mb-12 leading-[1.2] relative z-10 max-w-4xl bg-background/50 backdrop-blur-sm p-4 md:p-0 md:bg-transparent md:backdrop-blur-none rounded-lg">
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            { }
             If you try to rush the burnishing, the material fights back. You have to wait for it. You can't force the hide to take a shape it hasn't earned.
           </h3>
           

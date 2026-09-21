@@ -127,7 +127,7 @@ export function CommandMenu() {
                     ) : (
                       <div className="px-4 py-12 text-center flex flex-col items-center justify-center">
                         <Search className="w-8 h-8 text-text-muted/30 mb-3" />
-                        {/* eslint-disable-next-line react/no-unescaped-entities */}
+                        { }
                         <p className="text-text-muted text-sm font-medium">No results found for "{query}"</p>
                         <p className="text-text-muted/50 text-xs mt-1">Try a different search term</p>
                       </div>
@@ -179,7 +179,7 @@ export function CommandMenu() {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 function CommandItem({ icon: Icon, label, onClick, className = "", iconClassName = "" }: { icon: any, label: string, onClick: () => void, className?: string, iconClassName?: string }) {
   return (
     <button

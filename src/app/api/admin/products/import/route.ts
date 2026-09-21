@@ -23,23 +23,48 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Failed to parse CSV', details: errors }, { status: 400 });
     }
 
-    /* 
-    If connected to a real DB, you would map over 'data' and create products:
+    // Since Prisma is mocked, we simulate persistence by appending to mockData.ts directly.
+    const fs = require('fs');
+    const path = require('path');
     
-    for (const row of data as any[]) {
-      await prisma.product.create({
-        data: {
-          name: row.name,
-          description: row.description || '',
-          price: parseFloat(row.price),
-          stock: parseInt(row.stock) || 0,
-          // Handle category relation
-        }
-      });
+    // Attempt to locate mockData.ts
+    const mockDataPath = path.join(process.cwd(), 'src', 'lib', 'mockData.ts');
+    
+    if (fs.existsSync(mockDataPath)) {
+      let content = fs.readFileSync(mockDataPath, 'utf8');
+      
+      let newProductsStr = '';
+      for (const row of data as any[]) {
+        if (!row.name || !row.price) continue;
+        
+        const isNew = String(row.isNew).toLowerCase() === 'true';
+        const price = parseFloat(row.price) || 0;
+        const stockCount = parseInt(row.stockCount, 10) || 15;
+        const id = row.id || `imported-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        
+        newProductsStr += `
+  {
+    id: '${id.replace(/'/g, "\\'")}',
+    name: '${String(row.name).replace(/'/g, "\\'")}',
+    description: '${String(row.description || '').replace(/'/g, "\\'")}',
+    price: ${price},
+    category: '${String(row.category || 'Uncategorized').replace(/'/g, "\\'")}',
+    isNew: ${isNew},
+    image: '${String(row.image || '').replace(/'/g, "\\'")}',
+    stockCount: ${stockCount}
+  },`;
+      }
+      
+      if (newProductsStr) {
+        content = content.replace(
+          /export const MOCK_PRODUCTS: Product\[\] = \[/,
+          `export const MOCK_PRODUCTS: Product[] = [${newProductsStr}`
+        );
+        fs.writeFileSync(mockDataPath, content);
+      }
     }
-    */
     
-    console.log(`Successfully imported ${data.length} products (mocked)`);
+    console.log(`Successfully imported ${data.length} products to mockData.ts`);
 
     return NextResponse.json({ success: true, count: data.length });
   } catch (error) {

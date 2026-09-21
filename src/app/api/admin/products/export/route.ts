@@ -1,25 +1,19 @@
 import { NextResponse } from 'next/server';
 import Papa from 'papaparse';
+import { MOCK_PRODUCTS } from '@/lib/mockData';
 
 export async function GET() {
   try {
-    // In a real app:
-    // const products = await prisma.product.findMany({ include: { category: true } });
-    
-    // Mock data
-    const products = [
-      { id: '1', name: 'Matte Black Backpack', price: 129.99, stock: 45, category: 'Accessories' },
-      { id: '2', name: 'Minimalist Desk Mat', price: 49.99, stock: 5, category: 'Office' },
-      { id: '3', name: 'Charcoal Tumbler', price: 34.50, stock: 0, category: 'Home' },
-    ];
-
-    // Format data for CSV
-    const csvData = products.map(p => ({
+    // Format data for CSV directly from MOCK_PRODUCTS
+    const csvData = MOCK_PRODUCTS.map(p => ({
       id: p.id,
       name: p.name,
+      description: p.description,
       price: p.price,
-      stock: p.stock,
-      category: p.category
+      stockCount: p.stockCount ?? 15,
+      category: p.category,
+      isNew: p.isNew ? 'true' : 'false',
+      image: p.image
     }));
 
     const csv = Papa.unparse(csvData);

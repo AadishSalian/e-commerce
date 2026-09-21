@@ -35,7 +35,7 @@ export default function ElectronicsCategoryPage() {
 
   const filteredProducts = useMemo(() => {
     return techProducts.filter(p => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       const attrs = (p as any).attributes || {};
       const catMatch = activeCategory === 'All Categories' || (attrs.techCategory && attrs.techCategory.includes(activeCategory));
       const typeMatch = activeType === 'All Types' || attrs.productType === activeType;
@@ -289,7 +289,7 @@ export default function ElectronicsCategoryPage() {
           <div className="py-24 text-center bg-muted/30 rounded-[2rem] border border-border border-dashed">
             <h3 className="text-2xl font-bold mb-3 text-foreground">No items found</h3>
             <p className="text-text-muted text-lg max-w-md mx-auto mb-8">
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
+              { }
               We couldn't find any devices matching those specific filters. Try adjusting your category, type, or feature.
             </p>
             <button 
@@ -307,7 +307,7 @@ export default function ElectronicsCategoryPage() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 text-center">
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Build your setup.</h2>
           <p className="text-text-muted text-lg mb-16 max-w-2xl mx-auto">
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            { }
             Curated essentials for the ultimate workstation. Everything you need, nothing you don't.
           </p>
           

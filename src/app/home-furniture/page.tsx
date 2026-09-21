@@ -38,7 +38,7 @@ export default function HomeFurniturePage() {
 
   const filteredProducts = useMemo(() => {
     return homeProducts.filter(p => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       const attrs = (p as any).attributes || {};
       const roomMatch = activeRoom === 'All Rooms' || (attrs.room && attrs.room.includes(activeRoom));
       const typeMatch = activeType === 'All Types' || attrs.productType === activeType;
@@ -268,7 +268,7 @@ export default function HomeFurniturePage() {
           <div className="py-24 text-center bg-muted/30 rounded-[2rem] border border-border border-dashed">
             <h3 className="text-2xl font-bold mb-3 text-foreground">No items found</h3>
             <p className="text-text-muted text-lg max-w-md mx-auto mb-8">
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
+              { }
               We couldn't find any furniture matching those specific filters. Try adjusting your room, style, or type.
             </p>
             <button 

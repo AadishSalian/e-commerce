@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { withQueryMonitoring } from '@/lib/db-monitor';
 
-const prisma = new Proxy({}, {
-  get(target, prop) {
-    return () => ({});
-  }
-}) as any; // Mocked Prisma to avoid crash during build
+// Use the query monitor wrapper to log slow DB queries
+const prisma = withQueryMonitoring(
+  new Proxy({}, {
+    get(target, prop) {
+      return () => ({});
+    }
+  }) as any
+); // Mocked Prisma to avoid crash during build
 
 export async function GET(request: Request) {
   try {

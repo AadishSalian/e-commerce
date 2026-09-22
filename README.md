@@ -105,3 +105,8 @@ $ npm run dev
   <img src="https://capsule-render.vercel.app/api?type=rect&color=121212&height=120&section=footer&text=Stay%20Matte.&fontSize=40&fontColor=8ed500&animation=fadeIn" width="100%" />
 
 </div>
+
+## Performance Monitoring
+- **RUM**: Vercel Analytics & Speed Insights enabled
+- **Database**: Simulated slow query monitoring
+- **Uptime**: /api/health endpoint added for external monitoring tools

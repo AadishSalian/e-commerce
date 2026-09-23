@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Image Optimization Pipeline
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [

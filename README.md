@@ -115,3 +115,4 @@ $ npm run dev
 - **CDN for Static Assets**: Deployed on Vercel, serving all images, fonts, and built JS/CSS via Vercel's Edge Network (built-in CDN).
 - **Image Optimization Pipeline**: Powered by `next/image`, automatically serving responsive, optimized images in WebP/AVIF formats based on device capabilities.
 - **Horizontal Scaling Readiness**: The backend is fully stateless. Session management is handled via `next-auth` (JWTs/Prisma), enabling horizontal scaling without session loss.
+- **Environment Separation**: Strict separation using `.env.development`, `.env.staging`, and `.env.production` to isolate testing from real customer data.

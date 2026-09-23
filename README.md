@@ -110,3 +110,6 @@ $ npm run dev
 - **RUM**: Vercel Analytics & Speed Insights enabled
 - **Database**: Simulated slow query monitoring
 - **Uptime**: /api/health endpoint added for external monitoring tools
+
+## Infrastructure & Hosting
+- **CDN for Static Assets**: Deployed on Vercel, serving all images, fonts, and built JS/CSS via Vercel's Edge Network (built-in CDN).

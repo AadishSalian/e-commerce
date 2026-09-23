@@ -113,3 +113,4 @@ $ npm run dev
 
 ## Infrastructure & Hosting
 - **CDN for Static Assets**: Deployed on Vercel, serving all images, fonts, and built JS/CSS via Vercel's Edge Network (built-in CDN).
+- **Image Optimization Pipeline**: Powered by `next/image`, automatically serving responsive, optimized images in WebP/AVIF formats based on device capabilities.

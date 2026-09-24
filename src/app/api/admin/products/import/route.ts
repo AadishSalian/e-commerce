@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import Papa from 'papaparse';
+import fs from 'fs';
+import path from 'path';
 
 export async function POST(req: Request) {
   try {
@@ -24,8 +26,6 @@ export async function POST(req: Request) {
     }
 
     // Since Prisma is mocked, we simulate persistence by appending to mockData.ts directly.
-    const fs = require('fs');
-    const path = require('path');
     
     // Attempt to locate mockData.ts
     const mockDataPath = path.join(process.cwd(), 'src', 'lib', 'mockData.ts');

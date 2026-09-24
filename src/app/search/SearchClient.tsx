@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CATEGORIES } from '@/lib/mockData';
 import { searchProducts, SearchResult } from '@/lib/search';
-import { ChevronDown, Filter } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import { CustomSelect } from '@/components/ui/CustomSelect';
 
 import Image from 'next/image';

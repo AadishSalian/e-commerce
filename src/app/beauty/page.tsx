@@ -23,7 +23,7 @@ const customEase = [0.65, 0, 0.35, 1] as const;
 export default function BeautyPage() {
   const { openQuickView } = useQuickView();
   const { addToCompare } = useCompare();
-  const prefersReducedMotion = useReducedMotion();
+
   const beautyProducts = MOCK_PRODUCTS.filter(p => p.category === 'Beauty');
 
   // Filtering State

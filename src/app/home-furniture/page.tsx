@@ -24,7 +24,7 @@ const customEase = [0.65, 0, 0.35, 1] as const;
 export default function HomeFurniturePage() {
   const { openQuickView } = useQuickView();
   const { addToCompare } = useCompare();
-  const prefersReducedMotion = useReducedMotion();
+
   const homeProducts = MOCK_PRODUCTS.filter(p => p.category === 'Home & Furniture');
 
   // Filtering State

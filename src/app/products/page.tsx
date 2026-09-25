@@ -13,8 +13,6 @@ import { WishlistButton, PullToRefresh, BottomSheet } from '@/components/ui';
 import ProductCard from '@/components/product/ProductCard';
 
 export default function ProductsPage() {
-  const { openQuickView } = useQuickView();
-  const { addToCompare } = useCompare();
   const [activeCategory, setActiveCategory] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
   const [searchQuery, setSearchQuery] = useState('');
@@ -213,3 +211,4 @@ export default function ProductsPage() {
     </PullToRefresh>
   );
 }
+

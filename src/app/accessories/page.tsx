@@ -24,7 +24,7 @@ const customEase = [0.65, 0, 0.35, 1] as const;
 export default function AccessoriesPage() {
   const { openQuickView } = useQuickView();
   const { addToCompare } = useCompare();
-  const prefersReducedMotion = useReducedMotion();
+
   const accessories = MOCK_PRODUCTS.filter(p => p.category === 'Accessories');
 
   // Filtering State

@@ -1,19 +1,12 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import Link from 'next/link';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
-import { ChevronDown, ArrowLeft, Eye, Layers } from 'lucide-react';
-import { useQuickView } from '@/contexts/QuickViewContext';
-import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
-import { WishlistButton } from '@/components/ui';
 import ProductCard from '@/components/product/ProductCard';
 
 export default function FashionPage() {
-  const { openQuickView } = useQuickView();
-  const { addToCompare } = useCompare();
   const [sortBy, setSortBy] = useState('newest');
   
   const filteredProducts = MOCK_PRODUCTS.filter(p => p.category === 'Fashion')

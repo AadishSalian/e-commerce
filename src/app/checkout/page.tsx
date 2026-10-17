@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, CreditCard, MapPin, UserCheck, ShieldCheck, Smartphone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
+import { FreeShippingProgressBar } from '@/components/cart/FreeShippingProgressBar';
+import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING_FEE, isShippingEligible, formatCurrency } from '@/config/shipping';
 import { useAuth } from '@/contexts/AuthContext';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 
@@ -35,7 +37,9 @@ export default function CheckoutPage() {
   const [zipError, setZipError] = useState('');
   
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const total = subtotal; // Assuming free shipping
+  const isFreeShipping = isShippingEligible(zip) && subtotal >= FREE_SHIPPING_THRESHOLD;
+  const shipping = subtotal > 0 ? (isFreeShipping ? 0 : STANDARD_SHIPPING_FEE) : 0;
+  const total = subtotal + shipping;
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -354,6 +358,9 @@ export default function CheckoutPage() {
         <div className="w-full lg:w-2/5 mt-12 lg:mt-0">
           <div className="bg-surface rounded-xl border border-border p-6 flex flex-col gap-6 sticky top-24">
             <h3 className="text-lg font-medium text-foreground">Order Summary</h3>
+            <div className="rounded-lg border border-border overflow-hidden bg-surface/30">
+              <FreeShippingProgressBar variant="compact" destinationPincode={zip} showSuggestions={false} />
+            </div>
             
             {cartItems.map(item => (
               <div key={item.cartId} className="flex gap-4">
@@ -379,7 +386,9 @@ export default function CheckoutPage() {
             </div>
             <div className="flex justify-between text-text-muted text-sm">
               <span>Shipping</span>
-              <span className="text-foreground font-medium">Free</span>
+              <span className={isFreeShipping ? "text-accent font-medium" : "text-foreground font-medium"}>
+                {isFreeShipping ? "Free" : formatCurrency(shipping)}
+              </span>
             </div>
             <div className="flex justify-between text-foreground text-lg font-bold pt-4 border-t border-border mt-2">
               <span>Total</span>

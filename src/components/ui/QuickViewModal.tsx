@@ -6,8 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './Button';
-
-import Image from 'next/image';
+import { LiquidShaderImage } from './LiquidShaderImage';
 
 export function QuickViewModal() {
   const { activeProduct, isOpen, closeQuickView } = useQuickView();
@@ -47,10 +46,13 @@ export function QuickViewModal() {
 
             {/* Image */}
             <div className="w-full md:w-1/2 h-64 md:h-auto bg-muted relative">
-              <Image src={activeProduct.image} 
+              <LiquidShaderImage 
+                src={activeProduct.image} 
+                hoverSrc={activeProduct.hoverImage}
                 alt={activeProduct.name}
-                className="absolute inset-0 w-full h-full object-cover"
-               width={800} height={800} />
+                fill
+                className="absolute inset-0 w-full h-full"
+              />
             </div>
 
             {/* Details */}

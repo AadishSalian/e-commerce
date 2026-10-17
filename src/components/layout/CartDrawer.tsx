@@ -7,6 +7,7 @@ import { X, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 import Image from 'next/image';
+import { FreeShippingProgressBar } from '@/components/cart/FreeShippingProgressBar';
 
 export function CartDrawer() {
   const { isCartOpen, closeCart, cartItems, updateQuantity, removeFromCart } = useCart();
@@ -46,6 +47,9 @@ export function CartDrawer() {
                 <X className="w-5 h-5" />
               </button>
             </div>
+
+            {/* Free Shipping Progress Bar */}
+            <FreeShippingProgressBar variant="drawer" />
             
             {/* Cart Items */}
             <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">

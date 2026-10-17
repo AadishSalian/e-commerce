@@ -12,6 +12,7 @@ import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
+import { LiquidShaderImage } from '@/components/ui';
 import { WishlistButton } from '@/components/ui';
 
 import Image from 'next/image';
@@ -237,20 +238,13 @@ export default function ElectronicsCategoryPage() {
                           New
                         </span>
                       )}
-                      <motion.img 
+                      <LiquidShaderImage 
                         src={product.image} 
+                        hoverSrc={product.hoverImage}
                         alt={product.name} 
-                        className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 ease-in-out"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        fill
+                        className="absolute inset-0 w-full h-full"
                       />
-                      {product.hoverImage && (
-                        <motion.img 
-                          src={product.hoverImage} 
-                          alt={`${product.name} alternate view`} 
-                          className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"
-                        />
-                      )}
                       
                       {/* Action Buttons */}
                       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">

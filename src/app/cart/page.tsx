@@ -8,13 +8,16 @@ import { EmptyState } from '@/components/ui';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
+import { FreeShippingProgressBar } from '@/components/cart/FreeShippingProgressBar';
+import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING_FEE, formatCurrency } from '@/config/shipping';
 
 export default function CartPage() {
   const { isLoggedIn } = useAuth();
   const { cartItems, removeFromCart, updateQuantity } = useCart();
 
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const shipping = subtotal > 0 ? 0 : 0; // Free shipping for premium brand
+  const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+  const shipping = subtotal > 0 ? (isFreeShipping ? 0 : STANDARD_SHIPPING_FEE) : 0;
   const total = subtotal + shipping;
 
   return (
@@ -27,6 +30,11 @@ export default function CartPage() {
 
         <div className="flex flex-col gap-8">
           
+          {/* Free Shipping Progress Bar */}
+          <div className="rounded-xl border border-border overflow-hidden bg-surface/20">
+            <FreeShippingProgressBar variant="full" />
+          </div>
+
           {/* Cart Items List */}
           <div className="flex flex-col border-t border-border">
             <AnimatePresence>
@@ -109,7 +117,9 @@ export default function CartPage() {
                 </div>
                 <div className="flex justify-between text-text-muted">
                   <span>Shipping</span>
-                  <span>Free</span>
+                  <span className={isFreeShipping ? "text-accent font-medium" : "text-foreground font-medium"}>
+                    {isFreeShipping ? "Free" : formatCurrency(shipping)}
+                  </span>
                 </div>
                 <div className="flex justify-between text-foreground text-xl font-medium pt-4 border-t border-border">
                   <span>Total</span>

@@ -17,6 +17,7 @@ import { CustomSelect } from '@/components/ui/CustomSelect';
 import { WishlistButton } from '@/components/ui';
 
 import Image from 'next/image';
+import { LiquidShaderImage } from '@/components/ui';
 
 const customEase = [0.65, 0, 0.35, 1] as const;
 
@@ -219,16 +220,13 @@ export default function BeautyPage() {
                           New
                         </span>
                       )}
-                      <Image src={product.image} 
+                      <LiquidShaderImage 
+                        src={product.image} 
+                        hoverSrc={product.hoverImage}
                         alt={product.name} 
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[0.16,1,0.3,1]"
-                       width={800} height={800} />
-                      {product.hoverImage && (
-                        <Image src={product.hoverImage} 
-                          alt={`${product.name} alternate view`} 
-                          className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-[0.16,1,0.3,1] z-10"
-                         width={800} height={800} />
-                      )}
+                        fill
+                        className="absolute inset-0 w-full h-full"
+                      />
 
                       {/* Action Buttons */}
                       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">

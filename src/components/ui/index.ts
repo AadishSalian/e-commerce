@@ -19,3 +19,4 @@ export * from './PullToRefresh';
 export * from './BottomSheet';
 export * from './OfflineBanner';
 export * from './LiquidShaderImage';
+export * from '@/components/cart/FreeShippingProgressBar';

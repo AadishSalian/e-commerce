@@ -7,11 +7,16 @@ import { X, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './Button';
 import { LiquidShaderImage } from './LiquidShaderImage';
+import { EMITeaser, EMICalculatorModal } from '@/components/emi';
+import { SelectedEmiPlan } from '@/lib/emi/types';
+import { formatEmiCurrency } from '@/lib/emi/calculator';
 
 export function QuickViewModal() {
   const { activeProduct, isOpen, closeQuickView } = useQuickView();
   const { addToCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
+  const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
+  const [selectedEmiPlan, setSelectedEmiPlan] = useState<SelectedEmiPlan | null>(null);
 
   if (!activeProduct) return null;
 
@@ -60,9 +65,30 @@ export function QuickViewModal() {
               <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">
                 {activeProduct.name}
               </h2>
-              <p className="text-2xl font-medium text-foreground mb-6">
+              <p className="text-2xl font-medium text-foreground mb-2">
                 ${activeProduct.price.toFixed(2)}
               </p>
+              
+              <EMITeaser
+                product={activeProduct}
+                onOpenCalculator={() => setIsEmiModalOpen(true)}
+                className="mb-6"
+              />
+
+              {selectedEmiPlan && (
+                <div className="mb-4 p-2.5 rounded-lg bg-surface border border-accent/40 text-xs flex items-center justify-between">
+                  <span className="text-text-muted">
+                    EMI: <strong>{formatEmiCurrency(selectedEmiPlan.monthlyInstallment)}/mo</strong> ({selectedEmiPlan.tenureMonths} mo)
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setIsEmiModalOpen(true)}
+                    className="text-accent underline text-[11px]"
+                  >
+                    Change
+                  </button>
+                </div>
+              )}
               
               <p className="text-text-muted leading-relaxed mb-8">
                 {activeProduct.description}
@@ -91,7 +117,7 @@ export function QuickViewModal() {
                       image: activeProduct.image,
                       quantity: 1
                        
-                    } as any, 1);
+                    } as any, 1, undefined, selectedEmiPlan || undefined);
                     setIsAdded(true);
                     setTimeout(() => {
                       setIsAdded(false);
@@ -115,6 +141,16 @@ export function QuickViewModal() {
             </div>
           </motion.div>
         </div>
+      )}
+
+      {activeProduct && (
+        <EMICalculatorModal
+          isOpen={isEmiModalOpen}
+          onClose={() => setIsEmiModalOpen(false)}
+          product={activeProduct}
+          livePrice={activeProduct.price}
+          onSelectPlan={(plan) => setSelectedEmiPlan(plan)}
+        />
       )}
     </AnimatePresence>
   );

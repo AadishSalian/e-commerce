@@ -333,6 +333,7 @@ export function LiquidShaderImage({
   }, [src, hoverSrc]);
 
   // Render loop
+  const renderLoopRef = useRef<() => void>(() => {});
   const renderLoop = useCallback(() => {
     const s = stateRef.current;
     const gl = s.gl;
@@ -395,8 +396,9 @@ export function LiquidShaderImage({
       return;
     }
 
-    s.animFrameId = requestAnimationFrame(renderLoop);
+    s.animFrameId = requestAnimationFrame(() => renderLoopRef.current());
   }, [intensity]);
+  renderLoopRef.current = renderLoop;
 
   // Pointer event handlers
   const handlePointerEnter = useCallback(async (e: React.PointerEvent) => {

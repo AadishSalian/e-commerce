@@ -23,6 +23,9 @@ import InPageNavigation from '@/components/product/InPageNavigation';
 import { WishlistButton, ScrollProgress, Breadcrumbs } from '@/components/ui';
 
 import Image from 'next/image';
+import { EMITeaser, EMICalculatorModal } from '@/components/emi';
+import { SelectedEmiPlan } from '@/lib/emi/types';
+import { formatEmiCurrency } from '@/lib/emi/calculator';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -42,10 +45,19 @@ export default function ProductDetailPage({ params }: Props) {
   const { hasAlert, addAlert, removeAlert } = useAlerts();
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
+  const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
+  const [selectedEmiPlan, setSelectedEmiPlan] = useState<SelectedEmiPlan | null>(null);
+
+  const handleSelectEmiPlan = (plan: SelectedEmiPlan) => {
+    setSelectedEmiPlan(plan);
+    success(
+      `Selected ${plan.lenderName}: ${formatEmiCurrency(plan.monthlyInstallment)}/mo for ${plan.tenureMonths} mo`
+    );
+  };
 
   const handleAddToCart = () => {
     if (!product) return;
-    addToCart(product, 1, selectedVariant || undefined);
+    addToCart(product, 1, selectedVariant || undefined, selectedEmiPlan || undefined);
     setIsAdded(true);
     setTimeout(() => {
       setIsAdded(false);
@@ -137,11 +149,39 @@ export default function ProductDetailPage({ params }: Props) {
                   <Share2 className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-2xl text-foreground font-medium mb-6">
+              <p className="text-2xl text-foreground font-medium mb-2">
                 ${product.price.toFixed(2)}
               </p>
 
-              
+              {/* Inline EMI Teaser sits under price */}
+              <EMITeaser
+                product={product}
+                onOpenCalculator={() => setIsEmiModalOpen(true)}
+                className="mb-4"
+              />
+
+              {/* Quiet Selected Plan Indicator */}
+              {selectedEmiPlan && (
+                <div className="mb-4 p-3 rounded-xl bg-surface border border-accent/40 flex items-center justify-between text-xs">
+                  <div>
+                    <span className="text-text-muted">Selected Plan: </span>
+                    <strong className="text-foreground">
+                      {selectedEmiPlan.planType === 'pay_later'
+                        ? `Pay Later (${selectedEmiPlan.payLaterDays} days)`
+                        : `${formatEmiCurrency(selectedEmiPlan.monthlyInstallment)}/mo × ${selectedEmiPlan.tenureMonths} mo`}
+                    </strong>
+                    <span className="text-text-muted ml-1">({selectedEmiPlan.lenderName})</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsEmiModalOpen(true)}
+                    className="text-accent hover:underline font-medium text-[11px]"
+                  >
+                    Change
+                  </button>
+                </div>
+              )}
+
               <LiveActivityBadge productId={product.id} />
               
               {product.stockCount !== undefined && product.stockCount < 5 && (
@@ -300,6 +340,15 @@ export default function ProductDetailPage({ params }: Props) {
         isOpen={showSizeGuide} 
         onClose={() => setShowSizeGuide(false)} 
         productName={product.name} 
+      />
+
+      {/* EMI & Pay Later Breakdown Calculator Modal */}
+      <EMICalculatorModal
+        isOpen={isEmiModalOpen}
+        onClose={() => setIsEmiModalOpen(false)}
+        product={product}
+        livePrice={product.price}
+        onSelectPlan={handleSelectEmiPlan}
       />
     </div>
   );

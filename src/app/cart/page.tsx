@@ -13,6 +13,7 @@ import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING_FEE, formatCurrency } from '
 import { EMICalculatorModal } from '@/components/emi';
 import { formatEmiCurrency } from '@/lib/emi/calculator';
 import { SelectedEmiPlan } from '@/lib/emi/types';
+import { PriceHistoryTagBadge } from '@/components/product/price-history';
 
 export default function CartPage() {
   const { isLoggedIn } = useAuth();
@@ -146,6 +147,16 @@ export default function CartPage() {
                             </span>
                           </div>
                         )}
+                        {/* Price history drop badge if price has fallen since added */}
+                        <div className="mt-2">
+                          <PriceHistoryTagBadge
+                            productId={item.id}
+                            variantId={item.selectedVariant}
+                            currentPrice={item.price}
+                            addedPrice={item.addedPrice}
+                            mode="cart"
+                          />
+                        </div>
                       </div>
                       <p className="text-foreground font-medium tabular-nums">
                         ${(item.price * item.quantity).toFixed(2)}

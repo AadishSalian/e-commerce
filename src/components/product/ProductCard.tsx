@@ -9,6 +9,7 @@ import { useCompare } from '@/contexts/CompareContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useRef, useState } from 'react';
 import { LiquidShaderImage } from '@/components/ui';
+import { PriceHistoryTagBadge } from '@/components/product/price-history';
 
 type ProductCardProps = {
   product: Product;
@@ -249,7 +250,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
               <span className="font-medium">{mockRating}</span>
             </div>
             <span className="text-text-muted">({mockReviews})</span>
-            <span className="text-border mx-1">•</span>
+            <span className="text-border mx-1">â€¢</span>
             <span className="text-text-muted truncate uppercase tracking-wider">
               {product.category}
             </span>
@@ -338,10 +339,17 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
             <span className="font-medium">{mockRating}</span>
           </div>
           <span className="text-text-muted">({mockReviews})</span>
-          <span className="text-border mx-1">•</span>
+          <span className="text-border mx-1">â€¢</span>
           <span className="text-text-muted truncate">
             {product.variants && product.variants.length > 0 ? `${product.variants.length} Colors` : '1 Color'}
           </span>
+        </div>
+        <div className="mt-0.5">
+          <PriceHistoryTagBadge
+            productId={product.id}
+            currentPrice={product.price}
+            mode="card"
+          />
         </div>
       </div>
     </Link>

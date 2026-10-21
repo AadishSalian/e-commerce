@@ -3,8 +3,13 @@ import { persist } from 'zustand/middleware';
 import { Product } from '@/lib/mockData';
 import { useUIStore } from './useUIStore';
 
+export interface WishlistItem extends Product {
+  savedPrice?: number;
+  savedAt?: string;
+}
+
 interface WishlistState {
-  wishlistItems: Product[];
+  wishlistItems: WishlistItem[];
   addToWishlist: (product: Product) => void;
   removeFromWishlist: (productId: string) => void;
   toggleWishlist: (product: Product) => void;
@@ -19,7 +24,12 @@ export const useWishlistStore = create<WishlistState>()(
       addToWishlist: (product) => {
         set((state) => {
           if (!state.wishlistItems.find((item) => item.id === product.id)) {
-            return { wishlistItems: [...state.wishlistItems, product] };
+            const itemWithMeta: WishlistItem = {
+              ...product,
+              savedPrice: product.price,
+              savedAt: new Date().toISOString(),
+            };
+            return { wishlistItems: [...state.wishlistItems, itemWithMeta] };
           }
           return state;
         });

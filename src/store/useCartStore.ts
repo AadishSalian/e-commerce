@@ -10,6 +10,8 @@ export interface CartItem extends Product {
   quantity: number;
   selectedVariant?: string;
   selectedEmiPlan?: SelectedEmiPlan;
+  addedAt?: string;
+  addedPrice?: number;
 }
 
 interface CartState {
@@ -127,6 +129,8 @@ export const useCartStore = create<CartState>()(
                 quantity,
                 selectedVariant,
                 selectedEmiPlan,
+                addedAt: new Date().toISOString(),
+                addedPrice: product.price,
               },
             ];
           }

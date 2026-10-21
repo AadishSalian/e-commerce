@@ -24,6 +24,7 @@ import { WishlistButton, ScrollProgress, Breadcrumbs } from '@/components/ui';
 
 import Image from 'next/image';
 import { EMITeaser, EMICalculatorModal } from '@/components/emi';
+import { PriceHistorySparkline } from '@/components/product/price-history';
 import { SelectedEmiPlan } from '@/lib/emi/types';
 import { formatEmiCurrency } from '@/lib/emi/calculator';
 
@@ -157,8 +158,17 @@ export default function ProductDetailPage({ params }: Props) {
               <EMITeaser
                 product={product}
                 onOpenCalculator={() => setIsEmiModalOpen(true)}
-                className="mb-4"
+                className="mb-2"
               />
+
+              {/* Inline Price History Sparkline & Server Tag */}
+              <div className="mb-4">
+                <PriceHistorySparkline
+                  productId={product.id}
+                  productName={product.name}
+                  variantName={selectedVariant}
+                />
+              </div>
 
               {/* Quiet Selected Plan Indicator */}
               {selectedEmiPlan && (

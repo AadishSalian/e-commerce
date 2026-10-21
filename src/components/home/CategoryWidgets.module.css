@@ -18,6 +18,8 @@
   padding: 0 2rem;
   scrollbar-width: none;
   justify-content: flex-start;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 1024px) {

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import Papa from 'papaparse';
 import fs from 'fs';
 import path from 'path';
+import { recordPriceChange } from '@/lib/price-history/service';
+import { toMinorUnits } from '@/lib/price-history/currency';
 
 export async function POST(req: Request) {
   try {
@@ -42,6 +44,14 @@ export async function POST(req: Request) {
         const stockCount = parseInt(row.stockCount, 10) || 15;
         const id = row.id || `imported-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
         
+        const priceMinor = toMinorUnits(price);
+        recordPriceChange({
+          productId: id,
+          price: priceMinor,
+          source: 'import',
+          auditNote: `Bulk imported from CSV file "${file.name || 'catalog_import'}"`,
+        });
+
         newProductsStr += `
   {
     id: '${id.replace(/'/g, "\\'")}',

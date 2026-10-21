@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 import Image from 'next/image';
+import { PriceHistoryTagBadge } from '@/components/product/price-history';
 
 export default function WishlistPage() {
   const { wishlistItems, removeFromWishlist } = useWishlist();
@@ -75,7 +76,16 @@ export default function WishlistPage() {
                   {/* Overlay Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
-                  {/* Top Actions */}
+                  {/* Top Actions & Badges */}
+                  <div className="absolute top-6 left-6 z-20 pointer-events-none">
+                    <PriceHistoryTagBadge
+                      productId={product.id}
+                      currentPrice={product.price}
+                      savedPrice={(product as any).savedPrice}
+                      mode="wishlist"
+                    />
+                  </div>
+
                   <div className="absolute top-6 right-6 z-20">
                     <button
                       onClick={(e) => {

@@ -5,31 +5,48 @@ import { motion, useAnimation } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 
 export function PullToRefresh({ children, onRefresh }: { children: React.ReactNode, onRefresh: () => Promise<void> }) {
-  const [startY, setStartY] = useState(0);
-  const [pulling, setPulling] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [pullDistance, setPullDistance] = useState(0);
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  const startYRef = useRef(0);
+  const isPullingRef = useRef(false);
+  const refreshingRef = useRef(false);
+  const pullDistanceRef = useRef(0);
+  const onRefreshRef = useRef(onRefresh);
+
+  refreshingRef.current = refreshing;
+  onRefreshRef.current = onRefresh;
+
   const maxPullDistance = 100;
   const triggerDistance = 70;
 
   useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return;
+
     const handleTouchStart = (e: TouchEvent) => {
-      if (window.scrollY === 0) {
-        setStartY(e.touches[0].clientY);
+      if (window.scrollY <= 0) {
+        startYRef.current = e.touches[0].clientY;
+      } else {
+        startYRef.current = 0;
       }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (startY === 0 || refreshing) return;
+      if (startYRef.current === 0 || refreshingRef.current) return;
       
       const currentY = e.touches[0].clientY;
-      const distance = currentY - startY;
+      const distance = currentY - startYRef.current;
 
-      if (distance > 0 && window.scrollY === 0) {
-        setPulling(true);
-        const easeDistance = distance > maxPullDistance ? maxPullDistance + (distance - maxPullDistance) * 0.2 : distance;
+      if (distance > 8 && window.scrollY <= 0) {
+        isPullingRef.current = true;
+        const easeDistance = distance > maxPullDistance 
+          ? maxPullDistance + (distance - maxPullDistance) * 0.2 
+          : distance;
+        
+        pullDistanceRef.current = easeDistance;
         setPullDistance(easeDistance);
         controls.set({ y: easeDistance });
         
@@ -38,40 +55,42 @@ export function PullToRefresh({ children, onRefresh }: { children: React.ReactNo
     };
 
     const handleTouchEnd = async () => {
-      if (!pulling) return;
+      startYRef.current = 0;
+      if (!isPullingRef.current) return;
       
-      setPulling(false);
+      isPullingRef.current = false;
+      const currentDistance = pullDistanceRef.current;
+      pullDistanceRef.current = 0;
       
-      if (pullDistance >= triggerDistance) {
+      if (currentDistance >= triggerDistance) {
         setRefreshing(true);
-        controls.start({ y: 50, transition: { type: 'spring', stiffness: 300, damping: 30 } });
-        await onRefresh();
-        setRefreshing(false);
+        await controls.start({ y: 50, transition: { type: 'spring', stiffness: 300, damping: 30 } });
+        try {
+          await onRefreshRef.current();
+        } finally {
+          setRefreshing(false);
+        }
       }
       
-      controls.start({ y: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } });
-      setStartY(0);
+      await controls.start({ y: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } });
       setPullDistance(0);
     };
 
-    const element = containerRef.current;
-    if (element) {
-      element.addEventListener('touchstart', handleTouchStart, { passive: true });
-      element.addEventListener('touchmove', handleTouchMove, { passive: false });
-      element.addEventListener('touchend', handleTouchEnd);
-    }
+    element.addEventListener('touchstart', handleTouchStart, { passive: true });
+    element.addEventListener('touchmove', handleTouchMove, { passive: false });
+    element.addEventListener('touchend', handleTouchEnd);
+    element.addEventListener('touchcancel', handleTouchEnd);
 
     return () => {
-      if (element) {
-        element.removeEventListener('touchstart', handleTouchStart);
-        element.removeEventListener('touchmove', handleTouchMove);
-        element.removeEventListener('touchend', handleTouchEnd);
-      }
+      element.removeEventListener('touchstart', handleTouchStart);
+      element.removeEventListener('touchmove', handleTouchMove);
+      element.removeEventListener('touchend', handleTouchEnd);
+      element.removeEventListener('touchcancel', handleTouchEnd);
     };
-  }, [startY, pulling, refreshing, pullDistance, controls, onRefresh]);
+  }, [controls]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-full">
+    <div ref={containerRef} className="relative w-full">
       <motion.div
         className="absolute top-0 left-0 right-0 flex items-center justify-center pointer-events-none z-10"
         style={{ height: '50px', y: -50, opacity: pullDistance > 0 || refreshing ? 1 : 0 }}

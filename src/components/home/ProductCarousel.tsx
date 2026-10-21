@@ -26,7 +26,10 @@ export default function ProductCarousel() {
       </div>
 
       {/* Snap Scroll Container */}
-      <div className="w-full overflow-x-auto pb-8 hide-scrollbar snap-x snap-mandatory px-4 md:px-8 flex gap-6">
+      <div 
+        data-lenis-prevent="true"
+        className="w-full overflow-x-auto pb-8 hide-scrollbar snap-x snap-mandatory px-4 md:px-8 flex gap-6"
+      >
         {featuredProducts.map((product) => (
           <ProductCard key={product.id} product={product} variant="carousel" />
         ))}

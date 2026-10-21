@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "tsx --test src/lib/price-history/__tests__/priceHistory.test.ts"
   },
   "dependencies": {
     "@google/model-viewer": "^4.3.1",

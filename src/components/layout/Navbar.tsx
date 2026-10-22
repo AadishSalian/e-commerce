@@ -28,8 +28,11 @@ export default function Navbar() {
   const [activeHover, setActiveHover] = useState<string | null>(null);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const megaMenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const accountRef = useRef<HTMLDivElement>(null);
+  const centerSearchRef = useRef<HTMLDivElement>(null);
   
   const { isLoggedIn, user, login, logout } = useAuth();
   const { itemCount: cartCount, openCart } = useCart();
@@ -38,12 +41,13 @@ export default function Navbar() {
   const { scrollY } = useScroll();
   
   // Transform values based on scroll (0px to 100px)
-  const islandGap = useTransform(scrollY, [0, 100], ['1.5rem', '0.5rem']);
-  const islandPadding = useTransform(scrollY, [0, 100], ['0.5rem 0.75rem', '0.25rem 0.5rem']);
-  const topMargin = useTransform(scrollY, [0, 100], ['1.5rem', '0.75rem']);
+  const islandGap = useTransform(scrollY, [0, 100], ['1.25rem', '0.5rem']);
+  const islandPadding = useTransform(scrollY, [0, 100], ['0.25rem 0.65rem', '0.2rem 0.5rem']);
+  const topMargin = useTransform(scrollY, [0, 100], ['1.25rem', '0.65rem']);
 
   // Mega Menu handlers with slight delay to prevent flickering
   const handleMouseEnterNav = () => {
+    if (isSearchOpen) return;
     if (megaMenuTimeoutRef.current) clearTimeout(megaMenuTimeoutRef.current);
     setIsMegaMenuOpen(true);
   };
@@ -63,16 +67,56 @@ export default function Navbar() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Close account dropdown on outside click
+  // Close search and menus on navigation
+  useEffect(() => {
+    setIsSearchOpen(false);
+    setIsMobileSearchOpen(false);
+    setIsAccountOpen(false);
+    setIsMegaMenuOpen(false);
+  }, [pathname]);
+
+  // When search is opened, close mega menu
+  useEffect(() => {
+    if (isSearchOpen) {
+      setIsMegaMenuOpen(false);
+    }
+  }, [isSearchOpen]);
+
+  // Keyboard shortcut listener for "/" or "Cmd+K"
+  useEffect(() => {
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      if (
+        (e.key === '/' || (e.key === 'k' && (e.metaKey || e.ctrlKey))) &&
+        !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)
+      ) {
+        e.preventDefault();
+        setIsSearchOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Close account dropdown or search on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (accountRef.current && !accountRef.current.contains(event.target as Node)) {
         setIsAccountOpen(false);
       }
+      if (
+        isSearchOpen &&
+        centerSearchRef.current &&
+        !centerSearchRef.current.contains(event.target as Node)
+      ) {
+        const target = event.target as HTMLElement;
+        if (!target.closest('[data-search-toggle="true"]')) {
+          setIsSearchOpen(false);
+        }
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isSearchOpen]);
 
   return (
     <>
@@ -88,58 +132,74 @@ export default function Navbar() {
           >
           {/* Left Island: Logo */}
           <motion.div className={styles.island} style={{ padding: islandPadding }}>
-            <Link href="/" className="px-4 font-bold text-xl tracking-wide text-foreground flex items-center justify-center">
+            <Link href="/" className="px-3 font-bold text-lg tracking-wider text-foreground flex items-center justify-center">
               MATTE.
             </Link>
           </motion.div>
 
-          {/* Center Island: Links */}
-          <motion.nav 
-            className={styles.island} 
-            style={{ padding: islandPadding }}
-            onMouseLeave={handleMouseLeaveNav}
-          >
-            {NAV_LINKS.map((link) => {
-              const isActive = activeHover === link.label || (!activeHover && pathname === link.href);
-              const hasMegaMenu = !['Craftsmanship', 'About', 'Fit Quiz'].includes(link.label);
-              return (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className={styles.navLink}
-                  data-active={isActive}
-                  onMouseEnter={() => {
-                    setActiveHover(link.label);
-                    if (hasMegaMenu) {
-                      handleMouseEnterNav();
-                    } else {
-                      if (megaMenuTimeoutRef.current) clearTimeout(megaMenuTimeoutRef.current);
-                      setIsMegaMenuOpen(false);
-                    }
-                  }}
-                  onMouseLeave={() => setActiveHover(null)}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activePill"
-                      className={styles.activePill}
-                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10">{link.label}</span>
-                </Link>
-              );
-            })}
-          </motion.nav>
+          {/* Center Island: Navigation Links */}
+          <AnimatePresence initial={false}>
+            {!isSearchOpen && (
+              <motion.nav 
+                key="nav-links"
+                className={styles.island} 
+                style={{ padding: islandPadding }}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ 
+                  opacity: 0, 
+                  scale: 0.95, 
+                  transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } 
+                }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                onMouseLeave={handleMouseLeaveNav}
+              >
+                {NAV_LINKS.map((link) => {
+                  const isActive = activeHover === link.label || (!activeHover && pathname === link.href);
+                  const hasMegaMenu = !['Craftsmanship', 'About', 'Fit Quiz'].includes(link.label);
+                  return (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      className={styles.navLink}
+                      data-active={isActive}
+                      onMouseEnter={() => {
+                        setActiveHover(link.label);
+                        if (hasMegaMenu) {
+                          handleMouseEnterNav();
+                        } else {
+                          if (megaMenuTimeoutRef.current) clearTimeout(megaMenuTimeoutRef.current);
+                          setIsMegaMenuOpen(false);
+                        }
+                      }}
+                      onMouseLeave={() => setActiveHover(null)}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="activePill"
+                          className={styles.activePill}
+                          transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                        />
+                      )}
+                      <span className="relative z-10">{link.label}</span>
+                    </Link>
+                  );
+                })}
+              </motion.nav>
+            )}
+          </AnimatePresence>
 
-          {/* Right Island: Icons */}
+          {/* Right Island: Icons & Expanding Search */}
           <motion.div className={styles.island} style={{ padding: islandPadding }}>
-            <div className="flex items-center mr-1 pr-3 border-r border-border">
+            <div className="flex items-center mr-1 pr-2.5 border-r border-border">
               <ThemeToggle />
             </div>
             
-            
-            <ExpandableSearch />
+            <ExpandableSearch 
+              isOpen={isSearchOpen}
+              onToggle={() => setIsSearchOpen(prev => !prev)}
+              onClose={() => setIsSearchOpen(false)}
+            />
             
             
             {isLoggedIn ? (
@@ -296,8 +356,22 @@ export default function Navbar() {
       </motion.header>
     )}
 
+      {/* Ambient Spotlight Backdrop for Search */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 bg-black/45 backdrop-blur-[3px] z-40 pointer-events-auto"
+            onClick={() => setIsSearchOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Mobile Navbar (Compact Bar) */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 p-4 bg-background/90 backdrop-blur-lg border-b border-border/50">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 p-2.5 bg-background/90 backdrop-blur-lg border-b border-border/50">
         <div className={styles.mobileNavContainer}>
           <Link href="/" className="font-bold text-lg tracking-wide text-foreground">
             MATTE.
@@ -306,18 +380,21 @@ export default function Navbar() {
             <div className="mr-1">
               <ThemeToggle />
             </div>
-            {isLoggedIn ? (
-              <button onClick={openCart} className={styles.iconButton} aria-label="Cart">
-                <ShoppingBag className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-background">
-                    {cartCount}
-                  </span>
-                )}
-              </button>
-            ) : (
-              <ExpandableSearch />
-            )}
+            <button 
+              className={styles.iconButton}
+              onClick={() => setIsMobileSearchOpen(prev => !prev)}
+              aria-label="Search products"
+            >
+              <Search className={`w-5 h-5 transition-colors ${isMobileSearchOpen ? 'text-accent' : ''}`} />
+            </button>
+            <button onClick={openCart} className={styles.iconButton} aria-label="Cart">
+              <ShoppingBag className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-background">
+                  {cartCount}
+                </span>
+              )}
+            </button>
             <button 
               className={styles.iconButton}
               onClick={() => setIsMobileMenuOpen(true)}
@@ -327,6 +404,25 @@ export default function Navbar() {
             </button>
           </div>
         </div>
+
+        {/* Mobile Search Dropdown Bar */}
+        <AnimatePresence>
+          {isMobileSearchOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-3 overflow-visible"
+            >
+              <ExpandableSearch 
+                isOpen={true}
+                onToggle={() => setIsMobileSearchOpen(false)}
+                onClose={() => setIsMobileSearchOpen(false)} 
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
         {/* Mobile Swipeable Category Chips */}
         <div className="mt-2 -mx-4 px-4 overflow-x-auto hide-scrollbar flex items-center gap-2 pb-2">
           {['New', 'Tech', 'Objects', 'Fashion', 'Beauty'].map(cat => (

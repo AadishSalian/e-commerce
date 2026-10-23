@@ -1,3 +1,6 @@
+import { Hotspot } from './hotspots/types';
+import { SEED_HOTSPOTS } from './hotspots/data';
+
 export type Product = {
   id: string;
   name: string;
@@ -19,6 +22,7 @@ export type Product = {
   tier?: 'Good' | 'Better' | 'Best';
   rating?: number;
   reviewCount?: number;
+  hotspots?: Hotspot[];
 };
 
 export const MOCK_PRODUCTS: Product[] = [
@@ -44,6 +48,7 @@ export const MOCK_PRODUCTS: Product[] = [
       { id: 'v-1', name: 'Color', value: 'Matte Black', materialImage: 'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?q=80&w=200&auto=format&fit=crop' },
       { id: 'v-2', name: 'Color', value: 'Graphite', materialImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop' },
     ],
+    hotspots: SEED_HOTSPOTS.filter(h => h.productId === 't-1'),
     tier: 'Best'
   },
   {
@@ -60,6 +65,7 @@ export const MOCK_PRODUCTS: Product[] = [
       { id: 'v-3', name: 'Color', value: 'Charcoal' },
       { id: 'v-4', name: 'Color', value: 'Sage' },
     ],
+    hotspots: SEED_HOTSPOTS.filter(h => h.productId === 't-2'),
     tier: 'Better'
   },
   {
@@ -74,7 +80,8 @@ export const MOCK_PRODUCTS: Product[] = [
     attributes: { techCategory: ['Audio'], productType: 'Headphones', feature: 'Noise Cancelling' },
     variants: [
       { id: 'v-5', name: 'Color', value: 'Onyx' }
-    ]
+    ],
+    hotspots: SEED_HOTSPOTS.filter(h => h.productId === 't-3')
   },
   {
     id: 't-4',
@@ -171,7 +178,8 @@ export const MOCK_PRODUCTS: Product[] = [
     variants: [
       { id: 'v-12', name: 'Color', value: 'Oatmeal' },
       { id: 'v-13', name: 'Color', value: 'Charcoal' },
-    ]
+    ],
+    hotspots: SEED_HOTSPOTS.filter(h => h.productId === 'p-9')
   },
   {
     id: 'h-2',

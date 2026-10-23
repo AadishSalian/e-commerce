@@ -1,19 +1,21 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '@/lib/mockData';
 import { Maximize2, RotateCcw, Box } from 'lucide-react';
 import dynamic from 'next/dynamic';
-const ModelViewerWrapper = dynamic(() => import('./ModelViewerWrapper'), { ssr: false });
-
 import Image from 'next/image';
+import { HotspotLayer, ExploreDetailsToggle } from './hotspots';
+
+const ModelViewerWrapper = dynamic(() => import('./ModelViewerWrapper'), { ssr: false });
 
 type ProductViewerProps = {
   product: Product;
+  selectedVariant?: string | null;
 };
 
-export default function ProductViewer({ product }: ProductViewerProps) {
+export default function ProductViewer({ product, selectedVariant }: ProductViewerProps) {
   const images = product.images || (product.hoverImage ? [product.image, product.hoverImage] : [product.image]);
   const has360 = product.spinImages && product.spinImages.length > 0;
 
@@ -21,6 +23,44 @@ export default function ProductViewer({ product }: ProductViewerProps) {
   const [is360Mode, setIs360Mode] = useState(false);
   const [is3DMode, setIs3DMode] = useState(false);
   const [spinIndex, setSpinIndex] = useState(0);
+
+  // Hotspots visibility state (Guided mode - remembered for session)
+  const [showHotspots, setShowHotspots] = useState(true);
+
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem('matte_hotspots_visible');
+      if (saved !== null) {
+        setShowHotspots(saved === 'true');
+      }
+    } catch {
+      // Ignore in non-browser/SSR
+    }
+  }, []);
+
+  const handleToggleHotspots = () => {
+    setShowHotspots((prev) => {
+      const next = !prev;
+      try {
+        sessionStorage.setItem('matte_hotspots_visible', String(next));
+      } catch {
+        // Ignore
+      }
+      return next;
+    });
+  };
+
+  // Current image's hotspots count (taking variant into account)
+  const currentImageHotspots = useMemo(() => {
+    const currentImg = images[activeIndex];
+    return (product.hotspots || []).filter((h) => {
+      if (h.imageId !== currentImg) return false;
+      if (selectedVariant && h.variantIds && h.variantIds.length > 0) {
+        return h.variantIds.includes(selectedVariant);
+      }
+      return true;
+    });
+  }, [product.hotspots, images, activeIndex, selectedVariant]);
 
   // Zoom state
   const [isHovering, setIsHovering] = useState(false);
@@ -34,11 +74,11 @@ export default function ProductViewer({ product }: ProductViewerProps) {
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (is360Mode || !imageRef.current) return;
-    
+
     const { left, top, width, height } = imageRef.current.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
-    
+
     setBackgroundPosition(`${x}% ${y}%`);
   };
 
@@ -51,18 +91,17 @@ export default function ProductViewer({ product }: ProductViewerProps) {
 
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isDragging || !is360Mode || !product.spinImages) return;
-    
+
     const deltaX = e.clientX - startX;
-    // Sensitivity: how many pixels to drag to change one frame
     const sensitivity = 5;
-    
+
     if (Math.abs(deltaX) > sensitivity) {
       const change = deltaX > 0 ? -1 : 1;
       let newIndex = (spinIndex + change) % product.spinImages.length;
       if (newIndex < 0) newIndex = product.spinImages.length - 1;
-      
+
       setSpinIndex(newIndex);
-      setStartX(e.clientX); // reset start for continuous drag
+      setStartX(e.clientX);
     }
   };
 
@@ -104,7 +143,7 @@ export default function ProductViewer({ product }: ProductViewerProps) {
             }}
             className={`w-full h-24 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${!is360Mode && !is3DMode && activeIndex === idx ? 'border-accent opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
           >
-            <Image src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover"  width={800} height={800} />
+            <Image src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" width={800} height={800} />
           </button>
         ))}
       </div>
@@ -122,13 +161,34 @@ export default function ProductViewer({ product }: ProductViewerProps) {
         >
           {images.map((img, idx) => (
             <div key={idx} className="w-full h-full shrink-0 snap-center relative">
-              <Image src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover"  width={800} height={800} />
+              <Image src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" width={800} height={800} />
+              
+              {/* Hotspot Layer for Mobile Slide */}
+              {activeIndex === idx && (
+                <HotspotLayer
+                  hotspots={product.hotspots}
+                  currentImageId={img}
+                  selectedVariantId={selectedVariant}
+                  isVisible={showHotspots}
+                />
+              )}
             </div>
           ))}
         </div>
+
+        {/* Explore details toggle pill (Mobile) */}
+        {currentImageHotspots.length > 0 && (
+          <div className="absolute top-3 left-3 z-20">
+            <ExploreDetailsToggle
+              isVisible={showHotspots}
+              count={currentImageHotspots.length}
+              onToggle={handleToggleHotspots}
+            />
+          </div>
+        )}
         
         {/* Dot Indicators */}
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 pointer-events-none">
           {images.map((_, idx) => (
             <div 
               key={idx} 
@@ -140,6 +200,17 @@ export default function ProductViewer({ product }: ProductViewerProps) {
 
       {/* Main Viewer area (Desktop) */}
       <div className="hidden md:block relative w-full aspect-square lg:aspect-[4/5] bg-surface rounded-2xl overflow-hidden border border-border">
+        {/* Explore details toggle button (Desktop) */}
+        {!isHovering && !is3DMode && !is360Mode && currentImageHotspots.length > 0 && (
+          <div className="absolute top-4 left-4 z-20">
+            <ExploreDetailsToggle
+              isVisible={showHotspots}
+              count={currentImageHotspots.length}
+              onToggle={handleToggleHotspots}
+            />
+          </div>
+        )}
+
         <AnimatePresence mode="wait">
           {is3DMode && product.modelUrl ? (
             <motion.div
@@ -175,7 +246,7 @@ export default function ProductViewer({ product }: ProductViewerProps) {
                 alt="360 view" 
                 className="w-full h-full object-cover pointer-events-none"
                 draggable={false}
-               width={800} height={800} />
+                width={800} height={800} />
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-background/80 backdrop-blur-md px-4 py-2 rounded-full border border-border shadow-lg pointer-events-none text-sm font-medium">
                 <RotateCcw size={16} className="text-foreground" />
                 <span className="text-foreground">Drag to Rotate</span>
@@ -196,13 +267,13 @@ export default function ProductViewer({ product }: ProductViewerProps) {
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
               onMouseMove={handleMouseMove}
-              onClick={() => setIsHovering(!isHovering)} // Toggle for mobile/click
+              onClick={() => setIsHovering(!isHovering)}
             >
               {/* Normal Image */}
               <Image src={images[activeIndex]} 
                 alt={product.name} 
                 className={`w-full h-full object-cover transition-opacity duration-300 ${isHovering ? 'opacity-0' : 'opacity-100'}`} 
-               width={800} height={800} />
+                width={800} height={800} />
               
               {/* Zoomed Image Overlay */}
               <div 
@@ -210,7 +281,7 @@ export default function ProductViewer({ product }: ProductViewerProps) {
                 style={{
                   backgroundImage: `url(${images[activeIndex]})`,
                   backgroundPosition: backgroundPosition,
-                  backgroundSize: '250%', // Magnification level
+                  backgroundSize: '250%',
                 }}
               />
               
@@ -219,6 +290,15 @@ export default function ProductViewer({ product }: ProductViewerProps) {
                   <Maximize2 size={20} />
                 </div>
               )}
+
+              {/* Feature Hotspot Layer (Image-Synced with object-fit: cover) */}
+              <HotspotLayer
+                hotspots={product.hotspots}
+                currentImageId={images[activeIndex]}
+                selectedVariantId={selectedVariant}
+                isZoomed={isHovering}
+                isVisible={showHotspots}
+              />
             </motion.div>
           )}
         </AnimatePresence>

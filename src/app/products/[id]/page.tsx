@@ -97,6 +97,20 @@ export default function ProductDetailPage({ params }: Props) {
       title: 'Description',
       content: <p>{product.description}</p>
     },
+    ...(product.hotspots && product.hotspots.length > 0 ? [{
+      id: 'feature-details',
+      title: 'Craftsmanship & Key Details',
+      content: (
+        <div className="space-y-3">
+          {product.hotspots.map((h, i) => (
+            <div key={h.id} className="text-sm border-b border-border/30 pb-2.5 last:border-0 last:pb-0">
+              <span className="font-semibold text-foreground">{h.title}</span>
+              <p className="text-text-muted mt-0.5 leading-relaxed">{h.description}</p>
+            </div>
+          ))}
+        </div>
+      )
+    }] : []),
     ...(product.hasSizeGuide ? [{
       id: 'size-guide',
       title: 'Size Guide',
@@ -131,7 +145,7 @@ export default function ProductDetailPage({ params }: Props) {
           
           {/* Left: Product Images */}
           <div className="w-full lg:w-2/3 h-[50vh] lg:h-[80vh]">
-            <ProductViewer product={product} />
+            <ProductViewer product={product} selectedVariant={selectedVariant} />
           </div>
 
           {/* Right: Sticky Configurator Panel */}

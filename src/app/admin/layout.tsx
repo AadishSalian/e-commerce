@@ -15,6 +15,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/products" className="px-4 py-2 hover:bg-muted rounded-md transition-colors font-medium">
             Products
           </Link>
+          <Link href="/admin/hotspots" className="px-4 py-2 hover:bg-muted rounded-md transition-colors text-muted-foreground hover:text-foreground flex items-center justify-between">
+            <span>Feature Hotspots</span>
+            <span className="text-[10px] bg-accent/20 text-accent px-1.5 py-0.5 rounded font-mono font-medium">Studio</span>
+          </Link>
           <Link href="/admin/categories" className="px-4 py-2 hover:bg-muted rounded-md transition-colors text-muted-foreground">
             Categories
           </Link>

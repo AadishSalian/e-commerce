@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Upload, Download, Plus, Loader2 } from 'lucide-react';
+import Link from 'next/link';
+import { Upload, Download, Plus, Loader2, Sparkles } from 'lucide-react';
 
 export default function AdminProductsPage() {
   const [isUploading, setIsUploading] = useState(false);
@@ -67,6 +68,14 @@ export default function AdminProductsPage() {
         <h1 className="text-3xl font-bold tracking-tighter">Product Catalog</h1>
         
         <div className="flex gap-3">
+          <Link
+            href="/admin/hotspots"
+            className="flex items-center gap-2 px-4 py-2 border border-border rounded-md hover:bg-muted transition-colors text-sm font-medium text-foreground"
+          >
+            <Sparkles className="w-4 h-4 text-accent" />
+            Hotspot Studio
+          </Link>
+
           <button 
             onClick={handleExport}
             className="flex items-center gap-2 px-4 py-2 border border-border rounded-md hover:bg-muted transition-colors text-sm font-medium"
@@ -134,7 +143,15 @@ export default function AdminProductsPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button className="text-muted-foreground hover:text-foreground underline underline-offset-4 decoration-border transition-colors">Edit</button>
+                    <div className="flex items-center justify-end gap-3">
+                      <Link
+                        href={`/admin/hotspots?productId=${product.id}`}
+                        className="text-xs text-accent hover:underline flex items-center gap-1 font-medium"
+                      >
+                        <Sparkles className="w-3 h-3" /> Hotspots
+                      </Link>
+                      <button className="text-muted-foreground hover:text-foreground underline underline-offset-4 decoration-border transition-colors">Edit</button>
+                    </div>
                   </td>
                 </tr>
               ))}

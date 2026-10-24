@@ -3,16 +3,20 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/contexts/CartContext';
-import { X, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
+import { X, Minus, Plus, ShoppingBag, Trash2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 import Image from 'next/image';
 import { FreeShippingProgressBar } from '@/components/cart/FreeShippingProgressBar';
+import { getItemUnitPrice } from '@/store/useCartStore';
 
 export function CartDrawer() {
   const { isCartOpen, closeCart, cartItems, updateQuantity, removeFromCart } = useCart();
   
-  const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + getItemUnitPrice(item) * item.quantity,
+    0
+  );
 
   return (
     <AnimatePresence>
@@ -62,72 +66,88 @@ export function CartDrawer() {
                   </button>
                 </div>
               ) : (
-                cartItems.map((item) => (
-                  <div key={item.cartId} className="relative overflow-hidden rounded-lg group">
-                    {/* Background Delete Button */}
-                    <div className="absolute inset-0 bg-red-500 rounded-lg flex items-center justify-end pr-4">
-                      <button 
-                        onClick={() => removeFromCart(item.cartId)} 
-                        className="text-white w-11 h-11 flex items-center justify-center bg-transparent"
-                        aria-label="Remove item"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </div>
-
-                    <motion.div 
-                      drag="x"
-                      dragConstraints={{ left: -80, right: 0 }}
-                      dragElastic={0.2}
-                      onDragEnd={(e, info) => {
-                        if (info.offset.x < -60) {
-                          removeFromCart(item.cartId);
-                        }
-                      }}
-                      className="flex gap-4 relative z-10 bg-surface touch-pan-y h-full"
-                    >
-                      <div className="w-20 h-20 bg-surface-hover rounded-lg flex-shrink-0 border border-border relative overflow-hidden">
-                        <Image src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover"  width={800} height={800} />
+                cartItems.map((item) => {
+                  const unitPrice = getItemUnitPrice(item);
+                  return (
+                    <div key={item.cartId} className="relative overflow-hidden rounded-lg group">
+                      {/* Background Delete Button */}
+                      <div className="absolute inset-0 bg-red-500 rounded-lg flex items-center justify-end pr-4">
+                        <button 
+                          onClick={() => removeFromCart(item.cartId)} 
+                          className="text-white w-11 h-11 flex items-center justify-center bg-transparent"
+                          aria-label="Remove item"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </button>
                       </div>
-                      
-                      <div className="flex flex-col flex-grow justify-between">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <p className="text-sm font-medium text-foreground">{item.name}</p>
-                            {item.selectedVariant && (
-                              <p className="text-xs text-text-muted mt-0.5">{item.selectedVariant}</p>
-                            )}
-                          </div>
-                          <button 
-                            onClick={() => removeFromCart(item.cartId)}
-                            className="w-8 h-8 flex items-center justify-center text-text-muted hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 hidden md:flex"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
+
+                      <motion.div 
+                        drag="x"
+                        dragConstraints={{ left: -80, right: 0 }}
+                        dragElastic={0.2}
+                        onDragEnd={(e, info) => {
+                          if (info.offset.x < -60) {
+                            removeFromCart(item.cartId);
+                          }
+                        }}
+                        className="flex gap-4 relative z-10 bg-surface touch-pan-y h-full"
+                      >
+                        <div className="w-20 h-20 bg-surface-hover rounded-lg flex-shrink-0 border border-border relative overflow-hidden">
+                          <Image src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover"  width={800} height={800} />
+                          {item.personalization && (
+                            <span className="absolute bottom-1 right-1 bg-accent text-black text-[8px] font-mono px-1 rounded font-bold shadow-sm">
+                              CUSTOM
+                            </span>
+                          )}
                         </div>
                         
-                        <div className="flex justify-between items-end mt-2">
-                          <div className="flex items-center bg-background rounded-full border border-border overflow-hidden h-11">
+                        <div className="flex flex-col flex-grow justify-between">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <p className="text-sm font-medium text-foreground">{item.name}</p>
+                              {item.selectedVariant && (
+                                <p className="text-xs text-text-muted mt-0.5">{item.selectedVariant}</p>
+                              )}
+                              {item.personalization && (
+                                <p className="text-xs text-accent mt-0.5 flex items-center gap-1 font-medium">
+                                  <Sparkles className="w-3 h-3" />
+                                  &ldquo;{item.personalization.lines.filter(Boolean).join(' ')}&rdquo;
+                                </p>
+                              )}
+                            </div>
                             <button 
-                              onClick={() => updateQuantity(item.cartId, -1)}
-                              className="w-11 h-11 flex items-center justify-center text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
+                              onClick={() => removeFromCart(item.cartId)}
+                              className="w-8 h-8 flex items-center justify-center text-text-muted hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 hidden md:flex"
                             >
-                              <Minus className="w-4 h-4" />
-                            </button>
-                            <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
-                            <button 
-                              onClick={() => updateQuantity(item.cartId, 1)}
-                              className="w-11 h-11 flex items-center justify-center text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
-                            >
-                              <Plus className="w-4 h-4" />
+                              <X className="w-4 h-4" />
                             </button>
                           </div>
-                          <p className="text-sm font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                          
+                          <div className="flex justify-between items-end mt-2">
+                            <div className="flex items-center bg-background rounded-full border border-border overflow-hidden h-11">
+                              <button 
+                                onClick={() => updateQuantity(item.cartId, -1)}
+                                className="w-11 h-11 flex items-center justify-center text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
+                              >
+                                <Minus className="w-4 h-4" />
+                              </button>
+                              <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
+                              <button 
+                                onClick={() => updateQuantity(item.cartId, 1)}
+                                className="w-11 h-11 flex items-center justify-center text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
+                              >
+                                <Plus className="w-4 h-4" />
+                              </button>
+                            </div>
+                            <p className="text-sm font-medium tabular-nums">
+                              ${(unitPrice * item.quantity).toFixed(2)}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  </div>
-                ))
+                      </motion.div>
+                    </div>
+                  );
+                })
               )}
             </div>
             
@@ -136,7 +156,7 @@ export function CartDrawer() {
               <div className="p-6 border-t border-border bg-background">
                 <div className="flex justify-between text-sm mb-4">
                   <span className="text-text-muted">Subtotal</span>
-                  <span className="font-medium text-foreground">${subtotal.toFixed(2)}</span>
+                  <span className="font-medium text-foreground tabular-nums">${subtotal.toFixed(2)}</span>
                 </div>
                 <Link 
                   href="/checkout"

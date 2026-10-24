@@ -15,7 +15,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useCartStore } from '@/store/useCartStore';
+import { useCartStore, getItemUnitPrice } from '@/store/useCartStore';
 import { FreeShippingProgressBar } from '@/components/cart/FreeShippingProgressBar';
 import {
   FREE_SHIPPING_THRESHOLD,
@@ -55,7 +55,10 @@ export default function CheckoutPage() {
   const [cityError, setCityError] = useState('');
   const [zipError, setZipError] = useState('');
 
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + getItemUnitPrice(item) * item.quantity,
+    0
+  );
   const isFreeShipping = isShippingEligible(zip) && subtotal >= FREE_SHIPPING_THRESHOLD;
   const shipping = subtotal > 0 ? (isFreeShipping ? 0 : STANDARD_SHIPPING_FEE) : 0;
   const total = subtotal + shipping;
@@ -799,9 +802,20 @@ export default function CheckoutPage() {
                         {item.selectedVariant}
                       </p>
                     )}
+                    {item.personalization && (
+                      <div className="mt-1">
+                        <p className="text-xs text-accent font-medium flex items-center gap-1">
+                          <Sparkles className="w-3 h-3" />
+                          Personalized: &ldquo;{item.personalization.lines.filter(Boolean).join(' ')}&rdquo;
+                        </p>
+                        <p className="text-[10px] text-text-muted mt-0.5">
+                          {item.personalization.font_label} • Non-returnable • +{item.personalization.lead_time_days}d dispatch
+                        </p>
+                      </div>
+                    )}
                   </div>
                   <p className="text-sm font-medium tabular-nums">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    ${(getItemUnitPrice(item) * item.quantity).toFixed(2)}
                   </p>
                 </div>
               </div>

@@ -264,10 +264,10 @@ export default function CartPage() {
             {cartItems.length === 0 && (
               <div className="py-16 text-center">
                 <EmptyState
-                  icon={ShoppingBag}
+                  icon={<ShoppingBag className="w-8 h-8" />}
                   title="Your bag is empty."
                   description="Explore our collection of meticulously engineered products and bespoke personalizations."
-                  actionLabel="Discover Products"
+                  actionText="Discover Products"
                   actionHref="/products"
                 />
               </div>

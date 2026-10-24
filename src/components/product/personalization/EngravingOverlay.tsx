@@ -38,7 +38,7 @@ export function EngravingOverlay({
 
   // Compute text lines considering monogram mode or standard lines
   const displayLines = useMemo(() => {
-    if (zone.supports_monogram && value.monogram_mode && value.monogram_mode !== 'none') {
+    if (zone.supports_monogram && value.monogram_mode) {
       const rawInitials = value.lines[0] || '';
       const monogramData = formatMonogramText(rawInitials, value.monogram_mode);
       if (value.monogram_mode === 'stacked') {

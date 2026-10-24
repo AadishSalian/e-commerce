@@ -54,14 +54,18 @@ export const PriceHistorySparkline: React.FC<PriceHistorySparklineProps> = ({
 
     fetch(url)
       .then((res) => {
+        if (res.status === 404) {
+          // Expected when a product has no price history recorded yet (Non-negotiable rule #9)
+          return null;
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
-      .then((json: PriceHistoryResponse) => {
+      .then((json: PriceHistoryResponse | null) => {
         if (!isCancelled) {
           setData(json);
           setIsLoading(false);
-          if (shouldReduceMotion) {
+          if (shouldReduceMotion && json) {
             setTagVisible(true);
           }
         }

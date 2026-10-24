@@ -51,7 +51,13 @@ export function validateCharInput(
   char: string,
   zone: EngravingZone
 ): { isAllowed: boolean; errorMessage?: string } {
-  // Check for emoji
+  // Check against zone's curated allowed symbols first (whitelisted)
+  const allowedCuratedGlyphs = (zone.allowed_symbols || CURATED_SYMBOLS).map((s) => s.glyph);
+  if (allowedCuratedGlyphs.includes(char)) {
+    return { isAllowed: true };
+  }
+
+  // Check for general emojis (outside curated set)
   if (EMOJI_REGEX.test(char)) {
     return {
       isAllowed: false,
@@ -67,12 +73,6 @@ export function validateCharInput(
         errorMessage: `${script.name} script is not supported by our laser engraving head for this material.`
       };
     }
-  }
-
-  // Check against zone's allowed charset
-  const allowedCuratedGlyphs = (zone.allowed_symbols || CURATED_SYMBOLS).map((s) => s.glyph);
-  if (allowedCuratedGlyphs.includes(char)) {
-    return { isAllowed: true };
   }
 
   if (ALLOWED_LATIN_PATTERN.test(char)) {

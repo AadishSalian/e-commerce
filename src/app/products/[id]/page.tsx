@@ -1,10 +1,10 @@
 'use client';
 
-import { use, useState, useEffect } from 'react';
+import { use, useState, useEffect, useMemo } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
-import { motion } from 'framer-motion';
-import { Check, ChevronRight, ShoppingBag, Lock, Bell, Share2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Check, ChevronRight, ShoppingBag, Lock, Bell, Share2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { Button, NavAuthButton, Accordion } from '@/components/ui';
 import { useAuth } from '@/contexts/AuthContext';
@@ -28,6 +28,16 @@ import { PriceHistorySparkline } from '@/components/product/price-history';
 import { SelectedEmiPlan } from '@/lib/emi/types';
 import { formatEmiCurrency } from '@/lib/emi/calculator';
 
+import { PersonalizationService } from '@/lib/personalization/service';
+import {
+  EngravingZone,
+  PersonalizationValue,
+  PersonalizationCartProperty
+} from '@/lib/personalization/types';
+import { PersonalizationPanel } from '@/components/product/personalization/PersonalizationPanel';
+import { ConfirmationModal } from '@/components/product/personalization/ConfirmationModal';
+import { formatSpelledOutText } from '@/lib/personalization/validation';
+
 type Props = {
   params: Promise<{ id: string }>;
 };
@@ -49,6 +59,53 @@ export default function ProductDetailPage({ params }: Props) {
   const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
   const [selectedEmiPlan, setSelectedEmiPlan] = useState<SelectedEmiPlan | null>(null);
 
+  // --- Personalization & Engraving State ---
+  const [zones, setZones] = useState<EngravingZone[]>([]);
+  useEffect(() => {
+    if (product) {
+      setZones(PersonalizationService.getZonesForProduct(product.id));
+    }
+  }, [product?.id]);
+
+  // Active zone (considering variant overrides if present)
+  const activeZone: EngravingZone | null = useMemo(() => {
+    if (zones.length === 0) return null;
+    if (!selectedVariant) return zones[0];
+    const match = zones.find(
+      (z) => !z.variant_ids || z.variant_ids.length === 0 || z.variant_ids.includes(selectedVariant)
+    );
+    return match || zones[0];
+  }, [zones, selectedVariant]);
+
+  const [isPersonalizationOpen, setIsPersonalizationOpen] = useState(false);
+  const [isPersonalizationFocused, setIsPersonalizationFocused] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+
+  const [personalizationValue, setPersonalizationValue] = useState<PersonalizationValue>({
+    lines: [''],
+    font_id: activeZone ? activeZone.default_font_id : 'modern-sans',
+    alignment: activeZone ? activeZone.default_alignment : 'center',
+    zone_id: activeZone ? activeZone.zone_id : '',
+    variant_id: selectedVariant || undefined
+  });
+
+  // Sync zone ID and default font when active zone changes
+  useEffect(() => {
+    if (activeZone) {
+      setPersonalizationValue((prev) => ({
+        ...prev,
+        zone_id: activeZone.zone_id,
+        font_id: prev.font_id || activeZone.default_font_id,
+        alignment: prev.alignment || activeZone.default_alignment,
+        variant_id: selectedVariant || undefined
+      }));
+    }
+  }, [activeZone, selectedVariant]);
+
+  const hasPersonalizationContent = Boolean(
+    personalizationValue.lines.some((l) => l.trim().length > 0)
+  );
+
   const handleSelectEmiPlan = (plan: SelectedEmiPlan) => {
     setSelectedEmiPlan(plan);
     success(
@@ -56,9 +113,66 @@ export default function ProductDetailPage({ params }: Props) {
     );
   };
 
-  const handleAddToCart = () => {
+  const handleInitiateAddToCart = () => {
     if (!product) return;
+
+    // If shopper entered personalization text, show confirmation modal first
+    if (activeZone && hasPersonalizationContent) {
+      setIsConfirmationModalOpen(true);
+      return;
+    }
+
+    // Standard unpersonalized order
     addToCart(product, 1, selectedVariant || undefined, selectedEmiPlan || undefined);
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 1500);
+  };
+
+  const handleConfirmPersonalizationOrder = () => {
+    if (!product || !activeZone) return;
+
+    const font =
+      activeZone.fonts.find((f) => f.id === personalizationValue.font_id) ||
+      activeZone.fonts[0];
+
+    const cleanedLines = personalizationValue.lines.map((l) => l.trim()).filter(Boolean);
+    const formatted = cleanedLines.join(' / ');
+
+    const cartProperty: PersonalizationCartProperty = {
+      isPersonalized: true,
+      lines: cleanedLines,
+      formattedText: formatted,
+      font_id: font.id,
+      font_label: font.label,
+      alignment: personalizationValue.alignment,
+      icon_id: personalizationValue.icon_id,
+      icon_glyph: personalizationValue.icon_id,
+      icon_position: personalizationValue.icon_position || 'before',
+      monogram_mode: personalizationValue.monogram_mode,
+      foil_color: personalizationValue.foil_color,
+      zone_id: activeZone.zone_id,
+      zone_name: activeZone.name,
+      variant_id: selectedVariant || undefined,
+      finish_style: activeZone.finish_style,
+      price_addon: activeZone.price_addon,
+      price_addon_dollars: activeZone.price_addon / 100,
+      lead_time_days: activeZone.lead_time_days,
+      returnable: false,
+      spelledOutText: formatSpelledOutText(formatted),
+      confirmedAt: new Date().toISOString()
+    };
+
+    addToCart(
+      product,
+      1,
+      selectedVariant || undefined,
+      selectedEmiPlan || undefined,
+      cartProperty
+    );
+
+    setIsConfirmationModalOpen(false);
     setIsAdded(true);
     setTimeout(() => {
       setIsAdded(false);
@@ -97,6 +211,18 @@ export default function ProductDetailPage({ params }: Props) {
       title: 'Description',
       content: <p>{product.description}</p>
     },
+    ...(activeZone ? [{
+      id: 'personalization-spec',
+      title: 'Personalization & Workshop Details',
+      content: (
+        <div className="space-y-2 text-sm text-text-muted">
+          <p><strong className="text-foreground">Technique:</strong> {activeZone.finish_style.replace('_', ' ').toUpperCase()}</p>
+          <p><strong className="text-foreground">Crafting Time:</strong> +{activeZone.lead_time_days} business days to standard dispatch</p>
+          <p><strong className="text-foreground">Return Policy:</strong> Bespoke personalized goods are made strictly to order and non-returnable.</p>
+          {activeZone.notice && <p className="text-xs pt-1 border-t border-border/40 italic">{activeZone.notice}</p>}
+        </div>
+      )
+    }] : []),
     ...(product.hotspots && product.hotspots.length > 0 ? [{
       id: 'feature-details',
       title: 'Craftsmanship & Key Details',
@@ -117,7 +243,6 @@ export default function ProductDetailPage({ params }: Props) {
       content: (
         <div className="w-full text-sm">
           <p className="mb-4">Our garments are designed with an intentionally oversized, relaxed fit. We recommend taking your true size for the intended look, or sizing down for a more traditional fit.</p>
-          { }
           <div className="flex justify-between py-2 border-b border-border/50"><span className="text-foreground font-medium">Small</span><span>36-38" Chest</span></div>
           <div className="flex justify-between py-2 border-b border-border/50"><span className="text-foreground font-medium">Medium</span><span>38-40" Chest</span></div>
           <div className="flex justify-between py-2 border-b border-border/50"><span className="text-foreground font-medium">Large</span><span>40-42" Chest</span></div>
@@ -128,7 +253,7 @@ export default function ProductDetailPage({ params }: Props) {
     {
       id: 'shipping',
       title: 'Shipping & Returns',
-      content: <p>Free standard shipping on orders over $150. Returns accepted within 30 days of delivery for unworn items in original condition.</p>
+      content: <p>Free standard shipping on orders over $150. Returns accepted within 30 days of delivery for standard items in original condition. Personalized bespoke items cannot be returned.</p>
     }
   ];
 
@@ -143,9 +268,16 @@ export default function ProductDetailPage({ params }: Props) {
       <div id="overview" className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col lg:flex-row gap-16 items-start">
           
-          {/* Left: Product Images */}
+          {/* Left: Product Images with Real-Time Personalization Overlay */}
           <div className="w-full lg:w-2/3 h-[50vh] lg:h-[80vh]">
-            <ProductViewer product={product} selectedVariant={selectedVariant} />
+            <ProductViewer
+              product={product}
+              selectedVariant={selectedVariant}
+              personalizationZone={activeZone}
+              personalizationValue={personalizationValue}
+              isPersonalizationFocused={isPersonalizationFocused}
+              isPersonalizing={isPersonalizationOpen || hasPersonalizationContent}
+            />
           </div>
 
           {/* Right: Sticky Configurator Panel */}
@@ -166,6 +298,11 @@ export default function ProductDetailPage({ params }: Props) {
               </div>
               <p className="text-2xl text-foreground font-medium mb-2">
                 ${product.price.toFixed(2)}
+                {activeZone && hasPersonalizationContent && (
+                  <span className="text-sm text-accent ml-2 font-mono">
+                    +${(activeZone.price_addon / 100).toFixed(2)} Engraving
+                  </span>
+                )}
               </p>
 
               {/* Inline EMI Teaser sits under price */}
@@ -220,11 +357,10 @@ export default function ProductDetailPage({ params }: Props) {
             </div>
 
             {hasVariants && (
-              <div className="mb-10">
+              <div className="mb-8">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm font-medium text-foreground uppercase tracking-wider">Color</h3>
                   <div className="flex items-center gap-4">
-
                     <span className="text-sm text-text-muted">{selectedVariant}</span>
                   </div>
                 </div>
@@ -265,6 +401,21 @@ export default function ProductDetailPage({ params }: Props) {
               </div>
             )}
 
+            {/* Live Personalization Panel Beside Gallery */}
+            {activeZone && (
+              <div className="mb-8">
+                <PersonalizationPanel
+                  zone={activeZone}
+                  value={personalizationValue}
+                  onChange={setPersonalizationValue}
+                  onFocusChange={setIsPersonalizationFocused}
+                  selectedVariantValue={selectedVariant}
+                  isOpen={isPersonalizationOpen}
+                  onToggleOpen={setIsPersonalizationOpen}
+                />
+              </div>
+            )}
+
             {product.category === 'Fashion' && (
               <div className="mb-6 border border-accent/20 bg-accent/5 rounded-xl p-4 flex items-center justify-between">
                 <div>
@@ -288,13 +439,16 @@ export default function ProductDetailPage({ params }: Props) {
               <Button variant="primary" 
                 className="w-full py-4 text-lg" 
                 icon={<ShoppingBag size={18} />}
-                onClick={handleAddToCart}
+                onClick={handleInitiateAddToCart}
                 isSuccess={isAdded}
               >
-                Add to Bag
+                {activeZone && hasPersonalizationContent ? 'Review Inscription & Add to Bag' : 'Add to Bag'}
               </Button>
               <p className="text-xs text-text-muted text-center flex items-center justify-center gap-2">
-                <Check className="w-3 h-3" /> In stock and ready to ship
+                <Check className="w-3 h-3" />
+                {activeZone && hasPersonalizationContent
+                  ? `Custom crafted • +${activeZone.lead_time_days} days workshop lead time`
+                  : 'In stock and ready to ship'}
               </p>
               
               {/* Alerts Button */}
@@ -340,7 +494,7 @@ export default function ProductDetailPage({ params }: Props) {
               return (
                 <Link key={rel.id} href={`/products/${rel.id}`} className="group block">
                   <div className="w-full aspect-square bg-muted rounded-xl mb-4 overflow-hidden">
-                    <Image src={rel.image} alt={rel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  width={800} height={800} />
+                    <Image src={rel.image} alt={rel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={800} height={800} />
                   </div>
                   <h4 className="font-semibold text-foreground text-sm">{rel.name}</h4>
                   <p className="text-text-muted text-sm">${rel.price.toFixed(2)}</p>
@@ -357,7 +511,7 @@ export default function ProductDetailPage({ params }: Props) {
       <StickyAddToCart 
         product={product} 
         selectedVariant={selectedVariant || undefined} 
-        onAddToCart={() => addToCart(product, 1, selectedVariant || undefined)} 
+        onAddToCart={handleInitiateAddToCart} 
       />
 
       <SizeFitQuiz 
@@ -371,9 +525,23 @@ export default function ProductDetailPage({ params }: Props) {
         isOpen={isEmiModalOpen}
         onClose={() => setIsEmiModalOpen(false)}
         product={product}
-        livePrice={product.price}
+        livePrice={product.price + (activeZone && hasPersonalizationContent ? activeZone.price_addon / 100 : 0)}
         onSelectPlan={handleSelectEmiPlan}
       />
+
+      {/* Spelling & Non-Returnable Confirmation Modal */}
+      {activeZone && (
+        <ConfirmationModal
+          isOpen={isConfirmationModalOpen}
+          onClose={() => setIsConfirmationModalOpen(false)}
+          onConfirm={handleConfirmPersonalizationOrder}
+          zone={activeZone}
+          value={personalizationValue}
+          productName={product.name}
+          productImage={product.image}
+          selectedVariantValue={selectedVariant}
+        />
+      )}
     </div>
   );
 }

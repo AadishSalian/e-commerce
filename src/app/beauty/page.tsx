@@ -15,6 +15,7 @@ import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCompare } from '@/contexts/CompareContext';
 import { CustomSelect } from '@/components/ui/CustomSelect';
 import { WishlistButton } from '@/components/ui';
+import { CompareButton } from '@/components/compare';
 
 import Image from 'next/image';
 import { LiquidShaderImage } from '@/components/ui';
@@ -228,6 +229,9 @@ export default function BeautyPage() {
                         className="absolute inset-0 w-full h-full"
                       />
 
+                      <div className="absolute top-3.5 right-3.5 z-20">
+                        <CompareButton product={product} variant="card-corner" />
+                      </div>
                       {/* Action Buttons */}
                       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
                         <button 
@@ -237,13 +241,7 @@ export default function BeautyPage() {
                         >
                           <Eye className="w-5 h-5" />
                         </button>
-                        <button 
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
-                          className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
-                          title="Compare"
-                        >
-                          <Layers className="w-5 h-5" />
-                        </button>
+                        <CompareButton product={product} variant="icon" />
                       </div>
                     </div>
                     

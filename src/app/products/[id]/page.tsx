@@ -21,6 +21,7 @@ import ProductViewer from '@/components/product/ProductViewer';
 import SizeFitQuiz from '@/components/product/SizeFitQuiz';
 import InPageNavigation from '@/components/product/InPageNavigation';
 import { WishlistButton, ScrollProgress, Breadcrumbs } from '@/components/ui';
+import { CompareButton } from '@/components/compare';
 
 import Image from 'next/image';
 import { EMITeaser, EMICalculatorModal } from '@/components/emi';
@@ -288,13 +289,17 @@ export default function ProductDetailPage({ params }: Props) {
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
                   {product.name}
                 </h1>
-                <button 
-                  onClick={handleShare}
-                  className="p-2 rounded-full border border-border hover:bg-surface hover:text-accent transition-colors shrink-0"
-                  aria-label="Share product"
-                >
-                  <Share2 className="w-5 h-5" />
-                </button>
+                <div className="flex items-center gap-2 shrink-0">
+                  <WishlistButton product={product} />
+                  <button 
+                    onClick={handleShare}
+                    className="p-2 rounded-full border border-border hover:bg-surface hover:text-accent transition-colors shrink-0"
+                    aria-label="Share product"
+                  >
+                    <Share2 className="w-5 h-5" />
+                  </button>
+                  <CompareButton product={product} variant="detail" />
+                </div>
               </div>
               <p className="text-2xl text-foreground font-medium mb-2">
                 ${product.price.toFixed(2)}

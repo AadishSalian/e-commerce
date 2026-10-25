@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { Eye, Layers, Star, Heart } from 'lucide-react';
 import { Product } from '@/lib/mockData';
 import { useQuickView } from '@/contexts/QuickViewContext';
-import { useCompare } from '@/contexts/CompareContext';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { CompareButton } from '@/components/compare';
 import { useRef, useState } from 'react';
 import { LiquidShaderImage } from '@/components/ui';
 import { PriceHistoryTagBadge } from '@/components/product/price-history';
@@ -40,7 +40,6 @@ const getBlurDataURL = () => `data:image/svg+xml;base64,${toBase64(shimmer(700, 
 
 export default function ProductCard({ product, variant = 'default' }: ProductCardProps) {
   const { openQuickView } = useQuickView();
-  const { addToCompare } = useCompare();
   const { toggleWishlist, isInWishlist } = useWishlist();
   
   const mockRating = product.rating || (4 + (product.id.charCodeAt(product.id.length - 1) % 10) / 10).toFixed(1);
@@ -122,6 +121,10 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
                 </span>
               )}
             </div>
+
+            <div className="absolute top-3.5 right-3.5 z-20">
+              <CompareButton product={product} variant="card-corner" />
+            </div>
             
             <LiquidShaderImage 
               src={product.image} 
@@ -144,14 +147,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
               >
                 <Eye className="w-5 h-5" />
               </button>
-              <button 
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
-                className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
-                title="Compare"
-                aria-label="Compare Product"
-              >
-                <Layers className="w-5 h-5" />
-              </button>
+              <CompareButton product={product} variant="icon" />
             </div>
           </div>
           
@@ -219,6 +215,10 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
             className="absolute inset-0 w-full h-full"
           />
            
+          <div className="absolute top-3.5 right-3.5 z-20">
+            <CompareButton product={product} variant="card-corner" />
+          </div>
+           
            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
              <button 
                onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
@@ -228,14 +228,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
              >
                <Eye className="w-5 h-5" />
              </button>
-             <button 
-               onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
-               className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
-               title="Compare"
-               aria-label="Compare Product"
-             >
-               <Layers className="w-5 h-5" />
-             </button>
+             <CompareButton product={product} variant="icon" />
            </div>
         </Link>
         
@@ -307,6 +300,10 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
             className="absolute inset-0 w-full h-full"
           />
           
+          <div className="absolute top-3.5 right-3.5 z-20">
+            <CompareButton product={product} variant="card-corner" />
+          </div>
+          
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
             <button 
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
@@ -316,14 +313,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
             >
               <Eye className="w-5 h-5" />
             </button>
-            <button 
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCompare(product); }}
-              className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
-              title="Compare"
-              aria-label="Compare Product"
-            >
-              <Layers className="w-5 h-5" />
-            </button>
+            <CompareButton product={product} variant="icon" />
           </div>
         </div>
       </div>

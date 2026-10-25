@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test src/lib/price-history/__tests__/priceHistory.test.ts src/lib/hotspots/__tests__/hotspots.test.ts src/lib/personalization/__tests__/personalization.test.ts"
+    "test": "tsx --test src/lib/price-history/__tests__/priceHistory.test.ts src/lib/hotspots/__tests__/hotspots.test.ts src/lib/personalization/__tests__/personalization.test.ts src/lib/compare/__tests__/compare.test.ts"
   },
   "dependencies": {
     "@google/model-viewer": "^4.3.1",

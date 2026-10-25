@@ -255,13 +255,15 @@ function createRow({
   const values: Record<string, string | number | null> = {};
   const rawValues: Record<string, number | null> = {};
 
-  const distinctStrings = new Set<string>();
+  const distinctValues = new Set<string | null>();
 
   for (const p of products) {
     const val = getValue(p);
     values[p.id] = val;
     if (val !== null && val !== undefined) {
-      distinctStrings.add(String(val).trim().toLowerCase());
+      distinctValues.add(String(val).trim().toLowerCase());
+    } else {
+      distinctValues.add(null);
     }
 
     if (getRawValue) {
@@ -269,8 +271,8 @@ function createRow({
     }
   }
 
-  // Row differs if more than 1 distinct value exists across products
-  const isDiffering = distinctStrings.size > 1;
+  // Row differs if more than 1 distinct value (including null) exists across products
+  const isDiffering = distinctValues.size > 1;
 
   // Objective best value calculation
   let bestProductId: string | null = null;

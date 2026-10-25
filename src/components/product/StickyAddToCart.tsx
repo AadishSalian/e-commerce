@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '@/lib/mockData';
 import { Button } from '../ui';
+import { useBottomStackStore } from '@/lib/compare/bottomStack';
 
 import Image from 'next/image';
 
@@ -18,9 +19,13 @@ export default function StickyAddToCart({ product, selectedVariant, onAddToCart,
   const [isVisible, setIsVisible] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
 
+  const setStickyAddToCartVisible = useBottomStackStore((state) => state.setStickyAddToCartVisible);
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsVisible(window.scrollY > showAfterY);
+      const visible = window.scrollY > showAfterY;
+      setIsVisible(visible);
+      setStickyAddToCartVisible(visible);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -28,8 +33,11 @@ export default function StickyAddToCart({ product, selectedVariant, onAddToCart,
     // Initial check
     handleScroll();
 
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [showAfterY]);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      setStickyAddToCartVisible(false);
+    };
+  }, [showAfterY, setStickyAddToCartVisible]);
 
   const handleAddToCart = () => {
     onAddToCart();

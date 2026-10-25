@@ -17,7 +17,7 @@ import { CommandMenu } from "@/components/ui/CommandMenu";
 import { RecentlyViewedProvider } from "@/contexts/RecentlyViewedContext";
 import { CompareProvider } from "@/contexts/CompareContext";
 import { QuickViewProvider } from "@/contexts/QuickViewContext";
-import { CompareDrawer } from "@/components/ui/CompareDrawer";
+import { CompareTray, CategoryMismatchModal } from "@/components/compare";
 import { QuickViewModal } from "@/components/ui/QuickViewModal";
 import { PreferencesProvider } from "@/contexts/PreferencesContext";
 import { AlertsProvider } from "@/contexts/AlertsContext";
@@ -106,7 +106,8 @@ export default function RootLayout({
                             <Navbar />
                             <BottomNavigation />
                             <CartDrawer />
-                            <CompareDrawer />
+                            <CompareTray />
+                            <CategoryMismatchModal />
                             <QuickViewModal />
                             <CommandMenu />
                             <main className="flex-grow flex flex-col pt-36 md:pt-28">

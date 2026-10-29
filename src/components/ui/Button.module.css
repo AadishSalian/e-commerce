@@ -34,6 +34,27 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
 }
 
+/* Primary diagonal wipe effect in sync with rolling text */
+.primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 125%;
+  height: 100%;
+  background: var(--bg-elevated);
+  transform: translateX(-120%) skewX(-15deg);
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .primary:hover::before,
+  .primary:focus-visible::before {
+    transform: translateX(0) skewX(-15deg);
+  }
+}
+
 .primary:active {
   box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
 }
@@ -82,22 +103,33 @@
   background-clip: padding-box; /* To ensure border renders nicely */
 }
 
-/* The wipe effect base */
+/* The stripe wipe effect in sync with rolling text */
 .secondary::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 120%; /* wider to cover the whole button diagonally */
+  width: 125%; /* wider to cover the whole button diagonally */
   height: 100%;
   background: #c8c8c8; /* Muted white/gray stripe */
-  transform: translateX(-110%) skewX(-15deg);
-  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translateX(-120%) skewX(-15deg);
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
   z-index: 1;
 }
 
-.secondary:hover::before {
-  transform: translateX(0) skewX(-15deg);
+@media (hover: hover) and (pointer: fine) {
+  .secondary:hover::before,
+  .secondary:focus-visible::before {
+    transform: translateX(0) skewX(-15deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary::before,
+  .secondary::before {
+    display: none !important;
+    transition: none !important;
+  }
 }
 
 /* Invert text during wipe */

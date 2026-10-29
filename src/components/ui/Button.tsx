@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check } from 'lucide-react';
+import { RollingText } from './RollingText';
 import styles from './Button.module.css';
 import promoStyles from './PromoButton.module.css';
 
@@ -16,6 +17,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   promoTextTop?: string;
   promoTextBottom?: string;
   targetDate?: Date;
+  stagger?: boolean | number;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -28,6 +30,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       promoTextTop = 'Limited Time', 
       promoTextBottom = 'Special Offer', 
       targetDate,
+      stagger,
       className = '', 
       ...props 
     }, 
@@ -82,7 +85,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button 
         ref={ref}
-        className={`${styles.baseBtn} ${isSecondary ? styles.secondary : styles.primary} ${isSuccess ? styles.success : ''} ${className}`}
+        data-roll-parent=""
+        className={`${styles.baseBtn} group ${isSecondary ? styles.secondary : styles.primary} ${isSuccess ? styles.success : ''} ${className}`}
         {...props}
       >
         <span className={isSecondary ? styles.secondaryText : styles.primaryContent}>
@@ -108,7 +112,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                 className="flex items-center gap-3"
               >
-                {children}
+                {typeof children === 'string' && children.trim().length <= 24 ? (
+                  <RollingText
+                    stagger={stagger}
+                    duplicateColor={isSecondary ? '#ffffff' : 'var(--text-primary)'}
+                  >
+                    {children}
+                  </RollingText>
+                ) : (
+                  children
+                )}
                 {icon && !isSecondary && (
                   <span className={styles.iconCapsule}>
                     <span className={styles.primaryIcon}>{icon}</span>

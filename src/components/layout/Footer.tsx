@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { NewsletterCard } from '@/components/ui';
+import { NewsletterCard, RollingText } from '@/components/ui';
 
 export default function Footer() {
   return (
@@ -20,20 +20,20 @@ export default function Footer() {
           <div className="col-span-1 lg:col-span-2">
             <h3 className="text-foreground text-sm font-semibold mb-6 uppercase tracking-wider">Shop</h3>
             <ul className="flex flex-col gap-4">
-              <li><Link href="/products?category=new" className="text-text-muted hover:text-foreground text-sm transition-colors">New Arrivals</Link></li>
-              <li><Link href="/products?category=tech" className="text-text-muted hover:text-foreground text-sm transition-colors">Tech</Link></li>
-              <li><Link href="/products?category=accessories" className="text-text-muted hover:text-foreground text-sm transition-colors">Accessories</Link></li>
-              <li><Link href="/products?category=objects" className="text-text-muted hover:text-foreground text-sm transition-colors">Objects</Link></li>
+              <li><Link href="/products?category=new" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">New Arrivals</RollingText></Link></li>
+              <li><Link href="/products?category=tech" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Tech</RollingText></Link></li>
+              <li><Link href="/products?category=accessories" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Accessories</RollingText></Link></li>
+              <li><Link href="/products?category=objects" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Objects</RollingText></Link></li>
             </ul>
           </div>
 
           <div className="col-span-1 lg:col-span-2">
             <h3 className="text-foreground text-sm font-semibold mb-6 uppercase tracking-wider">Support</h3>
             <ul className="flex flex-col gap-4">
-              <li><Link href="/faq" className="text-text-muted hover:text-foreground text-sm transition-colors">FAQ</Link></li>
-              <li><Link href="/returns" className="text-text-muted hover:text-foreground text-sm transition-colors">Returns & Exchanges</Link></li>
-              <li><Link href="/shipping" className="text-text-muted hover:text-foreground text-sm transition-colors">Shipping Information</Link></li>
-              <li><Link href="/contact" className="text-text-muted hover:text-foreground text-sm transition-colors">Contact Us</Link></li>
+              <li><Link href="/faq" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">FAQ</RollingText></Link></li>
+              <li><Link href="/returns" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Returns & Exchanges</RollingText></Link></li>
+              <li><Link href="/shipping" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Shipping Information</RollingText></Link></li>
+              <li><Link href="/contact" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Contact Us</RollingText></Link></li>
             </ul>
           </div>
 
@@ -49,8 +49,8 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Matte Inc. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-text-muted hover:text-foreground text-xs transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="text-text-muted hover:text-foreground text-xs transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="group text-text-muted hover:text-foreground text-xs transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Privacy Policy</RollingText></Link>
+            <Link href="/terms" className="group text-text-muted hover:text-foreground text-xs transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Terms of Service</RollingText></Link>
           </div>
         </div>
       </div>

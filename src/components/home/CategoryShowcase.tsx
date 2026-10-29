@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { RollingText } from '@/components/ui';
 import styles from './CategoryShowcase.module.css';
 
 import Image from 'next/image';
@@ -72,7 +73,8 @@ export default function CategoryShowcase() {
             <Link 
               key={cat.id} 
               href={cat.href}
-              className={`${styles.card} ${cat.gridClass}`}
+              className={`${styles.card} ${cat.gridClass} group`}
+              data-roll-parent=""
               aria-label={`Shop ${cat.title}`}
             >
               {/* Background Image */}
@@ -90,7 +92,13 @@ export default function CategoryShowcase() {
 
               {/* Typography */}
               <div className={`${styles.content} ${cat.posClass}`}>
-                <h3 className={styles.title}>{cat.title}</h3>
+                <div className="flex flex-col items-start gap-1">
+                  <h3 className={styles.title}>{cat.title}</h3>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase text-white/80 group-hover:text-accent transition-colors mt-2">
+                    <RollingText duplicateColor="var(--accent)">Shop now</RollingText>
+                    <span className="text-xs transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+                  </span>
+                </div>
               </div>
             </Link>
           ))}

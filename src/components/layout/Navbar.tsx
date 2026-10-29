@@ -7,7 +7,7 @@ import { Search, ShoppingBag, User, Menu, X, ArrowRight, Heart, Package, LogOut,
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
-import { NavAuthButton, ThemeToggle, ExpandableSearch } from '@/components/ui';
+import { NavAuthButton, ThemeToggle, ExpandableSearch, RollingText } from '@/components/ui';
 import styles from './Navbar.module.css';
 
 import Image from 'next/image';
@@ -161,7 +161,8 @@ export default function Navbar() {
                     <Link
                       key={link.label}
                       href={link.href}
-                      className={styles.navLink}
+                      className={`${styles.navLink} group`}
+                      data-roll-parent=""
                       data-active={isActive}
                       onMouseEnter={() => {
                         setActiveHover(link.label);
@@ -181,7 +182,11 @@ export default function Navbar() {
                           transition={{ type: "spring", stiffness: 350, damping: 30 }}
                         />
                       )}
-                      <span className="relative z-10">{link.label}</span>
+                      <span className="relative z-10">
+                        <RollingText duplicateColor={isActive ? '#141414' : 'var(--foreground)'}>
+                          {link.label}
+                        </RollingText>
+                      </span>
                     </Link>
                   );
                 })}
@@ -321,13 +326,13 @@ export default function Navbar() {
                   <div className="col-span-1">
                     <h3 className="text-foreground font-semibold mb-4">Categories</h3>
                     <ul className="flex flex-col gap-3">
-                      <li><Link href="/electronics" className="text-sm text-text-muted hover:text-accent transition-colors">Tech</Link></li>
-                      <li><Link href="/accessories" className="text-sm text-text-muted hover:text-accent transition-colors">Accessories</Link></li>
-                      <li><Link href="/products?category=Objects" className="text-sm text-text-muted hover:text-accent transition-colors">Objects</Link></li>
-                      <li><Link href="/fashion" className="text-sm text-text-muted hover:text-accent transition-colors">Fashion</Link></li>
-                      <li><Link href="/home-furniture" className="text-sm text-text-muted hover:text-accent transition-colors">Home & Furniture</Link></li>
-                      <li><Link href="/beauty" className="text-sm text-text-muted hover:text-accent transition-colors">Beauty</Link></li>
-                      <li><Link href="/sports" className="text-sm text-text-muted hover:text-accent transition-colors">Sports & Outdoors</Link></li>
+                      <li><Link href="/electronics" className="group text-sm text-text-muted hover:text-accent transition-colors block" data-roll-parent=""><RollingText duplicateColor="var(--accent)">Tech</RollingText></Link></li>
+                      <li><Link href="/accessories" className="group text-sm text-text-muted hover:text-accent transition-colors block" data-roll-parent=""><RollingText duplicateColor="var(--accent)">Accessories</RollingText></Link></li>
+                      <li><Link href="/products?category=Objects" className="group text-sm text-text-muted hover:text-accent transition-colors block" data-roll-parent=""><RollingText duplicateColor="var(--accent)">Objects</RollingText></Link></li>
+                      <li><Link href="/fashion" className="group text-sm text-text-muted hover:text-accent transition-colors block" data-roll-parent=""><RollingText duplicateColor="var(--accent)">Fashion</RollingText></Link></li>
+                      <li><Link href="/home-furniture" className="group text-sm text-text-muted hover:text-accent transition-colors block" data-roll-parent=""><RollingText duplicateColor="var(--accent)">Home & Furniture</RollingText></Link></li>
+                      <li><Link href="/beauty" className="group text-sm text-text-muted hover:text-accent transition-colors block" data-roll-parent=""><RollingText duplicateColor="var(--accent)">Beauty</RollingText></Link></li>
+                      <li><Link href="/sports" className="group text-sm text-text-muted hover:text-accent transition-colors block" data-roll-parent=""><RollingText duplicateColor="var(--accent)">Sports & Outdoors</RollingText></Link></li>
                     </ul>
                   </div>
                   <div className="col-span-1">
@@ -429,9 +434,10 @@ export default function Navbar() {
             <Link 
               key={cat} 
               href={`/products?category=${cat}`}
-              className="px-4 py-1.5 rounded-full border border-border bg-surface text-sm font-medium whitespace-nowrap text-text-muted hover:text-foreground hover:bg-surface-active transition-colors shrink-0"
+              className="group px-4 py-1.5 rounded-full border border-border bg-surface text-sm font-medium whitespace-nowrap text-text-muted hover:text-foreground hover:bg-surface-active transition-colors shrink-0"
+              data-roll-parent=""
             >
-              {cat}
+              <RollingText duplicateColor="var(--text-primary)">{cat}</RollingText>
             </Link>
           ))}
         </div>
@@ -472,10 +478,11 @@ export default function Navbar() {
                     key={link.label}
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-xl font-medium text-text-muted hover:text-foreground transition-colors flex items-center justify-between"
+                    className="group text-xl font-medium text-text-muted hover:text-foreground transition-colors flex items-center justify-between"
+                    data-roll-parent=""
                   >
-                    {link.label}
-                    <ArrowRight className="w-5 h-5 opacity-50" />
+                    <RollingText duplicateColor="var(--text-primary)">{link.label}</RollingText>
+                    <ArrowRight className="w-5 h-5 opacity-50 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 ))}
                 
@@ -486,29 +493,37 @@ export default function Navbar() {
                     <Link 
                       href="/account"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3"
+                      className="group text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3"
+                      data-roll-parent=""
                     >
-                      <Package className="w-5 h-5" /> Orders
+                      <Package className="w-5 h-5" />
+                      <RollingText duplicateColor="var(--text-primary)">Orders</RollingText>
                     </Link>
                     <Link 
                       href="/wishlist"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3"
+                      className="group text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3"
+                      data-roll-parent=""
                     >
-                      <Heart className="w-5 h-5" /> Wishlist
+                      <Heart className="w-5 h-5" />
+                      <RollingText duplicateColor="var(--text-primary)">Wishlist</RollingText>
                     </Link>
                     <Link 
                       href="/settings"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3"
+                      className="group text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3"
+                      data-roll-parent=""
                     >
-                      <Settings className="w-5 h-5" /> Settings
+                      <Settings className="w-5 h-5" />
+                      <RollingText duplicateColor="var(--text-primary)">Settings</RollingText>
                     </Link>
                     <button
                       onClick={() => { logout(); setIsMobileMenuOpen(false); router.push('/'); }}
-                      className="text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3 text-left"
+                      className="group text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3 text-left"
+                      data-roll-parent=""
                     >
-                      <LogOut className="w-5 h-5" /> Logout
+                      <LogOut className="w-5 h-5" />
+                      <RollingText duplicateColor="var(--text-primary)">Logout</RollingText>
                     </button>
                   </>
                 ) : (

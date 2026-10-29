@@ -1,0 +1,218 @@
+/* RollingText.module.css */
+
+.container {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: baseline;
+  white-space: nowrap;
+  line-height: inherit;
+  
+  /* Ascender & descender clearance to prevent 'g', 'p', 'y', 'Q', 'J' clipping */
+  padding-top: 0.14em;
+  padding-bottom: 0.14em;
+  margin-top: -0.14em;
+  margin-bottom: -0.14em;
+
+  /* Anti-aliasing and subpixel stability at rest */
+  transform: translate3d(0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  backface-visibility: hidden;
+}
+
+.line {
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  
+  transform: translate3d(0, 0, 0);
+  transition: transform 400ms cubic-bezier(0.65, 0, 0.35, 1);
+  backface-visibility: hidden;
+  will-change: auto;
+}
+
+.primary {
+  color: var(--roll-base-color, inherit);
+}
+
+.duplicate {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+  color: var(--roll-duplicate-color, inherit);
+}
+
+/* Stagger character unit styling */
+.charContainer {
+  display: inline-flex;
+  vertical-align: baseline;
+  white-space: nowrap;
+  line-height: inherit;
+}
+
+.charItem {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: baseline;
+  line-height: inherit;
+
+  padding-top: 0.14em;
+  padding-bottom: 0.14em;
+  margin-top: -0.14em;
+  margin-bottom: -0.14em;
+
+  transform: translate3d(0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  backface-visibility: hidden;
+}
+
+.charLine {
+  display: inline-block;
+  white-space: pre;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+
+  transform: translate3d(0, 0, 0);
+  transition: transform 400ms cubic-bezier(0.65, 0, 0.35, 1);
+  backface-visibility: hidden;
+}
+
+.charPrimary {
+  color: var(--roll-base-color, inherit);
+}
+
+.charDuplicate {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+  color: var(--roll-duplicate-color, inherit);
+}
+
+/* Hover and focus transitions for mouse / fine pointer devices */
+@media (hover: hover) and (pointer: fine) {
+  :global(.group:hover) .line,
+  :global(.group:focus-visible) .line,
+  :global(button:hover) .line,
+  :global(button:focus-visible) .line,
+  :global(a:hover) .line,
+  :global(a:focus-visible) .line,
+  :global([data-roll-parent]:hover) .line,
+  :global([data-roll-parent]:focus-visible) .line,
+  .container:hover .line,
+  .container:focus-visible .line,
+  .isRolled .line {
+    transform: translate3d(0, -100%, 0);
+    will-change: transform;
+  }
+
+  :global(.group:hover) .charLine,
+  :global(.group:focus-visible) .charLine,
+  :global(button:hover) .charLine,
+  :global(button:focus-visible) .charLine,
+  :global(a:hover) .charLine,
+  :global(a:focus-visible) .charLine,
+  :global([data-roll-parent]:hover) .charLine,
+  :global([data-roll-parent]:focus-visible) .charLine,
+  .container:hover .charLine,
+  .container:focus-visible .charLine,
+  .isRolled .charLine {
+    transform: translate3d(0, -100%, 0);
+    will-change: transform;
+  }
+}
+
+/* Touch and coarse pointer devices: quick 150ms press feedback on :active */
+@media (hover: none) or (pointer: coarse) {
+  .container:active .line,
+  :global(.group:active) .line,
+  :global(button:active) .line,
+  :global(a:active) .line,
+  :global([data-roll-parent]:active) .line {
+    transform: translate3d(0, -100%, 0);
+    transition-duration: 150ms;
+  }
+
+  .container:active .charLine,
+  :global(.group:active) .charLine,
+  :global(button:active) .charLine,
+  :global(a:active) .charLine,
+  :global([data-roll-parent]:active) .charLine {
+    transform: translate3d(0, -100%, 0);
+    transition-duration: 150ms;
+  }
+}
+
+/* Accessibility: Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .line,
+  .charLine {
+    transform: none !important;
+    transition: color 200ms ease !important;
+    will-change: auto !important;
+  }
+
+  .duplicate,
+  .charDuplicate {
+    display: none !important;
+  }
+
+  :global(.group:hover) .primary,
+  :global(.group:focus-visible) .primary,
+  :global(button:hover) .primary,
+  :global(button:focus-visible) .primary,
+  :global(a:hover) .primary,
+  :global(a:focus-visible) .primary,
+  :global([data-roll-parent]:hover) .primary,
+  :global([data-roll-parent]:focus-visible) .primary,
+  .container:hover .primary,
+  .container:focus-visible .primary,
+  :global(.group:hover) .charPrimary,
+  :global(.group:focus-visible) .charPrimary,
+  :global(button:hover) .charPrimary,
+  :global(button:focus-visible) .charPrimary,
+  :global(a:hover) .charPrimary,
+  :global(a:focus-visible) .charPrimary,
+  :global([data-roll-parent]:hover) .charPrimary,
+  :global([data-roll-parent]:focus-visible) .charPrimary,
+  .container:hover .charPrimary,
+  .container:focus-visible .charPrimary {
+    color: var(--roll-duplicate-color, var(--accent, var(--text-primary))) !important;
+    transform: none !important;
+  }
+}
+
+/* Print and Forced Colors mode */
+@media print, (forced-colors: active) {
+  .container,
+  .charItem {
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .duplicate,
+  .charDuplicate {
+    display: none !important;
+  }
+
+  .line,
+  .charLine {
+    transform: none !important;
+    transition: none !important;
+  }
+}

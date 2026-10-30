@@ -1,0 +1,136 @@
+/* WeightHeadline.module.css */
+
+.root {
+  display: inline-grid;
+  grid-template-areas: "headline";
+  position: relative;
+  contain: layout paint;
+  font-family: var(--font-display, "Display", "Display Fallback", sans-serif);
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: top;
+}
+
+.alignLeft {
+  justify-items: start;
+  text-align: left;
+}
+
+.alignCenter {
+  justify-items: center;
+  text-align: center;
+}
+
+.alignRight {
+  justify-items: end;
+  text-align: right;
+}
+
+/* 
+ * Ghost Element:
+ * Renders an exact copy of the headline at maxWeight inside the identical grid cell.
+ * Guarantees that the container is perpetually sized for the heaviest state.
+ * Result: 0.000 Cumulative Layout Shift (CLS) when visible text thickens.
+ */
+.ghost {
+  grid-area: headline;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  white-space: nowrap;
+  font-weight: var(--wght-max, 620);
+  font-variation-settings: "wght" var(--wght-max, 620);
+  color: transparent !important;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+/* Visible animated layer overlaid on top of the ghost element */
+.visible {
+  grid-area: headline;
+  white-space: nowrap;
+  font-weight: var(--wght-base, 400);
+  font-variation-settings: "wght" var(--wght-base, 400);
+  color: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  user-select: text;
+}
+
+/* Mode B: Individual grapheme span */
+.letter {
+  display: inline-block;
+  white-space: pre;
+  will-change: font-variation-settings;
+  line-height: inherit;
+}
+
+/* Fallback when variable fonts / font-variation-settings are not supported */
+@supports not (font-variation-settings: normal) {
+  .root {
+    display: inline-block;
+    contain: normal;
+  }
+  .ghost {
+    display: none !important;
+  }
+  .visible {
+    font-weight: var(--wght-base, 400) !important;
+    font-variation-settings: normal !important;
+  }
+}
+
+/* Print Styles: Strict static plain rendering */
+@media print {
+  .root {
+    display: inline-block;
+  }
+  .ghost {
+    display: none !important;
+  }
+  .visible {
+    font-weight: var(--wght-base, 400) !important;
+    font-variation-settings: normal !important;
+  }
+}
+
+/* High Contrast / Forced Colors Mode */
+@media (forced-colors: active) {
+  .ghost {
+    display: none !important;
+  }
+  .visible {
+    font-variation-settings: normal !important;
+  }
+}
+
+/* Debug HUD Overlay */
+.debugOverlay {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  font-family: monospace;
+  font-size: 10px;
+  line-height: 1.2;
+  color: #8ed500;
+  background-color: rgba(13, 13, 13, 0.9);
+  border: 1px solid #8ed500;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 50;
+  white-space: nowrap;
+}
+
+.debugRadiusRing {
+  position: absolute;
+  border: 1px dashed rgba(142, 213, 0, 0.4);
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 40;
+}

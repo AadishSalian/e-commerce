@@ -1,12 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Button, SalesCard } from '@/components/ui';
+import { Button, SalesCard, WeightHeadline } from '@/components/ui';
 import SpinningBrandCard from './SpinningBrandCard';
 
 export default function Hero() {
   const router = useRouter();
+  const [entranceComplete, setEntranceComplete] = useState(false);
   
   // Set target date for 12 hours from now for the demo
   const targetDate = new Date();
@@ -26,14 +28,21 @@ export default function Hero() {
 
         {/* Left side: Text & CTAs */}
         <div className="flex flex-col items-center md:items-start flex-1 max-w-2xl">
-          <motion.h1 
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl font-bold tracking-tight text-foreground mb-6"
+            onAnimationComplete={() => setEntranceComplete(true)}
+            className="mb-6 flex flex-col items-center md:items-start"
           >
-            Engineered for the Obsessive.
-          </motion.h1>
+            <WeightHeadline
+              as="h1"
+              entranceComplete={entranceComplete}
+              className="text-5xl md:text-7xl font-bold tracking-tight text-foreground"
+            >
+              Engineered for the Obsessive.
+            </WeightHeadline>
+          </motion.div>
 
         <motion.p 
           initial={{ opacity: 0, y: 20 }}

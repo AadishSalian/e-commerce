@@ -14,7 +14,7 @@ import CraftsmanshipDetails from '@/components/storytelling/CraftsmanshipDetails
 
 // UI Components
 import ProductCard from '@/components/product/ProductCard';
-import { Button } from '@/components/ui/Button';
+import { Button, WeightHeadline } from '@/components/ui';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 
 import Image from 'next/image';
@@ -62,10 +62,16 @@ export default function CraftsmanshipPage() {
       {/* SECTION 8 — RAW TO REFINED */}
       <section className="w-full py-24 md:py-32 bg-surface relative z-30" style={{ clipPath: 'polygon(0 0, 100% 5vw, 100% 100%, 0 100%)', marginTop: '-5vw', paddingTop: '10vw' }}>
         <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold uppercase tracking-tight text-foreground mb-4">
-            From Raw<br />
-            To Refined
-          </h2>
+          <div className="mb-4 flex justify-center">
+            <WeightHeadline
+              as="h2"
+              perLetter
+              align="center"
+              className="text-4xl md:text-5xl font-bold uppercase tracking-tight text-foreground"
+            >
+              From Raw To Refined
+            </WeightHeadline>
+          </div>
           <p className="text-lg text-text-muted font-light max-w-2xl mx-auto">
             Drag the slider to see the transformation of raw material into finished product.
           </p>

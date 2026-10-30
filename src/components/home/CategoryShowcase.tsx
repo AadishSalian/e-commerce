@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { RollingText } from '@/components/ui';
+import { RollingText, WeightHeadline } from '@/components/ui';
 import styles from './CategoryShowcase.module.css';
 
 import Image from 'next/image';
@@ -68,6 +68,16 @@ export default function CategoryShowcase() {
   return (
     <section className={styles.section} aria-label="Product Categories">
       <div className={styles.container}>
+        <div className="mb-8 md:mb-12">
+          <WeightHeadline
+            as="h2"
+            perLetter
+            align="left"
+            className="text-3xl md:text-5xl font-bold tracking-tight text-foreground"
+          >
+            Curated Categories
+          </WeightHeadline>
+        </div>
         <div className={styles.grid}>
           {CATEGORIES.map((cat) => (
             <Link 

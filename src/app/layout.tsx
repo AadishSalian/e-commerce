@@ -85,6 +85,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased" suppressHydrationWarning>
       <head>
+        <link rel="preload" href="/fonts/display-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className={`${inter.className} min-h-full flex flex-col bg-background text-foreground`}>

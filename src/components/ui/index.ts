@@ -20,4 +20,5 @@ export * from './BottomSheet';
 export * from './OfflineBanner';
 export * from './LiquidShaderImage';
 export * from './RollingText';
+export * from './WeightHeadline';
 export * from '@/components/cart/FreeShippingProgressBar';

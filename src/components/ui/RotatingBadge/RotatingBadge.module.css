@@ -1,0 +1,266 @@
+/**
+ * RotatingBadge CSS Module
+ * Calibrated strictly for the matte design system.
+ * Zero glows, zero shadows, pure surface tokens, crisp hairline borders.
+ */
+
+.badgeContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  user-select: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  z-index: 20;
+  /* Ensure tap target is at least 44x44px */
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Sizing presets */
+.sizeResponsive {
+  --badge-size: 68px;
+  width: var(--badge-size);
+  height: var(--badge-size);
+}
+
+@media (min-width: 768px) {
+  .sizeResponsive {
+    --badge-size: 80px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sizeResponsive {
+    --badge-size: 108px;
+  }
+}
+
+.sizeSm {
+  --badge-size: 68px;
+  width: var(--badge-size);
+  height: var(--badge-size);
+}
+
+.sizeMd {
+  --badge-size: 80px;
+  width: var(--badge-size);
+  height: var(--badge-size);
+}
+
+.sizeLg {
+  --badge-size: 108px;
+  width: var(--badge-size);
+  height: var(--badge-size);
+}
+
+/* Hero Corner Placement */
+.cornerBottomRight {
+  position: absolute;
+  /* On mobile: safely clear the mobile bottom tab bar (h-14 + safe area) */
+  bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+  right: calc(1rem + env(safe-area-inset-right, 0px));
+}
+
+@media (min-width: 768px) {
+  .cornerBottomRight {
+    /* Bottom tab bar is hidden on tablet/desktop */
+    bottom: 2rem;
+    right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cornerBottomRight {
+    bottom: 2.5rem;
+    right: 3rem;
+  }
+}
+
+.cornerBottomLeft {
+  position: absolute;
+  bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+  left: calc(1rem + env(safe-area-inset-left, 0px));
+}
+
+@media (min-width: 768px) {
+  .cornerBottomLeft {
+    bottom: 2rem;
+    left: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cornerBottomLeft {
+    bottom: 2.5rem;
+    left: 3rem;
+  }
+}
+
+.cornerTopRight {
+  position: absolute;
+  top: calc(5.5rem + env(safe-area-inset-top, 0px));
+  right: calc(1rem + env(safe-area-inset-right, 0px));
+}
+
+@media (min-width: 768px) {
+  .cornerTopRight {
+    top: 6rem;
+    right: 2rem;
+  }
+}
+
+.cornerTopLeft {
+  position: absolute;
+  top: calc(5.5rem + env(safe-area-inset-top, 0px));
+  left: calc(1rem + env(safe-area-inset-left, 0px));
+}
+
+@media (min-width: 768px) {
+  .cornerTopLeft {
+    top: 6rem;
+    left: 2rem;
+  }
+}
+
+.cornerNone {
+  position: relative;
+}
+
+/* Link wrapper & focus ring outside the rotating SVG */
+.linkWrapper {
+  cursor: pointer;
+  outline: none;
+  transition: opacity 0.2s ease;
+}
+
+.linkWrapper:focus-visible {
+  outline: 2px solid var(--accent, #8ed500);
+  outline-offset: 3px;
+}
+
+.decorativeWrapper {
+  cursor: default;
+}
+
+/* SVG styling */
+.badgeSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Disc & Rings */
+.badgeDisc {
+  fill: var(--bg-secondary, #1a1a1a);
+  fill-opacity: 0.94;
+  stroke: var(--border-subtle, #2a2a2a);
+  stroke-width: 1px;
+}
+
+.badgeInnerRing {
+  fill: none;
+  stroke: var(--border-subtle, #2a2a2a);
+  stroke-width: 0.75px;
+  opacity: 0.75;
+}
+
+/* Rotating text group */
+.rotatingGroup {
+  transform-origin: center;
+  transform-box: fill-box;
+  will-change: transform;
+}
+
+/* Text on path */
+.badgeText {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+  fill: var(--text-primary, #e8e8e6);
+  letter-spacing: 0.14em;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: opacity 0.25s ease-out;
+  pointer-events: none;
+}
+
+.badgeTextLoading {
+  opacity: 0;
+}
+
+.badgeTextReady {
+  opacity: 1;
+}
+
+.separatorGlyph {
+  fill: var(--accent, #8ed500);
+  font-weight: 700;
+}
+
+.textSegment {
+  fill: currentColor;
+}
+
+/* Center icon container */
+.centerIconGroup {
+  pointer-events: none;
+  color: var(--text-primary, #e8e8e6);
+}
+
+/* Fallback pill for complex scripts */
+.fallbackPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 9999px;
+  background-color: var(--bg-secondary, #1a1a1a);
+  border: 1px solid var(--border-subtle, #2a2a2a);
+  color: var(--text-primary, #e8e8e6);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: none !important;
+}
+
+.fallbackPill:focus-visible {
+  outline: 2px solid var(--accent, #8ed500);
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .rotatingGroup {
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+/* Forced Colors / Windows High Contrast Mode */
+@media (forced-colors: active) {
+  .badgeDisc {
+    fill: Canvas;
+    stroke: ButtonBorder;
+  }
+  .badgeInnerRing {
+    stroke: ButtonBorder;
+  }
+  .badgeText {
+    fill: CanvasText;
+  }
+  .separatorGlyph {
+    fill: CanvasText;
+  }
+  .textSegment {
+    fill: CanvasText;
+  }
+  .centerIconGroup {
+    color: CanvasText;
+  }
+  .linkWrapper:focus-visible {
+    outline: 2px solid Highlight;
+  }
+}

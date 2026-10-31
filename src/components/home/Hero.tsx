@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Button, SalesCard, WeightHeadline } from '@/components/ui';
+import { Button, SalesCard, WeightHeadline, RotatingBadge } from '@/components/ui';
 import SpinningBrandCard from './SpinningBrandCard';
 
 export default function Hero() {
@@ -108,6 +108,13 @@ export default function Hero() {
           />
         </div>
       </motion.div>
+
+      {/* Rotating Circular Trust Seal */}
+      <RotatingBadge
+        preset="returns-30"
+        entranceComplete={entranceComplete}
+        corner="bottom-right"
+      />
 
     </section>
   );

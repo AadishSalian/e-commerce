@@ -22,4 +22,5 @@ export * from './LiquidShaderImage';
 export * from './RollingText';
 export * from './WeightHeadline';
 export * from './RotatingBadge';
+export * from './StackedCards';
 export * from '@/components/cart/FreeShippingProgressBar';

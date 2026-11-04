@@ -16,7 +16,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story */}
-      <section className="py-20 px-6 bg-surface border-y border-border">
+      <section id="story" className="py-20 px-6 bg-surface border-y border-border">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl font-bold mb-6">Our Story</h2>
@@ -38,11 +38,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Our Values */}
-      <section className="py-24 px-6 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-12 text-center md:text-left">What We Stand For</h2>
-        <ValuesTabs />
-      </section>
+      {/* Our Values (Stacked Sticky Cards) */}
+      <ValuesTabs />
 
       {/* Team Section */}
       <section className="py-20 px-6 bg-surface border-y border-border">

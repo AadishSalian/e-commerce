@@ -1,0 +1,335 @@
+/**
+ * StackedCards CSS Module
+ * Calibrated strictly for the matte design system.
+ * Zero glows, zero animated shadows, pure tokens, crisp hairline borders.
+ */
+
+.sectionWrapper {
+  width: 100%;
+  position: relative;
+  padding-top: 4rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 768px) {
+  .sectionWrapper {
+    padding-top: 6rem;
+    padding-bottom: 8rem;
+  }
+}
+
+.header {
+  max-width: 64rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  margin-bottom: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .header {
+    margin-bottom: 4.5rem;
+  }
+}
+
+.headerCentered {
+  text-align: center;
+  align-items: center;
+}
+
+.cardsContainer {
+  position: relative;
+  width: 100%;
+  max-width: 76rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+  .cardsContainer {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.cardsList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Card track wrapper (normal flow element defining scroll progression) */
+.cardTrack {
+  position: relative;
+  width: 100%;
+  margin-bottom: var(--card-margin, 10svh);
+}
+
+.cardTrack:last-child {
+  margin-bottom: 0;
+}
+
+/* Sticky container element pinned near top of viewport */
+.cardSticky {
+  position: sticky;
+  top: calc(var(--stack-top, 84px) + (var(--card-index, 0) * var(--stack-peek, 20px)));
+  scroll-margin-top: calc(var(--stack-top, 84px) + (var(--card-index, 0) * var(--stack-peek, 20px)));
+  z-index: calc(10 + var(--card-index, 0));
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Inner card element receiving visual transforms */
+.cardInner {
+  position: relative;
+  width: 100%;
+  min-height: calc(100svh - var(--stack-top, 84px) - var(--stack-bottom-gap, 32px));
+  background-color: var(--card-bg, var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-sizing: border-box;
+  transform-origin: top center;
+  contain: layout paint;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  
+  /* Static top edge shadow separating stacked layers */
+  box-shadow: 0 -6px 24px -2px rgba(0, 0, 0, 0.4) !important;
+}
+
+:global([data-theme="light"]) .cardInner {
+  border-color: var(--border-subtle);
+  box-shadow: 0 -4px 18px -2px rgba(0, 0, 0, 0.08) !important;
+}
+
+@media (min-width: 768px) {
+  .cardInner {
+    padding: 3.5rem 3rem;
+    border-radius: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardInner {
+    padding: 4.5rem 4rem;
+  }
+}
+
+/* Responsive Grid inside Card */
+.cardGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .cardGrid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 3.5rem;
+  }
+}
+
+.textColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .textColumn {
+    grid-column: span 7;
+  }
+}
+
+.imageColumn {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background-color: var(--bg-primary);
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .imageColumn {
+    aspect-ratio: 4 / 3;
+    border-radius: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .imageColumn {
+    grid-column: span 5;
+    height: 100%;
+    min-height: 320px;
+  }
+}
+
+/* Dimming Overlay (animates opacity, not filter: brightness) */
+.dimOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-color: #000000;
+  z-index: 25;
+}
+
+:global([data-theme="light"]) .dimOverlay {
+  background-color: #f7f7f5;
+}
+
+/* Ghost Numeral */
+.ghostNumeral {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 0.5rem;
+  font-size: clamp(6rem, 15vw, 13rem);
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+  font-weight: 800;
+  line-height: 0.75;
+  color: var(--foreground);
+  opacity: 0.035;
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (max-width: 640px) {
+  .ghostNumeral {
+    display: none;
+  }
+}
+
+/* Quiet Progress Rail Indicator */
+.progressRail {
+  position: sticky;
+  top: calc(var(--stack-top, 84px) - 2rem);
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 1.5rem;
+  margin-bottom: 1rem;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.progressBadge {
+  font-size: 0.75rem;
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+}
+
+/* Interactive link inside card */
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--foreground);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 0.25rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  width: fit-content;
+}
+
+.cardLink:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.cardLink:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Unstacked flow fallback */
+.unstackedSection .cardTrack {
+  margin-bottom: 2.5rem;
+}
+
+.unstackedSection .cardSticky {
+  position: relative !important;
+  top: auto !important;
+  scroll-margin-top: 6rem !important;
+}
+
+.unstackedSection .cardInner {
+  min-height: auto !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border-radius: 1.5rem;
+}
+
+.unstackedSection .dimOverlay {
+  display: none !important;
+}
+
+/* Short viewport fallback */
+@media (max-height: 599px) {
+  .cardSticky {
+    position: relative !important;
+    top: auto !important;
+  }
+  .cardInner {
+    min-height: auto !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .dimOverlay {
+    display: none !important;
+  }
+}
+
+/* Print Fallbacks */
+@media print {
+  .cardSticky {
+    position: static !important;
+    top: auto !important;
+    page-break-inside: avoid;
+  }
+  .cardInner {
+    min-height: auto !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .dimOverlay {
+    display: none !important;
+  }
+  .ghostNumeral {
+    display: none !important;
+  }
+  .progressRail {
+    display: none !important;
+  }
+}

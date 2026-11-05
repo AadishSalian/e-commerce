@@ -23,4 +23,5 @@ export * from './RollingText';
 export * from './WeightHeadline';
 export * from './RotatingBadge';
 export * from './StackedCards';
+export * from './PanelGallery';
 export * from '@/components/cart/FreeShippingProgressBar';

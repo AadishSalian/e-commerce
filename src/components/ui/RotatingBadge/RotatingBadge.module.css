@@ -67,14 +67,14 @@
   .cornerBottomRight {
     /* Bottom tab bar is hidden on tablet/desktop */
     bottom: 2rem;
-    right: 2rem;
+    right: 5.5rem; /* Safely clears fixed floating live chat and back-to-top widgets */
   }
 }
 
 @media (min-width: 1024px) {
   .cornerBottomRight {
     bottom: 2.5rem;
-    right: 3rem;
+    right: 6rem; /* Generous breathing room */
   }
 }
 

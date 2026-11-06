@@ -126,6 +126,9 @@ export default function Navbar() {
           className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none"
           style={{ marginTop: topMargin }}
         >
+          {/* Ambient top fade to softly dissolve page content scrolling under the floating islands */}
+          <div className="absolute -top-10 left-0 right-0 h-32 bg-gradient-to-b from-background/90 via-background/50 to-transparent pointer-events-none -z-10" />
+
           <motion.div 
             className="flex items-center pointer-events-auto relative"
             style={{ gap: islandGap }}

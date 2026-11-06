@@ -11,6 +11,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   vertical-align: top;
+  max-width: 100%;
 }
 
 .alignLeft {
@@ -39,7 +40,10 @@
   visibility: hidden !important;
   pointer-events: none !important;
   user-select: none !important;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  text-wrap: balance;
   font-weight: var(--wght-max, 620);
   font-variation-settings: "wght" var(--wght-max, 620);
   color: transparent !important;
@@ -50,7 +54,10 @@
 /* Visible animated layer overlaid on top of the ghost element */
 .visible {
   grid-area: headline;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  text-wrap: balance;
   font-weight: var(--wght-base, 400);
   font-variation-settings: "wght" var(--wght-base, 400);
   color: inherit;

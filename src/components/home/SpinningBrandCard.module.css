@@ -1,9 +1,19 @@
 .scene {
   perspective: 1000px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   /* Variables will be passed via style prop */
   width: var(--card-size, 200px);
   height: var(--card-size, 200px);
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .scene {
+    width: min(var(--card-size, 180px), 180px);
+    height: min(var(--card-size, 180px), 180px);
+  }
 }
 
 .coin {
@@ -14,6 +24,7 @@
   animation: spin 6s linear infinite;
   border-radius: 50%;
   cursor: pointer;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {

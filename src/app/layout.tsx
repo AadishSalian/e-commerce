@@ -111,7 +111,7 @@ export default function RootLayout({
                             <CategoryMismatchModal />
                             <QuickViewModal />
                             <CommandMenu />
-                            <main className="flex-grow flex flex-col pt-36 md:pt-28">
+                            <main className="flex-grow flex flex-col pt-24 md:pt-24">
                               <PageTransition>
                                 {children}
                               </PageTransition>

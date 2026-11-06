@@ -25,7 +25,7 @@
 @media (min-width: 1024px) {
   .container {
     justify-content: center; /* Center them perfectly on desktop */
-    gap: 3rem; /* Generous breathing room */
+    gap: clamp(1.25rem, 2.2vw, 2.5rem); /* Responsive breathing room without overflow */
   }
 }
 

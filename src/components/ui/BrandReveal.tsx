@@ -16,6 +16,9 @@ export default function BrandReveal() {
     if (prefersReducedMotion || hasPlayedBefore) {
        
       setShouldPlay(false);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
+      }
     } else {
       sessionStorage.setItem('brand_reveal_played', 'true');
     }
@@ -44,6 +47,9 @@ export default function BrandReveal() {
         await animate(scope.current, { opacity: 0 }, { duration: 0.45, ease: [0.55, 0, 0.1, 1] });
 
         setShouldPlay(false);
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
+        }
       };
       runAnimation();
     }

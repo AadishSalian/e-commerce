@@ -5,6 +5,8 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { CustomSelect } from '@/components/ui/CustomSelect';
 import ProductCard from '@/components/product/ProductCard';
+import { SplitHero } from '@/components/ui/SplitHero';
+import { WOMEN_MEN_SPLIT_HERO } from '@/config/splitHero';
 
 export default function FashionPage() {
   const [sortBy, setSortBy] = useState('newest');
@@ -31,38 +33,16 @@ export default function FashionPage() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col w-full selection:bg-foreground selection:text-background transition-colors duration-300">
       
-      {/* 1. Minimalist Hero Section */}
-      <section className="relative pt-40 pb-20 w-full flex flex-col items-center justify-center px-4 max-w-6xl mx-auto text-center">
-        
-        {/* Back Button positioned to the side */}
-
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-4xl flex flex-col items-center relative z-10"
-        >
-          <div className="overflow-hidden mb-6 pb-2">
-            <motion.h1 
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-              className="text-5xl md:text-7xl leading-tight font-bold tracking-tight text-foreground uppercase"
-            >
-              Fashion & Apparel.
-            </motion.h1>
-          </div>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="text-lg md:text-2xl text-text-muted mb-12 max-w-2xl font-light"
-          >
-            Engineered silhouettes. Tactile fabrics. A study in modern minimalism and uncompromising quality.
-          </motion.p>
-        </motion.div>
-      </section>
+      {/* 1. Full-Viewport Split Hero (Women / Men with Hover Expand) */}
+      <SplitHero 
+        halves={WOMEN_MEN_SPLIT_HERO}
+        pageTitle="MATTE. Fashion & Apparel — Architectural Silhouettes"
+        shopAll={{
+          label: 'Shop all apparel',
+          href: '#collection',
+          ariaLabel: 'Scroll down to browse all fashion apparel',
+        }}
+      />
 
       {/* Infinite Scrolling Marquee */}
       <div className="w-full overflow-hidden bg-foreground text-background py-5 border-y border-border">
@@ -146,7 +126,7 @@ export default function FashionPage() {
       </section>
 
       {/* 3. Interactive Product Grid */}
-      <section className="pb-32 px-4 md:px-8 max-w-7xl mx-auto w-full">
+      <section id="collection" className="pb-32 px-4 md:px-8 max-w-7xl mx-auto w-full scroll-mt-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-border pb-6">
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground uppercase">
             The Collection

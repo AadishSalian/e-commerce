@@ -1,0 +1,111 @@
+.triggerButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 550;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-height: 32px;
+}
+
+.triggerButton:hover {
+  background-color: var(--border-subtle);
+  border-color: var(--text-muted);
+}
+
+.triggerButton:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.menuBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: transparent;
+}
+
+@media (max-width: 640px) {
+  .menuBackdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.popoverContent {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem;
+  width: 280px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .popoverContent {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin-top: 0;
+    border-radius: 16px 16px 0 0;
+    padding: 1.25rem 1rem max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+.menuHeader {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 0.25rem;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+  min-height: 40px;
+}
+
+.menuItem:hover {
+  background-color: var(--bg-elevated);
+}
+
+.menuItem:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.disclaimer {
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+  padding: 0.5rem 0.5rem 0.25rem;
+  border-top: 1px solid var(--border-subtle);
+}

@@ -27,7 +27,7 @@ export default function ProductCarousel() {
 
       {/* Snap Scroll Container */}
       <div 
-        data-lenis-prevent="true"
+        data-lenis-prevent-horizontal="true"
         className="w-full overflow-x-auto pb-8 hide-scrollbar snap-x snap-mandatory px-4 md:px-8 flex gap-6"
       >
         {featuredProducts.map((product) => (

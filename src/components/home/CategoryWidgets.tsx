@@ -42,7 +42,7 @@ export default function CategoryWidgets() {
     <section className={styles.wrapper} aria-label="Quick Categories">
       <motion.div 
         className={styles.container}
-        data-lenis-prevent="true"
+        data-lenis-prevent-horizontal="true"
         variants={containerVariants}
         initial="hidden"
         animate="show"

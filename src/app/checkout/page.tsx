@@ -203,7 +203,7 @@ export default function CheckoutPage() {
           sessionStorage.removeItem('matte_last_order_emi_plan');
         }
         clearCart();
-        router.push('/checkout/success');
+        router.push('/checkout/success?orderId=ORD-948271&token=7f9a8b1c4d2e3f4a5b6c7d8e9f0a1b2c');
       }, 1000);
     } catch (e) {
       console.log('Payment Request aborted or failed', e);
@@ -241,7 +241,11 @@ export default function CheckoutPage() {
     // Mock processing delay
     setTimeout(() => {
       clearCart();
-      router.push('/checkout/success');
+      const targetUrl =
+        paymentMethod === 'cod'
+          ? '/checkout/success?orderId=ORD-552109&token=a1b2c3d4e5f6789012345678abcdef01'
+          : '/checkout/success?orderId=ORD-948271&token=7f9a8b1c4d2e3f4a5b6c7d8e9f0a1b2c';
+      router.push(targetUrl);
     }, 1500);
   };
 

@@ -1,0 +1,451 @@
+[
+  {
+    "id": "ORD-948271",
+    "idempotencyKey": "idem-948271-prod-01",
+    "guestAccessToken": "7f9a8b1c4d2e3f4a5b6c7d8e9f0a1b2c",
+    "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
+    "createdAt": "2026-11-08T11:45:00.000Z",
+    "updatedAt": "2026-11-08T08:49:20.374Z",
+    "status": "confirmed",
+    "customer": {
+      "userId": "usr-demo-1",
+      "isGuest": false,
+      "email": "aadis.sharma@gmail.com",
+      "maskedEmail": "a***@gmail.com",
+      "phone": "+91 98765 43210",
+      "maskedPhone": "•••••• 3210",
+      "firstName": "Aadis",
+      "lastName": "Sharma",
+      "shippingAddress": {
+        "line1": "901 Signature Tower",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "zip": "400051",
+        "country": "India"
+      }
+    },
+    "payment": {
+      "status": "confirmed",
+      "method": "card",
+      "methodTitle": "Credit Card",
+      "maskedDetails": "Mastercard ending in 8842",
+      "transactionId": "TXN-984102941"
+    },
+    "pricing": {
+      "subtotal": 16980,
+      "discount": 2000,
+      "couponCode": "DROP20",
+      "shipping": 0,
+      "isShippingFree": true,
+      "taxGst": 2696.4,
+      "taxGstNumber": "27AABCU9603R1ZM",
+      "personalizationFee": 490,
+      "giftWrapFee": 0,
+      "total": 15470,
+      "currency": "INR"
+    },
+    "shipments": [
+      {
+        "id": "ship-1",
+        "shipmentNumber": 1,
+        "totalShipments": 2,
+        "title": "Shipment 1: Custom Inscribed Gear",
+        "carrier": "BlueDart Express",
+        "trackingNumber": "BLR78491029",
+        "trackingUrl": "https://track.bluedart.com/?track=BLR78491029",
+        "signatureRequired": true,
+        "estimatedDelivery": {
+          "start": "2026-11-13",
+          "end": "2026-11-15",
+          "formattedDisplay": "Fri, 13 Nov to Sun, 15 Nov",
+          "isEstimate": true,
+          "windowConfirmed": false
+        },
+        "items": [
+          {
+            "id": "item-d4-1",
+            "productId": "t-1",
+            "name": "Matte Keyboard 1",
+            "variant": "Obsidian Black",
+            "quantity": 1,
+            "unitPrice": 12990,
+            "linePrice": 12990,
+            "image": "https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=400&auto=format&fit=crop",
+            "isPersonalized": true,
+            "personalization": {
+              "inscription": "AADIS • STUDIO 01",
+              "fontName": "JetBrains Mono",
+              "placement": "Top Right Aluminum Bezel",
+              "finishStyle": "laser_metal",
+              "productionDays": 2
+            }
+          }
+        ],
+        "stages": [
+          {
+            "key": "placed",
+            "label": "Order placed",
+            "sublabel": "Received and verified by server",
+            "timestamp": "2026-11-08T11:45:00.000Z",
+            "isCompleted": true,
+            "isCurrent": false
+          },
+          {
+            "key": "processing",
+            "label": "Being engraved & assembled",
+            "sublabel": "Custom laser engraving in progress (2 days lead time)",
+            "isCompleted": false,
+            "isCurrent": true,
+            "estimatedDateOrRange": "Estimated completion Nov 10"
+          },
+          {
+            "key": "packed",
+            "label": "Packed & handed to carrier",
+            "isCompleted": false,
+            "isCurrent": false,
+            "estimatedDateOrRange": "Estimated Nov 11"
+          },
+          {
+            "key": "in_transit",
+            "label": "In transit",
+            "sublabel": "BlueDart Air Express",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "out_for_delivery",
+            "label": "Out for delivery",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "delivered",
+            "label": "Delivered",
+            "isCompleted": false,
+            "isCurrent": false,
+            "estimatedDateOrRange": "Fri, 13 Nov to Sun, 15 Nov"
+          }
+        ]
+      },
+      {
+        "id": "ship-2",
+        "shipmentNumber": 2,
+        "totalShipments": 2,
+        "title": "Shipment 2: In-Stock Essentials",
+        "carrier": "Delhivery Surface",
+        "trackingNumber": "DEL99482103",
+        "trackingUrl": "https://delhivery.com/track/DEL99482103",
+        "estimatedDelivery": {
+          "start": "2026-11-11",
+          "end": "2026-11-13",
+          "formattedDisplay": "Wed 11 Nov to Fri 13 Nov",
+          "isEstimate": true,
+          "windowConfirmed": false
+        },
+        "items": [
+          {
+            "id": "item-d4-2",
+            "productId": "t-2",
+            "name": "Coiled Braided Cable",
+            "variant": "Matte Charcoal / USB-C",
+            "quantity": 1,
+            "unitPrice": 2490,
+            "linePrice": 2490,
+            "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=400&auto=format&fit=crop"
+          }
+        ],
+        "stages": [
+          {
+            "key": "placed",
+            "label": "Order placed",
+            "timestamp": "2026-11-08T11:45:00.000Z",
+            "isCompleted": true,
+            "isCurrent": false
+          },
+          {
+            "key": "processing",
+            "label": "Order confirmed and ready",
+            "isCompleted": true,
+            "timestamp": "2026-11-08T11:45:00.000Z",
+            "isCurrent": false
+          },
+          {
+            "key": "packed",
+            "label": "Packed at Mumbai fulfillment hub",
+            "isCompleted": false,
+            "isCurrent": true
+          },
+          {
+            "key": "in_transit",
+            "label": "In transit",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "out_for_delivery",
+            "label": "Out for delivery",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "delivered",
+            "label": "Delivered",
+            "isCompleted": false,
+            "isCurrent": false,
+            "estimatedDateOrRange": "Wed 11 Nov to Fri 13 Nov"
+          }
+        ]
+      }
+    ],
+    "giftOptions": {
+      "isGift": false,
+      "hidePricesOnSlip": false
+    },
+    "editableUntil": "2026-11-08T18:00:00.000Z",
+    "cancellableUntil": "2026-11-08T14:00:00.000Z"
+  },
+  {
+    "id": "ORD-552109",
+    "idempotencyKey": "idem-552109-cod",
+    "guestAccessToken": "a1b2c3d4e5f6789012345678abcdef01",
+    "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
+    "createdAt": "2026-11-08T11:45:00.000Z",
+    "updatedAt": "2026-11-08T11:45:00.000Z",
+    "status": "confirmed_cod",
+    "customer": {
+      "isGuest": true,
+      "email": "guest.shopper@yahoo.com",
+      "maskedEmail": "g***@yahoo.com",
+      "phone": "+91 91234 56789",
+      "maskedPhone": "•••••• 6789",
+      "firstName": "Rahul",
+      "lastName": "Verma",
+      "shippingAddress": {
+        "line1": "B-14 Green Park Ext",
+        "city": "New Delhi",
+        "state": "Delhi",
+        "zip": "110016",
+        "country": "India"
+      }
+    },
+    "payment": {
+      "status": "confirmed_cod",
+      "method": "cod",
+      "methodTitle": "Cash on Delivery",
+      "maskedDetails": "Pay in cash or UPI QR at door",
+      "amountDueOnDelivery": 3490,
+      "codInstructions": "Please keep exact cash or scan the courier UPI QR upon arrival."
+    },
+    "pricing": {
+      "subtotal": 3490,
+      "discount": 0,
+      "shipping": 0,
+      "isShippingFree": true,
+      "taxGst": 532.37,
+      "personalizationFee": 0,
+      "giftWrapFee": 0,
+      "total": 3490,
+      "currency": "INR"
+    },
+    "shipments": [
+      {
+        "id": "ship-cod-1",
+        "shipmentNumber": 1,
+        "totalShipments": 1,
+        "title": "Standard Courier Delivery",
+        "carrier": "Shadowfax",
+        "estimatedDelivery": {
+          "start": "2026-11-12",
+          "end": "2026-11-14",
+          "formattedDisplay": "Thu 12 Nov to Sat 14 Nov",
+          "isEstimate": true,
+          "windowConfirmed": false
+        },
+        "items": [
+          {
+            "id": "item-cd-1",
+            "productId": "t-3",
+            "name": "Monolith Headphones Case",
+            "variant": "Matte Grey",
+            "quantity": 1,
+            "unitPrice": 3490,
+            "linePrice": 3490,
+            "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop"
+          }
+        ],
+        "stages": [
+          {
+            "key": "placed",
+            "label": "Order placed (COD confirmed)",
+            "timestamp": "2026-11-08T11:45:00.000Z",
+            "isCompleted": true,
+            "isCurrent": false
+          },
+          {
+            "key": "processing",
+            "label": "Preparing for dispatch",
+            "isCompleted": false,
+            "isCurrent": true
+          },
+          {
+            "key": "packed",
+            "label": "Packed & ready",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "in_transit",
+            "label": "In transit",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "out_for_delivery",
+            "label": "Out for delivery",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "delivered",
+            "label": "Delivered & collected",
+            "isCompleted": false,
+            "isCurrent": false
+          }
+        ]
+      }
+    ],
+    "editableUntil": "2026-11-08T18:00:00.000Z",
+    "cancellableUntil": "2026-11-08T18:00:00.000Z"
+  },
+  {
+    "id": "ORD-PENDING-UPI",
+    "idempotencyKey": "idem-upi-poll-01",
+    "guestAccessToken": "pendingtoken1234567890abcdef1234",
+    "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
+    "createdAt": "2026-11-08T07:46:58.032Z",
+    "updatedAt": "2026-11-08T07:46:58.032Z",
+    "status": "payment_pending",
+    "customer": {
+      "isGuest": true,
+      "email": "priya.n@gmail.com",
+      "maskedEmail": "p***@gmail.com",
+      "phone": "+91 98111 22334",
+      "maskedPhone": "•••••• 2334",
+      "firstName": "Priya",
+      "lastName": "Nair",
+      "shippingAddress": {
+        "line1": "12 Indiranagar 100ft Rd",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "zip": "560038",
+        "country": "India"
+      }
+    },
+    "payment": {
+      "status": "payment_pending",
+      "method": "upi",
+      "methodTitle": "UPI Intent",
+      "maskedDetails": "Awaiting bank settlement confirmation"
+    },
+    "pricing": {
+      "subtotal": 5490,
+      "discount": 500,
+      "shipping": 0,
+      "isShippingFree": true,
+      "taxGst": 837.4,
+      "personalizationFee": 0,
+      "giftWrapFee": 0,
+      "total": 4990,
+      "currency": "INR"
+    },
+    "shipments": []
+  },
+  {
+    "id": "ORD-FAILED-CARD",
+    "idempotencyKey": "idem-failed-01",
+    "guestAccessToken": "failedtoken1234567890abcdef1234",
+    "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
+    "createdAt": "2026-11-08T11:45:00.000Z",
+    "updatedAt": "2026-11-08T11:45:00.000Z",
+    "status": "payment_failed",
+    "customer": {
+      "isGuest": true,
+      "email": "vikram.k@gmail.com",
+      "maskedEmail": "v***@gmail.com",
+      "phone": "+91 97777 88888",
+      "maskedPhone": "•••••• 8888",
+      "firstName": "Vikram",
+      "lastName": "Kapoor",
+      "shippingAddress": {
+        "line1": "Penthouse 9, DLF Phase 5",
+        "city": "Gurugram",
+        "state": "Haryana",
+        "zip": "122002",
+        "country": "India"
+      }
+    },
+    "payment": {
+      "status": "payment_failed",
+      "method": "card",
+      "methodTitle": "Credit Card",
+      "maskedDetails": "Visa ending in 0002",
+      "failureReason": "Transaction was declined by issuing bank (Insufficient funds / card limit reached).",
+      "failureCode": "DECLINED_LIMIT"
+    },
+    "pricing": {
+      "subtotal": 21990,
+      "discount": 0,
+      "shipping": 0,
+      "isShippingFree": true,
+      "taxGst": 3354.4,
+      "personalizationFee": 0,
+      "giftWrapFee": 0,
+      "total": 21990,
+      "currency": "INR"
+    },
+    "shipments": []
+  },
+  {
+    "id": "ORD-EXPIRED-TOKEN",
+    "idempotencyKey": "idem-expired-01",
+    "guestAccessToken": "expiredtoken1234567890abcdef1234",
+    "tokenExpiresAt": "2026-11-01T12:00:00.000Z",
+    "createdAt": "2026-10-01T12:00:00Z",
+    "updatedAt": "2026-10-01T12:00:00Z",
+    "status": "confirmed",
+    "customer": {
+      "isGuest": true,
+      "email": "old.guest@example.com",
+      "maskedEmail": "o***@example.com",
+      "phone": "+91 99999 00000",
+      "maskedPhone": "•••••• 0000",
+      "firstName": "Old",
+      "lastName": "Guest",
+      "shippingAddress": {
+        "line1": "1 Old Way",
+        "city": "Chennai",
+        "state": "Tamil Nadu",
+        "zip": "600001",
+        "country": "India"
+      }
+    },
+    "payment": {
+      "status": "confirmed",
+      "method": "upi",
+      "methodTitle": "UPI",
+      "maskedDetails": "UPI: old@upi"
+    },
+    "pricing": {
+      "subtotal": 1999,
+      "discount": 0,
+      "shipping": 0,
+      "isShippingFree": true,
+      "taxGst": 305,
+      "personalizationFee": 0,
+      "giftWrapFee": 0,
+      "total": 1999,
+      "currency": "INR"
+    },
+    "shipments": []
+  }
+]

@@ -83,12 +83,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased" suppressHydrationWarning>
+    <html lang="en" className="antialiased" suppressHydrationWarning>
       <head>
         <link rel="preload" href="/fonts/display-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${inter.className} min-h-full flex flex-col bg-background text-foreground`}>
+      <body className={`${inter.className} min-h-screen flex flex-col bg-background text-foreground`}>
         <PwaRegister />
         <BrandReveal />
         <LenisProvider>

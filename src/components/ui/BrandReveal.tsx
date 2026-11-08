@@ -14,9 +14,9 @@ export default function BrandReveal() {
     const hasPlayedBefore = sessionStorage.getItem('brand_reveal_played');
 
     if (prefersReducedMotion || hasPlayedBefore) {
-       
       setShouldPlay(false);
       if (typeof window !== 'undefined') {
+        document.documentElement.setAttribute('data-intro', 'played');
         window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
       }
     } else {
@@ -48,6 +48,7 @@ export default function BrandReveal() {
 
         setShouldPlay(false);
         if (typeof window !== 'undefined') {
+          document.documentElement.setAttribute('data-intro', 'played');
           window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
         }
       };

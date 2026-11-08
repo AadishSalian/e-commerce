@@ -91,7 +91,6 @@ export function RotatingBadge({
   const hasEnteredRef = useRef(false);
   const [hasEntered, setHasEntered] = useState(false);
   const [fontsReady, setFontsReady] = useState(false);
-  const [measuredCircumference, setMeasuredCircumference] = useState<number>(BADGE_FX.circumference);
 
   const isVisibleRef = useRef(true);
   const isTabVisibleRef = useRef(true);
@@ -130,23 +129,19 @@ export function RotatingBadge({
     };
   }, [shouldHide]);
 
-  // Measure text length after web fonts are completely ready
+  // Ensure fonts ready state once web fonts load
   useEffect(() => {
     if (shouldHide || typeof document === 'undefined') return;
 
     let isMounted = true;
 
     const checkFit = () => {
-      if (!isMounted || !textRef.current) return;
-      try {
-        const textLen = textRef.current.getComputedTextLength();
-        if (textLen > 0) {
-          setMeasuredCircumference(textLen);
+      if (!isMounted) return;
+      requestAnimationFrame(() => {
+        if (isMounted) {
+          setFontsReady(true);
         }
-      } catch {
-        // Fallback in environments where getComputedTextLength is unmocked
-      }
-      setFontsReady(true);
+      });
     };
 
     if ('fonts' in document && document.fonts && typeof document.fonts.ready?.then === 'function') {
@@ -337,6 +332,7 @@ export function RotatingBadge({
           style={{
             rotate: shouldReduceMotion ? 0 : rotation,
             transformOrigin: `${BADGE_FX.center}px ${BADGE_FX.center}px`,
+            transformBox: 'view-box',
           }}
           className={s.rotatingGroup}
         >
@@ -352,8 +348,9 @@ export function RotatingBadge({
             <textPath
               href={`#${pathId}`}
               startOffset="0"
-              textLength={measuredCircumference || BADGE_FX.circumference}
+              textLength={BADGE_FX.circumference}
               lengthAdjust="spacing"
+              dominantBaseline="central"
             >
               {renderTextSpans()}
             </textPath>

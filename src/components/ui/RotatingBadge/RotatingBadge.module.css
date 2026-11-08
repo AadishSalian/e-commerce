@@ -169,8 +169,8 @@
 
 /* Rotating text group */
 .rotatingGroup {
-  transform-origin: center;
-  transform-box: fill-box;
+  transform-origin: 60px 60px;
+  transform-box: view-box;
   will-change: transform;
 }
 

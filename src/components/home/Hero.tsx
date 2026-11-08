@@ -27,7 +27,9 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            onAnimationComplete={() => setEntranceComplete(true)}
+            onAnimationComplete={() => {
+              requestAnimationFrame(() => setEntranceComplete(true));
+            }}
             className="mb-6 flex flex-col items-center md:items-start w-full"
           >
             <WeightHeadline

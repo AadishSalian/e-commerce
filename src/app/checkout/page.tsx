@@ -242,7 +242,7 @@ export default function CheckoutPage() {
     setTimeout(() => {
       clearCart();
       const targetUrl =
-        paymentMethod === 'cod'
+        (paymentMethod as string) === 'cod'
           ? '/checkout/success?orderId=ORD-552109&token=a1b2c3d4e5f6789012345678abcdef01'
           : '/checkout/success?orderId=ORD-948271&token=7f9a8b1c4d2e3f4a5b6c7d8e9f0a1b2c';
       router.push(targetUrl);

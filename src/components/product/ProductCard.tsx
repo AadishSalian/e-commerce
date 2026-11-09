@@ -8,7 +8,7 @@ import { useQuickView } from '@/contexts/QuickViewContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { CompareButton } from '@/components/compare';
 import { useRef, useState } from 'react';
-import { LiquidShaderImage } from '@/components/ui';
+import { LiquidShaderImage, WishlistButton } from '@/components/ui';
 import { PriceHistoryTagBadge } from '@/components/product/price-history';
 
 type ProductCardProps = {
@@ -122,7 +122,8 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
               )}
             </div>
 
-            <div className="absolute top-3.5 right-3.5 z-20">
+            <div className="absolute top-3.5 right-3.5 z-20 flex items-center gap-1.5">
+              <WishlistButton product={product} size="sm" />
               <CompareButton product={product} variant="card-corner" />
             </div>
             
@@ -215,7 +216,8 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
             className="absolute inset-0 w-full h-full"
           />
            
-          <div className="absolute top-3.5 right-3.5 z-20">
+          <div className="absolute top-3.5 right-3.5 z-20 flex items-center gap-1.5">
+            <WishlistButton product={product} size="sm" />
             <CompareButton product={product} variant="card-corner" />
           </div>
            
@@ -300,7 +302,8 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
             className="absolute inset-0 w-full h-full"
           />
           
-          <div className="absolute top-3.5 right-3.5 z-20">
+          <div className="absolute top-3.5 right-3.5 z-20 flex items-center gap-1.5">
+            <WishlistButton product={product} size="sm" />
             <CompareButton product={product} variant="card-corner" />
           </div>
           

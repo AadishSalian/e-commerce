@@ -209,3 +209,40 @@ img {
 
 @utility pb-safe { padding-bottom: env(safe-area-inset-bottom); }
 @utility pt-safe { padding-top: env(safe-area-inset-top); }
+
+/* Print Stylesheet for Wishlists */
+@media print {
+  header,
+  nav,
+  footer,
+  aside,
+  #intro-overlay,
+  button,
+  .no-print,
+  [role="dialog"],
+  [role="alertdialog"],
+  [aria-modal="true"] {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 12pt;
+    padding: 0 !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+}
+

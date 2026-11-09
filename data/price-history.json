@@ -165,5 +165,86 @@
     "currency": "INR",
     "recordedAt": "2026-10-21T02:56:21.357Z",
     "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794237385964_bz0mgl",
+    "productId": "test_prod_1794237385962",
+    "variantId": null,
+    "price": 50000,
+    "currency": "INR",
+    "recordedAt": "2026-10-10T15:16:25.963Z",
+    "source": "initial_record"
+  },
+  {
+    "id": "ph_1794237385967_6u152e",
+    "productId": "test_prod_1794237385962",
+    "variantId": null,
+    "price": 55000,
+    "currency": "INR",
+    "recordedAt": "2026-10-25T15:16:25.963Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794237385969_trtf1p",
+    "productId": "test_prod_1794237385962",
+    "variantId": null,
+    "price": 42000,
+    "currency": "INR",
+    "recordedAt": "2026-11-09T15:16:25.963Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794237408986_0hmioq",
+    "productId": "test_prod_1794237408985",
+    "variantId": null,
+    "price": 50000,
+    "currency": "INR",
+    "recordedAt": "2026-10-10T15:16:48.985Z",
+    "source": "initial_record"
+  },
+  {
+    "id": "ph_1794237408988_ar6d83",
+    "productId": "test_prod_1794237408985",
+    "variantId": null,
+    "price": 55000,
+    "currency": "INR",
+    "recordedAt": "2026-10-25T15:16:48.985Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794237408989_04r30b",
+    "productId": "test_prod_1794237408985",
+    "variantId": null,
+    "price": 42000,
+    "currency": "INR",
+    "recordedAt": "2026-11-09T15:16:48.985Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794241031163_ehcbqn",
+    "productId": "test_prod_1794241031161",
+    "variantId": null,
+    "price": 50000,
+    "currency": "INR",
+    "recordedAt": "2026-10-10T16:17:11.161Z",
+    "source": "initial_record"
+  },
+  {
+    "id": "ph_1794241031166_t78i5z",
+    "productId": "test_prod_1794241031161",
+    "variantId": null,
+    "price": 55000,
+    "currency": "INR",
+    "recordedAt": "2026-10-25T16:17:11.161Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794241031168_7ilqvd",
+    "productId": "test_prod_1794241031161",
+    "variantId": null,
+    "price": 42000,
+    "currency": "INR",
+    "recordedAt": "2026-11-09T16:17:11.161Z",
+    "source": "catalog_update"
   }
 ]

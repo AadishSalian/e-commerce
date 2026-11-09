@@ -1,125 +1,110 @@
 'use client';
 
-import { Heart, Trash2 } from 'lucide-react';
-import { EmptyState } from '@/components/ui';
-import { useWishlist } from '@/contexts/WishlistContext';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-
-import Image from 'next/image';
-import { PriceHistoryTagBadge } from '@/components/product/price-history';
+import { LayoutGrid, ListFilter, Plus } from 'lucide-react';
+import { useWishlistStore } from '@/store/useWishlistStore';
+import { WishlistBoardsView } from '@/components/wishlist/WishlistBoardsView';
+import { WishlistDetailView } from '@/components/wishlist/WishlistDetailView';
+import { WishlistAllItemsView } from '@/components/wishlist/WishlistAllItemsView';
+import { ShareDialog } from '@/components/wishlist/ShareDialog';
+import { NotificationsModal } from '@/components/wishlist/NotificationsModal';
 
 export default function WishlistPage() {
-  const { wishlistItems, removeFromWishlist } = useWishlist();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const boardParam = searchParams.get('board');
+
+  const enrichedWishlists = useWishlistStore((state) => state.enrichedWishlists);
+  const isInitialized = useWishlistStore((state) => state.isInitialized);
+  const activeWishlistId = useWishlistStore((state) => state.activeWishlistId);
+  const setActiveWishlistId = useWishlistStore((state) => state.setActiveWishlistId);
+
+  const [viewMode, setViewMode] = useState<'boards' | 'all'>('boards');
+  const [selectedBoardId, setSelectedBoardId] = useState<string | null>(boardParam || null);
+
+  useEffect(() => {
+    if (boardParam) {
+      setSelectedBoardId(boardParam);
+    }
+  }, [boardParam]);
+
+  const activeBoard = React.useMemo(() => {
+    if (!selectedBoardId) return null;
+    return enrichedWishlists.find((w) => w.id === selectedBoardId) || null;
+  }, [enrichedWishlists, selectedBoardId]);
+
+  const handleSelectBoard = (id: string) => {
+    setSelectedBoardId(id);
+    setActiveWishlistId(id);
+    router.replace(`/wishlist?board=${encodeURIComponent(id)}`, { scroll: false });
+  };
+
+  const handleBackToBoards = () => {
+    setSelectedBoardId(null);
+    router.replace('/wishlist', { scroll: false });
+  };
 
   return (
-    <div className="min-h-screen pt-8 md:pt-4 pb-32 px-4 md:px-8 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
-            Your Mood Board.
-          </h1>
-          <p className="text-text-muted text-lg max-w-xl">
-            A curated collection of your favorite engineered objects.
-          </p>
+    <div className="min-h-screen pt-4 md:pt-8 pb-32 px-4 md:px-8 max-w-7xl mx-auto w-full">
+      {/* Top Header if in top-level view */}
+      {!activeBoard && (
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-border/80 pb-8">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-3">
+              Wishlists
+            </h1>
+            <p className="text-text-muted text-base md:text-lg max-w-xl">
+              Turn saving into planning. Collect options for a room, an occasion, or a gift, and watch for truthful price drops.
+            </p>
+          </div>
+
+          {/* View Mode Toggle: Boards | All items */}
+          <div className="flex items-center p-1 bg-surface border border-border rounded-xl shrink-0 self-start md:self-end">
+            <button
+              type="button"
+              onClick={() => setViewMode('boards')}
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors min-h-[36px] ${
+                viewMode === 'boards'
+                  ? 'bg-foreground text-background shadow-sm'
+                  : 'text-text-muted hover:text-foreground'
+              }`}
+              aria-pressed={viewMode === 'boards'}
+            >
+              <LayoutGrid className="w-3.5 h-3.5" />
+              <span>Boards</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setViewMode('all')}
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors min-h-[36px] ${
+                viewMode === 'all'
+                  ? 'bg-foreground text-background shadow-sm'
+                  : 'text-text-muted hover:text-foreground'
+              }`}
+              aria-pressed={viewMode === 'all'}
+            >
+              <ListFilter className="w-3.5 h-3.5" />
+              <span>All items</span>
+            </button>
+          </div>
         </div>
-        {wishlistItems.length > 0 && (
-          <p className="text-sm font-medium text-text-muted">
-            {wishlistItems.length} {wishlistItems.length === 1 ? 'Item' : 'Items'}
-          </p>
-        )}
-      </div>
-
-      {wishlistItems.length === 0 ? (
-        <div className="border-t border-border pt-8 md:pt-4 pb-32">
-          <EmptyState 
-            icon={<Heart className="w-12 h-12" />} 
-            title="Nothing saved yet." 
-            description="Curate your perfect setup. Start exploring our collections to find your next obsession." 
-            actionText="Start Browsing" 
-            actionHref="/products" 
-          />
-        </div>
-      ) : (
-        <motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 auto-rows-[300px] md:auto-rows-[400px]"
-        >
-          <AnimatePresence>
-            {wishlistItems.map((product, idx) => {
-              // Create an asymmetrical layout based on index
-              const isLarge = idx % 5 === 0; // Every 5th item is large
-              const isWide = idx % 7 === 3; // Some items are wide
-
-              return (
-                <motion.div
-                  layout
-                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                  transition={{ duration: 0.5, delay: idx * 0.05, type: 'spring' }}
-                  key={product.id}
-                  className={`group relative rounded-2xl overflow-hidden bg-surface flex flex-col cursor-pointer ${
-                    isLarge ? 'md:col-span-2 md:row-span-2' : isWide ? 'md:col-span-2 row-span-1' : 'col-span-1 row-span-1'
-                  }`}
-                >
-                  <Link href={`/products/${product.id}`} className="absolute inset-0 z-10">
-                    <span className="sr-only">View {product.name}</span>
-                  </Link>
-                  
-                  {/* Image Background */}
-                  <Image src={product.image}
-                    alt={product.name}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                   width={800} height={800} />
-                  
-                  {/* Overlay Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-
-                  {/* Top Actions & Badges */}
-                  <div className="absolute top-6 left-6 z-20 pointer-events-none">
-                    <PriceHistoryTagBadge
-                      productId={product.id}
-                      currentPrice={product.price}
-                      savedPrice={(product as any).savedPrice}
-                      mode="wishlist"
-                    />
-                  </div>
-
-                  <div className="absolute top-6 right-6 z-20">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        removeFromWishlist(product.id);
-                      }}
-                      className="w-10 h-10 rounded-full bg-background/50 backdrop-blur-md flex items-center justify-center text-white hover:bg-red-500 hover:text-white transition-colors duration-300 shadow-lg"
-                      title="Remove"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  {/* Bottom Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-20 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 className="text-white font-medium text-xl md:text-2xl mb-1 md:mb-2 tracking-tight">
-                      {product.name}
-                    </h3>
-                    <div className="flex items-center justify-between">
-                      <p className="text-white/80 text-sm md:text-base">
-                        {product.category}
-                      </p>
-                      <p className="text-white font-medium text-lg">
-                        ${product.price.toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
       )}
+
+      {/* Main Content Area */}
+      {activeBoard ? (
+        <WishlistDetailView board={activeBoard} onBack={handleBackToBoards} />
+      ) : viewMode === 'boards' ? (
+        <WishlistBoardsView onSelectBoard={handleSelectBoard} />
+      ) : (
+        <WishlistAllItemsView onSelectBoard={handleSelectBoard} />
+      )}
+
+      {/* Global Modals for Wishlist Page */}
+      <ShareDialog />
+      <NotificationsModal />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FreeShippingProgressBar } from '@/components/cart/FreeShippingProgressBar';
 import { getItemUnitPrice } from '@/store/useCartStore';
+import { PriceHistoryTagBadge } from '@/components/product/price-history';
 
 export function CartDrawer() {
   const { isCartOpen, closeCart, cartItems, updateQuantity, removeFromCart } = useCart();
@@ -114,6 +115,14 @@ export function CartDrawer() {
                                   &ldquo;{item.personalization.lines.filter(Boolean).join(' ')}&rdquo;
                                 </p>
                               )}
+                              <div className="mt-1">
+                                <PriceHistoryTagBadge
+                                  productId={item.id}
+                                  currentPrice={item.price}
+                                  addedPrice={item.addedPrice}
+                                  mode="cart"
+                                />
+                              </div>
                             </div>
                             <button 
                               onClick={() => removeFromCart(item.cartId)}

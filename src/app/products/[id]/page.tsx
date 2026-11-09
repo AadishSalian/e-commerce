@@ -290,7 +290,11 @@ export default function ProductDetailPage({ params }: Props) {
                   {product.name}
                 </h1>
                 <div className="flex items-center gap-2 shrink-0">
-                  <WishlistButton product={product} />
+                  <WishlistButton 
+                    product={product} 
+                    variantId={product.variants?.find(v => v.value === selectedVariant)?.id} 
+                    variantLabel={selectedVariant || undefined} 
+                  />
                   <button 
                     onClick={handleShare}
                     className="p-2 rounded-full border border-border hover:bg-surface hover:text-accent transition-colors shrink-0"

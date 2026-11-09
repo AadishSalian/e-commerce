@@ -212,7 +212,7 @@ export default function Navbar() {
             
             {isLoggedIn ? (
               <>
-                <Link href="/account" className={styles.iconButton} aria-label="Wishlist">
+                <Link href="/wishlist" className={styles.iconButton} aria-label="Wishlist">
                   <Heart className="w-4 h-4" />
                 </Link>
                 

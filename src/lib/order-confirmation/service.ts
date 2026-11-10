@@ -40,12 +40,12 @@ export const SEED_ORDERS: OrderConfirmationRecord[] = [
     customer: {
       userId: 'usr-demo-1',
       isGuest: false,
-      email: 'aadis.sharma@gmail.com',
-      maskedEmail: maskEmail('aadis.sharma@gmail.com'),
+      email: 'aadishsalian@gmail.com',
+      maskedEmail: maskEmail('aadishsalian@gmail.com'),
       phone: '+91 98765 43210',
       maskedPhone: maskPhone('+91 98765 43210'),
-      firstName: 'Aadis',
-      lastName: 'Sharma',
+      firstName: 'Aadish',
+      lastName: 'Salian',
       shippingAddress: {
         line1: '402 Oberoi Crest, Off Link Road',
         line2: 'Andheri West',
@@ -104,7 +104,7 @@ export const SEED_ORDERS: OrderConfirmationRecord[] = [
             image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=400&auto=format&fit=crop',
             isPersonalized: true,
             personalization: {
-              inscription: 'AADIS • STUDIO 01',
+              inscription: 'AADISH • STUDIO 01',
               fontName: 'JetBrains Mono',
               placement: 'Top Right Aluminum Bezel',
               finishStyle: 'laser_metal',

@@ -104,7 +104,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
                 exit={{ opacity: 0, scale: 2 }}
                 className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
               >
-                <Heart className={`w-16 h-16 ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-white'}`} drop-shadow-2xl />
+                <Heart className={`w-16 h-16 drop-shadow-2xl ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-white'}`} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -201,7 +201,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
                 exit={{ opacity: 0, scale: 2 }}
                 className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
               >
-                <Heart className={`w-16 h-16 ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-white'}`} drop-shadow-2xl />
+                <Heart className={`w-16 h-16 drop-shadow-2xl ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-white'}`} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -273,7 +273,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
             exit={{ opacity: 0, scale: 2 }}
             className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
           >
-            <Heart className={`w-16 h-16 ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-white'}`} drop-shadow-2xl />
+            <Heart className={`w-16 h-16 drop-shadow-2xl ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : 'text-white'}`} />
           </motion.div>
         )}
       </AnimatePresence>

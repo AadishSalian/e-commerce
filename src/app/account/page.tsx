@@ -2,15 +2,17 @@
 
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { motion } from 'framer-motion';
-import { Package, User, Heart, LogOut } from 'lucide-react';
+import { Package, User, Heart, LogOut, Bell } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { WishlistButton, EmptyState } from '@/components/ui';
 
 import Image from 'next/image';
 
 export default function AccountPage() {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('orders');
   const { wishlistItems } = useWishlist();
 
@@ -22,7 +24,7 @@ export default function AccountPage() {
         <div className="w-full lg:w-1/4 flex flex-col gap-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">Account</h1>
-            <p className="text-text-muted">user@example.com</p>
+            <p className="text-text-muted">{user?.email || 'aadishsalian@gmail.com'}</p>
           </div>
 
           <nav className="flex flex-col gap-2">
@@ -50,6 +52,12 @@ export default function AccountPage() {
             >
               <User className="w-5 h-5" /> Profile Settings
             </button>
+            <Link 
+              href="/account/notifications"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors text-left"
+            >
+              <Bell className="w-5 h-5" /> Notification Preferences
+            </Link>
             <button 
               className="flex items-center gap-3 px-4 py-3 rounded-lg text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors text-left mt-8"
             >
@@ -68,52 +76,45 @@ export default function AccountPage() {
               animate={{ opacity: 1, y: 0 }}
               className="flex flex-col gap-8"
             >
-              <h2 className="text-2xl font-bold text-foreground mb-4">Order History</h2>
+              <h2 className="text-xl font-semibold text-foreground">Order History</h2>
               
-              {/* Mock Order Card */}
-              <div className="bg-surface rounded-xl border border-border overflow-hidden">
-                <div className="p-6 border-b border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex flex-col sm:flex-row sm:gap-8">
-                    <div>
-                      <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Order Placed</p>
-                      <p className="text-sm font-medium text-foreground">Oct 12, 2026</p>
+              <div className="flex flex-col gap-4">
+                {/* Order Item */}
+                <div className="p-6 rounded-2xl bg-surface border border-border flex flex-col md:flex-row justify-between gap-6">
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-center gap-4">
+                      <span className="font-semibold text-foreground">Order #ORD-948271</span>
+                      <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent">
+                        Shipped
+                      </span>
                     </div>
-                    <div className="mt-4 sm:mt-0">
-                      <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Total</p>
-                      <p className="text-sm font-medium text-foreground">$448.00</p>
+                    <p className="text-sm text-text-muted">Placed on Nov 8, 2026 • 1 Item • ₹15,470</p>
+                    
+                    <div className="flex items-center gap-4 mt-2">
+                      <div className="w-16 h-16 rounded-lg bg-surface-active overflow-hidden relative border border-border">
+                        <Image 
+                          src="https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=400&auto=format&fit=crop" 
+                          alt="Matte Keyboard 1" 
+                          width={64}
+                          height={64}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-medium text-foreground">Matte Keyboard 1</h4>
+                        <p className="text-xs text-text-muted">Obsidian Black • Laser Engraved</p>
+                      </div>
                     </div>
                   </div>
-                  <div className="text-left sm:text-right">
-                    <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Order #</p>
-                    <p className="text-sm font-medium text-foreground">ORD-938271</p>
-                  </div>
-                </div>
 
-                {/* Tracking Bar */}
-                <div className="px-6 pt-6">
-                  <p className="text-sm font-medium text-foreground mb-4">Arriving Thursday</p>
-                  <div className="w-full h-1.5 bg-background rounded-full overflow-hidden">
-                    <div className="h-full bg-accent w-2/3 rounded-full" />
-                  </div>
-                  <div className="flex justify-between text-xs text-text-muted mt-2">
-                    <span>Ordered</span>
-                    <span>Shipped</span>
-                    <span>Delivered</span>
-                  </div>
-                </div>
-
-                <div className="p-6 flex flex-col sm:flex-row gap-6">
-                  <div className="w-24 h-24 bg-surface-hover rounded-lg flex items-center justify-center border border-border shrink-0 relative overflow-hidden">
-                    <Image src="https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop" alt="Matte Keyboard 1" className="absolute inset-0 w-full h-full object-cover"  width={800} height={800} />
-                  </div>
-                  <div className="flex-1 flex flex-col justify-center">
-                    <Link href={`/products/p-1`} className="text-lg font-medium text-foreground hover:text-accent transition-colors">Matte Keyboard 1</Link>
-                    <p className="text-sm text-text-muted">Matte Black</p>
-                  </div>
-                  <div className="flex items-center">
-                    <button className="px-4 py-2 border border-border bg-background text-foreground rounded-full text-sm font-medium hover:bg-surface-hover transition-colors">
-                      View Item
-                    </button>
+                  <div className="flex flex-col justify-between items-end gap-4 border-t md:border-t-0 pt-4 md:pt-0 border-border">
+                    <span className="text-lg font-bold text-foreground">₹15,470</span>
+                    <Link
+                      href="/checkout/success?orderId=ORD-948271&token=7f9a8b1c4d2e3f4a5b6c7d8e9f0a1b2c"
+                      className="px-4 py-2 border border-border bg-background text-foreground rounded-full text-sm font-medium hover:bg-surface-hover transition-colors inline-block"
+                    >
+                      Track Order & Receipt
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -125,65 +126,85 @@ export default function AccountPage() {
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col gap-8"
             >
-              <h2 className="text-2xl font-bold text-foreground mb-8">Your Wishlist</h2>
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold text-foreground">Your Wishlist</h2>
+                <Link href="/wishlist" className="text-xs font-semibold text-accent hover:underline">
+                  View Wishlist Boards &rarr;
+                </Link>
+              </div>
+
               {wishlistItems.length === 0 ? (
-                <div className="py-8 bg-surface rounded-xl border border-border">
-                  <EmptyState 
-                    icon={<Heart className="w-8 h-8" />} 
-                    title="Nothing saved yet." 
-                    description="Curate your perfect setup. Start exploring our collections to find your next obsession." 
-                    actionText="Start Browsing" 
-                    actionHref="/products" 
-                  />
-                </div>
+                <EmptyState 
+                  title="Your wishlist is empty"
+                  description="Save items you love by clicking the heart icon on any product."
+                  actionLabel="Discover Products"
+                  actionHref="/products"
+                  icon={Heart}
+                />
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {wishlistItems.map((product) => (
-                    <Link href={`/products/${product.id}`} key={product.id} className="group block">
-                      <div className="w-full aspect-[4/5] bg-surface rounded-xl border border-transparent group-hover:border-border transition-colors duration-300 mb-4 flex flex-col p-6 relative overflow-hidden">
-                        <div className="absolute top-4 right-4 z-10">
-                          <WishlistButton product={product} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {wishlistItems.map((item) => (
+                    <div key={item.id} className="p-4 rounded-xl bg-surface border border-border flex gap-4 relative group">
+                      <div className="w-20 h-20 rounded-lg bg-surface-active overflow-hidden relative shrink-0">
+                        <Image src={item.image} alt={item.name} width={80} height={80} className="object-cover w-full h-full" />
+                      </div>
+                      <div className="flex flex-col justify-between flex-1 min-w-0">
+                        <div>
+                          <h4 className="text-sm font-semibold text-foreground truncate">{item.name}</h4>
+                          <p className="text-xs text-text-muted mt-0.5">₹{item.price}</p>
                         </div>
-                        <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center relative overflow-hidden">
-                          <Image src={product.image} alt={product.name} className="absolute inset-0 w-full h-full object-cover"  width={800} height={800} />
+                        <div className="flex items-center">
+                          <Link href={`/products/${item.id}`} className="px-4 py-1.5 border border-border bg-background text-foreground rounded-full text-xs font-medium hover:bg-surface-hover transition-colors">
+                            View Item
+                          </Link>
                         </div>
                       </div>
-                      <div>
-                        <h3 className="text-foreground font-medium mb-1">{product.name}</h3>
-                        <p className="text-foreground font-medium">${product.price.toFixed(2)}</p>
-                      </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               )}
             </motion.div>
           )}
 
-          {/* Profile Tab */}
+          {/* Profile Settings Tab */}
           {activeTab === 'profile' && (
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="max-w-2xl"
+              className="flex flex-col gap-8 max-w-xl"
             >
-              <h2 className="text-2xl font-bold text-foreground mb-8">Profile Settings</h2>
+              <h2 className="text-xl font-semibold text-foreground">Profile Settings</h2>
               
-              <div className="flex flex-col gap-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">First Name</label>
-                    <input type="text" defaultValue="John" className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">Last Name</label>
-                    <input type="text" defaultValue="Doe" className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
-                  </div>
-                </div>
-                
+              <div className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-text-muted uppercase tracking-wider mb-2">Email Address</label>
-                  <input type="email" defaultValue="user@example.com" className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-md focus:outline-none focus:border-accent transition-colors" />
+                  <label className="block text-sm font-medium text-text-muted mb-2">Full Name</label>
+                  <input 
+                    type="text" 
+                    defaultValue={user?.name || "Aadish Balakrishna Salian"}
+                    className="w-full px-4 py-3 rounded-lg bg-surface border border-border text-foreground focus:outline-hidden focus:border-accent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-text-muted mb-2">Email Address</label>
+                  <input 
+                    type="email" 
+                    defaultValue={user?.email || "aadishsalian@gmail.com"}
+                    disabled
+                    className="w-full px-4 py-3 rounded-lg bg-surface/50 border border-border text-text-muted cursor-not-allowed"
+                  />
+                  <p className="text-xs text-text-muted mt-1">Contact support to update your registered email address.</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-text-muted mb-2">Phone Number</label>
+                  <input 
+                    type="tel" 
+                    defaultValue="+91 98765 43210"
+                    className="w-full px-4 py-3 rounded-lg bg-surface border border-border text-foreground focus:outline-hidden focus:border-accent"
+                  />
                 </div>
 
                 <div className="pt-6">

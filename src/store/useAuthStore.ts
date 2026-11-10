@@ -9,6 +9,13 @@ export interface User {
   hashedPassword?: string;
 }
 
+export const DEFAULT_DEMO_USER: User = {
+  id: 'usr-demo-1',
+  name: 'Aadish Balakrishna Salian',
+  email: 'aadishsalian@gmail.com',
+  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop',
+};
+
 interface AuthState {
   isLoggedIn: boolean;
   user: User | null;
@@ -19,14 +26,22 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  isLoggedIn: false,
-  user: null,
+  isLoggedIn: true,
+  user: DEFAULT_DEMO_USER,
 
   initialize: () => {
     if (typeof window === 'undefined') return;
     const savedState = localStorage.getItem('mockAuthState');
     const savedUser = localStorage.getItem('mockUser');
     const lastActive = localStorage.getItem('mockAuthTimestamp');
+
+    if (savedState === null) {
+      set({ user: DEFAULT_DEMO_USER, isLoggedIn: true });
+      localStorage.setItem('mockAuthState', 'true');
+      localStorage.setItem('mockUser', JSON.stringify(DEFAULT_DEMO_USER));
+      localStorage.setItem('mockAuthTimestamp', Date.now().toString());
+      return;
+    }
     
     if (savedState === 'true' && savedUser) {
       try {

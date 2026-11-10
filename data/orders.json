@@ -5,17 +5,17 @@
     "guestAccessToken": "7f9a8b1c4d2e3f4a5b6c7d8e9f0a1b2c",
     "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
     "createdAt": "2026-11-08T11:45:00.000Z",
-    "updatedAt": "2026-11-08T08:49:20.374Z",
+    "updatedAt": "2026-11-10T03:15:21.567Z",
     "status": "confirmed",
     "customer": {
       "userId": "usr-demo-1",
       "isGuest": false,
-      "email": "aadis.sharma@gmail.com",
+      "email": "aadishsalian@gmail.com",
       "maskedEmail": "a***@gmail.com",
       "phone": "+91 98765 43210",
       "maskedPhone": "•••••• 3210",
-      "firstName": "Aadis",
-      "lastName": "Sharma",
+      "firstName": "Aadish",
+      "lastName": "Salian",
       "shippingAddress": {
         "line1": "901 Signature Tower",
         "city": "Mumbai",
@@ -73,7 +73,7 @@
             "image": "https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=400&auto=format&fit=crop",
             "isPersonalized": true,
             "personalization": {
-              "inscription": "AADIS • STUDIO 01",
+              "inscription": "AADISH • STUDIO 01",
               "fontName": "JetBrains Mono",
               "placement": "Top Right Aluminum Bezel",
               "finishStyle": "laser_metal",
@@ -201,8 +201,8 @@
       "isGift": false,
       "hidePricesOnSlip": false
     },
-    "editableUntil": "2026-11-08T18:00:00.000Z",
-    "cancellableUntil": "2026-11-08T14:00:00.000Z"
+    "editableUntil": "2028-11-08T18:00:00.000Z",
+    "cancellableUntil": "2028-11-08T14:00:00.000Z"
   },
   {
     "id": "ORD-552109",

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test src/lib/order-confirmation/__tests__/orderConfirmation.test.ts src/lib/price-history/__tests__/priceHistory.test.ts src/lib/hotspots/__tests__/hotspots.test.ts src/lib/personalization/__tests__/personalization.test.ts src/lib/compare/__tests__/compare.test.ts src/lib/wishlist/__tests__/wishlist.test.ts src/components/ui/RollingText/__tests__/rollingText.test.ts src/components/ui/WeightHeadline/__tests__/weightHeadline.test.ts src/components/ui/RotatingBadge/__tests__/rotatingBadge.test.ts src/components/ui/StackedCards/__tests__/stackedCards.test.ts src/components/ui/PanelGallery/__tests__/panelGallery.test.ts src/components/ui/SplitHero/__tests__/splitHero.test.ts"
+    "test": "tsx --test src/lib/order-confirmation/__tests__/orderConfirmation.test.ts src/lib/price-history/__tests__/priceHistory.test.ts src/lib/hotspots/__tests__/hotspots.test.ts src/lib/personalization/__tests__/personalization.test.ts src/lib/compare/__tests__/compare.test.ts src/lib/wishlist/__tests__/wishlist.test.ts src/lib/notifications/__tests__/notifications.test.ts src/components/ui/RollingText/__tests__/rollingText.test.ts src/components/ui/WeightHeadline/__tests__/weightHeadline.test.ts src/components/ui/RotatingBadge/__tests__/rotatingBadge.test.ts src/components/ui/StackedCards/__tests__/stackedCards.test.ts src/components/ui/PanelGallery/__tests__/panelGallery.test.ts src/components/ui/SplitHero/__tests__/splitHero.test.ts"
   },
   "dependencies": {
     "@google/model-viewer": "^4.3.1",

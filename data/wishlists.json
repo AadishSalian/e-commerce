@@ -914,6 +914,1323 @@
       "sortMode": "manual",
       "createdAt": "2026-11-09T16:21:55.256Z",
       "updatedAt": "2026-11-09T16:21:55.256Z"
+    },
+    {
+      "id": "wl_1794275921162_vygl4",
+      "ownerId": "test-user-1794275921140",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T01:58:41.160Z",
+      "updatedAt": "2026-11-10T01:58:41.160Z"
+    },
+    {
+      "id": "wl_1794275921168_z7wrw",
+      "ownerId": "test-user-1794275921140",
+      "name": "Living Room Setup",
+      "description": "Objects for the studio nook.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T01:58:41.168Z",
+      "updatedAt": "2026-11-10T01:58:41.168Z"
+    },
+    {
+      "id": "wl_1794275921175_mtbri",
+      "ownerId": "test-items-1794275921142",
+      "name": "Gift Ideas",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T01:58:41.175Z",
+      "updatedAt": "2026-11-10T01:58:41.196Z"
+    },
+    {
+      "id": "wl_1794275921199_6a3k4",
+      "ownerId": "test-delete-1794275921144",
+      "name": "Temporary Board",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T01:58:41.199Z",
+      "updatedAt": "2026-11-10T01:58:41.210Z",
+      "deletedAt": null
+    },
+    {
+      "id": "wl_1794275921206_3mh76",
+      "ownerId": "test-delete-1794275921144",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T01:58:41.206Z",
+      "updatedAt": "2026-11-10T01:58:41.206Z"
+    },
+    {
+      "id": "wl_1794275921213_8hzdj",
+      "ownerId": "test-share-1794275921145",
+      "name": "Shareable Studio",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "537b3c67af59690da82d6d1b3f2620fe5e1fb323f61cb294e480646ee46f6843",
+      "rawShareToken": "0sibcTnMPZEUjMN_PvrwkQ",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T01:58:41.213Z",
+      "updatedAt": "2026-11-10T01:58:41.233Z",
+      "shareTokenCreatedAt": "2026-11-10T01:58:41.233Z"
+    },
+    {
+      "id": "wl_1794275921237_2zlcs",
+      "ownerId": "test-gift-1794275921145",
+      "name": "Baby Registry",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "d37b17f6d11b89db4058972445330647a5624978481dad221c71833b1bf9218c",
+      "rawShareToken": "Acxp-8Jo-OVB-wlOCdHkUg",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": true,
+      "occasionDate": "2026-12-25",
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T01:58:41.237Z",
+      "updatedAt": "2026-11-10T01:58:41.242Z",
+      "shareTokenCreatedAt": "2026-11-10T01:58:41.242Z"
+    },
+    {
+      "id": "wl_1794275921264_08dsw",
+      "ownerId": "sync-user-1794275921263",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T01:58:41.264Z",
+      "updatedAt": "2026-11-10T01:58:41.264Z"
+    },
+    {
+      "id": "wl_1794276178010_spztc",
+      "ownerId": "test-user-1794276177992",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:02:58.007Z",
+      "updatedAt": "2026-11-10T02:02:58.007Z"
+    },
+    {
+      "id": "wl_1794276178015_5ogq3",
+      "ownerId": "test-user-1794276177992",
+      "name": "Living Room Setup",
+      "description": "Objects for the studio nook.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:02:58.015Z",
+      "updatedAt": "2026-11-10T02:02:58.015Z"
+    },
+    {
+      "id": "wl_1794276178022_zv1fk",
+      "ownerId": "test-items-1794276177993",
+      "name": "Gift Ideas",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:02:58.022Z",
+      "updatedAt": "2026-11-10T02:02:58.042Z"
+    },
+    {
+      "id": "wl_1794276178045_q2vt6",
+      "ownerId": "test-delete-1794276177994",
+      "name": "Temporary Board",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:02:58.045Z",
+      "updatedAt": "2026-11-10T02:02:58.057Z",
+      "deletedAt": null
+    },
+    {
+      "id": "wl_1794276178055_yopz8",
+      "ownerId": "test-delete-1794276177994",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:02:58.054Z",
+      "updatedAt": "2026-11-10T02:02:58.054Z"
+    },
+    {
+      "id": "wl_1794276178060_wzgsj",
+      "ownerId": "test-share-1794276177995",
+      "name": "Shareable Studio",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "6fe501178701a7b52b1bf432535fa5ea4026b86730271beee6001d9b0bc47677",
+      "rawShareToken": "r7yunPNl7F_s3V4hm3QAwg",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:02:58.060Z",
+      "updatedAt": "2026-11-10T02:02:58.079Z",
+      "shareTokenCreatedAt": "2026-11-10T02:02:58.079Z"
+    },
+    {
+      "id": "wl_1794276178082_4exel",
+      "ownerId": "test-gift-1794276177995",
+      "name": "Baby Registry",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "5a18c655aa1c1ab59afa6e01accffa5f23b1f5b9166a2f09a67154c9e835506d",
+      "rawShareToken": "ihmeA2wToXM-W5TlguJ2WA",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": true,
+      "occasionDate": "2026-12-25",
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:02:58.082Z",
+      "updatedAt": "2026-11-10T02:02:58.090Z",
+      "shareTokenCreatedAt": "2026-11-10T02:02:58.090Z"
+    },
+    {
+      "id": "wl_1794276178109_feb9w",
+      "ownerId": "sync-user-1794276178109",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:02:58.109Z",
+      "updatedAt": "2026-11-10T02:02:58.109Z"
+    },
+    {
+      "id": "wl_1794277446087_wtlnu",
+      "ownerId": "test-user-1794277446067",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:24:06.084Z",
+      "updatedAt": "2026-11-10T02:24:06.084Z"
+    },
+    {
+      "id": "wl_1794277446093_5toz4",
+      "ownerId": "test-user-1794277446067",
+      "name": "Living Room Setup",
+      "description": "Objects for the studio nook.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:24:06.093Z",
+      "updatedAt": "2026-11-10T02:24:06.093Z"
+    },
+    {
+      "id": "wl_1794277446102_uihu4",
+      "ownerId": "test-items-1794277446069",
+      "name": "Gift Ideas",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:24:06.102Z",
+      "updatedAt": "2026-11-10T02:24:06.122Z"
+    },
+    {
+      "id": "wl_1794277446125_kvg7o",
+      "ownerId": "test-delete-1794277446070",
+      "name": "Temporary Board",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:24:06.124Z",
+      "updatedAt": "2026-11-10T02:24:06.137Z",
+      "deletedAt": null
+    },
+    {
+      "id": "wl_1794277446133_poobv",
+      "ownerId": "test-delete-1794277446070",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:24:06.133Z",
+      "updatedAt": "2026-11-10T02:24:06.133Z"
+    },
+    {
+      "id": "wl_1794277446140_a4wrk",
+      "ownerId": "test-share-1794277446071",
+      "name": "Shareable Studio",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "781601207e7f781e8a9aec2de45b7146f2a9e7d6b0ab983bdb3549e823fc8506",
+      "rawShareToken": "xryW0TVjPwRJvjL8vOfhQw",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:24:06.140Z",
+      "updatedAt": "2026-11-10T02:24:06.161Z",
+      "shareTokenCreatedAt": "2026-11-10T02:24:06.161Z"
+    },
+    {
+      "id": "wl_1794277446164_va2hr",
+      "ownerId": "test-gift-1794277446071",
+      "name": "Baby Registry",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "97481ee307ff57c3a336c13d7bd3f325b854708cee3a0516a03b0c195ce41526",
+      "rawShareToken": "WcTA1Cv6kZmJxGM6mK9pkg",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": true,
+      "occasionDate": "2026-12-25",
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:24:06.164Z",
+      "updatedAt": "2026-11-10T02:24:06.169Z",
+      "shareTokenCreatedAt": "2026-11-10T02:24:06.169Z"
+    },
+    {
+      "id": "wl_1794277446185_5qa50",
+      "ownerId": "sync-user-1794277446184",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:24:06.185Z",
+      "updatedAt": "2026-11-10T02:24:06.185Z"
+    },
+    {
+      "id": "wl_1794279046858_eb8p3",
+      "ownerId": "usr-demo-1",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:50:46.858Z",
+      "updatedAt": "2026-11-10T02:50:46.858Z"
+    },
+    {
+      "id": "wl_1794279503455_8ovfb",
+      "ownerId": "test-user-1794279503439",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:58:23.452Z",
+      "updatedAt": "2026-11-10T02:58:23.452Z"
+    },
+    {
+      "id": "wl_1794279503460_xp40w",
+      "ownerId": "test-user-1794279503439",
+      "name": "Living Room Setup",
+      "description": "Objects for the studio nook.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:58:23.460Z",
+      "updatedAt": "2026-11-10T02:58:23.460Z"
+    },
+    {
+      "id": "wl_1794279503467_yyh2d",
+      "ownerId": "test-items-1794279503440",
+      "name": "Gift Ideas",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:58:23.467Z",
+      "updatedAt": "2026-11-10T02:58:23.487Z"
+    },
+    {
+      "id": "wl_1794279503490_7qk7t",
+      "ownerId": "test-delete-1794279503440",
+      "name": "Temporary Board",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:58:23.490Z",
+      "updatedAt": "2026-11-10T02:58:23.502Z",
+      "deletedAt": null
+    },
+    {
+      "id": "wl_1794279503498_19z2l",
+      "ownerId": "test-delete-1794279503440",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:58:23.498Z",
+      "updatedAt": "2026-11-10T02:58:23.498Z"
+    },
+    {
+      "id": "wl_1794279503505_2yjvi",
+      "ownerId": "test-share-1794279503441",
+      "name": "Shareable Studio",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "bd0f7885ba004c76de4fbf8aab23e23202b9908f93562cbf8cc15f51e99eea0d",
+      "rawShareToken": "oCP1xY696Vgyhuj2tiuNCw",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:58:23.505Z",
+      "updatedAt": "2026-11-10T02:58:23.521Z",
+      "shareTokenCreatedAt": "2026-11-10T02:58:23.521Z"
+    },
+    {
+      "id": "wl_1794279503524_og3vk",
+      "ownerId": "test-gift-1794279503441",
+      "name": "Baby Registry",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "6c35ec28ca4bec279137a1031107ef825bf1f762f0e0686e62dd1ab266ce5de5",
+      "rawShareToken": "Uzn7jCq-wPTCAWSp252wJw",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": true,
+      "occasionDate": "2026-12-25",
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:58:23.524Z",
+      "updatedAt": "2026-11-10T02:58:23.527Z",
+      "shareTokenCreatedAt": "2026-11-10T02:58:23.527Z"
+    },
+    {
+      "id": "wl_1794279503547_ca149",
+      "ownerId": "sync-user-1794279503546",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T02:58:23.547Z",
+      "updatedAt": "2026-11-10T02:58:23.547Z"
+    },
+    {
+      "id": "wl_1794279619644_dzxj2",
+      "ownerId": "test-user-1794279619625",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:00:19.642Z",
+      "updatedAt": "2026-11-10T03:00:19.642Z"
+    },
+    {
+      "id": "wl_1794279619651_669uf",
+      "ownerId": "test-user-1794279619625",
+      "name": "Living Room Setup",
+      "description": "Objects for the studio nook.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:00:19.651Z",
+      "updatedAt": "2026-11-10T03:00:19.651Z"
+    },
+    {
+      "id": "wl_1794279619660_252xq",
+      "ownerId": "test-items-1794279619626",
+      "name": "Gift Ideas",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:00:19.660Z",
+      "updatedAt": "2026-11-10T03:00:19.693Z"
+    },
+    {
+      "id": "wl_1794279619696_zed7m",
+      "ownerId": "test-delete-1794279619628",
+      "name": "Temporary Board",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:00:19.695Z",
+      "updatedAt": "2026-11-10T03:00:19.705Z",
+      "deletedAt": null
+    },
+    {
+      "id": "wl_1794279619702_cvenw",
+      "ownerId": "test-delete-1794279619628",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:00:19.702Z",
+      "updatedAt": "2026-11-10T03:00:19.702Z"
+    },
+    {
+      "id": "wl_1794279619708_sfvox",
+      "ownerId": "test-share-1794279619628",
+      "name": "Shareable Studio",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "b556360b0a88422592ac8b754979e27a7e5a6f253240e0effd3e2f5043e7dd0b",
+      "rawShareToken": "Fx7YjmV86htPHdu2QXDOwQ",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:00:19.708Z",
+      "updatedAt": "2026-11-10T03:00:19.726Z",
+      "shareTokenCreatedAt": "2026-11-10T03:00:19.726Z"
+    },
+    {
+      "id": "wl_1794279619728_ei0d2",
+      "ownerId": "test-gift-1794279619628",
+      "name": "Baby Registry",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "2d08d37e9e7550213ed6a2eb364cb66f63d434114ea411e3b6597e387d80ff15",
+      "rawShareToken": "jK6cQrqGohBTgldIg8R2aQ",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": true,
+      "occasionDate": "2026-12-25",
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:00:19.728Z",
+      "updatedAt": "2026-11-10T03:00:19.732Z",
+      "shareTokenCreatedAt": "2026-11-10T03:00:19.732Z"
+    },
+    {
+      "id": "wl_1794279619753_7nxb7",
+      "ownerId": "sync-user-1794279619753",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:00:19.753Z",
+      "updatedAt": "2026-11-10T03:00:19.753Z"
+    },
+    {
+      "id": "wl_1794280522057_xc7h2",
+      "ownerId": "test-user-1794280522038",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:15:22.054Z",
+      "updatedAt": "2026-11-10T03:15:22.054Z"
+    },
+    {
+      "id": "wl_1794280522063_pkmyn",
+      "ownerId": "test-user-1794280522038",
+      "name": "Living Room Setup",
+      "description": "Objects for the studio nook.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:15:22.063Z",
+      "updatedAt": "2026-11-10T03:15:22.063Z"
+    },
+    {
+      "id": "wl_1794280522077_uv59h",
+      "ownerId": "test-items-1794280522039",
+      "name": "Gift Ideas",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:15:22.077Z",
+      "updatedAt": "2026-11-10T03:15:22.101Z"
+    },
+    {
+      "id": "wl_1794280522105_n1yk3",
+      "ownerId": "test-delete-1794280522040",
+      "name": "Temporary Board",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:15:22.105Z",
+      "updatedAt": "2026-11-10T03:15:22.122Z",
+      "deletedAt": null
+    },
+    {
+      "id": "wl_1794280522118_98sht",
+      "ownerId": "test-delete-1794280522040",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:15:22.118Z",
+      "updatedAt": "2026-11-10T03:15:22.118Z"
+    },
+    {
+      "id": "wl_1794280522127_6k447",
+      "ownerId": "test-share-1794280522040",
+      "name": "Shareable Studio",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "789df91ccff7a8dd942165ccac9a88eeccb56c8ebf25da34d49dba28c7d573da",
+      "rawShareToken": "oI9iTmTJ4CtrBBudMQCpUA",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:15:22.127Z",
+      "updatedAt": "2026-11-10T03:15:22.148Z",
+      "shareTokenCreatedAt": "2026-11-10T03:15:22.148Z"
+    },
+    {
+      "id": "wl_1794280522152_1n97o",
+      "ownerId": "test-gift-1794280522041",
+      "name": "Baby Registry",
+      "coverImage": null,
+      "visibility": "link",
+      "shareTokenHash": "6aec003dc238693a46ea88652b6924881ed70b8ae5c607bf33d924e463ec7c3a",
+      "rawShareToken": "WbirhHEdFLAJxaYkOR5GYQ",
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": false,
+      "isGiftList": true,
+      "occasionDate": "2026-12-25",
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:15:22.152Z",
+      "updatedAt": "2026-11-10T03:15:22.159Z",
+      "shareTokenCreatedAt": "2026-11-10T03:15:22.159Z"
+    },
+    {
+      "id": "wl_1794280522181_pya45",
+      "ownerId": "sync-user-1794280522180",
+      "name": "My wishlist",
+      "description": "Your default collection of saved items.",
+      "coverImage": null,
+      "visibility": "private",
+      "shareTokenHash": null,
+      "rawShareToken": null,
+      "shareOptions": {
+        "showOwnerName": false,
+        "expirationDays": "never",
+        "expiresAt": null
+      },
+      "isDefault": true,
+      "isGiftList": false,
+      "occasionDate": null,
+      "notifyPriceDrops": false,
+      "notifyChannels": {
+        "email": true,
+        "push": false,
+        "sms": false
+      },
+      "sortMode": "manual",
+      "createdAt": "2026-11-10T03:15:22.181Z",
+      "updatedAt": "2026-11-10T03:15:22.181Z"
     }
   ],
   "items": [
@@ -1159,6 +2476,306 @@
       "addedAt": "2026-09-01T00:00:00.000Z",
       "addedPrice": 19900,
       "position": 0
+    },
+    {
+      "id": "wli_1794275921179_dz54a",
+      "wishlistId": "wl_1794275921175_mtbri",
+      "productId": "t-1",
+      "variantId": "v-1",
+      "addedAt": "2026-11-10T01:58:41.179Z",
+      "note": "Updated personal note",
+      "priority": "top_pick",
+      "addedPrice": 24900,
+      "position": 1
+    },
+    {
+      "id": "wli_1794275921201_gzsyh",
+      "wishlistId": "wl_1794275921199_6a3k4",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-11-10T01:58:41.201Z",
+      "priority": null,
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794275921216_ngje6",
+      "wishlistId": "wl_1794275921213_8hzdj",
+      "productId": "t-1",
+      "variantId": null,
+      "addedAt": "2026-11-10T01:58:41.216Z",
+      "priority": null,
+      "addedPrice": 24900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794275921240_u49ys",
+      "wishlistId": "wl_1794275921237_2zlcs",
+      "productId": "t-3",
+      "variantId": null,
+      "addedAt": "2026-11-10T01:58:41.240Z",
+      "priority": null,
+      "addedPrice": 34900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794275921266_l914y",
+      "wishlistId": "wl_1794275921264_08dsw",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-09-01T00:00:00.000Z",
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794276178026_1z0od",
+      "wishlistId": "wl_1794276178022_zv1fk",
+      "productId": "t-1",
+      "variantId": "v-1",
+      "addedAt": "2026-11-10T02:02:58.026Z",
+      "note": "Updated personal note",
+      "priority": "top_pick",
+      "addedPrice": 24900,
+      "position": 1
+    },
+    {
+      "id": "wli_1794276178049_vy2vi",
+      "wishlistId": "wl_1794276178045_q2vt6",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-11-10T02:02:58.048Z",
+      "priority": null,
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794276178063_ioo0d",
+      "wishlistId": "wl_1794276178060_wzgsj",
+      "productId": "t-1",
+      "variantId": null,
+      "addedAt": "2026-11-10T02:02:58.063Z",
+      "priority": null,
+      "addedPrice": 24900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794276178085_k6kz2",
+      "wishlistId": "wl_1794276178082_4exel",
+      "productId": "t-3",
+      "variantId": null,
+      "addedAt": "2026-11-10T02:02:58.085Z",
+      "priority": null,
+      "addedPrice": 34900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794276178111_lqpvt",
+      "wishlistId": "wl_1794276178109_feb9w",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-09-01T00:00:00.000Z",
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794277446106_yezd9",
+      "wishlistId": "wl_1794277446102_uihu4",
+      "productId": "t-1",
+      "variantId": "v-1",
+      "addedAt": "2026-11-10T02:24:06.106Z",
+      "note": "Updated personal note",
+      "priority": "top_pick",
+      "addedPrice": 24900,
+      "position": 1
+    },
+    {
+      "id": "wli_1794277446127_3ael7",
+      "wishlistId": "wl_1794277446125_kvg7o",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-11-10T02:24:06.127Z",
+      "priority": null,
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794277446142_615ak",
+      "wishlistId": "wl_1794277446140_a4wrk",
+      "productId": "t-1",
+      "variantId": null,
+      "addedAt": "2026-11-10T02:24:06.142Z",
+      "priority": null,
+      "addedPrice": 24900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794277446166_0ly22",
+      "wishlistId": "wl_1794277446164_va2hr",
+      "productId": "t-3",
+      "variantId": null,
+      "addedAt": "2026-11-10T02:24:06.166Z",
+      "priority": null,
+      "addedPrice": 34900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794277446187_gdh9o",
+      "wishlistId": "wl_1794277446185_5qa50",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-09-01T00:00:00.000Z",
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794279503472_bolon",
+      "wishlistId": "wl_1794279503467_yyh2d",
+      "productId": "t-1",
+      "variantId": "v-1",
+      "addedAt": "2026-11-10T02:58:23.472Z",
+      "note": "Updated personal note",
+      "priority": "top_pick",
+      "addedPrice": 24900,
+      "position": 1
+    },
+    {
+      "id": "wli_1794279503492_ta41k",
+      "wishlistId": "wl_1794279503490_7qk7t",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-11-10T02:58:23.492Z",
+      "priority": null,
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794279503507_8l0sb",
+      "wishlistId": "wl_1794279503505_2yjvi",
+      "productId": "t-1",
+      "variantId": null,
+      "addedAt": "2026-11-10T02:58:23.507Z",
+      "priority": null,
+      "addedPrice": 24900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794279503526_6qdj8",
+      "wishlistId": "wl_1794279503524_og3vk",
+      "productId": "t-3",
+      "variantId": null,
+      "addedAt": "2026-11-10T02:58:23.525Z",
+      "priority": null,
+      "addedPrice": 34900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794279503550_fq8zw",
+      "wishlistId": "wl_1794279503547_ca149",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-09-01T00:00:00.000Z",
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794279619678_8djs0",
+      "wishlistId": "wl_1794279619660_252xq",
+      "productId": "t-1",
+      "variantId": "v-1",
+      "addedAt": "2026-11-10T03:00:19.678Z",
+      "note": "Updated personal note",
+      "priority": "top_pick",
+      "addedPrice": 24900,
+      "position": 1
+    },
+    {
+      "id": "wli_1794279619697_2f76v",
+      "wishlistId": "wl_1794279619696_zed7m",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-11-10T03:00:19.697Z",
+      "priority": null,
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794279619710_ifokx",
+      "wishlistId": "wl_1794279619708_sfvox",
+      "productId": "t-1",
+      "variantId": null,
+      "addedAt": "2026-11-10T03:00:19.710Z",
+      "priority": null,
+      "addedPrice": 24900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794279619730_emg4f",
+      "wishlistId": "wl_1794279619728_ei0d2",
+      "productId": "t-3",
+      "variantId": null,
+      "addedAt": "2026-11-10T03:00:19.730Z",
+      "priority": null,
+      "addedPrice": 34900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794279619756_bwn6f",
+      "wishlistId": "wl_1794279619753_7nxb7",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-09-01T00:00:00.000Z",
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794280522081_rwzoj",
+      "wishlistId": "wl_1794280522077_uv59h",
+      "productId": "t-1",
+      "variantId": "v-1",
+      "addedAt": "2026-11-10T03:15:22.081Z",
+      "note": "Updated personal note",
+      "priority": "top_pick",
+      "addedPrice": 24900,
+      "position": 1
+    },
+    {
+      "id": "wli_1794280522108_7g0un",
+      "wishlistId": "wl_1794280522105_n1yk3",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-11-10T03:15:22.108Z",
+      "priority": null,
+      "addedPrice": 19900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794280522130_9n9tn",
+      "wishlistId": "wl_1794280522127_6k447",
+      "productId": "t-1",
+      "variantId": null,
+      "addedAt": "2026-11-10T03:15:22.130Z",
+      "priority": null,
+      "addedPrice": 24900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794280522157_10c8z",
+      "wishlistId": "wl_1794280522152_1n97o",
+      "productId": "t-3",
+      "variantId": null,
+      "addedAt": "2026-11-10T03:15:22.157Z",
+      "priority": null,
+      "addedPrice": 34900,
+      "position": 0
+    },
+    {
+      "id": "wli_1794280522183_hhw74",
+      "wishlistId": "wl_1794280522181_pya45",
+      "productId": "t-2",
+      "variantId": null,
+      "addedAt": "2026-09-01T00:00:00.000Z",
+      "addedPrice": 19900,
+      "position": 0
     }
   ],
   "claims": [
@@ -1197,6 +2814,48 @@
       "claimedByName": "Marcus",
       "claimedAt": "2026-11-09T16:21:55.241Z",
       "expiresAt": "2026-12-09T16:21:55.241Z"
+    },
+    {
+      "id": "clm_1794275921253_wuj5q",
+      "itemId": "wli_1794275921240_u49ys",
+      "claimedByName": "Marcus",
+      "claimedAt": "2026-11-10T01:58:41.253Z",
+      "expiresAt": "2026-12-10T01:58:41.253Z"
+    },
+    {
+      "id": "clm_1794276178099_htc3l",
+      "itemId": "wli_1794276178085_k6kz2",
+      "claimedByName": "Marcus",
+      "claimedAt": "2026-11-10T02:02:58.099Z",
+      "expiresAt": "2026-12-10T02:02:58.099Z"
+    },
+    {
+      "id": "clm_1794277446177_gk9u1",
+      "itemId": "wli_1794277446166_0ly22",
+      "claimedByName": "Marcus",
+      "claimedAt": "2026-11-10T02:24:06.177Z",
+      "expiresAt": "2026-12-10T02:24:06.177Z"
+    },
+    {
+      "id": "clm_1794279503535_skh13",
+      "itemId": "wli_1794279503526_6qdj8",
+      "claimedByName": "Marcus",
+      "claimedAt": "2026-11-10T02:58:23.535Z",
+      "expiresAt": "2026-12-10T02:58:23.535Z"
+    },
+    {
+      "id": "clm_1794279619742_1n73c",
+      "itemId": "wli_1794279619730_emg4f",
+      "claimedByName": "Marcus",
+      "claimedAt": "2026-11-10T03:00:19.742Z",
+      "expiresAt": "2026-12-10T03:00:19.742Z"
+    },
+    {
+      "id": "clm_1794280522170_51fze",
+      "itemId": "wli_1794280522157_10c8z",
+      "claimedByName": "Marcus",
+      "claimedAt": "2026-11-10T03:15:22.170Z",
+      "expiresAt": "2026-12-10T03:15:22.170Z"
     }
   ],
   "reports": []

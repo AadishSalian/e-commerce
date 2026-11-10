@@ -24,7 +24,7 @@ import {
 
 describe('Order Confirmation: Privacy & Data Masking', () => {
   it('masks emails properly as a***@domain.com without leaking names', () => {
-    assert.strictEqual(maskEmail('aadis.sharma@gmail.com'), 'a***@gmail.com');
+    assert.strictEqual(maskEmail('aadishsalian@gmail.com'), 'a***@gmail.com');
     assert.strictEqual(maskEmail('rohit@yahoo.co.in'), 'r***@yahoo.co.in');
     assert.strictEqual(maskEmail('z@matte.store'), 'z***@matte.store');
     assert.strictEqual(maskEmail(''), 'customer@store.com');
@@ -91,7 +91,7 @@ describe('Order Confirmation: Access Control & Anti-IDOR Security', () => {
   });
 
   it('prevents account enumeration during friendly order lookup', () => {
-    const resultExisting = lookupOrderByEmailAndNumber('aadis.sharma@gmail.com', 'ORD-948271');
+    const resultExisting = lookupOrderByEmailAndNumber('aadishsalian@gmail.com', 'ORD-948271');
     const resultMissing = lookupOrderByEmailAndNumber('unknown@random.org', 'ORD-999999');
 
     // Both return generic success to prevent email harvesting

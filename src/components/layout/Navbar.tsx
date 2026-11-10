@@ -3,11 +3,12 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Search, ShoppingBag, User, Menu, X, ArrowRight, Heart, Package, LogOut, Settings, UserCircle } from 'lucide-react';
+import { Search, ShoppingBag, User, Menu, X, ArrowRight, Heart, Package, LogOut, Settings, UserCircle, Bell } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { NavAuthButton, ThemeToggle, ExpandableSearch, RollingText } from '@/components/ui';
+import { NotificationBell } from '@/components/notifications';
 import styles from './Navbar.module.css';
 
 import Image from 'next/image';
@@ -209,6 +210,7 @@ export default function Navbar() {
               onClose={() => setIsSearchOpen(false)}
             />
             
+            <NotificationBell />
             
             {isLoggedIn ? (
               <>
@@ -267,6 +269,11 @@ export default function Navbar() {
                           <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }}>
                             <Link href="/wishlist" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
                               <Heart className="w-4 h-4" /> <span>Wishlist</span>
+                            </Link>
+                          </motion.div>
+                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.28 }}>
+                            <Link href="/notifications" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                              <Bell className="w-4 h-4" /> <span>Notifications</span>
                             </Link>
                           </motion.div>
                           <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
@@ -388,6 +395,7 @@ export default function Navbar() {
             <div className="mr-1">
               <ThemeToggle />
             </div>
+            <NotificationBell isMobileNav={true} />
             <button 
               className={styles.iconButton}
               onClick={() => setIsMobileSearchOpen(prev => !prev)}
@@ -510,6 +518,15 @@ export default function Navbar() {
                     >
                       <Heart className="w-5 h-5" />
                       <RollingText duplicateColor="var(--text-primary)">Wishlist</RollingText>
+                    </Link>
+                    <Link 
+                      href="/notifications"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="group text-lg font-medium text-text-muted hover:text-foreground transition-colors flex items-center gap-3"
+                      data-roll-parent=""
+                    >
+                      <Bell className="w-5 h-5" />
+                      <RollingText duplicateColor="var(--text-primary)">Notifications</RollingText>
                     </Link>
                     <Link 
                       href="/settings"

@@ -54,7 +54,7 @@ export default function NotificationPreferencesPage() {
       const res = await fetch(`/api/notifications/preferences`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, ...updated }),
+        body: JSON.stringify(updated),
       });
       if (res.ok) {
         setSaveStatus('Saved');

@@ -29,6 +29,8 @@ import { EMICalculatorModal } from '@/components/emi';
 import { formatEmiCurrency } from '@/lib/emi/calculator';
 import { SelectedEmiPlan } from '@/lib/emi/types';
 import { Product } from '@/lib/mockData';
+import { SecureCardPaymentForm } from '@/components/payment';
+import { VaultTokenResult } from '@/lib/payment/types';
 
 import Image from 'next/image';
 
@@ -210,8 +212,7 @@ export default function CheckoutPage() {
     }
   };
 
-  const handlePayment = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handlePaymentSuccess = (vaultResult?: VaultTokenResult) => {
     if (!isLoggedIn || !useSavedInfo) {
       if (!firstName || !lastName || !email || !address || !city || !zip) {
         if (!firstName) setFirstNameError('Required');
@@ -247,6 +248,11 @@ export default function CheckoutPage() {
           : '/checkout/success?orderId=ORD-948271&token=7f9a8b1c4d2e3f4a5b6c7d8e9f0a1b2c';
       router.push(targetUrl);
     }, 1500);
+  };
+
+  const handlePayment = (e: React.FormEvent) => {
+    e.preventDefault();
+    handlePaymentSuccess();
   };
 
   // Synthetic product for whole-checkout EMI adjustments
@@ -308,20 +314,27 @@ export default function CheckoutPage() {
             {/* Express Checkout options */}
             <div className="flex flex-col gap-4">
               <h2 className="text-xl font-semibold mb-2">Express Checkout</h2>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <button
                   type="button"
                   onClick={() => handleNativePayment('apple')}
-                  className="w-full py-4 bg-[#1a1a1a] border border-[#2a2a2a] text-foreground font-medium rounded-xl flex items-center justify-center gap-2 hover:bg-[#232323] transition-colors shadow-sm"
+                  className="w-full py-3.5 bg-[#1a1a1a] border border-[#2a2a2a] text-foreground font-medium rounded-xl flex items-center justify-center gap-2 hover:bg-[#232323] transition-colors shadow-sm text-sm"
                 >
-                  <Smartphone className="w-5 h-5" /> Apple Pay
+                  <Smartphone className="w-4 h-4" /> Apple Pay
                 </button>
                 <button
                   type="button"
                   onClick={() => handleNativePayment('google')}
-                  className="w-full py-4 bg-white border border-gray-200 text-black font-medium rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors shadow-sm"
+                  className="w-full py-3.5 bg-white border border-gray-200 text-black font-medium rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors shadow-sm text-sm"
                 >
                   Google Pay
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handlePaymentSuccess()}
+                  className="w-full py-3.5 bg-surface-active border border-border text-foreground font-medium rounded-xl flex items-center justify-center gap-2 hover:border-accent transition-colors shadow-sm text-sm"
+                >
+                  <span className="text-accent font-bold">UPI</span> Instant
                 </button>
               </div>
 
@@ -658,94 +671,66 @@ export default function CheckoutPage() {
                       </strong>
                       :
                     </p>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      placeholder="Card Number"
-                      required
-                      autoComplete="cc-number"
-                      className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors"
+                    <SecureCardPaymentForm
+                      onSuccess={(res) => handlePaymentSuccess(res)}
+                      amountFormatted={selectedPlan ? `${formatEmiCurrency(selectedPlan.monthlyInstallment)}/mo` : undefined}
+                      submitButtonText={selectedPlan ? `Authorize EMI • ${formatEmiCurrency(selectedPlan.monthlyInstallment)}/mo` : undefined}
                     />
-                    <div className="grid grid-cols-2 gap-4">
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        placeholder="MM / YY"
-                        required
-                        autoComplete="cc-exp"
-                        className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors"
-                      />
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        placeholder="CVC"
-                        required
-                        autoComplete="cc-csc"
-                        className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors"
-                      />
-                    </div>
                   </div>
                 </div>
               ) : (
                 /* Standard Card Payment */
                 <div>
                   {isLoggedIn && useSavedInfo ? (
-                    <div className="p-5 bg-surface rounded-xl border border-border flex items-start gap-4 hover:border-accent/50 transition-colors cursor-pointer">
-                      <div className="p-2 bg-surface-active rounded-full shrink-0">
-                        <CreditCard className="w-5 h-5 text-accent" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex justify-between items-center mb-1">
-                          <p className="font-semibold text-sm">Saved Payment</p>
-                          <span className="text-xs text-accent">Default</span>
+                    <div className="space-y-4">
+                      <div className="p-5 bg-surface rounded-xl border border-border flex items-start gap-4 hover:border-accent/50 transition-colors">
+                        <div className="p-2 bg-surface-active rounded-full shrink-0">
+                          <CreditCard className="w-5 h-5 text-accent" />
                         </div>
-                        <p className="text-sm text-text-muted">Visa ending in 4242</p>
-                        <p className="text-xs text-text-muted mt-1">Expires 12/28</p>
-                        <button
-                          type="button"
-                          onClick={() => setUseSavedInfo(false)}
-                          className="text-sm text-accent hover:text-foreground text-left mt-3 underline underline-offset-4"
-                        >
-                          Use a different payment method
-                        </button>
+                        <div className="flex-1">
+                          <div className="flex justify-between items-center mb-1">
+                            <p className="font-semibold text-sm">Saved Payment (Tokenized)</p>
+                            <span className="text-xs text-accent font-medium">Default</span>
+                          </div>
+                          <p className="text-sm text-text-muted">Visa ending in 4242</p>
+                          <p className="text-xs text-text-muted mt-1">Expires 12/28 • Vaulted via RBI Tokenization</p>
+                          <button
+                            type="button"
+                            onClick={() => setUseSavedInfo(false)}
+                            className="text-sm text-accent hover:text-foreground text-left mt-3 underline underline-offset-4"
+                          >
+                            Use a different payment method
+                          </button>
+                        </div>
                       </div>
+
+                      <button
+                        type="button"
+                        onClick={() => handlePaymentSuccess()}
+                        disabled={isProcessing}
+                        className="w-full py-4 bg-foreground text-background font-semibold rounded-full hover:scale-[0.99] active:scale-[0.98] transition-all duration-150 disabled:opacity-40 flex items-center justify-center gap-2 h-[52px] shadow-lg shadow-foreground/5"
+                      >
+                        {isProcessing ? (
+                          <div className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          `Pay $${total.toFixed(2)} with Saved Card`
+                        )}
+                      </button>
                     </div>
                   ) : (
-                    <div className="flex flex-col gap-4">
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        placeholder="Card Number"
-                        required
-                        autoComplete="cc-number"
-                        className="w-full bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors"
+                    <div className="space-y-4">
+                      <SecureCardPaymentForm
+                        onSuccess={(res) => handlePaymentSuccess(res)}
+                        amountFormatted={`$${total.toFixed(2)}`}
                       />
-                      <div className="grid grid-cols-2 gap-4">
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="MM / YY"
-                          required
-                          autoComplete="cc-exp"
-                          className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors"
-                        />
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="CVC"
-                          required
-                          autoComplete="cc-csc"
-                          className="col-span-1 bg-surface border border-border text-foreground px-4 py-3 rounded-lg focus:outline-none focus:border-accent transition-colors"
-                        />
-                      </div>
 
                       {isLoggedIn && !useSavedInfo && (
                         <button
                           type="button"
                           onClick={() => setUseSavedInfo(true)}
-                          className="text-sm text-text-muted hover:text-foreground text-left mt-2 underline underline-offset-4"
+                          className="text-sm text-text-muted hover:text-foreground text-left mt-2 underline underline-offset-4 block"
                         >
-                          Back to Express Checkout
+                          Back to Saved Card
                         </button>
                       )}
                     </div>
@@ -754,21 +739,15 @@ export default function CheckoutPage() {
               )}
             </div>
 
-            <button
-              type="submit"
-              disabled={isProcessing}
-              className="mt-4 w-full py-4 bg-foreground text-background font-medium rounded-full hover:scale-[0.98] transition-transform duration-200 disabled:opacity-50 disabled:hover:scale-100 flex justify-center items-center h-[56px] shadow-lg shadow-foreground/10"
-            >
-              {isProcessing ? (
-                <div className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
-              ) : paymentMethod === 'emi' && selectedPlan ? (
-                `Place Order • ${formatEmiCurrency(
-                  selectedPlan.monthlyInstallment
-                )}/mo`
-              ) : (
-                `Place Order • $${total.toFixed(2)}`
-              )}
-            </button>
+            {paymentMethod === 'emi' && !selectedPlan && (
+              <button
+                type="button"
+                onClick={() => setIsEmiModalOpen(true)}
+                className="mt-4 w-full py-4 bg-foreground text-background font-medium rounded-full hover:scale-[0.98] transition-transform duration-200 flex justify-center items-center h-[56px] shadow-lg shadow-foreground/10"
+              >
+                Choose an EMI plan above to continue
+              </button>
+            )}
           </form>
         </div>
 

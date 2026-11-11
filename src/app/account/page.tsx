@@ -139,9 +139,9 @@ export default function AccountPage() {
                 <EmptyState 
                   title="Your wishlist is empty"
                   description="Save items you love by clicking the heart icon on any product."
-                  actionLabel="Discover Products"
+                  actionText="Discover Products"
                   actionHref="/products"
-                  icon={Heart}
+                  icon={<Heart className="w-8 h-8 text-text-muted" />}
                 />
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

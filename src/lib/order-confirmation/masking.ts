@@ -63,6 +63,21 @@ export function formatOrderPlacedDate(
 }
 
 /**
+ * Masks street address for guest or non-owner views.
+ * Only the authenticated account owner sees the unmasked street building/flat details.
+ */
+export function maskShippingAddress<T extends { line1: string; line2?: string; city: string; state: string; zip: string; country: string }>(
+  address: T
+): T {
+  if (!address) return address;
+  return {
+    ...address,
+    line1: '••••••••••••••••',
+    line2: address.line2 ? '••••••••' : undefined,
+  };
+}
+
+/**
  * Formats order deadline (e.g. "Today at 6:00 pm" or "in 45 minutes").
  */
 export function formatEditableDeadline(

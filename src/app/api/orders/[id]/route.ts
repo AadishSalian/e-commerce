@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
   getOrderById,
+  getAllOrders,
+  saveAllOrders,
   verifyOrderAccess,
   updateOrderShippingAddress,
 } from '@/lib/order-confirmation/service';
+import { maskShippingAddress } from '@/lib/order-confirmation/masking';
 
 export async function GET(
   request: NextRequest,
@@ -14,8 +17,9 @@ export async function GET(
     const { searchParams } = new URL(request.url);
     const guestToken = searchParams.get('token') || undefined;
     const userId = searchParams.get('userId') || undefined;
+    const simulate = searchParams.get('simulate');
 
-    const order = getOrderById(id);
+    let order = getOrderById(id);
     if (!order) {
       return NextResponse.json({ error: 'Order not found' }, { status: 404 });
     }
@@ -28,13 +32,39 @@ export async function GET(
       );
     }
 
+    // Simulate webhook landing for pending orders
+    if (order.status === 'payment_pending' && simulate === 'confirm') {
+      const all = getAllOrders();
+      const updated = all.map((o) => {
+        if (o.id === id) {
+          return {
+            ...o,
+            status: 'confirmed' as const,
+            payment: {
+              ...o.payment,
+              status: 'confirmed' as const,
+              transactionId: `TXN-UPI-${Date.now()}`,
+            },
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        return o;
+      });
+      saveAllOrders(updated);
+      order = getOrderById(id)!;
+    }
+
     // Mask sensitive fields if not authenticated owner
     const safeOrder = {
       ...order,
+      isOwner: access.isOwner,
       customer: {
         ...order.customer,
         email: order.customer.maskedEmail,
         phone: order.customer.maskedPhone,
+        shippingAddress: access.isOwner
+          ? order.customer.shippingAddress
+          : maskShippingAddress(order.customer.shippingAddress),
       },
     };
 

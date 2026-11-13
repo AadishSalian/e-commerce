@@ -8,13 +8,17 @@ import { ShipmentGroup } from './types';
 
 export interface CalendarEventPayload {
   orderId: string;
+  shipmentId?: string;
   shipmentTitle?: string;
   startDate: string; // YYYY-MM-DD
   endDate?: string;  // YYYY-MM-DD
   isEstimate: boolean;
+  windowConfirmed?: boolean;
+  timeWindow?: string; // e.g. "14:00 - 17:00"
   trackingUrl?: string;
   storeDomain?: string;
   sequence?: number;
+  timeZone?: string;
 }
 
 /**
@@ -94,21 +98,25 @@ export function computeNextDay(dateStr: string): string {
 }
 
 /**
- * Generates an RFC 5545 compliant .ics file string.
+ * Generates lines for a single RFC 5545 VEVENT block.
  */
-export function generateIcsContent(
+export function generateVeventBlock(
   payload: CalendarEventPayload,
   referenceDate: Date = new Date()
-): string {
+): string[] {
   const {
     orderId,
+    shipmentId,
     shipmentTitle,
     startDate,
     endDate,
     isEstimate,
+    windowConfirmed,
+    timeWindow,
     trackingUrl,
     storeDomain = 'matte.store',
     sequence = 0,
+    timeZone = 'Asia/Kolkata',
   } = payload;
 
   const titleSuffix = isEstimate ? ' (estimated)' : '';
@@ -125,38 +133,92 @@ export function generateIcsContent(
   ].join('\n');
 
   const dtstamp = formatIcsUtcTimestamp(referenceDate);
-  const dtstart = formatIcsDateOnly(startDate);
-  // If date range, DTEND is the day AFTER the end date (non-inclusive)
-  const dtend = computeNextDay(endDate || startDate);
+  const uid = shipmentId
+    ? `order-${orderId}-${shipmentId}@${storeDomain}`
+    : `order-${orderId}@${storeDomain}`;
 
+  const lines: string[] = [
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${dtstamp}`,
+    `SEQUENCE:${sequence}`,
+    'STATUS:CONFIRMED',
+    'TRANSP:TRANSPARENT', // Free time on user's calendar
+  ];
+
+  // If a time window was confirmed by the carrier (e.g. "14:00 - 17:00"), use timed DTSTART/DTEND
+  if (windowConfirmed && timeWindow && timeWindow.includes('-')) {
+    const [startH, endH] = timeWindow.split('-').map((s) => s.trim().replace(/:/g, ''));
+    const startNum = startH.padStart(4, '0') + '00';
+    const endNum = endH.padStart(4, '0') + '00';
+    const dateOnly = formatIcsDateOnly(startDate);
+    lines.push(`DTSTART;TZID=${timeZone}:${dateOnly}T${startNum}`);
+    lines.push(`DTEND;TZID=${timeZone}:${dateOnly}T${endNum}`);
+  } else {
+    // Standard All-Day or Multi-Day Range
+    const dtstart = formatIcsDateOnly(startDate);
+    const dtend = computeNextDay(endDate || startDate);
+    lines.push(`DTSTART;VALUE=DATE:${dtstart}`);
+    lines.push(`DTEND;VALUE=DATE:${dtend}`);
+  }
+
+  lines.push(`SUMMARY:${escapeIcsText(summaryText)}`);
+  lines.push(`DESCRIPTION:${escapeIcsText(descriptionText)}`);
+  lines.push(`URL:${escapeIcsText(cleanTrackingUrl)}`);
+
+  // Reminder Alarm: 9:00 AM the morning before (-P1D)
+  lines.push(
+    'BEGIN:VALARM',
+    'ACTION:DISPLAY',
+    'TRIGGER:-P1D',
+    `DESCRIPTION:${escapeIcsText(`Tomorrow: Delivery for Order #${orderId}`)}`,
+    'END:VALARM',
+    'END:VEVENT'
+  );
+
+  return lines;
+}
+
+/**
+ * Generates an RFC 5545 compliant .ics file string for a single event.
+ */
+export function generateIcsContent(
+  payload: CalendarEventPayload,
+  referenceDate: Date = new Date()
+): string {
+  const veventLines = generateVeventBlock(payload, referenceDate);
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
     'PRODID:-//MATTE.//Order Confirmation Calendar//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
-    'BEGIN:VEVENT',
-    `UID:order-${orderId}@${storeDomain}`,
-    `DTSTAMP:${dtstamp}`,
-    `SEQUENCE:${sequence}`,
-    'STATUS:CONFIRMED',
-    'TRANSP:TRANSPARENT', // Free time on user's calendar
-    `DTSTART;VALUE=DATE:${dtstart}`,
-    `DTEND;VALUE=DATE:${dtend}`,
-    `SUMMARY:${escapeIcsText(summaryText)}`,
-    `DESCRIPTION:${escapeIcsText(descriptionText)}`,
-    `URL:${escapeIcsText(cleanTrackingUrl)}`,
-    // Reminder Alarm: 9:00 AM the morning before (P1D = 1 day before at 09:00)
-    'BEGIN:VALARM',
-    'ACTION:DISPLAY',
-    'TRIGGER:-P1D',
-    `DESCRIPTION:${escapeIcsText(`Tomorrow: Delivery for Order #${orderId}`)}`,
-    'END:VALARM',
-    'END:VEVENT',
+    ...veventLines,
     'END:VCALENDAR',
   ];
 
   // Join lines with strict CRLF, folding lines over 75 bytes
+  return lines.map(foldIcsLine).join('\r\n') + '\r\n';
+}
+
+/**
+ * Generates an RFC 5545 compliant .ics file containing all shipments in a single calendar invite.
+ */
+export function generateMultiShipmentIcsContent(
+  payloads: CalendarEventPayload[],
+  referenceDate: Date = new Date()
+): string {
+  const allVevents = payloads.flatMap((p) => generateVeventBlock(p, referenceDate));
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//MATTE.//Order Confirmation Calendar//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    ...allVevents,
+    'END:VCALENDAR',
+  ];
+
   return lines.map(foldIcsLine).join('\r\n') + '\r\n';
 }
 
@@ -244,15 +306,20 @@ export function buildOutlookWebUrl(payload: CalendarEventPayload): string {
 export function getCalendarPayloadFromShipment(
   orderId: string,
   shipment: ShipmentGroup,
-  storeDomain?: string
+  storeDomain?: string,
+  sequence: number = 0
 ): CalendarEventPayload {
   return {
     orderId,
+    shipmentId: shipment.totalShipments > 1 ? shipment.id : undefined,
     shipmentTitle: shipment.totalShipments > 1 ? shipment.title : undefined,
     startDate: shipment.estimatedDelivery.start,
     endDate: shipment.estimatedDelivery.end || shipment.estimatedDelivery.start,
     isEstimate: shipment.estimatedDelivery.isEstimate,
+    windowConfirmed: shipment.estimatedDelivery.windowConfirmed,
+    timeWindow: shipment.estimatedDelivery.timeWindow,
     trackingUrl: shipment.trackingUrl,
     storeDomain,
+    sequence,
   };
 }

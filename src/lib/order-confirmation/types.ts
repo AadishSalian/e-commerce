@@ -135,6 +135,25 @@ export interface OrderPricingRecord {
   currency: string;
 }
 
+export interface OrderAdjustment {
+  originalTotal: number;
+  newTotal: number;
+  refundAmount: number;
+  refundMethod: string;
+  reason: string;
+  affectedItemNames: string[];
+}
+
+export interface PickupDetails {
+  storeName: string;
+  address: string;
+  city: string;
+  pincode: string;
+  hours: string;
+  pickupWindow: string;
+  instructions: string;
+}
+
 export interface OrderConfirmationRecord {
   id: string; // e.g. "ORD-948271"
   idempotencyKey: string;
@@ -155,4 +174,12 @@ export interface OrderConfirmationRecord {
   editableUntil?: string;   // ISO-8601 (address changes allowed until this timestamp)
   cancellableUntil?: string;// ISO-8601
   crossSellProductIds?: string[];
+  isPickup?: boolean;
+  pickupDetails?: PickupDetails;
+  isDigitalOnly?: boolean;
+  digitalFulfillmentNotice?: string;
+  orderAdjustment?: OrderAdjustment;
+  deliveryDateUnknown?: boolean;
+  deliveryDateUnknownMessage?: string;
+  isOwner?: boolean;
 }

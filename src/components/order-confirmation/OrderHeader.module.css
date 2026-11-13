@@ -182,3 +182,21 @@
 .guestButton:hover {
   opacity: 0.9;
 }
+
+/* Order Adjustment Notice Banner */
+.adjustmentBanner {
+  background-color: rgba(237, 108, 2, 0.08);
+  border: 1px solid rgba(237, 108, 2, 0.3);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  color: var(--text-primary);
+}
+
+/* Pickup and Digital Edge Case Cards */
+.pickupCard,
+.digitalCard {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}

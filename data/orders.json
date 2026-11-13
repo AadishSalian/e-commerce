@@ -5,7 +5,7 @@
     "guestAccessToken": "7f9a8b1c4d2e3f4a5b6c7d8e9f0a1b2c",
     "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
     "createdAt": "2026-11-08T11:45:00.000Z",
-    "updatedAt": "2026-11-10T03:15:21.567Z",
+    "updatedAt": "2026-11-12T17:39:11.307Z",
     "status": "confirmed",
     "customer": {
       "userId": "usr-demo-1",
@@ -447,5 +447,547 @@
       "currency": "INR"
     },
     "shipments": []
+  },
+  {
+    "id": "ORD-PARTIAL-SPLIT",
+    "idempotencyKey": "idem-partial-01",
+    "guestAccessToken": "partialtoken1234567890abcdef123",
+    "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
+    "createdAt": "2026-11-08T11:45:00.000Z",
+    "updatedAt": "2026-11-08T11:45:00.000Z",
+    "status": "partially_confirmed",
+    "customer": {
+      "isGuest": true,
+      "email": "sumit.r@example.com",
+      "maskedEmail": "s***@example.com",
+      "phone": "+91 98222 33445",
+      "maskedPhone": "•••••• 3445",
+      "firstName": "Sumit",
+      "lastName": "Rao",
+      "shippingAddress": {
+        "line1": "Flat 7B, Horizon Residency",
+        "city": "Pune",
+        "state": "Maharashtra",
+        "zip": "411001",
+        "country": "India"
+      }
+    },
+    "payment": {
+      "status": "partially_confirmed",
+      "method": "card",
+      "methodTitle": "Credit Card",
+      "maskedDetails": "Mastercard ending in 8842",
+      "transactionId": "TXN-77391024"
+    },
+    "orderAdjustment": {
+      "originalTotal": 7480,
+      "newTotal": 4990,
+      "refundAmount": 2490,
+      "refundMethod": "Refunded to original Mastercard ending in 8842",
+      "reason": "Matte Aluminum Desk Pad is temporarily out of stock at our Western regional fulfillment hub.",
+      "affectedItemNames": [
+        "Matte Aluminum Desk Pad"
+      ]
+    },
+    "pricing": {
+      "subtotal": 4990,
+      "discount": 0,
+      "shipping": 0,
+      "isShippingFree": true,
+      "taxGst": 761.18,
+      "personalizationFee": 0,
+      "giftWrapFee": 0,
+      "total": 4990,
+      "currency": "INR"
+    },
+    "shipments": [
+      {
+        "id": "ship-partial-1",
+        "shipmentNumber": 1,
+        "totalShipments": 1,
+        "title": "Shipment 1: Fulfilled Essentials",
+        "carrier": "Delhivery Surface",
+        "trackingNumber": "DEL33819402",
+        "trackingUrl": "https://delhivery.com/track/DEL33819402",
+        "estimatedDelivery": {
+          "start": "2026-11-13",
+          "end": "2026-11-15",
+          "formattedDisplay": "Fri 13 Nov to Sun 15 Nov",
+          "isEstimate": true,
+          "windowConfirmed": false
+        },
+        "items": [
+          {
+            "id": "item-partial-ok",
+            "productId": "t-mouse-1",
+            "name": "Precision Wireless Mouse",
+            "variant": "Matte Charcoal",
+            "quantity": 1,
+            "unitPrice": 4990,
+            "linePrice": 4990,
+            "image": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?q=80&w=400&auto=format&fit=crop",
+            "fulfillmentStatus": "fulfilled"
+          },
+          {
+            "id": "item-partial-refunded",
+            "productId": "t-pad-1",
+            "name": "Matte Aluminum Desk Pad",
+            "variant": "Anodized Silver",
+            "quantity": 1,
+            "unitPrice": 2490,
+            "linePrice": 2490,
+            "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=400&auto=format&fit=crop",
+            "fulfillmentStatus": "cancelled_refunded",
+            "unfulfilledReason": "Out of stock at regional center; full refund of ₹2,490 automatically refunded to your card."
+          }
+        ],
+        "stages": [
+          {
+            "key": "placed",
+            "label": "Order placed",
+            "timestamp": "2026-11-08T11:45:00.000Z",
+            "isCompleted": true,
+            "isCurrent": false
+          },
+          {
+            "key": "processing",
+            "label": "Confirmed and processing fulfilled items",
+            "timestamp": "2026-11-08T11:45:00.000Z",
+            "isCompleted": true,
+            "isCurrent": false
+          },
+          {
+            "key": "packed",
+            "label": "Packed at Pune fulfillment centre",
+            "isCompleted": false,
+            "isCurrent": true,
+            "estimatedDateOrRange": "Estimated Nov 12"
+          },
+          {
+            "key": "in_transit",
+            "label": "In transit",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "out_for_delivery",
+            "label": "Out for delivery",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "delivered",
+            "label": "Delivered",
+            "isCompleted": false,
+            "isCurrent": false,
+            "estimatedDateOrRange": "Fri 13 Nov to Sun 15 Nov"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ORD-PICKUP-STORE",
+    "idempotencyKey": "idem-pickup-01",
+    "guestAccessToken": "pickuptoken1234567890abcdef123",
+    "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
+    "createdAt": "2026-11-08T11:45:00.000Z",
+    "updatedAt": "2026-11-08T11:45:00.000Z",
+    "status": "confirmed",
+    "isPickup": true,
+    "pickupDetails": {
+      "storeName": "MATTE. Flagship Studio - Mumbai",
+      "address": "Level 1, Palladium Mall, High Street Phoenix, Lower Parel",
+      "city": "Mumbai",
+      "pincode": "400013",
+      "hours": "Monday – Sunday, 11:00 AM – 9:00 PM",
+      "pickupWindow": "Ready for pickup: Today after 3:00 PM",
+      "instructions": "Please present Order #ORD-PICKUP-STORE and a valid government photo ID at the studio concierge counter."
+    },
+    "customer": {
+      "isGuest": true,
+      "email": "neha.j@example.com",
+      "maskedEmail": "n***@example.com",
+      "phone": "+91 98333 44556",
+      "maskedPhone": "•••••• 4556",
+      "firstName": "Neha",
+      "lastName": "Joshi",
+      "shippingAddress": {
+        "line1": "MATTE. Flagship Studio, Palladium Mall",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "zip": "400013",
+        "country": "India"
+      }
+    },
+    "payment": {
+      "status": "confirmed",
+      "method": "upi",
+      "methodTitle": "UPI",
+      "maskedDetails": "UPI: neha@icici",
+      "transactionId": "TXN-90281726"
+    },
+    "pricing": {
+      "subtotal": 8990,
+      "discount": 0,
+      "shipping": 0,
+      "isShippingFree": true,
+      "taxGst": 1371.35,
+      "personalizationFee": 0,
+      "giftWrapFee": 0,
+      "total": 8990,
+      "currency": "INR"
+    },
+    "shipments": []
+  },
+  {
+    "id": "ORD-DIGITAL-ONLY",
+    "idempotencyKey": "idem-digital-01",
+    "guestAccessToken": "digitaltoken1234567890abcdef12",
+    "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
+    "createdAt": "2026-11-08T11:45:00.000Z",
+    "updatedAt": "2026-11-08T11:45:00.000Z",
+    "status": "confirmed",
+    "isDigitalOnly": true,
+    "digitalFulfillmentNotice": "Your digital gift card activation key and certificate have been securely dispatched to your verified email (n***@example.com). No physical parcel is shipped.",
+    "customer": {
+      "isGuest": true,
+      "email": "nathan@example.com",
+      "maskedEmail": "n***@example.com",
+      "phone": "+91 98765 00112",
+      "maskedPhone": "•••••• 0112",
+      "firstName": "Nathan",
+      "lastName": "Drake",
+      "shippingAddress": {
+        "line1": "Digital Delivery to Email",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "zip": "560001",
+        "country": "India"
+      }
+    },
+    "payment": {
+      "status": "confirmed",
+      "method": "card",
+      "methodTitle": "Credit Card",
+      "maskedDetails": "Visa ending in 4242",
+      "transactionId": "TXN-88291047"
+    },
+    "pricing": {
+      "subtotal": 5000,
+      "discount": 0,
+      "shipping": 0,
+      "isShippingFree": true,
+      "taxGst": 0,
+      "personalizationFee": 0,
+      "giftWrapFee": 0,
+      "total": 5000,
+      "currency": "INR"
+    },
+    "shipments": [
+      {
+        "id": "ship-digital-1",
+        "shipmentNumber": 1,
+        "totalShipments": 1,
+        "title": "Digital Delivery",
+        "estimatedDelivery": {
+          "start": "2026-11-08",
+          "formattedDisplay": "Immediate Digital Delivery",
+          "isEstimate": false,
+          "windowConfirmed": true
+        },
+        "items": [
+          {
+            "id": "item-gift-card",
+            "productId": "t-gift-1",
+            "name": "MATTE. Digital Studio Gift Card",
+            "variant": "Value: ₹5,000",
+            "quantity": 1,
+            "unitPrice": 5000,
+            "linePrice": 5000,
+            "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=400&auto=format&fit=crop",
+            "isDigital": true
+          }
+        ],
+        "stages": []
+      }
+    ]
+  },
+  {
+    "id": "ORD-DATE-UNKNOWN",
+    "idempotencyKey": "idem-unknown-date-01",
+    "guestAccessToken": "unknowndatetoken1234567890abcdef",
+    "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
+    "createdAt": "2026-11-08T11:45:00.000Z",
+    "updatedAt": "2026-11-08T11:45:00.000Z",
+    "status": "confirmed",
+    "deliveryDateUnknown": true,
+    "deliveryDateUnknownMessage": "Logistics carrier is currently verifying regional freight linehaul capacity. We'll confirm your delivery date by email as soon as the carrier confirms.",
+    "customer": {
+      "isGuest": true,
+      "email": "ananya.m@example.com",
+      "maskedEmail": "a***@example.com",
+      "phone": "+91 99888 77665",
+      "maskedPhone": "•••••• 7665",
+      "firstName": "Ananya",
+      "lastName": "Mehta",
+      "shippingAddress": {
+        "line1": "Villa 14, Palm Meadows",
+        "city": "Hyderabad",
+        "state": "Telangana",
+        "zip": "500084",
+        "country": "India"
+      }
+    },
+    "payment": {
+      "status": "confirmed",
+      "method": "card",
+      "methodTitle": "Credit Card",
+      "maskedDetails": "Mastercard ending in 1102",
+      "transactionId": "TXN-99182374"
+    },
+    "pricing": {
+      "subtotal": 18990,
+      "discount": 1000,
+      "couponCode": "STUDIO10",
+      "shipping": 0,
+      "isShippingFree": true,
+      "taxGst": 2744.24,
+      "personalizationFee": 0,
+      "giftWrapFee": 0,
+      "total": 17990,
+      "currency": "INR"
+    },
+    "shipments": [
+      {
+        "id": "ship-unk-1",
+        "shipmentNumber": 1,
+        "totalShipments": 1,
+        "title": "Freight Cargo Shipment",
+        "carrier": "GATI KWE Heavy Freight",
+        "whiteGloveAssembly": true,
+        "estimatedDelivery": {
+          "start": "",
+          "formattedDisplay": "We'll confirm your delivery date by email",
+          "isEstimate": true,
+          "windowConfirmed": false
+        },
+        "items": [
+          {
+            "id": "item-desk-1",
+            "productId": "t-desk-1",
+            "name": "Matte Solid Walnut Studio Desk",
+            "variant": "Natural Walnut / 160cm",
+            "quantity": 1,
+            "unitPrice": 18990,
+            "linePrice": 18990,
+            "image": "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=400&auto=format&fit=crop"
+          }
+        ],
+        "stages": [
+          {
+            "key": "placed",
+            "label": "Order placed",
+            "timestamp": "2026-11-08T11:45:00.000Z",
+            "isCompleted": true,
+            "isCurrent": false
+          },
+          {
+            "key": "processing",
+            "label": "Crafting in wood workshop",
+            "sublabel": "White-glove assembly scheduled upon regional arrival",
+            "isCompleted": false,
+            "isCurrent": true
+          },
+          {
+            "key": "packed",
+            "label": "Freight crate packaging",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "in_transit",
+            "label": "In transit (Freight Carrier)",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "out_for_delivery",
+            "label": "Out for white-glove delivery",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "delivered",
+            "label": "Delivered & assembled",
+            "isCompleted": false,
+            "isCurrent": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ORD-MANY-ITEMS",
+    "idempotencyKey": "idem-many-01",
+    "guestAccessToken": "manyitemstoken1234567890abcdef1",
+    "tokenExpiresAt": "2026-12-08T12:00:00.000Z",
+    "createdAt": "2026-11-08T11:45:00.000Z",
+    "updatedAt": "2026-11-08T11:45:00.000Z",
+    "status": "confirmed",
+    "customer": {
+      "isGuest": true,
+      "email": "studio.architect@firm.com",
+      "maskedEmail": "s***@firm.com",
+      "phone": "+91 97777 12345",
+      "maskedPhone": "•••••• 2345",
+      "firstName": "Karan",
+      "lastName": "Malhotra",
+      "shippingAddress": {
+        "line1": "Studio 4, Arts Guild, Fort",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "zip": "400001",
+        "country": "India"
+      }
+    },
+    "payment": {
+      "status": "confirmed",
+      "method": "card",
+      "methodTitle": "Corporate Card",
+      "maskedDetails": "Amex ending in 1004",
+      "transactionId": "TXN-55443322"
+    },
+    "pricing": {
+      "subtotal": 42450,
+      "discount": 3000,
+      "couponCode": "ARCH3000",
+      "shipping": 0,
+      "isShippingFree": true,
+      "taxGst": 6017.8,
+      "personalizationFee": 490,
+      "giftWrapFee": 0,
+      "total": 39940,
+      "currency": "INR"
+    },
+    "shipments": [
+      {
+        "id": "ship-many-1",
+        "shipmentNumber": 1,
+        "totalShipments": 1,
+        "title": "Studio Gear Package",
+        "carrier": "BlueDart Express",
+        "signatureRequired": true,
+        "estimatedDelivery": {
+          "start": "2026-11-12",
+          "end": "2026-11-14",
+          "formattedDisplay": "Thu 12 Nov to Sat 14 Nov",
+          "isEstimate": true,
+          "windowConfirmed": false
+        },
+        "items": [
+          {
+            "id": "m-1",
+            "productId": "p-1",
+            "name": "Matte Keyboard 1",
+            "variant": "Obsidian",
+            "quantity": 1,
+            "unitPrice": 12990,
+            "linePrice": 12990,
+            "image": "https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=400&auto=format&fit=crop"
+          },
+          {
+            "id": "m-2",
+            "productId": "p-2",
+            "name": "Coiled Braided Cable",
+            "variant": "Matte Charcoal",
+            "quantity": 2,
+            "unitPrice": 2490,
+            "linePrice": 4980,
+            "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=400&auto=format&fit=crop"
+          },
+          {
+            "id": "m-3",
+            "productId": "p-3",
+            "name": "Precision Wireless Mouse",
+            "variant": "Obsidian",
+            "quantity": 1,
+            "unitPrice": 4990,
+            "linePrice": 4990,
+            "image": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?q=80&w=400&auto=format&fit=crop"
+          },
+          {
+            "id": "m-4",
+            "productId": "p-4",
+            "name": "Aluminum Desk Shelf",
+            "variant": "Matte Anodized",
+            "quantity": 1,
+            "unitPrice": 8990,
+            "linePrice": 8990,
+            "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=400&auto=format&fit=crop"
+          },
+          {
+            "id": "m-5",
+            "productId": "p-5",
+            "name": "Leather Desk Mat",
+            "variant": "Charcoal Black",
+            "quantity": 1,
+            "unitPrice": 3490,
+            "linePrice": 3490,
+            "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop"
+          },
+          {
+            "id": "m-6",
+            "productId": "p-6",
+            "name": "Cable Management Anchors (4-pack)",
+            "variant": "Matte Black",
+            "quantity": 2,
+            "unitPrice": 1250,
+            "linePrice": 2500,
+            "image": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?q=80&w=400&auto=format&fit=crop"
+          }
+        ],
+        "stages": [
+          {
+            "key": "placed",
+            "label": "Order placed",
+            "timestamp": "2026-11-08T11:45:00.000Z",
+            "isCompleted": true,
+            "isCurrent": false
+          },
+          {
+            "key": "processing",
+            "label": "Processing & batch packing",
+            "isCompleted": false,
+            "isCurrent": true
+          },
+          {
+            "key": "packed",
+            "label": "Packed & handed to carrier",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "in_transit",
+            "label": "In transit",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "out_for_delivery",
+            "label": "Out for delivery",
+            "isCompleted": false,
+            "isCurrent": false
+          },
+          {
+            "key": "delivered",
+            "label": "Delivered",
+            "isCompleted": false,
+            "isCurrent": false,
+            "estimatedDateOrRange": "Thu 12 Nov to Sat 14 Nov"
+          }
+        ]
+      }
+    ]
   }
 ]

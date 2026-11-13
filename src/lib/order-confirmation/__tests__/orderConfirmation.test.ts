@@ -4,15 +4,18 @@ import {
   maskEmail,
   maskPhone,
   maskCardDetails,
+  maskShippingAddress,
   formatOrderPlacedDate,
 } from '../masking';
 import {
   generateIcsContent,
+  generateMultiShipmentIcsContent,
   buildGoogleCalendarUrl,
   buildOutlookWebUrl,
   foldIcsLine,
   escapeIcsText,
   computeNextDay,
+  getCalendarPayloadFromShipment,
 } from '../calendar';
 import { calculateDeliveryEstimate } from '../deliveryEstimator';
 import {
@@ -228,5 +231,125 @@ describe('Order Confirmation: Address Editing & Modifiability Rules', () => {
     );
     assert.strictEqual(res.success, false);
     assert.match(res.error || '', /unauthorized/i);
+  });
+});
+
+describe('Order Confirmation: Address Masking for Non-Owners', () => {
+  it('masks building/street lines for guests while preserving city and state', () => {
+    const rawAddress = {
+      line1: '402 Oberoi Crest, Off Link Road',
+      line2: 'Andheri West',
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      zip: '400053',
+      country: 'India',
+    };
+    const masked = maskShippingAddress(rawAddress);
+
+    assert.strictEqual(masked.line1, '••••••••••••••••');
+    assert.strictEqual(masked.line2, '••••••••');
+    assert.strictEqual(masked.city, 'Mumbai');
+    assert.strictEqual(masked.state, 'Maharashtra');
+    assert.strictEqual(masked.zip, '400053');
+  });
+});
+
+describe('Order Confirmation: Multi-Shipment & Revised Calendar RFC 5545', () => {
+  const shipment1 = {
+    orderId: 'ORD-948271',
+    shipmentId: 'ship-1',
+    shipmentTitle: 'Shipment 1: Custom Inscribed Gear',
+    startDate: '2026-11-12',
+    endDate: '2026-11-14',
+    isEstimate: true,
+    sequence: 0,
+  };
+
+  const shipment2 = {
+    orderId: 'ORD-948271',
+    shipmentId: 'ship-2',
+    shipmentTitle: 'Shipment 2: In-Stock Essentials',
+    startDate: '2026-11-11',
+    endDate: '2026-11-13',
+    isEstimate: true,
+    sequence: 0,
+  };
+
+  it('generates multi-shipment .ics with multiple VEVENT blocks for Add All', () => {
+    const multiIcs = generateMultiShipmentIcsContent([shipment1, shipment2]);
+
+    assert.ok(multiIcs.includes('BEGIN:VCALENDAR'));
+    assert.ok(multiIcs.includes('UID:order-ORD-948271-ship-1@matte.store'));
+    assert.ok(multiIcs.includes('UID:order-ORD-948271-ship-2@matte.store'));
+    assert.strictEqual((multiIcs.match(/BEGIN:VEVENT/g) || []).length, 2);
+    assert.strictEqual((multiIcs.match(/END:VEVENT/g) || []).length, 2);
+    assert.ok(multiIcs.includes('END:VCALENDAR'));
+  });
+
+  it('preserves stable UID and increments SEQUENCE when delivery estimate changes', () => {
+    const original = generateIcsContent({ ...shipment1, sequence: 0 });
+    const revised = generateIcsContent({ ...shipment1, sequence: 1, startDate: '2026-11-15' });
+
+    assert.ok(original.includes('UID:order-ORD-948271-ship-1@matte.store'));
+    assert.ok(revised.includes('UID:order-ORD-948271-ship-1@matte.store'));
+    assert.ok(original.includes('SEQUENCE:0'));
+    assert.ok(revised.includes('SEQUENCE:1'));
+    assert.ok(revised.includes('DTSTART;VALUE=DATE:20261115'));
+  });
+
+  it('formats carrier-confirmed time window using timed DTSTART and DTEND', () => {
+    const timedPayload = {
+      orderId: 'ORD-CONFIRMED-WINDOW',
+      startDate: '2026-11-12',
+      isEstimate: false,
+      windowConfirmed: true,
+      timeWindow: '14:00 - 17:00',
+      timeZone: 'Asia/Kolkata',
+    };
+    const ics = generateIcsContent(timedPayload);
+
+    assert.ok(ics.includes('DTSTART;TZID=Asia/Kolkata:20261112T140000'));
+    assert.ok(ics.includes('DTEND;TZID=Asia/Kolkata:20261112T170000'));
+  });
+});
+
+describe('Order Confirmation: Edge Case Order Models', () => {
+  it('loads and validates partially confirmed order with stock refund', () => {
+    const order = getOrderById('ORD-PARTIAL-SPLIT');
+    assert.ok(order, 'Partially confirmed order must exist');
+    assert.strictEqual(order.status, 'partially_confirmed');
+    assert.ok(order.orderAdjustment);
+    assert.strictEqual(order.orderAdjustment.refundAmount, 2490);
+    assert.strictEqual(order.orderAdjustment.newTotal, 4990);
+  });
+
+  it('loads and validates store pickup order details', () => {
+    const order = getOrderById('ORD-PICKUP-STORE');
+    assert.ok(order, 'Pickup order must exist');
+    assert.strictEqual(order.isPickup, true);
+    assert.ok(order.pickupDetails);
+    assert.strictEqual(order.pickupDetails.storeName, 'MATTE. Flagship Studio - Mumbai');
+    assert.ok(order.pickupDetails.pickupWindow.includes('Ready for pickup'));
+  });
+
+  it('loads and validates digital gift card order with no shipping shipments', () => {
+    const order = getOrderById('ORD-DIGITAL-ONLY');
+    assert.ok(order, 'Digital order must exist');
+    assert.strictEqual(order.isDigitalOnly, true);
+    assert.ok(order.digitalFulfillmentNotice?.includes('email'));
+  });
+
+  it('loads and validates delivery date unknown order', () => {
+    const order = getOrderById('ORD-DATE-UNKNOWN');
+    assert.ok(order, 'Unknown date order must exist');
+    assert.strictEqual(order.deliveryDateUnknown, true);
+    assert.ok(order.deliveryDateUnknownMessage?.includes('carrier'));
+  });
+
+  it('loads order with many items for testing mobile collapse', () => {
+    const order = getOrderById('ORD-MANY-ITEMS');
+    assert.ok(order, 'Many items order must exist');
+    const itemsCount = order.shipments.flatMap((s) => s.items).length;
+    assert.ok(itemsCount >= 6);
   });
 });

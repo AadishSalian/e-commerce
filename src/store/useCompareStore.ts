@@ -8,6 +8,7 @@ import {
   CanAddResult,
   PendingCategoryReplacement
 } from '@/lib/compare/types';
+import { announcer } from '@/lib/optimistic/announcer';
 
 interface CompareState {
   items: CompareItem[];
@@ -214,6 +215,8 @@ export const useCompareStore = create<CompareState>()((set, get) => {
         highlightedId: null
       });
 
+      announcer.announce(`${product.name} added to compare tray, ${updated.length} items`, 'polite');
+
       return { success: true };
     },
 
@@ -222,6 +225,7 @@ export const useCompareStore = create<CompareState>()((set, get) => {
         const updated = state.items.filter((i) => i.productId !== productId);
         persistItems(updated);
         const newCategory = updated.length > 0 ? updated[0].categoryId : null;
+        announcer.announce('Item removed from compare tray', 'polite');
         return {
           items: updated,
           activeCategory: newCategory,

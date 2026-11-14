@@ -6,6 +6,8 @@ import {
   NotificationCategory,
   NotificationPreferences,
 } from '@/lib/notifications/types';
+import { announcer } from '@/lib/optimistic/announcer';
+import { useUIStore } from './useUIStore';
 
 interface NotificationState {
   notifications: NotificationRecord[];
@@ -230,6 +232,11 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
         unreadCount: previousUnread,
         categoryCounts: previousCategoryCounts,
       });
+      useUIStore.getState().error("Couldn't update notification. Try again", {
+        label: 'Retry',
+        onClick: () => get().markAsRead(id, userId),
+      });
+      announcer.announce("Couldn't update notification status", 'assertive');
     }
   },
 
@@ -283,6 +290,11 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
         unreadCount: previousUnread,
         categoryCounts: previousCategoryCounts,
       });
+      useUIStore.getState().error("Couldn't update notification. Try again", {
+        label: 'Retry',
+        onClick: () => get().markAsRead(id, userId),
+      });
+      announcer.announce("Couldn't update notification status", 'assertive');
     }
   },
 
@@ -321,6 +333,11 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
       if (!res.ok) throw new Error('Dismiss failed');
     } catch (err) {
       set({ notifications: previousNotifications, unreadCount: previousUnread });
+      useUIStore.getState().error("Couldn't dismiss notification. Try again", {
+        label: 'Retry',
+        onClick: () => get().dismiss(id, userId),
+      });
+      announcer.announce("Couldn't dismiss notification", 'assertive');
     }
   },
 

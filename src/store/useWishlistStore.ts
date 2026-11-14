@@ -9,6 +9,7 @@ import {
 } from '@/lib/wishlist/types';
 import { Product, MOCK_PRODUCTS } from '@/lib/mockData';
 import { toMinorUnits } from '@/lib/price-history/currency';
+import { announcer } from '@/lib/optimistic/announcer';
 import { useAuthStore } from './useAuthStore';
 import { useUIStore } from './useUIStore';
 
@@ -593,6 +594,8 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
       position: currentCount,
     };
 
+    const previousItems = [...state.items];
+    const previousKeys = [...state.savedItemKeys];
     const newItems = [...state.items, newItem];
     const newKeys = [...state.savedItemKeys, makeKey(product.id, variantId)];
 
@@ -600,6 +603,7 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
       items: newItems,
       savedItemKeys: newKeys,
     });
+    announcer.announce(`${product.name} saved to wishlist`, 'polite');
 
     if (isAuthed) {
       try {
@@ -621,9 +625,16 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
               items: s.items.map((it) => (it.id === newItem.id ? data.item : it)),
             }));
           }
+        } else {
+          throw new Error('Server rejected save');
         }
       } catch (e) {
-        console.error('Failed to save item on server:', e);
+        set({ items: previousItems, savedItemKeys: previousKeys });
+        useUIStore.getState().error(`Couldn't save ${product.name}. Try again`, {
+          label: 'Retry',
+          onClick: () => get().addItemToBoard(wishlistId, product, variantId, note),
+        });
+        announcer.announce(`Couldn't save ${product.name}`, 'assertive');
       }
     } else {
       setStoredLocalData(state.wishlists, newItems);
@@ -650,6 +661,8 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
     const item = state.items.find((it) => it.id === itemId);
     if (!item) return;
 
+    const previousItems = [...state.items];
+    const previousKeys = [...state.savedItemKeys];
     const remainingItems = state.items.filter((it) => it.id !== itemId);
     const newKeys = remainingItems.map((it) => makeKey(it.productId, it.variantId));
 
@@ -657,15 +670,22 @@ export const useWishlistStore = create<WishlistState>((set, get) => ({
       items: remainingItems,
       savedItemKeys: newKeys,
     });
+    announcer.announce('Item removed from wishlist', 'polite');
 
     const auth = useAuthStore.getState();
     if (auth.isLoggedIn && auth.user?.id) {
       try {
-        await fetch(`/api/wishlists/${item.wishlistId}/items/${itemId}?userId=${auth.user.id}`, {
+        const res = await fetch(`/api/wishlists/${item.wishlistId}/items/${itemId}?userId=${auth.user.id}`, {
           method: 'DELETE',
         });
+        if (!res.ok) throw new Error('Delete failed');
       } catch (e) {
-        console.error('Failed to remove item on server:', e);
+        set({ items: previousItems, savedItemKeys: previousKeys });
+        useUIStore.getState().error("Couldn't remove item from wishlist. Try again", {
+          label: 'Retry',
+          onClick: () => get().removeItemById(itemId),
+        });
+        announcer.announce("Couldn't remove item from wishlist", 'assertive');
       }
     } else {
       setStoredLocalData(state.wishlists, remainingItems);

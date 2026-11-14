@@ -711,7 +711,10 @@ export default function CheckoutPage() {
                         className="w-full py-4 bg-foreground text-background font-semibold rounded-full hover:scale-[0.99] active:scale-[0.98] transition-all duration-150 disabled:opacity-40 flex items-center justify-center gap-2 h-[52px] shadow-lg shadow-foreground/5"
                       >
                         {isProcessing ? (
-                          <div className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
+                          <div className="flex items-center gap-2">
+                            <div className="w-4 h-4 border-2 border-background border-t-transparent rounded-full animate-spin" />
+                            <span>Confirming payment…</span>
+                          </div>
                         ) : (
                           `Pay $${total.toFixed(2)} with Saved Card`
                         )}

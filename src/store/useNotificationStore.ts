@@ -234,7 +234,7 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
       });
       useUIStore.getState().error("Couldn't update notification. Try again", {
         label: 'Retry',
-        onClick: () => get().markAsRead(id, userId),
+        onClick: () => get().markAsUnread(id, userId),
       });
       announcer.announce("Couldn't update notification status", 'assertive');
     }
@@ -290,11 +290,11 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
         unreadCount: previousUnread,
         categoryCounts: previousCategoryCounts,
       });
-      useUIStore.getState().error("Couldn't update notification. Try again", {
+      useUIStore.getState().error("Couldn't update all notifications. Try again", {
         label: 'Retry',
-        onClick: () => get().markAsRead(id, userId),
+        onClick: () => get().markAllAsRead(userId, category),
       });
-      announcer.announce("Couldn't update notification status", 'assertive');
+      announcer.announce("Couldn't update notifications status", 'assertive');
     }
   },
 

@@ -6,3 +6,4 @@ export * from './OptimisticDrawerItem';
 export * from './OfflineSyncBanner';
 export * from './ReconciliationNoticeBanner';
 export * from './CheckoutGate';
+export * from './PendingActionButton';

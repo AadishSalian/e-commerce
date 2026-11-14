@@ -17,20 +17,48 @@ export interface OutboxState {
   items: OptimisticMutation[];
 }
 
+export interface StorageProvider {
+  getItem: (key: string) => string | null;
+  setItem: (key: string, value: string) => void;
+  removeItem: (key: string) => void;
+}
+
+class MemoryStorageProvider implements StorageProvider {
+  private store = new Map<string, string>();
+  getItem(key: string): string | null {
+    return this.store.get(key) || null;
+  }
+  setItem(key: string, value: string): void {
+    this.store.set(key, value);
+  }
+  removeItem(key: string): void {
+    this.store.delete(key);
+  }
+}
+
 export class OptimisticOutbox {
   private memoryItems: OptimisticMutation[] = [];
   private onStaleItemsPurged?: (purgedCount: number) => void;
+  private storage: StorageProvider;
 
-  constructor(onStalePurged?: (purgedCount: number) => void) {
+  constructor(
+    onStalePurged?: (purgedCount: number) => void,
+    customStorage?: StorageProvider
+  ) {
     this.onStaleItemsPurged = onStalePurged;
+    if (customStorage) {
+      this.storage = customStorage;
+    } else if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+      this.storage = window.localStorage;
+    } else {
+      this.storage = new MemoryStorageProvider();
+    }
     this.loadFromStorage();
   }
 
   loadFromStorage(): OptimisticMutation[] {
-    if (typeof window === 'undefined') return [];
-
     try {
-      const raw = localStorage.getItem(OUTBOX_STORAGE_KEY);
+      const raw = this.storage.getItem(OUTBOX_STORAGE_KEY);
       if (!raw) {
         this.memoryItems = [];
         return [];
@@ -75,15 +103,13 @@ export class OptimisticOutbox {
   }
 
   saveToStorage(): void {
-    if (typeof window === 'undefined') return;
-
     try {
       const state: OutboxState = {
         version: 1,
         updatedAt: Date.now(),
         items: this.memoryItems,
       };
-      localStorage.setItem(OUTBOX_STORAGE_KEY, JSON.stringify(state));
+      this.storage.setItem(OUTBOX_STORAGE_KEY, JSON.stringify(state));
     } catch {
       // Ignore storage write issues (quota/private browsing)
     }
@@ -139,12 +165,10 @@ export class OptimisticOutbox {
 
   clear(): void {
     this.memoryItems = [];
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.removeItem(OUTBOX_STORAGE_KEY);
-      } catch {
-        // Ignore
-      }
+    try {
+      this.storage.removeItem(OUTBOX_STORAGE_KEY);
+    } catch {
+      // Ignore
     }
   }
 }

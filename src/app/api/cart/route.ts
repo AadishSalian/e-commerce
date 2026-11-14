@@ -1,49 +1,41 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import { withQueryMonitoring } from '@/lib/db-monitor';
-
-// Use the query monitor wrapper to log slow DB queries
-const prisma = withQueryMonitoring(
-  new Proxy({}, {
-    get(target, prop) {
-      return () => ({});
-    }
-  }) as any
-); // Mocked Prisma to avoid crash during build
+import { CartService } from '@/lib/cart/service';
+import { CartMutationRequest } from '@/lib/cart/types';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId');
+    const userId = searchParams.get('userId') || undefined;
+    const guestToken = searchParams.get('guestToken') || undefined;
 
-    if (!userId) {
-      return NextResponse.json({ error: 'userId is required' }, { status: 400 });
-    }
+    const cart = CartService.getCart(userId, guestToken);
 
-    const cart = await prisma.cart.findUnique({
-      where: { userId },
-      include: {
-        items: {
-          include: {
-            product: true
-          }
-        }
-      }
-    });
-
-    if (!cart) {
-      return NextResponse.json({ items: [] });
-    }
-
-    // Map to the format CartContext expects
-    const formattedItems = cart.items.map((item: any) => ({
-      ...item.product, // includes product fields
+    // Map to the format CartContext expects, with authoritative fields
+    const formattedItems = cart.items.map((item) => ({
+      ...item,
+      id: item.productId,
       cartId: item.id,
       quantity: item.quantity,
-      selectedVariant: item.variant || undefined,
+      selectedVariant: item.selectedVariant,
+      price: item.price,
+      name: item.name,
+      image: item.image,
+      category: item.category,
+      availableStock: item.availableStock,
+      isAvailable: item.isAvailable,
+      personalization: item.personalization,
+      selectedEmiPlan: item.selectedEmiPlan,
     }));
 
-    return NextResponse.json({ items: formattedItems });
+    return NextResponse.json({
+      cart,
+      items: formattedItems,
+      subtotal: cart.subtotal,
+      shipping: cart.shipping,
+      isFreeShipping: cart.isFreeShipping,
+      total: cart.total,
+      version: cart.version,
+    });
   } catch (error) {
     console.error('Failed to fetch cart', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
@@ -53,42 +45,69 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { userId, items } = body;
+    const { userId, guestToken, action, item, items, idempotencyKey, versionPrecondition, couponCode } = body;
 
-    if (!userId) {
-      return NextResponse.json({ error: 'userId is required' }, { status: 400 });
+    // Simulation hooks for testing edge cases
+    const simulateHeader = request.headers.get('x-simulate-error');
+    if (simulateHeader === '503') {
+      return NextResponse.json({ error: 'Simulated backend unavailable' }, { status: 503 });
+    }
+    if (simulateHeader === '429') {
+      return NextResponse.json({ error: 'Simulated rate limit' }, { status: 429 });
     }
 
-    // Replace the user's entire cart
-    // Using an interactive transaction for safety
-    await prisma.$transaction(async (tx: any) => {
-      // 1. Find or create the user's cart
-      let cart = await tx.cart.findUnique({ where: { userId } });
-      if (!cart) {
-        cart = await tx.cart.create({ data: { userId } });
+    // 1. If explicit mutation request
+    if (action) {
+      const mutationReq: CartMutationRequest = {
+        idempotencyKey: idempotencyKey || `auto_${Date.now()}`,
+        action,
+        userId,
+        guestToken,
+        versionPrecondition,
+        item,
+        couponCode,
+      };
+
+      const result = CartService.executeMutation(mutationReq);
+      if (!result.success) {
+        return NextResponse.json(result, { status: 400 });
       }
 
-      // 2. Delete existing items
-      await tx.cartItem.deleteMany({
-        where: { cartId: cart.id }
+      return NextResponse.json(result);
+    }
+
+    // 2. Legacy bulk replacement endpoint support
+    if (items && Array.isArray(items)) {
+      CartService.executeMutation({
+        idempotencyKey: idempotencyKey || `replace_${Date.now()}`,
+        action: 'clear',
+        userId,
+        guestToken,
       });
 
-      // 3. Create new items
-      if (items && items.length > 0) {
-        await tx.cartItem.createMany({
-          data: items.map((item: any) => ({
-            cartId: cart!.id,
-            productId: item.id,
-            variant: item.selectedVariant || null,
-            quantity: item.quantity
-          }))
+      for (const it of items) {
+        CartService.executeMutation({
+          idempotencyKey: `init_${it.id}_${Date.now()}`,
+          action: 'add',
+          userId,
+          guestToken,
+          item: {
+            productId: it.id,
+            quantity: it.quantity || 1,
+            selectedVariant: it.selectedVariant,
+            personalization: it.personalization,
+            selectedEmiPlan: it.selectedEmiPlan,
+          },
         });
       }
-    });
 
-    return NextResponse.json({ success: true });
+      const cart = CartService.getCart(userId, guestToken);
+      return NextResponse.json({ success: true, cart });
+    }
+
+    return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   } catch (error) {
-    console.error('Failed to sync cart', error);
+    console.error('Failed to update cart', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

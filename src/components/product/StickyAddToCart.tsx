@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '@/lib/mockData';
 import { Button } from '../ui';
+import { OptimisticAddToCartButton } from '@/components/optimistic';
 import { useBottomStackStore } from '@/lib/compare/bottomStack';
 
 import Image from 'next/image';
@@ -71,13 +72,12 @@ export default function StickyAddToCart({ product, selectedVariant, onAddToCart,
           
           <div className="flex items-center gap-4 shrink-0 ml-auto">
             <span className="font-bold text-foreground hidden sm:block">${product.price.toFixed(2)}</span>
-            <Button variant="primary" 
-              onClick={handleAddToCart}
-              isSuccess={isAdded}
+            <OptimisticAddToCartButton
+              onAddToCart={onAddToCart}
               className="px-8 py-3 sm:py-2 text-base sm:text-sm whitespace-nowrap shadow-lg shadow-accent/20 min-w-[140px] sm:min-w-[120px] rounded-full sm:rounded-md"
             >
               Add to Bag
-            </Button>
+            </OptimisticAddToCartButton>
           </div>
         </motion.div>
       )}

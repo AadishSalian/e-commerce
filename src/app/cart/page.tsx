@@ -15,6 +15,13 @@ import { formatEmiCurrency } from '@/lib/emi/calculator';
 import { SelectedEmiPlan } from '@/lib/emi/types';
 import { PriceHistoryTagBadge } from '@/components/product/price-history';
 import { EditPersonalizationModal } from '@/components/cart/EditPersonalizationModal';
+import {
+  OfflineSyncBanner,
+  ReconciliationNoticeBanner,
+  CheckoutGate,
+  OptimisticPriceDisplay,
+} from '@/components/optimistic';
+import { useOptimisticCartStore } from '@/store/useOptimisticCartStore';
 
 export default function CartPage() {
   const { isLoggedIn } = useAuth();
@@ -30,6 +37,9 @@ export default function CartPage() {
 
   const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<CartItem | null>(null);
+  const reconciliationNotices = useOptimisticCartStore((s) => s.reconciliationNotices);
+  const dismissNotice = useOptimisticCartStore((s) => s.dismissNotice);
+  const isSyncing = useOptimisticCartStore((s) => s.isSyncing);
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + getItemUnitPrice(item) * item.quantity,
@@ -78,6 +88,14 @@ export default function CartPage() {
         </h1>
 
         <div className="flex flex-col gap-6">
+          {/* Offline Sync Banner */}
+          <OfflineSyncBanner />
+
+          {/* Reconciliation Notice Banner */}
+          <ReconciliationNoticeBanner
+            notices={reconciliationNotices}
+            onDismiss={dismissNotice}
+          />
           {/* EMI Update Notification */}
           <AnimatePresence>
             {emiNotification && (
@@ -280,9 +298,7 @@ export default function CartPage() {
               <div className="p-6 bg-surface border border-border rounded-xl flex flex-col gap-3">
                 <div className="flex justify-between text-sm text-text-muted">
                   <span>Subtotal</span>
-                  <span className="text-foreground font-medium tabular-nums">
-                    ${subtotal.toFixed(2)}
-                  </span>
+                  <OptimisticPriceDisplay amount={subtotal} isOptimistic={isSyncing} size="sm" />
                 </div>
                 <div className="flex justify-between text-sm text-text-muted">
                   <span>Estimated Shipping</span>
@@ -293,17 +309,13 @@ export default function CartPage() {
                 <div className="w-full h-px bg-border my-1" />
                 <div className="flex justify-between text-lg font-bold text-foreground">
                   <span>Total</span>
-                  <span className="tabular-nums">${total.toFixed(2)}</span>
+                  <OptimisticPriceDisplay amount={total} isOptimistic={isSyncing} size="lg" />
                 </div>
               </div>
 
-              <Link
-                href="/checkout"
-                className="w-full py-4 bg-foreground text-background font-semibold rounded-full hover:scale-[0.98] transition-transform duration-200 flex items-center justify-center gap-2 shadow-lg"
-              >
+              <CheckoutGate className="shadow-lg py-4 text-base font-semibold">
                 Proceed to Checkout
-                <ChevronRight className="w-4 h-4" />
-              </Link>
+              </CheckoutGate>
             </div>
           )}
         </div>

@@ -17,6 +17,7 @@ import LiveActivityBadge from '@/components/product/LiveActivityBadge';
 import ReviewsSection from '@/components/product/ReviewsSection';
 import QnASection from '@/components/product/QnASection';
 import StickyAddToCart from '@/components/product/StickyAddToCart';
+import { OptimisticAddToCartButton } from '@/components/optimistic';
 import ProductViewer from '@/components/product/ProductViewer';
 import SizeFitQuiz from '@/components/product/SizeFitQuiz';
 import InPageNavigation from '@/components/product/InPageNavigation';
@@ -445,14 +446,13 @@ export default function ProductDetailPage({ params }: Props) {
             </div>
 
             <div className="hidden lg:flex flex-col gap-4 mt-auto pt-8 border-t border-border">
-              <Button variant="primary" 
-                className="w-full py-4 text-lg" 
+              <OptimisticAddToCartButton
+                className="w-full py-4 text-lg"
                 icon={<ShoppingBag size={18} />}
-                onClick={handleInitiateAddToCart}
-                isSuccess={isAdded}
+                onAddToCart={handleInitiateAddToCart}
               >
                 {activeZone && hasPersonalizationContent ? 'Review Inscription & Add to Bag' : 'Add to Bag'}
-              </Button>
+              </OptimisticAddToCartButton>
               <p className="text-xs text-text-muted text-center flex items-center justify-center gap-2">
                 <Check className="w-3 h-3" />
                 {activeZone && hasPersonalizationContent

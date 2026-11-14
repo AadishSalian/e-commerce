@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { NavAuthButton, ThemeToggle, ExpandableSearch, RollingText } from '@/components/ui';
 import { NotificationBell } from '@/components/notifications';
+import { OptimisticCartBadge } from '@/components/optimistic';
 import styles from './Navbar.module.css';
 
 import Image from 'next/image';
@@ -295,22 +296,13 @@ export default function Navbar() {
                   </AnimatePresence>
                 </div>
 
-                <button onClick={openCart} className={styles.iconButton} aria-label="Cart">
+                <button
+                  onClick={openCart}
+                  className={styles.iconButton}
+                  aria-label={`Bag, ${cartCount} ${cartCount === 1 ? 'item' : 'items'}`}
+                >
                   <ShoppingBag className="w-4 h-4" />
-                  <AnimatePresence mode="popLayout">
-                    {cartCount > 0 && (
-                      <motion.span
-                        key={cartCount}
-                        initial={{ scale: 0.5, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.5, opacity: 0 }}
-                        transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                        className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-background"
-                      >
-                        {cartCount}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                  <OptimisticCartBadge count={cartCount} />
                 </button>
               </>
             ) : (
@@ -403,13 +395,13 @@ export default function Navbar() {
             >
               <Search className={`w-5 h-5 transition-colors ${isMobileSearchOpen ? 'text-accent' : ''}`} />
             </button>
-            <button onClick={openCart} className={styles.iconButton} aria-label="Cart">
+            <button
+              onClick={openCart}
+              className={styles.iconButton}
+              aria-label={`Bag, ${cartCount} ${cartCount === 1 ? 'item' : 'items'}`}
+            >
               <ShoppingBag className="w-5 h-5" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-background">
-                  {cartCount}
-                </span>
-              )}
+              <OptimisticCartBadge count={cartCount} />
             </button>
             <button 
               className={styles.iconButton}

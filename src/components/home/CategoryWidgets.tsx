@@ -39,7 +39,7 @@ const itemVariants = {
 
 export default function CategoryWidgets() {
   return (
-    <section className={styles.wrapper} aria-label="Quick Categories">
+    <section className={styles.wrapper} aria-label="Quick Categories" data-tour="filters">
       <motion.div 
         className={styles.container}
         data-lenis-prevent-horizontal="true"

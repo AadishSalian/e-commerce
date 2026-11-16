@@ -58,6 +58,7 @@ export default function BottomNavigation() {
             <Link
               key={item.label}
               href={item.href}
+              data-tour={item.label === 'Wishlist' ? 'wishlist' : undefined}
               className={`flex flex-col items-center justify-center w-16 h-12 transition-colors ${
                 isActive ? 'text-foreground' : 'text-text-muted hover:text-foreground'
               }`}

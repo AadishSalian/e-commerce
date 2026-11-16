@@ -54,7 +54,7 @@ export default function ProductsPage() {
           <div className="hidden md:flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-y border-border py-4">
             
             {/* Category Pill Filters */}
-            <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar flex-1 w-full md:w-auto">
+            <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar flex-1 w-full md:w-auto" data-tour="filters">
               <span className="text-sm font-medium text-text-muted mr-2 flex items-center gap-2 shrink-0">
                 <Filter className="w-4 h-4" /> Filter
               </span>
@@ -117,6 +117,7 @@ export default function ProductsPage() {
           <button 
             onClick={() => setIsFilterDrawerOpen(true)}
             className="flex items-center gap-2 bg-surface border border-border px-4 py-3 rounded-full text-sm font-medium"
+            data-tour="filters"
           >
             <Filter size={16} /> Filters
           </button>

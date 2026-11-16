@@ -23,6 +23,7 @@ import { PreferencesProvider } from "@/contexts/PreferencesContext";
 import { AlertsProvider } from "@/contexts/AlertsContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { ListPicker } from "@/components/wishlist/ListPicker";
+import { CoachMarkLoader } from "@/components/coach-mark";
 import LiveChatWidget from "@/components/support/LiveChatWidget";
 import { BackToTop, OfflineBanner } from "@/components/ui";
 import PwaRegister from "@/components/PwaRegister";
@@ -113,6 +114,7 @@ export default function RootLayout({
                             <QuickViewModal />
                             <CommandMenu />
                             <ListPicker />
+                            <CoachMarkLoader />
                             <main className="flex-grow flex flex-col pt-24 md:pt-24">
                               <PageTransition>
                                 {children}

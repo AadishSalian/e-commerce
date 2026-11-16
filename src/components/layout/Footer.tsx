@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { NewsletterCard, RollingText } from '@/components/ui';
+import { useCoachMarkStore } from '@/store/useCoachMarkStore';
 
 export default function Footer() {
   return (
@@ -34,6 +35,7 @@ export default function Footer() {
               <li><Link href="/returns" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Returns & Exchanges</RollingText></Link></li>
               <li><Link href="/shipping" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Shipping Information</RollingText></Link></li>
               <li><Link href="/contact" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Contact Us</RollingText></Link></li>
+              <li><button type="button" onClick={() => useCoachMarkStore.getState().startTour({ manual: true })} className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block cursor-pointer text-left" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Take a quick tour</RollingText></button></li>
             </ul>
           </div>
 

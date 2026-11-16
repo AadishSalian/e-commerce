@@ -213,103 +213,100 @@ export default function Navbar() {
             
             <NotificationBell />
             
+            <Link href="/wishlist" className={styles.iconButton} aria-label="Wishlist" data-tour="wishlist">
+              <Heart className="w-4 h-4" />
+            </Link>
+
             {isLoggedIn ? (
-              <>
-                <Link href="/wishlist" className={styles.iconButton} aria-label="Wishlist">
-                  <Heart className="w-4 h-4" />
-                </Link>
+              <div className="relative" ref={accountRef}>
+                <button 
+                  className={`${styles.iconButton} overflow-hidden rounded-full p-0 w-8 h-8 flex items-center justify-center bg-surface-active border border-border`} 
+                  onClick={() => setIsAccountOpen(!isAccountOpen)}
+                  aria-label="Account menu"
+                >
+                  {user?.avatar ? (
+                    <Image src={user.avatar} alt={user?.name} className="w-full h-full object-cover"  width={800} height={800} />
+                  ) : user?.name ? (
+                    <span className="text-xs font-semibold text-foreground">
+                      {user.name.charAt(0).toUpperCase()}
+                    </span>
+                  ) : (
+                    <User className="w-4 h-4" />
+                  )}
+                </button>
                 
-                {/* Account Dropdown Container */}
-                <div className="relative" ref={accountRef}>
-                  <button 
-                    className={`${styles.iconButton} overflow-hidden rounded-full p-0 w-8 h-8 flex items-center justify-center bg-surface-active border border-border`} 
-                    onClick={() => setIsAccountOpen(!isAccountOpen)}
-                    aria-label="Account menu"
-                  >
-                    {user?.avatar ? (
-                      <Image src={user.avatar} alt={user?.name} className="w-full h-full object-cover"  width={800} height={800} />
-                    ) : user?.name ? (
-                      <span className="text-xs font-semibold text-foreground">
-                        {user.name.charAt(0).toUpperCase()}
-                      </span>
-                    ) : (
-                      <User className="w-4 h-4" />
-                    )}
-                  </button>
-                  
-                  <AnimatePresence>
-                    {isAccountOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 15, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.96 }}
-                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                        className={`${styles.dropdownCapsule} min-w-[220px]`}
+                <AnimatePresence>
+                  {isAccountOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.96 }}
+                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                      className={`${styles.dropdownCapsule} min-w-[220px]`}
+                    >
+                      <motion.div 
+                        initial={{ opacity: 0, x: -10 }} 
+                        animate={{ opacity: 1, x: 0 }} 
+                        transition={{ delay: 0.1 }}
+                        className="px-4 py-3 border-b border-border/50 mb-1"
                       >
-                        <motion.div 
-                          initial={{ opacity: 0, x: -10 }} 
-                          animate={{ opacity: 1, x: 0 }} 
-                          transition={{ delay: 0.1 }}
-                          className="px-4 py-3 border-b border-border/50 mb-1"
-                        >
-                          <p className="text-sm font-semibold text-foreground truncate">{user?.name || 'User'}</p>
-                          <p className="text-xs text-text-muted truncate mt-0.5">{user?.email || 'user@example.com'}</p>
+                        <p className="text-sm font-semibold text-foreground truncate">{user?.name || 'User'}</p>
+                        <p className="text-xs text-text-muted truncate mt-0.5">{user?.email || 'user@example.com'}</p>
+                      </motion.div>
+                      
+                      <div className="p-1.5 flex flex-col gap-1">
+                        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}>
+                          <Link href="/profile" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                            <UserCircle className="w-4 h-4" /> <span>Profile</span>
+                          </Link>
+                        </motion.div>
+                        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
+                          <Link href="/account" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                            <Package className="w-4 h-4" /> <span>Orders</span>
+                          </Link>
+                        </motion.div>
+                        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }}>
+                          <Link href="/wishlist" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                            <Heart className="w-4 h-4" /> <span>Wishlist</span>
+                          </Link>
+                        </motion.div>
+                        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.28 }}>
+                          <Link href="/notifications" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                            <Bell className="w-4 h-4" /> <span>Notifications</span>
+                          </Link>
+                        </motion.div>
+                        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
+                          <Link href="/settings" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
+                            <Settings className="w-4 h-4" /> <span>Settings</span>
+                          </Link>
                         </motion.div>
                         
-                        <div className="p-1.5 flex flex-col gap-1">
-                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}>
-                            <Link href="/profile" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                              <UserCircle className="w-4 h-4" /> <span>Profile</span>
-                            </Link>
-                          </motion.div>
-                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
-                            <Link href="/account" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                              <Package className="w-4 h-4" /> <span>Orders</span>
-                            </Link>
-                          </motion.div>
-                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }}>
-                            <Link href="/wishlist" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                              <Heart className="w-4 h-4" /> <span>Wishlist</span>
-                            </Link>
-                          </motion.div>
-                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.28 }}>
-                            <Link href="/notifications" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                              <Bell className="w-4 h-4" /> <span>Notifications</span>
-                            </Link>
-                          </motion.div>
-                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
-                            <Link href="/settings" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                              <Settings className="w-4 h-4" /> <span>Settings</span>
-                            </Link>
-                          </motion.div>
-                          
-                          <div className="my-1 border-t border-border/50 mx-2" />
-                          
-                          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35 }}>
-                            <button className={`${styles.dropdownItem} ${styles.dropdownItemDanger}`} onClick={() => { logout(); setIsAccountOpen(false); router.push('/'); }}>
-                              <LogOut className="w-4 h-4" /> <span>Logout</span>
-                            </button>
-                          </motion.div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                <button
-                  onClick={openCart}
-                  className={styles.iconButton}
-                  aria-label={`Bag, ${cartCount} ${cartCount === 1 ? 'item' : 'items'}`}
-                >
-                  <ShoppingBag className="w-4 h-4" />
-                  <OptimisticCartBadge count={cartCount} />
-                </button>
-              </>
+                        <div className="my-1 border-t border-border/50 mx-2" />
+                        
+                        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35 }}>
+                          <button className={`${styles.dropdownItem} ${styles.dropdownItemDanger}`} onClick={() => { logout(); setIsAccountOpen(false); router.push('/'); }}>
+                            <LogOut className="w-4 h-4" /> <span>Logout</span>
+                          </button>
+                        </motion.div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ) : (
               <div className="ml-2 pl-2 border-l border-border flex items-center">
                 <NavAuthButton onClick={() => router.push('/login')} label="Sign In" />
               </div>
             )}
+
+            <button
+              onClick={openCart}
+              className={styles.iconButton}
+              aria-label={`Bag, ${cartCount} ${cartCount === 1 ? 'item' : 'items'}`}
+            >
+              <ShoppingBag className="w-4 h-4" />
+              <OptimisticCartBadge count={cartCount} />
+            </button>
           </motion.div>
 
           {/* Mega Menu Panel */}
@@ -392,6 +389,7 @@ export default function Navbar() {
               className={styles.iconButton}
               onClick={() => setIsMobileSearchOpen(prev => !prev)}
               aria-label="Search products"
+              data-tour="search"
             >
               <Search className={`w-5 h-5 transition-colors ${isMobileSearchOpen ? 'text-accent' : ''}`} />
             </button>
@@ -432,7 +430,7 @@ export default function Navbar() {
           )}
         </AnimatePresence>
         {/* Mobile Swipeable Category Chips */}
-        <div className="mt-2 -mx-4 px-4 overflow-x-auto hide-scrollbar flex items-center gap-2 pb-2">
+        <div className="mt-2 -mx-4 px-4 overflow-x-auto hide-scrollbar flex items-center gap-2 pb-2" data-tour="filters">
           {['New', 'Tech', 'Objects', 'Fashion', 'Beauty'].map(cat => (
             <Link 
               key={cat} 

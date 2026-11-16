@@ -186,6 +186,7 @@ export function ExpandableSearch({
           aria-label="Open search"
           aria-expanded={false}
           title="Search products (Press / or Cmd+K)"
+          data-tour="search"
         >
           <Search className={styles.closedSearchIcon} />
         </button>

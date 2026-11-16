@@ -482,5 +482,357 @@
     "pushDetailedPreviews": false,
     "tabBadgeEnabled": false,
     "autoMarkReadOnOpen": false
+  },
+  "test-user-1794624106862": {
+    "userId": "test-user-1794624106862",
+    "categories": {
+      "orders": true,
+      "price": false,
+      "stock": false,
+      "account": true
+    },
+    "channels": {
+      "orders": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      },
+      "price": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "stock": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "account": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      }
+    },
+    "scope": "all_wishlist",
+    "specificListIds": [],
+    "specificProductIds": [],
+    "priceDropThresholdPercent": 5,
+    "digestFrequency": "daily",
+    "quietHours": {
+      "enabled": false,
+      "start": "22:00",
+      "end": "07:00"
+    },
+    "pushDetailedPreviews": false,
+    "tabBadgeEnabled": false,
+    "autoMarkReadOnOpen": false
+  },
+  "test-user-prefs-1794624106863": {
+    "userId": "test-user-prefs-1794624106863",
+    "categories": {
+      "orders": true,
+      "price": true,
+      "stock": true,
+      "account": true
+    },
+    "channels": {
+      "orders": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      },
+      "price": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "stock": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "account": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      }
+    },
+    "scope": "all_wishlist",
+    "specificListIds": [],
+    "specificProductIds": [],
+    "priceDropThresholdPercent": 5,
+    "digestFrequency": "daily",
+    "quietHours": {
+      "enabled": false,
+      "start": "22:00",
+      "end": "07:00"
+    },
+    "pushDetailedPreviews": false,
+    "tabBadgeEnabled": false,
+    "autoMarkReadOnOpen": false
+  },
+  "test-user-1794844155224": {
+    "userId": "test-user-1794844155224",
+    "categories": {
+      "orders": true,
+      "price": false,
+      "stock": false,
+      "account": true
+    },
+    "channels": {
+      "orders": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      },
+      "price": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "stock": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "account": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      }
+    },
+    "scope": "all_wishlist",
+    "specificListIds": [],
+    "specificProductIds": [],
+    "priceDropThresholdPercent": 5,
+    "digestFrequency": "daily",
+    "quietHours": {
+      "enabled": false,
+      "start": "22:00",
+      "end": "07:00"
+    },
+    "pushDetailedPreviews": false,
+    "tabBadgeEnabled": false,
+    "autoMarkReadOnOpen": false
+  },
+  "test-user-prefs-1794844155225": {
+    "userId": "test-user-prefs-1794844155225",
+    "categories": {
+      "orders": true,
+      "price": true,
+      "stock": true,
+      "account": true
+    },
+    "channels": {
+      "orders": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      },
+      "price": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "stock": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "account": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      }
+    },
+    "scope": "all_wishlist",
+    "specificListIds": [],
+    "specificProductIds": [],
+    "priceDropThresholdPercent": 5,
+    "digestFrequency": "daily",
+    "quietHours": {
+      "enabled": false,
+      "start": "22:00",
+      "end": "07:00"
+    },
+    "pushDetailedPreviews": false,
+    "tabBadgeEnabled": false,
+    "autoMarkReadOnOpen": false
+  },
+  "test-user-1794847266461": {
+    "userId": "test-user-1794847266461",
+    "categories": {
+      "orders": true,
+      "price": false,
+      "stock": false,
+      "account": true
+    },
+    "channels": {
+      "orders": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      },
+      "price": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "stock": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "account": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      }
+    },
+    "scope": "all_wishlist",
+    "specificListIds": [],
+    "specificProductIds": [],
+    "priceDropThresholdPercent": 5,
+    "digestFrequency": "daily",
+    "quietHours": {
+      "enabled": false,
+      "start": "22:00",
+      "end": "07:00"
+    },
+    "pushDetailedPreviews": false,
+    "tabBadgeEnabled": false,
+    "autoMarkReadOnOpen": false
+  },
+  "test-user-prefs-1794847266461": {
+    "userId": "test-user-prefs-1794847266461",
+    "categories": {
+      "orders": true,
+      "price": true,
+      "stock": true,
+      "account": true
+    },
+    "channels": {
+      "orders": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      },
+      "price": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "stock": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "account": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      }
+    },
+    "scope": "all_wishlist",
+    "specificListIds": [],
+    "specificProductIds": [],
+    "priceDropThresholdPercent": 5,
+    "digestFrequency": "daily",
+    "quietHours": {
+      "enabled": false,
+      "start": "22:00",
+      "end": "07:00"
+    },
+    "pushDetailedPreviews": false,
+    "tabBadgeEnabled": false,
+    "autoMarkReadOnOpen": false
+  },
+  "test-user-1794848320098": {
+    "userId": "test-user-1794848320098",
+    "categories": {
+      "orders": true,
+      "price": false,
+      "stock": false,
+      "account": true
+    },
+    "channels": {
+      "orders": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      },
+      "price": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "stock": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "account": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      }
+    },
+    "scope": "all_wishlist",
+    "specificListIds": [],
+    "specificProductIds": [],
+    "priceDropThresholdPercent": 5,
+    "digestFrequency": "daily",
+    "quietHours": {
+      "enabled": false,
+      "start": "22:00",
+      "end": "07:00"
+    },
+    "pushDetailedPreviews": false,
+    "tabBadgeEnabled": false,
+    "autoMarkReadOnOpen": false
+  },
+  "test-user-prefs-1794848320099": {
+    "userId": "test-user-prefs-1794848320099",
+    "categories": {
+      "orders": true,
+      "price": true,
+      "stock": true,
+      "account": true
+    },
+    "channels": {
+      "orders": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      },
+      "price": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "stock": {
+        "in_app": true,
+        "email": false,
+        "push": false
+      },
+      "account": {
+        "in_app": true,
+        "email": true,
+        "push": true
+      }
+    },
+    "scope": "all_wishlist",
+    "specificListIds": [],
+    "specificProductIds": [],
+    "priceDropThresholdPercent": 5,
+    "digestFrequency": "daily",
+    "quietHours": {
+      "enabled": false,
+      "start": "22:00",
+      "end": "07:00"
+    },
+    "pushDetailedPreviews": false,
+    "tabBadgeEnabled": false,
+    "autoMarkReadOnOpen": false
   }
 }

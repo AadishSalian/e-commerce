@@ -435,5 +435,113 @@
     "currency": "INR",
     "recordedAt": "2026-11-10T03:15:22.080Z",
     "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794624108612_kbqqe6",
+    "productId": "test_prod_1794624108611",
+    "variantId": null,
+    "price": 50000,
+    "currency": "INR",
+    "recordedAt": "2026-10-15T02:41:48.611Z",
+    "source": "initial_record"
+  },
+  {
+    "id": "ph_1794624108614_49km39",
+    "productId": "test_prod_1794624108611",
+    "variantId": null,
+    "price": 55000,
+    "currency": "INR",
+    "recordedAt": "2026-10-30T02:41:48.611Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794624108617_untyyw",
+    "productId": "test_prod_1794624108611",
+    "variantId": null,
+    "price": 42000,
+    "currency": "INR",
+    "recordedAt": "2026-11-14T02:41:48.611Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794844157014_gt0xvz",
+    "productId": "test_prod_1794844157013",
+    "variantId": null,
+    "price": 50000,
+    "currency": "INR",
+    "recordedAt": "2026-10-17T15:49:17.013Z",
+    "source": "initial_record"
+  },
+  {
+    "id": "ph_1794844157016_audbdc",
+    "productId": "test_prod_1794844157013",
+    "variantId": null,
+    "price": 55000,
+    "currency": "INR",
+    "recordedAt": "2026-11-01T15:49:17.013Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794844157017_04abpm",
+    "productId": "test_prod_1794844157013",
+    "variantId": null,
+    "price": 42000,
+    "currency": "INR",
+    "recordedAt": "2026-11-16T15:49:17.013Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794847268770_3zyexi",
+    "productId": "test_prod_1794847268769",
+    "variantId": null,
+    "price": 50000,
+    "currency": "INR",
+    "recordedAt": "2026-10-17T16:41:08.769Z",
+    "source": "initial_record"
+  },
+  {
+    "id": "ph_1794847268772_ir3a9d",
+    "productId": "test_prod_1794847268769",
+    "variantId": null,
+    "price": 55000,
+    "currency": "INR",
+    "recordedAt": "2026-11-01T16:41:08.769Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794847268774_sohgh6",
+    "productId": "test_prod_1794847268769",
+    "variantId": null,
+    "price": 42000,
+    "currency": "INR",
+    "recordedAt": "2026-11-16T16:41:08.769Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794848321891_8ejzxr",
+    "productId": "test_prod_1794848321890",
+    "variantId": null,
+    "price": 50000,
+    "currency": "INR",
+    "recordedAt": "2026-10-17T16:58:41.890Z",
+    "source": "initial_record"
+  },
+  {
+    "id": "ph_1794848321894_ejje6s",
+    "productId": "test_prod_1794848321890",
+    "variantId": null,
+    "price": 55000,
+    "currency": "INR",
+    "recordedAt": "2026-11-01T16:58:41.890Z",
+    "source": "catalog_update"
+  },
+  {
+    "id": "ph_1794848321897_uzfydi",
+    "productId": "test_prod_1794848321890",
+    "variantId": null,
+    "price": 42000,
+    "currency": "INR",
+    "recordedAt": "2026-11-16T16:58:41.890Z",
+    "source": "catalog_update"
   }
 ]

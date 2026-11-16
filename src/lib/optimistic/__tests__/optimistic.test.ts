@@ -368,8 +368,8 @@ describe('Optimistic UI: Serialized Queue & Coalescing', () => {
 
     assert.strictEqual(attempts, 1); // Only 1 attempt, no useless retry of 400
     assert.notStrictEqual(rollbackError, null);
-    assert.strictEqual(rollbackError?.type, 'validation');
-    assert.strictEqual(rollbackError?.retryable, false);
+    assert.strictEqual((rollbackError as any)?.type, 'validation');
+    assert.strictEqual((rollbackError as any)?.retryable, false);
   });
 });
 

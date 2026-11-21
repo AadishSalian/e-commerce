@@ -461,3 +461,162 @@ describe('Optimistic UI: Feature Flags', () => {
     assert.strictEqual(updated.optimisticWishlist, true); // other flags preserved
   });
 });
+
+describe('Optimistic UI: Save for Later & Move to Bag', () => {
+  beforeEach(() => {
+    CartService.reset();
+  });
+
+  it('moves item from cart to saved for later, updating subtotal and items count', () => {
+    const product = MOCK_PRODUCTS[0];
+    const addKey = generateIdempotencyKey('add_sfl');
+
+    // Add item first
+    const addRes = CartService.executeMutation({
+      idempotencyKey: addKey,
+      action: 'add',
+      userId: 'test-sfl-user',
+      item: {
+        productId: product.id,
+        quantity: 2,
+        clientKnownPrice: product.price,
+      },
+    });
+
+    assert.strictEqual(addRes.success, true);
+    assert.strictEqual(addRes.cart.items.length, 1);
+    const lineId = addRes.realLineId!;
+
+    // Save for later
+    const sflKey = generateIdempotencyKey('save_for_later');
+    const sflRes = CartService.executeMutation({
+      idempotencyKey: sflKey,
+      action: 'save_for_later',
+      userId: 'test-sfl-user',
+      item: {
+        productId: product.id,
+        quantity: 2,
+        cartId: lineId,
+      },
+    });
+
+    assert.strictEqual(sflRes.success, true);
+    assert.strictEqual(sflRes.cart.items.length, 0);
+    assert.strictEqual(sflRes.cart.savedForLater?.length, 1);
+    assert.strictEqual(sflRes.cart.subtotal, 0);
+    assert.strictEqual(sflRes.cart.total, 0);
+
+    // Move back to bag
+    const mtbKey = generateIdempotencyKey('move_to_bag');
+    const mtbRes = CartService.executeMutation({
+      idempotencyKey: mtbKey,
+      action: 'move_to_bag',
+      userId: 'test-sfl-user',
+      item: {
+        productId: product.id,
+        quantity: 2,
+        cartId: lineId,
+      },
+    });
+
+    assert.strictEqual(mtbRes.success, true);
+    assert.strictEqual(mtbRes.cart.items.length, 1);
+    assert.strictEqual(mtbRes.cart.savedForLater?.length, 0);
+    assert.strictEqual(mtbRes.cart.items[0].quantity, 2);
+    assert.strictEqual(mtbRes.cart.subtotal, product.price * 2);
+  });
+});
+
+describe('Optimistic UI: Rate Limiting & Session Expiry', () => {
+  it('does NOT retry 429 rate limit errors and rolls back calmly', async () => {
+    let attempts = 0;
+    let rollbackErr: OptimisticError | null = null;
+
+    const queue = new OptimisticQueue(
+      'cart',
+      async () => {
+        attempts++;
+        const err: any = new Error('Too Many Requests');
+        err.statusCode = 429;
+        throw err;
+      },
+      {
+        onOptimisticApply: () => {},
+        onSuccess: () => {},
+        onRollback: (m, err) => {
+          rollbackErr = err;
+        },
+      }
+    );
+
+    queue.enqueue({
+      id: 'm-429',
+      idempotencyKey: 'key-429',
+      resource: 'cart',
+      action: 'cart_add',
+      payload: { productId: 'p1' },
+      status: 'pending',
+      createdAt: Date.now(),
+      attemptCount: 0,
+    });
+
+    await new Promise((res) => setTimeout(res, 100));
+
+    assert.strictEqual(attempts, 1); // No retry storms on 429!
+    assert.notStrictEqual(rollbackErr, null);
+    assert.strictEqual((rollbackErr as any)?.type, 'rate_limited');
+    assert.strictEqual((rollbackErr as any)?.retryable, false);
+  });
+
+  it('pauses on 401 session expiry and replays queued action on resumeAfterAuth', async () => {
+    let attempts = 0;
+    let authRequiredTriggered = false;
+    let authShouldSucceed = false;
+
+    const queue = new OptimisticQueue(
+      'cart',
+      async () => {
+        attempts++;
+        if (!authShouldSucceed) {
+          const err: any = new Error('Unauthorized');
+          err.statusCode = 401;
+          throw err;
+        }
+        return { success: true };
+      },
+      {
+        onOptimisticApply: () => {},
+        onSuccess: () => {},
+        onRollback: () => {},
+        onAuthRequired: () => {
+          authRequiredTriggered = true;
+        },
+      }
+    );
+
+    queue.enqueue({
+      id: 'm-401',
+      idempotencyKey: 'key-401',
+      resource: 'cart',
+      action: 'cart_add',
+      payload: { productId: 'p1' },
+      status: 'pending',
+      createdAt: Date.now(),
+      attemptCount: 0,
+    });
+
+    await new Promise((res) => setTimeout(res, 100));
+
+    assert.strictEqual(authRequiredTriggered, true);
+    assert.strictEqual(attempts, 1);
+
+    // Replay after re-auth
+    authShouldSucceed = true;
+    queue.resumeAfterAuth();
+
+    await new Promise((res) => setTimeout(res, 100));
+
+    assert.strictEqual(attempts, 2);
+  });
+});
+

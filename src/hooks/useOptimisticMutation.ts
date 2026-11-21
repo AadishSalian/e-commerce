@@ -2,16 +2,36 @@
 
 /**
  * useOptimisticMutation
+ *
  * Canonical, documented hook powering all optimistic mutations across the application.
+ * Adheres strictly to Section 2 State Architecture & Lifecycle:
  *
  * Lifecycle:
- * 1. Cancel in-flight refetches for affected keys
+ * 1. Cancel in-flight refetches for affected keys / resources
  * 2. Snapshot current confirmed server state for clean rollback
  * 3. Apply optimistic mutation overlay synchronously (<100ms response)
- * 4. Dispatch request in background through the per-resource serialized queue
+ * 4. Dispatch request in background with timeout, exponential backoff, and idempotency key
  * 5. On success: adopt server's authoritative state (confirmed prices, IDs, quantities)
  * 6. On failure: remove ONLY that mutation from overlay and trigger calm, explained rollback
- * 7. Announce outcome politely to assistive technologies
+ * 7. Reconcile at the end (price updates, stock caps, out-of-stock notices)
+ * 8. Announce outcome politely to assistive technologies
+ *
+ * @example
+ * ```tsx
+ * const { mutate, isPending } = useOptimisticMutation({
+ *   resource: 'cart',
+ *   action: 'cart_add',
+ *   onCancelRefetches: () => queryClient.cancelQueries(['cart']),
+ *   onSnapshot: () => getConfirmedState(),
+ *   onOptimisticApply: (payload, tempId) => addOptimisticLine(payload, tempId),
+ *   executor: (mutation, signal) => api.post('/cart/items', mutation.payload, { signal }),
+ *   onSuccess: (result) => adoptServerCart(result.cart),
+ *   onRollback: (snapshot, error) => restoreSnapshot(snapshot),
+ *   onReconciliation: (notices) => displayNotices(notices),
+ *   successAnnouncement: (payload) => `${payload.name} added to bag`,
+ *   failureAnnouncement: (err, payload) => `Couldn't add ${payload.name}. Try again`,
+ * });
+ * ```
  */
 
 import { useState, useCallback, useRef, useEffect } from 'react';
@@ -30,13 +50,52 @@ import { getFeatureFlags } from '@/lib/optimistic/featureFlags';
 export interface UseOptimisticMutationOptions<TPayload, TSnapshot, TResult> {
   resource: OptimisticResource;
   action: OptimisticActionType;
+  /**
+   * Step 1: Cancel any in-flight refetches or queries for affected resource
+   */
+  onCancelRefetches?: () => Promise<void> | void;
+  /**
+   * Step 2: Capture snapshot of confirmed server state before optimistic update
+   */
   onSnapshot: () => TSnapshot;
-  onOptimisticApply: (payload: TPayload, tempId: string, mutation: OptimisticMutation<TPayload, TSnapshot>) => void;
-  executor: (mutation: OptimisticMutation<TPayload, TSnapshot>, signal: AbortSignal) => Promise<TResult>;
+  /**
+   * Step 3: Apply optimistic mutation overlay synchronously (<100ms response)
+   */
+  onOptimisticApply: (
+    payload: TPayload,
+    tempId: string,
+    mutation: OptimisticMutation<TPayload, TSnapshot>
+  ) => void;
+  /**
+   * Step 4: Background request execution with abort signal & idempotency key
+   */
+  executor: (
+    mutation: OptimisticMutation<TPayload, TSnapshot>,
+    signal: AbortSignal
+  ) => Promise<TResult>;
+  /**
+   * Step 5: On server success, adopt confirmed authoritative state
+   */
   onSuccess: (result: TResult, mutation: OptimisticMutation<TPayload, TSnapshot>) => void;
-  onRollback: (snapshot: TSnapshot, error: OptimisticError, mutation: OptimisticMutation<TPayload, TSnapshot>) => void;
+  /**
+   * Step 6: On server rejection, roll back ONLY this mutation cleanly using snapshot
+   */
+  onRollback: (
+    snapshot: TSnapshot,
+    error: OptimisticError,
+    mutation: OptimisticMutation<TPayload, TSnapshot>
+  ) => void;
+  /**
+   * Step 7: Handle any server reconciliation notices (price shifts, quantity caps)
+   */
   onReconciliation?: (notices: ReconciliationNotice[]) => void;
+  /**
+   * Screen reader announcement helper for optimistic success
+   */
   successAnnouncement?: (payload: TPayload, result?: TResult) => string | null;
+  /**
+   * Screen reader announcement helper for rollback / failure
+   */
   failureAnnouncement?: (error: OptimisticError, payload: TPayload) => string;
 }
 
@@ -47,9 +106,20 @@ export function useOptimisticMutation<TPayload = any, TSnapshot = any, TResult =
   const [isSlowSyncing, setIsSlowSyncing] = useState(false);
   const [error, setError] = useState<OptimisticError | null>(null);
 
+  // Active abort controller for canceling prior in-flight request if needed
+  const activeControllerRef = useRef<AbortController | null>(null);
+
   // Keep latest options in ref to avoid stale closures
   const optionsRef = useRef(options);
   optionsRef.current = options;
+
+  useEffect(() => {
+    return () => {
+      if (activeControllerRef.current) {
+        activeControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   const mutate = useCallback(
     async (payload: TPayload): Promise<TResult | null> => {
@@ -58,10 +128,19 @@ export function useOptimisticMutation<TPayload = any, TSnapshot = any, TResult =
       const idempotencyKey = generateIdempotencyKey(opts.action);
       const temporaryId = generateTemporaryId('temp');
 
-      // 1. Snapshot confirmed state
+      // 1. Cancel in-flight refetches
+      if (opts.onCancelRefetches) {
+        try {
+          await opts.onCancelRefetches();
+        } catch {
+          // Non-blocking
+        }
+      }
+
+      // 2. Snapshot confirmed state
       const snapshot = opts.onSnapshot();
 
-      // 2. Build mutation record
+      // 3. Build mutation record
       const mutation: OptimisticMutation<TPayload, TSnapshot> = {
         id: generateIdempotencyKey('mut'),
         idempotencyKey,
@@ -75,7 +154,7 @@ export function useOptimisticMutation<TPayload = any, TSnapshot = any, TResult =
         temporaryId,
       };
 
-      // 3. Apply optimistic state synchronously
+      // 4. Apply optimistic state synchronously (<100ms)
       setIsPending(true);
       setError(null);
       opts.onOptimisticApply(payload, temporaryId, mutation);
@@ -93,8 +172,9 @@ export function useOptimisticMutation<TPayload = any, TSnapshot = any, TResult =
         payload,
       });
 
-      // 4. Execute request in background with timeout & retry
+      // 5. Execute request in background with timeout & retry
       const controller = new AbortController();
+      activeControllerRef.current = controller;
       const timeoutTimer = setTimeout(() => controller.abort(), flags.requestTimeoutMs);
       const slowTimer = setTimeout(() => setIsSlowSyncing(true), flags.slowSyncThresholdMs);
 
@@ -106,8 +186,18 @@ export function useOptimisticMutation<TPayload = any, TSnapshot = any, TResult =
         setIsPending(false);
         setIsSlowSyncing(false);
 
-        // 5. Adopt authoritative server state
+        // 6. Adopt authoritative server state
         opts.onSuccess(result, mutation);
+
+        // 7. Reconcile server notices if returned
+        if (
+          opts.onReconciliation &&
+          result &&
+          typeof result === 'object' &&
+          Array.isArray((result as any).reconciliationNotices)
+        ) {
+          opts.onReconciliation((result as any).reconciliationNotices);
+        }
 
         broadcaster.post('OPTIMISTIC_MUTATION_CONFIRMED', opts.resource, {
           action: opts.action,
@@ -132,10 +222,10 @@ export function useOptimisticMutation<TPayload = any, TSnapshot = any, TResult =
 
         setError(normalizedError);
 
-        // 6. Rollback ONLY this mutation cleanly using prior snapshot
+        // 8. Rollback ONLY this mutation cleanly using prior snapshot
         opts.onRollback(snapshot, normalizedError, mutation);
 
-        // Announce failure
+        // Announce failure calmly
         if (opts.failureAnnouncement) {
           const failMsg = opts.failureAnnouncement(normalizedError, payload);
           announcer.announce(failMsg, 'assertive');
@@ -147,6 +237,8 @@ export function useOptimisticMutation<TPayload = any, TSnapshot = any, TResult =
         });
 
         return null;
+      } finally {
+        activeControllerRef.current = null;
       }
     },
     []

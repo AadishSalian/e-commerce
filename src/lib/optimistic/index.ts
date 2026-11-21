@@ -6,3 +6,4 @@ export * from './announcer';
 export * from './outbox';
 export * from './broadcast';
 export * from './queue';
+export * from './connectivity';

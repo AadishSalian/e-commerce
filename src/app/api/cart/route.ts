@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     const cart = CartService.getCart(userId, guestToken);
 
     // Map to the format CartContext expects, with authoritative fields
-    const formattedItems = cart.items.map((item) => ({
+    const formatItem = (item: any) => ({
       ...item,
       id: item.productId,
       cartId: item.id,
@@ -25,11 +25,15 @@ export async function GET(request: Request) {
       isAvailable: item.isAvailable,
       personalization: item.personalization,
       selectedEmiPlan: item.selectedEmiPlan,
-    }));
+    });
+
+    const formattedItems = cart.items.map(formatItem);
+    const formattedSavedForLater = (cart.savedForLater || []).map(formatItem);
 
     return NextResponse.json({
       cart,
       items: formattedItems,
+      savedForLater: formattedSavedForLater,
       subtotal: cart.subtotal,
       shipping: cart.shipping,
       isFreeShipping: cart.isFreeShipping,

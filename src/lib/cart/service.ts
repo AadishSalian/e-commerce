@@ -73,6 +73,7 @@ export function getOrCreateCart(cartKey: string, userId?: string, guestToken?: s
       version: 1,
       updatedAt: Date.now(),
       items: [],
+      savedForLater: [],
       subtotal: 0,
       shipping: 0,
       isFreeShipping: false,
@@ -80,6 +81,9 @@ export function getOrCreateCart(cartKey: string, userId?: string, guestToken?: s
       appliedCoupon: null,
     };
     serverCarts.set(cartKey, cart);
+  }
+  if (!cart.savedForLater) {
+    cart.savedForLater = [];
   }
   return cart;
 }
@@ -304,6 +308,70 @@ export class CartService {
 
       if (targetIndex >= 0) {
         cart.items.splice(targetIndex, 1);
+        cart.version++;
+        cart.updatedAt = Date.now();
+      }
+    } else if (action === 'save_for_later' && item) {
+      if (!cart.savedForLater) cart.savedForLater = [];
+      const targetIndex = cart.items.findIndex(
+        (line) =>
+          line.id === item.cartId ||
+          (line.productId === item.productId && line.selectedVariant === item.selectedVariant)
+      );
+      if (targetIndex >= 0) {
+        const [movedLine] = cart.items.splice(targetIndex, 1);
+        cart.savedForLater.push(movedLine);
+        realLineId = movedLine.id;
+        cart.version++;
+        cart.updatedAt = Date.now();
+      }
+    } else if (action === 'move_to_bag' && item) {
+      if (!cart.savedForLater) cart.savedForLater = [];
+      const targetIndex = cart.savedForLater.findIndex(
+        (line) =>
+          line.id === item.cartId ||
+          (line.productId === item.productId && line.selectedVariant === item.selectedVariant)
+      );
+      if (targetIndex >= 0) {
+        const [movedLine] = cart.savedForLater.splice(targetIndex, 1);
+        // Verify current stock
+        const product = MOCK_PRODUCTS.find((p) => p.id === movedLine.productId);
+        const availableStock = product?.stockCount !== undefined ? product.stockCount : 999;
+        if (availableStock <= 0) {
+          cart.savedForLater.push(movedLine); // put back
+          return {
+            success: false,
+            cart: calculateCartTotals(cart),
+            reconciliationNotices: [
+              {
+                id: `notice_${generateUUID()}`,
+                type: 'item_unavailable',
+                title: 'Out of Stock',
+                message: `${movedLine.name} is currently out of stock.`,
+                productId: movedLine.productId,
+                productName: movedLine.name,
+                timestamp: Date.now(),
+              },
+            ],
+            error: `${movedLine.name} is out of stock`,
+          };
+        }
+        if (movedLine.quantity > availableStock) {
+          reconciliationNotices.push({
+            id: `notice_${generateUUID()}`,
+            type: 'quantity_capped',
+            title: 'Quantity Adjusted',
+            message: `Only ${availableStock} available. We've updated your quantity.`,
+            productId: movedLine.productId,
+            productName: movedLine.name,
+            oldValue: movedLine.quantity,
+            newValue: availableStock,
+            timestamp: Date.now(),
+          });
+          movedLine.quantity = availableStock;
+        }
+        cart.items.push(movedLine);
+        realLineId = movedLine.id;
         cart.version++;
         cart.updatedAt = Date.now();
       }

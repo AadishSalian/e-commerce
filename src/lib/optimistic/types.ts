@@ -13,6 +13,8 @@ export type OptimisticActionType =
   | 'cart_add'
   | 'cart_remove'
   | 'cart_update_quantity'
+  | 'cart_save_for_later'
+  | 'cart_move_to_bag'
   | 'cart_clear'
   | 'cart_apply_saved_coupon'
   | 'wishlist_toggle'

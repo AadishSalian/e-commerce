@@ -27,6 +27,7 @@ export interface ServerCart {
   version: number; // Incrementing version precondition
   updatedAt: number;
   items: ServerCartLineItem[];
+  savedForLater?: ServerCartLineItem[];
   subtotal: number;
   shipping: number;
   isFreeShipping: boolean;
@@ -40,7 +41,15 @@ export interface ServerCart {
 
 export interface CartMutationRequest {
   idempotencyKey: string;
-  action: 'add' | 'update_quantity' | 'remove' | 'clear' | 'apply_coupon' | 'remove_coupon';
+  action:
+    | 'add'
+    | 'update_quantity'
+    | 'remove'
+    | 'save_for_later'
+    | 'move_to_bag'
+    | 'clear'
+    | 'apply_coupon'
+    | 'remove_coupon';
   userId?: string;
   guestToken?: string;
   versionPrecondition?: number;

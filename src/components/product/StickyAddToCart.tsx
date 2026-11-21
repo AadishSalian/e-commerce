@@ -14,9 +14,18 @@ interface Props {
   selectedVariant?: string;
   onAddToCart: () => void;
   showAfterY?: number;
+  isNonOptimisticPending?: boolean;
+  pendingText?: string;
 }
 
-export default function StickyAddToCart({ product, selectedVariant, onAddToCart, showAfterY = 600 }: Props) {
+export default function StickyAddToCart({
+  product,
+  selectedVariant,
+  onAddToCart,
+  showAfterY = 600,
+  isNonOptimisticPending = false,
+  pendingText = 'Confirming…',
+}: Props) {
   const [isVisible, setIsVisible] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
 
@@ -74,6 +83,8 @@ export default function StickyAddToCart({ product, selectedVariant, onAddToCart,
             <span className="font-bold text-foreground hidden sm:block">${product.price.toFixed(2)}</span>
             <OptimisticAddToCartButton
               onAddToCart={onAddToCart}
+              isNonOptimisticPending={isNonOptimisticPending}
+              pendingText={pendingText}
               className="px-8 py-3 sm:py-2 text-base sm:text-sm whitespace-nowrap shadow-lg shadow-accent/20 min-w-[140px] sm:min-w-[120px] rounded-full sm:rounded-md"
             >
               Add to Bag

@@ -2,7 +2,7 @@
 
 import { MOCK_PRODUCTS, Product } from '@/lib/mockData';
 import Link from 'next/link';
-import { Minus, Plus, X, ShoppingBag, Sparkles, CreditCard, ChevronRight, Clock, AlertTriangle, Edit3 } from 'lucide-react';
+import { Minus, Plus, X, ShoppingBag, Sparkles, CreditCard, ChevronRight, Clock, AlertTriangle, Edit3, Bookmark, ArrowUpRight, AlertCircle, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EmptyState } from '@/components/ui';
 import { useState, useMemo } from 'react';
@@ -27,8 +27,13 @@ export default function CartPage() {
   const { isLoggedIn } = useAuth();
   const {
     cartItems,
+    savedForLater,
     removeFromCart,
+    saveForLater,
+    moveToBag,
     updateQuantity,
+    retryFailedMutation,
+    dismissFailedMutation,
     cartEmiPlan,
     setCartEmiPlan,
     emiNotification,
@@ -243,10 +248,11 @@ export default function CartPage() {
                         </p>
                       </div>
 
-                      <div className="flex items-center gap-6 mt-4">
+                      <div className="flex flex-wrap items-center gap-4 mt-4">
                         {/* Quantity Editor */}
                         <div className="flex items-center gap-4 bg-surface rounded-full px-3 py-1 border border-border">
                           <button
+                            type="button"
                             onClick={() => updateQuantity(item.cartId, -1)}
                             className="text-text-muted hover:text-foreground transition-colors p-1"
                             aria-label="Decrease quantity"
@@ -257,6 +263,7 @@ export default function CartPage() {
                             {item.quantity}
                           </span>
                           <button
+                            type="button"
                             onClick={() => updateQuantity(item.cartId, 1)}
                             className="text-text-muted hover:text-foreground transition-colors p-1"
                             aria-label="Increase quantity"
@@ -264,10 +271,48 @@ export default function CartPage() {
                             <Plus className="w-3.5 h-3.5" />
                           </button>
                         </div>
+
+                        {/* Save for later button */}
+                        <button
+                          type="button"
+                          onClick={() => saveForLater(item.cartId)}
+                          className="min-h-[36px] px-3 py-1.5 rounded-full text-xs font-medium text-text-muted hover:text-foreground hover:bg-surface border border-transparent hover:border-border transition-colors flex items-center gap-1.5"
+                          aria-label={`Save ${item.name} for later`}
+                        >
+                          <Bookmark className="w-3.5 h-3.5" /> Save for later
+                        </button>
                       </div>
+
+                      {/* In-place line error row (Section 6) */}
+                      {item.inlineError && (
+                        <div className="mt-3 px-3 py-2 bg-red-950/30 border border-red-900/40 rounded-lg flex items-center justify-between text-xs text-foreground">
+                          <div className="flex items-center gap-1.5 text-red-400">
+                            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                            <span>{item.inlineError.message}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => retryFailedMutation(item.cartId)}
+                              className="px-2 py-1 rounded bg-surface hover:bg-surface-hover border border-border text-foreground font-semibold flex items-center gap-1"
+                            >
+                              <RefreshCw className="w-3 h-3" /> Retry
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => dismissFailedMutation(item.cartId)}
+                              className="p-1 text-text-muted hover:text-foreground"
+                              aria-label="Dismiss error"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <button
+                      type="button"
                       onClick={() => removeFromCart(item.cartId)}
                       className="absolute top-8 right-0 text-text-muted hover:text-foreground transition-colors p-2"
                       aria-label={`Remove ${item.name} from bag`}
@@ -279,7 +324,51 @@ export default function CartPage() {
               })}
             </AnimatePresence>
 
-            {cartItems.length === 0 && (
+            {/* Saved for Later Section (Section 1) */}
+            {savedForLater && savedForLater.length > 0 && (
+              <div className="mt-10 pt-8 border-t border-border">
+                <div className="flex items-center gap-2 mb-4">
+                  <Bookmark className="w-5 h-5 text-accent" />
+                  <h2 className="text-lg font-semibold text-foreground">
+                    Saved for Later ({savedForLater.length})
+                  </h2>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {savedForLater.map((saved) => (
+                    <div
+                      key={saved.cartId}
+                      className="p-4 rounded-xl border border-border bg-surface/40 flex items-center justify-between gap-4"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-14 h-14 rounded-lg overflow-hidden bg-surface-hover shrink-0 relative border border-border/80">
+                          <img
+                            src={saved.image}
+                            alt={saved.name}
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+                        <div className="truncate">
+                          <p className="font-medium text-foreground text-sm truncate">{saved.name}</p>
+                          <p className="text-xs text-text-muted mt-0.5 tabular-nums">
+                            ${saved.price.toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => moveToBag(saved.cartId)}
+                        className="min-h-[40px] px-4 py-2 rounded-full bg-foreground text-background hover:bg-foreground/90 font-medium text-xs flex items-center gap-1.5 shrink-0 transition-transform active:scale-95"
+                      >
+                        Move to Bag <ArrowUpRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {cartItems.length === 0 && (!savedForLater || savedForLater.length === 0) && (
               <div className="py-16 text-center">
                 <EmptyState
                   icon={<ShoppingBag className="w-8 h-8" />}

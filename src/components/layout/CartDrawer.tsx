@@ -3,8 +3,9 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/contexts/CartContext';
-import { X, ShoppingBag } from 'lucide-react';
+import { X, ShoppingBag, Bookmark, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FreeShippingProgressBar } from '@/components/cart/FreeShippingProgressBar';
 import {
   OptimisticDrawerItem,
@@ -19,6 +20,9 @@ export function CartDrawer() {
   const { isCartOpen, closeCart, cartItems, updateQuantity, removeFromCart } = useCart();
   const subtotal = useOptimisticCartStore((s) => s.subtotal);
   const isSyncing = useOptimisticCartStore((s) => s.isSyncing);
+  const savedForLater = useOptimisticCartStore((s) => s.savedForLater);
+  const saveForLater = useOptimisticCartStore((s) => s.saveForLater);
+  const moveToBag = useOptimisticCartStore((s) => s.moveToBag);
   const reconciliationNotices = useOptimisticCartStore((s) => s.reconciliationNotices);
   const dismissNotice = useOptimisticCartStore((s) => s.dismissNotice);
   const retryFailedMutation = useOptimisticCartStore((s) => s.retryFailedMutation);
@@ -100,11 +104,57 @@ export function CartDrawer() {
                       item={item}
                       onUpdateQuantity={updateQuantity}
                       onRemove={removeFromCart}
+                      onSaveForLater={saveForLater}
                       onRetry={retryFailedMutation}
                       onDismissError={dismissFailedMutation}
                     />
                   ))}
                 </AnimatePresence>
+              )}
+
+              {/* Saved For Later Section (Section 1) */}
+              {savedForLater && savedForLater.length > 0 && (
+                <div className="mt-6 pt-6 border-t border-border/80">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Bookmark className="w-4 h-4 text-accent" />
+                    <h3 className="text-sm font-semibold text-foreground">
+                      Saved for Later ({savedForLater.length})
+                    </h3>
+                  </div>
+                  <div className="flex flex-col gap-2.5">
+                    {savedForLater.map((savedItem) => (
+                      <div
+                        key={savedItem.cartId}
+                        className="p-3 rounded-xl border border-border/60 bg-surface/50 flex items-center justify-between gap-3 text-xs"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="w-10 h-10 rounded-lg overflow-hidden bg-surface-hover shrink-0 relative">
+                            <Image
+                              src={savedItem.image}
+                              alt={savedItem.name}
+                              width={80}
+                              height={80}
+                              className="object-cover w-full h-full"
+                            />
+                          </div>
+                          <div className="truncate">
+                            <p className="font-medium text-foreground truncate">{savedItem.name}</p>
+                            <p className="text-text-muted tabular-nums">${savedItem.price.toFixed(2)}</p>
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => moveToBag(savedItem.cartId)}
+                          className="min-h-[36px] px-3 py-1.5 rounded-full bg-foreground text-background hover:bg-foreground/90 font-medium text-xs flex items-center gap-1 shrink-0 transition-transform active:scale-95"
+                          aria-label={`Move ${savedItem.name} to bag`}
+                        >
+                          Move to Bag <ArrowUpRight className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
 

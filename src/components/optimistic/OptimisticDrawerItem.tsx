@@ -3,7 +3,7 @@
 import React, { useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
-import { Minus, Plus, X, Trash2, Sparkles, AlertCircle, RefreshCw } from 'lucide-react';
+import { Minus, Plus, X, Sparkles, AlertCircle, RefreshCw, Bookmark } from 'lucide-react';
 import { OptimisticCartItem, getItemUnitPrice } from '@/store/useOptimisticCartStore';
 import { OptimisticPriceDisplay } from './OptimisticPriceDisplay';
 import { PriceHistoryTagBadge } from '@/components/product/price-history';
@@ -13,6 +13,7 @@ export interface OptimisticDrawerItemProps {
   item: OptimisticCartItem;
   onUpdateQuantity: (cartId: string, delta: number) => void;
   onRemove: (cartId: string) => void;
+  onSaveForLater?: (cartId: string) => void;
   onRetry: (cartId: string) => void;
   onDismissError: (cartId: string) => void;
 }
@@ -21,6 +22,7 @@ export const OptimisticDrawerItem: React.FC<OptimisticDrawerItemProps> = ({
   item,
   onUpdateQuantity,
   onRemove,
+  onSaveForLater,
   onRetry,
   onDismissError,
 }) => {
@@ -29,15 +31,25 @@ export const OptimisticDrawerItem: React.FC<OptimisticDrawerItemProps> = ({
   const lineTotal = unitPrice * item.quantity;
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleRemove = () => {
-    // Before removing, if focus is inside this container, shift to nearest parent or heading
+  const moveFocusSafely = () => {
     if (containerRef.current?.contains(document.activeElement)) {
       const heading = document.getElementById('cart-drawer-heading');
       if (heading) {
         heading.focus();
       }
     }
+  };
+
+  const handleRemove = () => {
+    moveFocusSafely();
     onRemove(item.cartId);
+  };
+
+  const handleSaveForLater = () => {
+    moveFocusSafely();
+    if (onSaveForLater) {
+      onSaveForLater(item.cartId);
+    }
   };
 
   return (
@@ -64,7 +76,7 @@ export const OptimisticDrawerItem: React.FC<OptimisticDrawerItemProps> = ({
         duration: MOTION_TOKENS.lineEnterExitDurationSec,
         ease: MOTION_TOKENS.easing,
       }}
-      className="relative overflow-hidden rounded-xl border border-border/60 bg-surface/80 mb-3 group"
+      className="relative overflow-hidden rounded-xl border border-border/60 bg-surface/80 mb-3 group shadow-sm"
     >
       <div className="p-4 flex gap-4 relative z-10">
         {/* Product Image */}
@@ -97,6 +109,14 @@ export const OptimisticDrawerItem: React.FC<OptimisticDrawerItemProps> = ({
                   &ldquo;{item.personalization.lines.filter(Boolean).join(' ')}&rdquo;
                 </p>
               )}
+
+              {/* Quiet inline reconciliation note (Section 5) */}
+              {item.reconciliationNote && (
+                <p className="text-[11px] text-accent mt-1 flex items-center gap-1 font-medium">
+                  {item.reconciliationNote}
+                </p>
+              )}
+
               <div className="mt-1">
                 <PriceHistoryTagBadge
                   productId={item.id}
@@ -107,20 +127,35 @@ export const OptimisticDrawerItem: React.FC<OptimisticDrawerItemProps> = ({
               </div>
             </div>
 
-            {/* Remove Button (min 44x44px accessible target) */}
-            <button
-              onClick={handleRemove}
-              className="w-11 h-11 -mr-2 -mt-2 flex items-center justify-center text-text-muted hover:text-red-500 transition-colors rounded-full"
-              aria-label={`Remove ${item.name} from bag`}
-            >
-              <X className="w-4 h-4" />
-            </button>
+            {/* Actions: Save for later & Remove */}
+            <div className="flex items-center gap-1 -mr-2 -mt-2 shrink-0">
+              {onSaveForLater && (
+                <button
+                  type="button"
+                  onClick={handleSaveForLater}
+                  className="w-11 h-11 flex items-center justify-center text-text-muted hover:text-foreground transition-colors rounded-full"
+                  aria-label={`Save ${item.name} for later`}
+                  title="Save for later"
+                >
+                  <Bookmark className="w-4 h-4" />
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={handleRemove}
+                className="w-11 h-11 flex items-center justify-center text-text-muted hover:text-red-500 transition-colors rounded-full"
+                aria-label={`Remove ${item.name} from bag`}
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           {/* Quantity Controls & Price Display */}
           <div className="flex justify-between items-end mt-3">
             <div className="flex items-center bg-background rounded-full border border-border overflow-hidden h-9">
               <button
+                type="button"
                 onClick={() => onUpdateQuantity(item.cartId, -1)}
                 className="w-9 h-9 flex items-center justify-center text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
                 aria-label={`Decrease quantity of ${item.name}`}
@@ -151,6 +186,7 @@ export const OptimisticDrawerItem: React.FC<OptimisticDrawerItemProps> = ({
               </div>
 
               <button
+                type="button"
                 onClick={() => onUpdateQuantity(item.cartId, 1)}
                 className="w-9 h-9 flex items-center justify-center text-text-muted hover:text-foreground hover:bg-surface-hover transition-colors"
                 aria-label={`Increase quantity of ${item.name}`}
@@ -179,12 +215,14 @@ export const OptimisticDrawerItem: React.FC<OptimisticDrawerItemProps> = ({
           </div>
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={() => onRetry(item.cartId)}
               className="px-2.5 py-1 rounded bg-surface hover:bg-surface-hover border border-border text-foreground font-semibold hover:text-accent flex items-center gap-1 min-h-[32px]"
             >
               <RefreshCw className="w-3 h-3" /> Retry
             </button>
             <button
+              type="button"
               onClick={() => onDismissError(item.cartId)}
               className="p-1 text-text-muted hover:text-foreground"
               aria-label="Dismiss line error"

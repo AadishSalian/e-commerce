@@ -53,7 +53,9 @@ export default function ProductDetailPage({ params }: Props) {
   const { success } = useToast();
   
   const hasVariants = product?.variants && product.variants.length > 0;
-  const [selectedVariant, setSelectedVariant] = useState(hasVariants ? product.variants![0].value : null);
+  // Section 4: Variant products require an explicit selection first (no default-variant guessing)
+  const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
+  const [isCheckingPersonalization, setIsCheckingPersonalization] = useState(false);
   const { addViewedProduct } = useRecentlyViewed();
   const { hasAlert, addAlert, removeAlert } = useAlerts();
   const [showSizeGuide, setShowSizeGuide] = useState(false);
@@ -118,6 +120,17 @@ export default function ProductDetailPage({ params }: Props) {
   const handleInitiateAddToCart = () => {
     if (!product) return;
 
+    // Section 4: Variant products require an explicit selection first (no default-variant guessing)
+    if (hasVariants && !selectedVariant) {
+      useUIStore.getState().error('Please select a finish first');
+      announcer.announce('Please select a finish first', 'polite');
+      const el = document.getElementById('color-variant-section');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
+
     // If shopper entered personalization text, show confirmation modal first
     if (activeZone && hasPersonalizationContent) {
       setIsConfirmationModalOpen(true);
@@ -132,53 +145,86 @@ export default function ProductDetailPage({ params }: Props) {
     }, 1500);
   };
 
-  const handleConfirmPersonalizationOrder = () => {
+  const handleConfirmPersonalizationOrder = async () => {
     if (!product || !activeZone) return;
 
-    const font =
-      activeZone.fonts.find((f) => f.id === personalizationValue.font_id) ||
-      activeZone.fonts[0];
+    // Section 11: Personalized items aren't optimistic until the server validates the text ("Checking your text…")
+    setIsCheckingPersonalization(true);
 
-    const cleanedLines = personalizationValue.lines.map((l) => l.trim()).filter(Boolean);
-    const formatted = cleanedLines.join(' / ');
+    try {
+      const res = await fetch('/api/personalization/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          zone_id: activeZone.zone_id,
+          lines: personalizationValue.lines,
+          font_id: personalizationValue.font_id,
+        }),
+      });
 
-    const cartProperty: PersonalizationCartProperty = {
-      isPersonalized: true,
-      lines: cleanedLines,
-      formattedText: formatted,
-      font_id: font.id,
-      font_label: font.label,
-      alignment: personalizationValue.alignment,
-      icon_id: personalizationValue.icon_id,
-      icon_glyph: personalizationValue.icon_id,
-      icon_position: personalizationValue.icon_position || 'before',
-      monogram_mode: personalizationValue.monogram_mode,
-      foil_color: personalizationValue.foil_color,
-      zone_id: activeZone.zone_id,
-      zone_name: activeZone.name,
-      variant_id: selectedVariant || undefined,
-      finish_style: activeZone.finish_style,
-      price_addon: activeZone.price_addon,
-      price_addon_dollars: activeZone.price_addon / 100,
-      lead_time_days: activeZone.lead_time_days,
-      returnable: false,
-      spelledOutText: formatSpelledOutText(formatted),
-      confirmedAt: new Date().toISOString()
-    };
+      const data = await res.json().catch(() => ({}));
 
-    addToCart(
-      product,
-      1,
-      selectedVariant || undefined,
-      selectedEmiPlan || undefined,
-      cartProperty
-    );
+      if (!res.ok || !data.isValid) {
+        const errorMsg =
+          data.issues?.[0]?.message ||
+          data.message ||
+          'Please verify your engraving inscription.';
+        useUIStore.getState().error(errorMsg);
+        announcer.announce(errorMsg, 'assertive');
+        return;
+      }
 
-    setIsConfirmationModalOpen(false);
-    setIsAdded(true);
-    setTimeout(() => {
-      setIsAdded(false);
-    }, 1500);
+      const font =
+        activeZone.fonts.find((f) => f.id === personalizationValue.font_id) ||
+        activeZone.fonts[0];
+
+      const cleanedLines = (data.sanitizedLines || personalizationValue.lines)
+        .map((l: string) => l.trim())
+        .filter(Boolean);
+      const formatted = cleanedLines.join(' / ');
+
+      const cartProperty: PersonalizationCartProperty = {
+        isPersonalized: true,
+        lines: cleanedLines,
+        formattedText: formatted,
+        font_id: font.id,
+        font_label: font.label,
+        alignment: personalizationValue.alignment,
+        icon_id: personalizationValue.icon_id,
+        icon_glyph: personalizationValue.icon_id,
+        icon_position: personalizationValue.icon_position || 'before',
+        monogram_mode: personalizationValue.monogram_mode,
+        foil_color: personalizationValue.foil_color,
+        zone_id: activeZone.zone_id,
+        zone_name: activeZone.name,
+        variant_id: selectedVariant || undefined,
+        finish_style: activeZone.finish_style,
+        price_addon: activeZone.price_addon,
+        price_addon_dollars: activeZone.price_addon / 100,
+        lead_time_days: activeZone.lead_time_days,
+        returnable: false,
+        spelledOutText: formatSpelledOutText(formatted),
+        confirmedAt: new Date().toISOString(),
+      };
+
+      addToCart(
+        product,
+        1,
+        selectedVariant || undefined,
+        selectedEmiPlan || undefined,
+        cartProperty
+      );
+
+      setIsConfirmationModalOpen(false);
+      setIsAdded(true);
+      setTimeout(() => {
+        setIsAdded(false);
+      }, 1500);
+    } catch {
+      useUIStore.getState().error('We are having trouble validating your text. Please try again.');
+    } finally {
+      setIsCheckingPersonalization(false);
+    }
   };
 
   const handleShare = async () => {
@@ -367,11 +413,11 @@ export default function ProductDetailPage({ params }: Props) {
             </div>
 
             {hasVariants && (
-              <div className="mb-8">
+              <div id="color-variant-section" className="mb-8">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-sm font-medium text-foreground uppercase tracking-wider">Color</h3>
                   <div className="flex items-center gap-4">
-                    <span className="text-sm text-text-muted">{selectedVariant}</span>
+                    <span className="text-sm text-text-muted">{selectedVariant || 'Select finish'}</span>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-4">
@@ -450,6 +496,8 @@ export default function ProductDetailPage({ params }: Props) {
                 className="w-full py-4 text-lg"
                 icon={<ShoppingBag size={18} />}
                 onAddToCart={handleInitiateAddToCart}
+                isNonOptimisticPending={isCheckingPersonalization}
+                pendingText="Checking your text…"
               >
                 {activeZone && hasPersonalizationContent ? 'Review Inscription & Add to Bag' : 'Add to Bag'}
               </OptimisticAddToCartButton>
@@ -521,6 +569,8 @@ export default function ProductDetailPage({ params }: Props) {
         product={product} 
         selectedVariant={selectedVariant || undefined} 
         onAddToCart={handleInitiateAddToCart} 
+        isNonOptimisticPending={isCheckingPersonalization}
+        pendingText="Checking your text…"
       />
 
       <SizeFitQuiz 

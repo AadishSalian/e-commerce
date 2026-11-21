@@ -3,22 +3,23 @@
 /**
  * Optimistic Cart Store
  *
- * Implements Section 2, 3, 4, 5, 6, 7 & 11:
+ * Implements Section 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 & 11:
  * - Server state (confirmed cart) + Optimistic overlay (pending mutations)
  * - Under-100ms instant tap response
  * - Per-resource serialized queue with coalescing & exponential backoff retry
  * - Idempotency key per mutation
+ * - Support for add to bag, remove, change quantity, save for later, move to bag
  * - Authoritative reconciliation (price changes, stock caps, out-of-stock removals)
  * - In-place line error retry rows & dismissals
- * - Offline outbox queue & automatic reconnection sync
- * - Multi-tab BroadcastChannel synchronization
- * - Privacy-safe telemetry and screen reader announcements
+ * - Real connectivity detection & offline outbox queue
+ * - Multi-tab BroadcastChannel synchronization with quiet change notices
+ * - 401 Session expiry handling without losing shopper intent
+ * - Privacy-safe telemetry and screen reader live region announcements
  */
 
 import { create } from 'zustand';
 import { Product, MOCK_PRODUCTS } from '@/lib/mockData';
 import { SelectedEmiPlan } from '@/lib/emi/types';
-import { calculateEmi, formatEmiCurrency } from '@/lib/emi/calculator';
 import { PersonalizationCartProperty } from '@/lib/personalization/types';
 import {
   OptimisticMutation,
@@ -28,12 +29,13 @@ import {
 import {
   generateIdempotencyKey,
   generateTemporaryId,
-  isTemporaryId,
 } from '@/lib/optimistic/idempotency';
 import { OptimisticQueue } from '@/lib/optimistic/queue';
 import { outbox } from '@/lib/optimistic/outbox';
 import { broadcaster } from '@/lib/optimistic/broadcast';
 import { announcer } from '@/lib/optimistic/announcer';
+import { connectivity } from '@/lib/optimistic/connectivity';
+import { getFeatureFlags } from '@/lib/optimistic/featureFlags';
 import { useUIStore } from './useUIStore';
 import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING_FEE } from '@/config/shipping';
 
@@ -62,9 +64,16 @@ export function getItemUnitPrice(item: Pick<OptimisticCartItem, 'price' | 'perso
   return base + addon;
 }
 
+export interface OptimisticCartSnapshot {
+  cartItems: OptimisticCartItem[];
+  savedForLater: OptimisticCartItem[];
+  serverVersion: number;
+}
+
 export interface OptimisticCartState {
   // Server-confirmed state
   serverItems: OptimisticCartItem[];
+  serverSavedForLater: OptimisticCartItem[];
   serverVersion: number;
 
   // Active Optimistic Overlay (pending mutations)
@@ -74,6 +83,7 @@ export interface OptimisticCartState {
 
   // Computed displayed items: serverItems + optimistic overlay
   cartItems: OptimisticCartItem[];
+  savedForLater: OptimisticCartItem[];
   cartEmiPlan: SelectedEmiPlan | null;
   emiNotification: string | null;
 
@@ -87,6 +97,7 @@ export interface OptimisticCartState {
   isOnline: boolean;
   isSyncing: boolean;
   isCheckoutGated: boolean;
+  isReAuthRequired: boolean;
   pendingMutationCount: number;
 
   // Actions
@@ -100,12 +111,15 @@ export interface OptimisticCartState {
   updateQuantity: (cartId: string, delta: number) => void;
   setQuantity: (cartId: string, quantity: number) => void;
   removeFromCart: (cartId: string) => void;
+  saveForLater: (cartId: string) => void;
+  moveToBag: (cartId: string) => void;
   clearCart: () => void;
   retryFailedMutation: (cartId: string) => void;
   dismissFailedMutation: (cartId: string) => void;
   dismissNotice: (noticeId: string) => void;
   flushPending: () => Promise<void>;
   syncOutboxToServer: () => Promise<void>;
+  resumeAfterAuth: () => void;
   setCartEmiPlan: (plan: SelectedEmiPlan | null) => void;
   setEmiNotification: (msg: string | null) => void;
 }
@@ -135,43 +149,54 @@ function getCartQueue(): OptimisticQueue {
     cartQueue = new OptimisticQueue(
       'cart',
       async (mutation, signal) => {
-        // Send mutation to server API
-        const res = await fetch('/api/cart', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            action: mutation.action === 'cart_add'
-              ? 'add'
-              : mutation.action === 'cart_update_quantity'
-              ? 'update_quantity'
-              : mutation.action === 'cart_remove'
-              ? 'remove'
-              : mutation.action === 'cart_clear'
-              ? 'clear'
-              : mutation.action,
-            idempotencyKey: mutation.idempotencyKey,
-            versionPrecondition: mutation.versionPrecondition,
-            item: mutation.payload,
-          }),
-          signal,
-        });
+        const actionMapped =
+          mutation.action === 'cart_add'
+            ? 'add'
+            : mutation.action === 'cart_update_quantity'
+            ? 'update_quantity'
+            : mutation.action === 'cart_remove'
+            ? 'remove'
+            : mutation.action === 'cart_save_for_later'
+            ? 'save_for_later'
+            : mutation.action === 'cart_move_to_bag'
+            ? 'move_to_bag'
+            : mutation.action === 'cart_clear'
+            ? 'clear'
+            : mutation.action;
 
-        if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
-          const error: any = new Error(data.error || 'Server rejected mutation');
-          error.statusCode = res.status;
-          error.serverData = data;
-          throw error;
+        try {
+          const res = await fetch('/api/cart', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              action: actionMapped,
+              idempotencyKey: mutation.idempotencyKey,
+              versionPrecondition: mutation.versionPrecondition,
+              item: mutation.payload,
+            }),
+            signal,
+          });
+
+          if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            const error: any = new Error(data.error || 'Server rejected mutation');
+            error.statusCode = res.status;
+            error.serverData = data;
+            throw error;
+          }
+
+          return await res.json();
+        } catch (fetchErr: any) {
+          if (!signal.aborted && fetchErr?.name === 'TypeError') {
+            connectivity.reportNetworkError();
+          }
+          throw fetchErr;
         }
-
-        return await res.json();
       },
       {
-        onOptimisticApply: (mutation) => {
-          // Handled synchronously in store action
-        },
+        onOptimisticApply: () => {},
         onSuccess: (mutation, result) => {
           useOptimisticCartStore.getState().handleMutationSuccess(mutation, result);
         },
@@ -180,6 +205,9 @@ function getCartQueue(): OptimisticQueue {
         },
         onSlowSyncWarning: (mutation) => {
           useOptimisticCartStore.getState().handleSlowSync(mutation);
+        },
+        onAuthRequired: (mutation) => {
+          useOptimisticCartStore.getState().handleAuthRequired(mutation);
         },
       }
     );
@@ -191,35 +219,52 @@ interface InternalStoreState extends OptimisticCartState {
   handleMutationSuccess: (mutation: OptimisticMutation, result: any) => void;
   handleMutationRollback: (mutation: OptimisticMutation, error: OptimisticError) => void;
   handleSlowSync: (mutation: OptimisticMutation) => void;
+  handleAuthRequired: (mutation: OptimisticMutation) => void;
   setOnline: (isOnline: boolean) => void;
 }
 
 export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
-  // Setup offline/online listeners
+  // Setup real connectivity subscriber & cross-tab sync
   if (typeof window !== 'undefined') {
-    window.addEventListener('online', () => {
-      get().setOnline(true);
-      get().syncOutboxToServer();
-    });
-    window.addEventListener('offline', () => {
-      get().setOnline(false);
+    connectivity.subscribe((isOnline) => {
+      set({ isOnline });
+      if (isOnline) {
+        get().syncOutboxToServer();
+      }
     });
 
-    // Cross-tab sync
+    // Cross-tab sync via BroadcastChannel
     broadcaster.subscribe((msg) => {
       if (msg.resource === 'cart') {
         if (msg.type === 'SERVER_STATE_UPDATED' && msg.payload?.cart) {
-          const serverItems: OptimisticCartItem[] = msg.payload.cart.items.map((i: any) => ({
+          const serverCart = msg.payload.cart;
+          const serverItems: OptimisticCartItem[] = (serverCart.items || []).map((i: any) => ({
             ...i,
             cartId: i.id,
+            isOptimistic: false,
+            isSyncingSlow: false,
+            inlineError: null,
+          }));
+          const serverSavedForLater: OptimisticCartItem[] = (serverCart.savedForLater || []).map((i: any) => ({
+            ...i,
+            cartId: i.id,
+            isOptimistic: false,
+            isSyncingSlow: false,
+            inlineError: null,
           }));
           const totals = computeTotals(serverItems);
           set({
             serverItems,
+            serverSavedForLater,
             cartItems: serverItems,
-            serverVersion: msg.payload.cart.version || get().serverVersion + 1,
+            savedForLater: serverSavedForLater,
+            serverVersion: serverCart.version || get().serverVersion + 1,
             ...totals,
           });
+
+          // Quiet short note on cross-tab change (Section 11)
+          useUIStore.getState().addToast('Bag updated in another window', 'info');
+          announcer.announce('Your bag was updated in another window', 'polite');
         }
       }
     });
@@ -227,20 +272,23 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
 
   return {
     serverItems: [],
+    serverSavedForLater: [],
     serverVersion: 1,
     pendingMutations: new Map(),
     failedMutations: new Map(),
     reconciliationNotices: [],
     cartItems: [],
+    savedForLater: [],
     cartEmiPlan: null,
     emiNotification: null,
     subtotal: 0,
     shipping: 0,
     isFreeShipping: false,
     total: 0,
-    isOnline: typeof navigator !== 'undefined' ? navigator.onLine : true,
+    isOnline: connectivity.isOnline,
     isSyncing: false,
     isCheckoutGated: false,
+    isReAuthRequired: false,
     pendingMutationCount: 0,
 
     setOnline: (isOnline) => set({ isOnline }),
@@ -250,11 +298,46 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
 
     addToCart: (product, quantity, selectedVariant, selectedEmiPlan, personalization) => {
       const state = get();
+      const flags = getFeatureFlags();
       const tempId = generateTemporaryId('temp');
       const idempotencyKey = generateIdempotencyKey('cart_add');
 
       // 1. Snapshot previous state for clean rollback
-      const snapshot = [...state.cartItems];
+      const snapshot: OptimisticCartSnapshot = {
+        cartItems: [...state.cartItems],
+        savedForLater: [...state.savedForLater],
+        serverVersion: state.serverVersion,
+      };
+
+      const mutation: OptimisticMutation = {
+        id: generateIdempotencyKey('mut'),
+        idempotencyKey,
+        resource: 'cart',
+        action: 'cart_add',
+        payload: {
+          productId: product.id,
+          quantity,
+          selectedVariant,
+          selectedEmiPlan,
+          personalization,
+          clientKnownPrice: product.price,
+          cartId: tempId,
+          productName: product.name,
+        },
+        snapshot,
+        status: 'pending',
+        createdAt: Date.now(),
+        attemptCount: 0,
+        temporaryId: tempId,
+        versionPrecondition: state.serverVersion,
+      };
+
+      // If feature flag disabled: fall back to non-optimistic pending pattern (Section 10)
+      if (!flags.optimisticCart) {
+        set({ isSyncing: true, isCheckoutGated: true });
+        getCartQueue().enqueue(mutation);
+        return;
+      }
 
       // 2. Compute optimistic line item
       const existingItem = state.cartItems.find(
@@ -292,28 +375,6 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
       }
 
       const totals = computeTotals(newItems);
-      const mutation: OptimisticMutation = {
-        id: generateIdempotencyKey('mut'),
-        idempotencyKey,
-        resource: 'cart',
-        action: 'cart_add',
-        payload: {
-          productId: product.id,
-          quantity,
-          selectedVariant,
-          selectedEmiPlan,
-          personalization,
-          clientKnownPrice: product.price,
-          cartId: tempId,
-        },
-        snapshot,
-        status: 'pending',
-        createdAt: Date.now(),
-        attemptCount: 0,
-        temporaryId: tempId,
-        versionPrecondition: state.serverVersion,
-      };
-
       const updatedPending = new Map(state.pendingMutations);
       updatedPending.set(mutation.idempotencyKey, mutation);
 
@@ -328,7 +389,10 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
       });
 
       // Accessible polite announcement (debounced)
-      announcer.announce(`${product.name} added to bag, ${newItems.reduce((acc, i) => acc + i.quantity, 0)} items`, 'polite');
+      announcer.announce(
+        `${product.name} added to bag, ${newItems.reduce((acc, i) => acc + i.quantity, 0)} items`,
+        'polite'
+      );
 
       // Dispatch to per-resource serialized queue
       getCartQueue().enqueue(mutation);
@@ -348,7 +412,12 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
       const target = state.cartItems.find((i) => i.cartId === cartId);
       if (!target) return;
 
-      const snapshot = [...state.cartItems];
+      const snapshot: OptimisticCartSnapshot = {
+        cartItems: [...state.cartItems],
+        savedForLater: [...state.savedForLater],
+        serverVersion: state.serverVersion,
+      };
+
       const newItems = state.cartItems.map((item) =>
         item.cartId === cartId
           ? { ...item, quantity, isOptimistic: true, inlineError: null }
@@ -368,6 +437,7 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
           productId: target.id,
           selectedVariant: target.selectedVariant,
           quantity,
+          productName: target.name,
         },
         snapshot,
         status: 'pending',
@@ -398,7 +468,12 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
       const target = state.cartItems.find((i) => i.cartId === cartId);
       if (!target) return;
 
-      const snapshot = [...state.cartItems];
+      const snapshot: OptimisticCartSnapshot = {
+        cartItems: [...state.cartItems],
+        savedForLater: [...state.savedForLater],
+        serverVersion: state.serverVersion,
+      };
+
       const newItems = state.cartItems.filter((item) => item.cartId !== cartId);
       const totals = computeTotals(newItems);
       const idempotencyKey = generateIdempotencyKey(`rem_${cartId}`);
@@ -412,6 +487,7 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
           cartId,
           productId: target.id,
           selectedVariant: target.selectedVariant,
+          productName: target.name,
         },
         snapshot,
         status: 'pending',
@@ -437,9 +513,118 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
       getCartQueue().enqueue(mutation);
     },
 
+    saveForLater: (cartId) => {
+      const state = get();
+      const target = state.cartItems.find((i) => i.cartId === cartId);
+      if (!target) return;
+
+      const snapshot: OptimisticCartSnapshot = {
+        cartItems: [...state.cartItems],
+        savedForLater: [...state.savedForLater],
+        serverVersion: state.serverVersion,
+      };
+
+      const newItems = state.cartItems.filter((item) => item.cartId !== cartId);
+      const newSaved = [...state.savedForLater, { ...target, isOptimistic: true }];
+      const totals = computeTotals(newItems);
+      const idempotencyKey = generateIdempotencyKey(`sfl_${cartId}`);
+
+      const mutation: OptimisticMutation = {
+        id: generateIdempotencyKey('mut'),
+        idempotencyKey,
+        resource: 'cart',
+        action: 'cart_save_for_later',
+        payload: {
+          cartId,
+          productId: target.id,
+          selectedVariant: target.selectedVariant,
+          productName: target.name,
+        },
+        snapshot,
+        status: 'pending',
+        createdAt: Date.now(),
+        attemptCount: 0,
+        versionPrecondition: state.serverVersion,
+      };
+
+      const updatedPending = new Map(state.pendingMutations);
+      updatedPending.set(mutation.idempotencyKey, mutation);
+
+      set({
+        cartItems: newItems,
+        savedForLater: newSaved,
+        pendingMutations: updatedPending,
+        isSyncing: true,
+        isCheckoutGated: true,
+        pendingMutationCount: updatedPending.size,
+        ...totals,
+      });
+
+      announcer.announce(`${target.name} saved for later`, 'polite');
+
+      getCartQueue().enqueue(mutation);
+    },
+
+    moveToBag: (cartId) => {
+      const state = get();
+      const target = state.savedForLater.find((i) => i.cartId === cartId);
+      if (!target) return;
+
+      const snapshot: OptimisticCartSnapshot = {
+        cartItems: [...state.cartItems],
+        savedForLater: [...state.savedForLater],
+        serverVersion: state.serverVersion,
+      };
+
+      const newSaved = state.savedForLater.filter((item) => item.cartId !== cartId);
+      const newItems = [...state.cartItems, { ...target, isOptimistic: true }];
+      const totals = computeTotals(newItems);
+      const idempotencyKey = generateIdempotencyKey(`mtb_${cartId}`);
+
+      const mutation: OptimisticMutation = {
+        id: generateIdempotencyKey('mut'),
+        idempotencyKey,
+        resource: 'cart',
+        action: 'cart_move_to_bag',
+        payload: {
+          cartId,
+          productId: target.id,
+          selectedVariant: target.selectedVariant,
+          quantity: target.quantity,
+          productName: target.name,
+        },
+        snapshot,
+        status: 'pending',
+        createdAt: Date.now(),
+        attemptCount: 0,
+        versionPrecondition: state.serverVersion,
+      };
+
+      const updatedPending = new Map(state.pendingMutations);
+      updatedPending.set(mutation.idempotencyKey, mutation);
+
+      set({
+        cartItems: newItems,
+        savedForLater: newSaved,
+        pendingMutations: updatedPending,
+        isSyncing: true,
+        isCheckoutGated: true,
+        pendingMutationCount: updatedPending.size,
+        ...totals,
+      });
+
+      announcer.announce(`${target.name} moved to bag`, 'polite');
+
+      getCartQueue().enqueue(mutation);
+    },
+
     clearCart: () => {
       const state = get();
-      const snapshot = [...state.cartItems];
+      const snapshot: OptimisticCartSnapshot = {
+        cartItems: [...state.cartItems],
+        savedForLater: [...state.savedForLater],
+        serverVersion: state.serverVersion,
+      };
       const idempotencyKey = generateIdempotencyKey('cart_clear');
 
       const mutation: OptimisticMutation = {
@@ -480,7 +665,14 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
       // Reconcile server response
       if (result && result.cart) {
         const serverCart = result.cart;
-        const newServerItems: OptimisticCartItem[] = serverCart.items.map((i: any) => ({
+        const newServerItems: OptimisticCartItem[] = (serverCart.items || []).map((i: any) => ({
+          ...i,
+          cartId: i.id,
+          isOptimistic: false,
+          isSyncingSlow: false,
+          inlineError: null,
+        }));
+        const newServerSavedForLater: OptimisticCartItem[] = (serverCart.savedForLater || []).map((i: any) => ({
           ...i,
           cartId: i.id,
           isOptimistic: false,
@@ -498,7 +690,9 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
 
         set({
           serverItems: newServerItems,
+          serverSavedForLater: newServerSavedForLater,
           cartItems: newServerItems,
+          savedForLater: newServerSavedForLater,
           serverVersion: serverCart.version || state.serverVersion + 1,
           pendingMutations: updatedPending,
           failedMutations: updatedFailed,
@@ -531,10 +725,19 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
       const updatedFailed = new Map(state.failedMutations);
 
       // Roll back to prior snapshot
-      const restoredItems: OptimisticCartItem[] = mutation.snapshot ? [...mutation.snapshot] : [...state.serverItems];
+      const rawSnapshot = mutation.snapshot;
+      const restoredItems: OptimisticCartItem[] = rawSnapshot?.cartItems
+        ? [...rawSnapshot.cartItems]
+        : Array.isArray(rawSnapshot)
+        ? [...rawSnapshot]
+        : [...state.serverItems];
 
-      // For quantity update failure: mark the affected line with in-place retry row
-      if (mutation.action === 'cart_update_quantity' && targetId) {
+      const restoredSaved: OptimisticCartItem[] = rawSnapshot?.savedForLater
+        ? [...rawSnapshot.savedForLater]
+        : [...state.serverSavedForLater];
+
+      // Mark affected line with in-place retry row
+      if (targetId) {
         updatedFailed.set(targetId, { mutation, error });
         const lineWithErr = restoredItems.find((i) => i.cartId === targetId);
         if (lineWithErr) {
@@ -547,13 +750,33 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
 
       const totals = computeTotals(restoredItems);
 
-      // Human-readable gentle failure message
-      const productName = mutation.payload?.productName || (mutation.payload?.productId ? MOCK_PRODUCTS.find(p => p.id === mutation.payload.productId)?.name : null) || 'item';
-      let toastMessage = `Couldn't add ${productName}. Try again`;
+      // Human-readable gentle failure message (Section 6)
+      const productName =
+        mutation.payload?.productName ||
+        (mutation.payload?.productId
+          ? MOCK_PRODUCTS.find((p) => p.id === mutation.payload.productId)?.name
+          : null) ||
+        'item';
+
+      let toastMessage = `Couldn't update ${productName}. Try again`;
+      if (mutation.action === 'cart_add') {
+        toastMessage = `Couldn't add ${productName}. Try again`;
+      } else if (mutation.action === 'cart_update_quantity') {
+        toastMessage = `Couldn't update quantity. Try again`;
+      } else if (mutation.action === 'cart_remove') {
+        toastMessage = `Couldn't remove ${productName}. Try again`;
+      } else if (mutation.action === 'cart_save_for_later') {
+        toastMessage = `Couldn't save ${productName} for later. Try again`;
+      } else if (mutation.action === 'cart_move_to_bag') {
+        toastMessage = `Couldn't move ${productName} to bag. Try again`;
+      }
+
       if (error.type === 'stock_capped' || error.type === 'out_of_stock') {
         toastMessage = `${productName} is currently out of stock.`;
+      } else if (error.type === 'rate_limited') {
+        toastMessage = 'You are going a bit fast. Please try again in a moment';
       } else if (error.type === 'network' && !state.isOnline) {
-        toastMessage = "We're having trouble connecting. Your changes will be saved when you're back online.";
+        toastMessage = "Offline. Changes will sync when you're back";
       }
 
       useUIStore.getState().error(toastMessage, {
@@ -567,6 +790,7 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
 
       set({
         cartItems: restoredItems,
+        savedForLater: restoredSaved,
         pendingMutations: updatedPending,
         failedMutations: updatedFailed,
         isSyncing: updatedPending.size > 0,
@@ -584,6 +808,22 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
         item.cartId === targetId ? { ...item, isSyncingSlow: true } : item
       );
       set({ cartItems: items });
+    },
+
+    handleAuthRequired: (mutation) => {
+      set({ isReAuthRequired: true });
+      useUIStore.getState().error('Your session expired. Please sign in to sync your bag', {
+        label: 'Resume',
+        onClick: () => {
+          get().resumeAfterAuth();
+        },
+      });
+      announcer.announce('Your session has expired. Sign in to sync your bag', 'assertive');
+    },
+
+    resumeAfterAuth: () => {
+      set({ isReAuthRequired: false });
+      getCartQueue().resumeAfterAuth();
     },
 
     retryFailedMutation: (cartId) => {
@@ -647,14 +887,20 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
           const data = await res.json();
           outbox.clear();
           if (data.cart) {
-            const serverItems = data.cart.items.map((i: any) => ({
+            const serverItems = (data.cart.items || []).map((i: any) => ({
+              ...i,
+              cartId: i.id,
+            }));
+            const serverSaved = (data.cart.savedForLater || []).map((i: any) => ({
               ...i,
               cartId: i.id,
             }));
             const totals = computeTotals(serverItems);
             set({
               serverItems,
+              serverSavedForLater: serverSaved,
               cartItems: serverItems,
+              savedForLater: serverSaved,
               serverVersion: data.cart.version || get().serverVersion + 1,
               reconciliationNotices: [
                 ...get().reconciliationNotices,

@@ -12,6 +12,7 @@ export const getItemUnitPrice = getOptimisticItemUnitPrice;
 
 export interface CartState {
   cartItems: CartItem[];
+  savedForLater: CartItem[];
   cartEmiPlan: SelectedEmiPlan | null;
   emiNotification: string | null;
   setEmiNotification: (msg: string | null) => void;
@@ -29,6 +30,8 @@ export interface CartState {
     personalization: PersonalizationCartProperty
   ) => void;
   removeFromCart: (cartId: string) => void;
+  saveForLater: (cartId: string) => void;
+  moveToBag: (cartId: string) => void;
   updateQuantity: (cartId: string, delta: number) => void;
   clearCart: () => void;
 
@@ -36,6 +39,8 @@ export interface CartState {
   isOnline: boolean;
   isSyncing: boolean;
   isCheckoutGated: boolean;
+  isReAuthRequired: boolean;
+  resumeAfterAuth: () => void;
   reconciliationNotices: any[];
   retryFailedMutation: (cartId: string) => void;
   dismissFailedMutation: (cartId: string) => void;
@@ -51,6 +56,7 @@ function buildCartState(): CartState {
   const store = useOptimisticCartStore.getState();
   return {
     cartItems: store.cartItems,
+    savedForLater: store.savedForLater,
     cartEmiPlan: store.cartEmiPlan,
     emiNotification: store.emiNotification,
     setEmiNotification: store.setEmiNotification,
@@ -74,12 +80,16 @@ function buildCartState(): CartState {
       useOptimisticCartStore.setState({ cartItems: items });
     },
     removeFromCart: store.removeFromCart,
+    saveForLater: store.saveForLater,
+    moveToBag: store.moveToBag,
     updateQuantity: store.updateQuantity,
     clearCart: store.clearCart,
 
     isOnline: store.isOnline,
     isSyncing: store.isSyncing,
     isCheckoutGated: store.isCheckoutGated,
+    isReAuthRequired: store.isReAuthRequired,
+    resumeAfterAuth: store.resumeAfterAuth,
     reconciliationNotices: store.reconciliationNotices,
     retryFailedMutation: store.retryFailedMutation,
     dismissFailedMutation: store.dismissFailedMutation,
@@ -100,6 +110,7 @@ export function useCartStore<T>(selector?: (state: CartState) => T): T | CartSta
 
   const state: CartState = {
     cartItems: store.cartItems,
+    savedForLater: store.savedForLater,
     cartEmiPlan: store.cartEmiPlan,
     emiNotification: store.emiNotification,
     setEmiNotification: store.setEmiNotification,
@@ -123,12 +134,16 @@ export function useCartStore<T>(selector?: (state: CartState) => T): T | CartSta
       useOptimisticCartStore.setState({ cartItems: items });
     },
     removeFromCart: store.removeFromCart,
+    saveForLater: store.saveForLater,
+    moveToBag: store.moveToBag,
     updateQuantity: store.updateQuantity,
     clearCart: store.clearCart,
 
     isOnline: store.isOnline,
     isSyncing: store.isSyncing,
     isCheckoutGated: store.isCheckoutGated,
+    isReAuthRequired: store.isReAuthRequired,
+    resumeAfterAuth: store.resumeAfterAuth,
     reconciliationNotices: store.reconciliationNotices,
     retryFailedMutation: store.retryFailedMutation,
     dismissFailedMutation: store.dismissFailedMutation,

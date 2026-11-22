@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuickView } from '@/contexts/QuickViewContext';
 import { useCart } from '@/contexts/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -17,6 +17,18 @@ export function QuickViewModal() {
   const [isAdded, setIsAdded] = useState(false);
   const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
   const [selectedEmiPlan, setSelectedEmiPlan] = useState<SelectedEmiPlan | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    const prevPosition = window.scrollY;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.scrollTo({ top: prevPosition, behavior: 'instant' });
+    };
+  }, [isOpen]);
 
   if (!activeProduct) return null;
 

@@ -14,13 +14,15 @@ interface BottomSheetProps {
 export function BottomSheet({ isOpen, onClose, title, children }: BottomSheetProps) {
   useEffect(() => {
     if (isOpen) {
+      const prevPosition = window.scrollY;
       document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = 'unset';
+        window.scrollTo({ top: prevPosition, behavior: 'instant' });
+      };
     } else {
       document.body.style.overflow = 'unset';
     }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
   }, [isOpen]);
 
   return (

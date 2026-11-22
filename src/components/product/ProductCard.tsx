@@ -10,10 +10,16 @@ import { CompareButton } from '@/components/compare';
 import { useRef, useState } from 'react';
 import { LiquidShaderImage, WishlistButton } from '@/components/ui';
 import { PriceHistoryTagBadge } from '@/components/product/price-history';
+import {
+  ensureHistoryEntryId,
+  captureListingSnapshot,
+  recordListingExit,
+} from '@/lib/scroll-restoration';
 
 type ProductCardProps = {
   product: Product;
   variant?: 'default' | 'editorial' | 'carousel';
+  onCardClick?: (productId: string) => void;
 };
 
 
@@ -38,7 +44,7 @@ const toBase64 = (str: string) =>
 
 const getBlurDataURL = () => `data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`;
 
-export default function ProductCard({ product, variant = 'default' }: ProductCardProps) {
+export default function ProductCard({ product, variant = 'default', onCardClick }: ProductCardProps) {
   const { openQuickView } = useQuickView();
   const { toggleWishlist, isInWishlist } = useWishlist();
   
@@ -72,10 +78,42 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
     }
   };
 
+  const captureCardSnapshot = () => {
+    if (typeof window !== 'undefined') {
+      try {
+        const entryId = ensureHistoryEntryId();
+        const currentUrl = `${window.location.pathname}${window.location.search}`;
+        captureListingSnapshot({
+          entryId,
+          url: currentUrl,
+          clickedCardId: product.id,
+        });
+        recordListingExit({
+          url: currentUrl,
+          savedAt: Date.now(),
+          category: product.category,
+          title: product.name,
+        });
+      } catch {}
+    }
+  };
+
   const handleClick = (e: React.MouseEvent) => {
     if (wasLongPressed) {
       e.preventDefault();
+      return;
     }
+    captureCardSnapshot();
+    if (onCardClick) {
+      onCardClick(product.id);
+    }
+  };
+
+  const handleQuickViewClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    captureCardSnapshot();
+    openQuickView(product);
   };
 
   // Badge Styling based on Tier
@@ -87,10 +125,10 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
 
   if (variant === 'editorial') {
     return (
-      <div className="group cursor-pointer">
+      <div className="group cursor-pointer" data-product-id={product.id} id={`product-${product.id}`}>
         <Link 
           href={`/products/${product.id}`} 
-          className="block relative select-none"
+          className="block relative select-none scroll-mt-28 md:scroll-mt-32"
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerUp}
@@ -141,7 +179,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
 
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
               <button 
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
+                onClick={handleQuickViewClick}
                 className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
                 title="Quick View"
                 aria-label="Quick View"
@@ -167,6 +205,8 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
   if (variant === 'carousel') {
     return (
       <motion.div
+        data-product-id={product.id}
+        id={`product-${product.id}`}
         whileHover={{ y: -4, borderColor: 'var(--border-hover, #3a3a3a)' }}
         className="snap-start shrink-0 w-[240px] md:w-[280px] aspect-[4/5] bg-surface rounded-xl border border-border flex flex-col relative group cursor-pointer overflow-hidden mb-4"
       >
@@ -187,7 +227,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
             or we handle navigation entirely via Link and buttons use stopPropagation. */}
         <Link 
           href={`/products/${product.id}`} 
-          className="block flex-1 bg-surface-hover rounded-lg flex items-center justify-center overflow-hidden relative select-none"
+          className="block flex-1 bg-surface-hover rounded-lg flex items-center justify-center overflow-hidden relative select-none scroll-mt-28 md:scroll-mt-32"
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerUp}
@@ -223,7 +263,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
            
            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
              <button 
-               onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
+               onClick={handleQuickViewClick}
                className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
                title="Quick View"
                aria-label="Quick View"
@@ -234,7 +274,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
            </div>
         </Link>
         
-        <Link href={`/products/${product.id}`} className="flex flex-col gap-1 p-3">
+        <Link href={`/products/${product.id}`} onClick={handleClick} className="flex flex-col gap-1 p-3">
           <div className="flex justify-between items-start gap-4">
             <h3 className="text-foreground font-medium text-sm md:text-base leading-tight truncate flex-1">{product.name}</h3>
             <p className="text-foreground font-bold text-sm md:text-base">${product.price.toFixed(2)}</p>
@@ -259,7 +299,9 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
   return (
     <Link 
       href={`/products/${product.id}`} 
-      className="group block relative select-none"
+      data-product-id={product.id}
+      id={`product-${product.id}`}
+      className="group block relative select-none scroll-mt-28 md:scroll-mt-32 focus-visible:outline-2 focus-visible:outline-[#8ed500] focus-visible:outline-offset-4 rounded-xl"
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerUp}
@@ -309,7 +351,7 @@ export default function ProductCard({ product, variant = 'default' }: ProductCar
           
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
             <button 
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); openQuickView(product); }}
+              onClick={handleQuickViewClick}
               className="bg-background/90 backdrop-blur-md text-foreground p-2.5 rounded-full hover:bg-background hover:scale-105 transition-all shadow-lg"
               title="Quick View"
               aria-label="Quick View"

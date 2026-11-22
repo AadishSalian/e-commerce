@@ -1,189 +1,200 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { CATEGORIES } from '@/lib/mockData';
 import { searchProducts, SearchResult } from '@/lib/search';
 import { Filter } from 'lucide-react';
 import { CustomSelect } from '@/components/ui/CustomSelect';
-
-import Image from 'next/image';
+import ProductCard from '@/components/product/ProductCard';
+import FilterToolbar from '@/components/product/FilterToolbar';
+import {
+  parseListingUrl,
+  serializeListingUrl,
+  isMajorNavigationChange,
+  useScrollRestoration,
+  ListingStatePatch,
+} from '@/lib/scroll-restoration';
 
 export default function SearchClient() {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const rawQuery = searchParams.get('q') || searchParams.get('search') || '';
-  const query = decodeURIComponent(rawQuery);
-  
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [sortBy, setSortBy] = useState('relevance');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
-  // Update search results when query changes
+  // Parse state from URL
+  const { state, hasInvalidParams, cleanedUrl } = useMemo(() => {
+    return parseListingUrl(searchParams, 'All');
+  }, [searchParams]);
+
+  const query = state.q || '';
+  const [invalidNotice, setInvalidNotice] = useState<string | null>(null);
+
+  // Clean invalid parameters from URL
   useEffect(() => {
-    if (query) {
-      setSearchResults(searchProducts(query));
-    } else {
-      setSearchResults([]);
+    if (hasInvalidParams) {
+      router.replace(cleanedUrl, { scroll: false });
+      setInvalidNotice('One or more invalid filter parameters were removed from the URL.');
     }
-    // Reset filters on new search
-    setActiveCategory('All');
-    setSortBy('relevance');
+  }, [hasInvalidParams, cleanedUrl, router]);
+
+  // Execute raw text search
+  const rawSearchResults = useMemo(() => {
+    if (!query) return [];
+    return searchProducts(query);
   }, [query]);
 
-  // Apply filters and sorting
-  const processedResults = searchResults
-    .filter(res => activeCategory === 'All' ? true : res.product.category === activeCategory)
-    .sort((a, b) => {
-      if (sortBy === 'price-low') return a.product.price - b.product.price;
-      if (sortBy === 'price-high') return b.product.price - a.product.price;
-      if (sortBy === 'newest') return a.product.isNew ? -1 : (b.product.isNew ? 1 : 0);
-      return b.score - a.score; // default 'relevance'
+  // Apply secondary filters (category, price, rating, inStock) and sort
+  const processedResults = useMemo(() => {
+    let list = rawSearchResults.map((r) => r.product);
+
+    // Category
+    if (state.category && state.category !== 'All') {
+      list = list.filter((p) => p.category.toLowerCase() === state.category.toLowerCase());
+    }
+
+    // Material
+    if (state.material.length > 0) {
+      list = list.filter((p) => {
+        const mat = (p.attributes?.material as string) || '';
+        const desc = p.description.toLowerCase();
+        return state.material.some((m) => mat.toLowerCase().includes(m.toLowerCase()) || desc.includes(m.toLowerCase()));
+      });
+    }
+
+    // Price
+    if (state.minPrice !== null) list = list.filter((p) => p.price >= state.minPrice!);
+    if (state.maxPrice !== null) list = list.filter((p) => p.price <= state.maxPrice!);
+
+    // Rating
+    if (state.rating !== null) list = list.filter((p) => (p.rating || 4.5) >= state.rating!);
+
+    // In Stock
+    if (state.inStock === true) {
+      list = list.filter((p) => p.stockCount === undefined || p.stockCount > 0);
+    }
+
+    // Sorting
+    return list.sort((a, b) => {
+      if (state.sort === 'price-asc' || state.sort === 'price-low') return a.price - b.price;
+      if (state.sort === 'price-desc' || state.sort === 'price-high') return b.price - a.price;
+      if (state.sort === 'newest') return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0);
+      if (state.sort === 'rating') return (b.rating || 4.5) - (a.rating || 4.5);
+      return 0; // default 'relevance'
     });
+  }, [rawSearchResults, state]);
+
+  // Scroll Restoration hook for search
+  const {
+    gridRef,
+    handleCardClick,
+    isDrawerOpen,
+    openDrawer,
+    closeDrawer,
+    announcement,
+    setAnnouncement,
+  } = useScrollRestoration({
+    listingId: 'search-results-listing',
+    itemsCount: processedResults.length,
+    isReady: true,
+  });
+
+  useEffect(() => {
+    if (query) {
+      setAnnouncement(
+        `Showing ${processedResults.length} search result${
+          processedResults.length === 1 ? '' : 's'
+        } for "${query}".`
+      );
+    }
+  }, [processedResults.length, query, setAnnouncement]);
+
+  const handleUpdateState = (patch: ListingStatePatch, forceMajor?: boolean) => {
+    const nextState = { ...state, ...patch };
+    const isMajor = forceMajor !== undefined ? forceMajor : isMajorNavigationChange(state, nextState);
+    const nextUrl = serializeListingUrl(pathname, nextState);
+
+    if (isMajor) {
+      router.push(nextUrl, { scroll: false });
+    } else {
+      router.replace(nextUrl, { scroll: false });
+    }
+  };
+
+  const handleResetFilters = () => {
+    router.push(serializeListingUrl(pathname, { q: state.q }), { scroll: false });
+  };
 
   return (
     <div className="min-h-screen bg-background pt-8 md:pt-4 pb-32">
       <div className="container mx-auto px-4 md:px-8">
-        
         {/* Header Section */}
-        <div className="mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+        <div className="mb-10">
+          <h1 id="results-heading" className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4 focus:outline-none">
             Search Results
           </h1>
           <p className="text-text-muted text-lg max-w-2xl" aria-live="polite">
             {query ? (
-              `${searchResults.length} result${searchResults.length === 1 ? '' : 's'} for "${query}"`
+              `${rawSearchResults.length} total result${rawSearchResults.length === 1 ? '' : 's'} for "${query}"`
             ) : (
-              'Enter a search term to find products.'
+              'Enter a search term to find products across our catalog.'
             )}
           </p>
         </div>
 
-        {/* Filters & Sorting Toolbar */}
-        {searchResults.length > 0 && (
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-y border-border py-4">
-            {/* Category Pill Filters */}
-            <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar">
-              <span className="text-sm font-medium text-text-muted mr-2 flex items-center gap-2">
-                <Filter className="w-4 h-4" /> Filter
-              </span>
-              {CATEGORIES.map(category => {
-                // Only show categories that have results, plus "All"
-                const count = category === 'All' 
-                  ? searchResults.length 
-                  : searchResults.filter(r => r.product.category === category).length;
-                
-                if (count === 0) return null;
-
-                return (
-                  <button
-                    key={category}
-                    onClick={() => setActiveCategory(category)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shrink-0 flex items-center gap-2 ${
-                      activeCategory === category 
-                        ? 'bg-accent text-foreground scale-95'
-                        : 'bg-surface text-text-muted hover:bg-surface-hover'
-                    }`}
-                  >
-                    {category} <span className="opacity-60 text-xs">{count}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Sort Dropdown */}
-            <div className="flex items-center gap-3 shrink-0">
-              <span className="text-sm font-medium text-text-muted">Sort by</span>
-              <CustomSelect
-                value={sortBy}
-                onChange={setSortBy}
-                variant="pill"
-                options={[
-                  { label: 'Relevance', value: 'relevance' },
-                  { label: 'Newest', value: 'newest' },
-                  { label: 'Price: Low to High', value: 'price-low' },
-                  { label: 'Price: High to Low', value: 'price-high' }
-                ]}
-              />
-            </div>
-          </div>
+        {/* Filter & Sort Toolbar */}
+        {rawSearchResults.length > 0 && (
+          <FilterToolbar
+            state={state}
+            totalResults={processedResults.length}
+            invalidParamsNotice={invalidNotice}
+            onClearInvalidParamsNotice={() => setInvalidNotice(null)}
+            onUpdateState={handleUpdateState}
+            onResetFilters={handleResetFilters}
+            isDrawerOpen={isDrawerOpen}
+            onOpenDrawer={openDrawer}
+            onCloseDrawer={closeDrawer}
+          />
         )}
 
         {/* Product Grid */}
         {processedResults.length > 0 ? (
-          <motion.div 
-            layout
+          <div
+            ref={gridRef}
             className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-16"
           >
-            <AnimatePresence>
-              {processedResults.map(({ product }, idx) => (
-                <motion.div
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4, delay: idx * 0.05 }}
-                  key={product.id}
-                >
-                  <Link href={`/products/${product.id}`} className="group block">
-                    {/* Matte Flat Product Tile */}
-                    <div className="w-full aspect-[4/5] bg-surface rounded-xl border border-transparent group-hover:border-border transition-colors duration-300 mb-6 flex flex-col p-6 relative overflow-hidden">
-                      {product.isNew && (
-                        <span className="absolute top-4 left-4 text-[10px] font-bold uppercase tracking-widest text-accent">
-                          New
-                        </span>
-                      )}
-                      <div className="flex-1 w-full bg-surface-hover rounded-lg flex items-center justify-center relative overflow-hidden">
-                        {product.image ? (
-                          <Image src={product.image} 
-                            alt={product.name}
-                            className="absolute inset-0 w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-500"
-                           width={800} height={800} />
-                        ) : null}
-                        {product.hoverImage ? (
-                          <Image src={product.hoverImage} 
-                            alt={`${product.name} Alternate`}
-                            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                           width={800} height={800} />
-                        ) : null}
-                        {!product.image && (
-                          <span className="text-xs text-text-muted uppercase tracking-widest">{product.name}</span>
-                        )}
-                      </div>
-                    </div>
-                    
-                    {/* Product Details */}
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="text-foreground font-medium text-lg mb-1">{product.name}</h3>
-                        <p className="text-text-muted text-sm">{(product.variants?.length || 0) > 0 ? `${product.variants?.length} Colors` : product.category}</p>
-                      </div>
-                      <p className="text-foreground font-medium text-lg">${product.price.toFixed(2)}</p>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+            {processedResults.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                variant="default"
+                onCardClick={handleCardClick}
+              />
+            ))}
+          </div>
         ) : (
           /* Empty State */
           <div className="py-24 text-center max-w-lg mx-auto">
             <h2 className="text-2xl font-bold text-foreground mb-4">No matches found</h2>
             <p className="text-text-muted text-lg mb-8">
-              We couldn&apos;t find anything matching &quot;{query}&quot;. Try checking your spelling or using more general terms.
+              We couldn&apos;t find anything matching &quot;{query}&quot;. Try checking your spelling or relaxing filters.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/products" className="px-6 py-3 bg-accent text-background font-medium rounded-full hover:bg-accent-hover transition-colors">
+              <Link
+                href="/products"
+                className="px-6 py-3 bg-[#8ed500] text-[#121212] font-semibold rounded-full hover:bg-[#7ac500] transition-colors"
+              >
                 Browse All Products
               </Link>
-              <Link href="/products?category=new" className="px-6 py-3 bg-surface text-foreground font-medium rounded-full hover:bg-surface-hover transition-colors border border-border">
+              <Link
+                href="/products?sort=newest"
+                className="px-6 py-3 bg-surface text-foreground font-medium rounded-full hover:bg-surface-hover transition-colors border border-border"
+              >
                 Shop New Arrivals
               </Link>
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

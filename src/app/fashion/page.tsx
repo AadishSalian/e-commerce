@@ -1,40 +1,63 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { Suspense, useRef, useMemo } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { MOCK_PRODUCTS } from '@/lib/mockData';
 import { CustomSelect } from '@/components/ui/CustomSelect';
 import ProductCard from '@/components/product/ProductCard';
 import { SplitHero } from '@/components/ui/SplitHero';
 import { WOMEN_MEN_SPLIT_HERO } from '@/config/splitHero';
+import { useScrollRestoration } from '@/lib/scroll-restoration';
 
-export default function FashionPage() {
-  const [sortBy, setSortBy] = useState('newest');
-  
-  const filteredProducts = MOCK_PRODUCTS.filter(p => p.category === 'Fashion')
-  .sort((a, b) => {
-    if (sortBy === 'price-low') return a.price - b.price;
-    if (sortBy === 'price-high') return b.price - a.price;
-    return 0; // default 'newest'
+function FashionContent() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const sortBy = searchParams.get('sort') || 'newest';
+
+  const handleSortChange = (newSort: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (newSort && newSort !== 'newest') {
+      params.set('sort', newSort);
+    } else {
+      params.delete('sort');
+    }
+    const qs = params.toString();
+    const nextUrl = qs ? `${pathname}?${qs}` : pathname;
+    router.replace(nextUrl, { scroll: false });
+  };
+
+  const filteredProducts = useMemo(() => {
+    return MOCK_PRODUCTS.filter((p) => p.category === 'Fashion').sort((a, b) => {
+      if (sortBy === 'price-low') return a.price - b.price;
+      if (sortBy === 'price-high') return b.price - a.price;
+      return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0);
+    });
+  }, [sortBy]);
+
+  const { gridRef, handleCardClick } = useScrollRestoration({
+    listingId: 'fashion-collection',
+    itemsCount: filteredProducts.length,
+    isReady: true,
   });
 
   // Editorial Section Logic
   const lookbookRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: lookbookScrollY } = useScroll({
     target: lookbookRef,
-    offset: ["start end", "end start"]
+    offset: ['start end', 'end start'],
   });
-  
-  // Parallax effects for interlocking images
-  const img1Y = useTransform(lookbookScrollY, [0, 1], ["0%", "20%"]);
-  const img2Y = useTransform(lookbookScrollY, [0, 1], ["10%", "-20%"]);
-  const img3Y = useTransform(lookbookScrollY, [0, 1], ["-10%", "10%"]);
+
+  const img1Y = useTransform(lookbookScrollY, [0, 1], ['0%', '20%']);
+  const img2Y = useTransform(lookbookScrollY, [0, 1], ['10%', '-20%']);
+  const img3Y = useTransform(lookbookScrollY, [0, 1], ['-10%', '10%']);
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col w-full selection:bg-foreground selection:text-background transition-colors duration-300">
-      
       {/* 1. Full-Viewport Split Hero (Women / Men with Hover Expand) */}
-      <SplitHero 
+      <SplitHero
         halves={WOMEN_MEN_SPLIT_HERO}
         pageTitle="MATTE. Fashion & Apparel — Architectural Silhouettes"
         shopAll={{
@@ -46,10 +69,10 @@ export default function FashionPage() {
 
       {/* Infinite Scrolling Marquee */}
       <div className="w-full overflow-hidden bg-foreground text-background py-5 border-y border-border">
-        <motion.div 
+        <motion.div
           className="whitespace-nowrap flex gap-12 items-center text-sm md:text-base font-bold uppercase tracking-[0.2em]"
           animate={{ x: [0, -1035] }}
-          transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
+          transition={{ repeat: Infinity, duration: 15, ease: 'linear' }}
         >
           <span>✦ FW24 COLLECTION</span>
           <span>ELEVATED ESSENTIALS</span>
@@ -58,116 +81,45 @@ export default function FashionPage() {
           <span>✦ THE FALL LOOKBOOK</span>
           <span>FW24 COLLECTION</span>
           <span>✦ ELEVATED ESSENTIALS</span>
-          <span>MODERN TAILORING</span>
-          <span>✦ SILK & WOOL</span>
-          <span>THE FALL LOOKBOOK</span>
         </motion.div>
       </div>
-
-      {/* 2. Premium Bento Image Showcase */}
-      <section ref={lookbookRef} className="py-24 px-4 md:px-8 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          
-          {/* Main Large Image (Spans 2 columns) */}
-          <motion.div 
-            className="md:col-span-2 aspect-[4/3] md:aspect-auto md:h-[700px] relative overflow-hidden rounded-[2rem] bg-surface group"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <motion.img 
-              style={{ y: img1Y, scale: 1.15 }}
-              src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1600&auto=format&fit=crop" 
-              alt="Editorial 1"
-              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-            />
-            {/* Subtle Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          </motion.div>
-          
-          {/* Right Stacked Images (1 column) */}
-          <div className="md:col-span-1 flex flex-col gap-6 md:gap-8 h-full">
-            
-            {/* Top Right Image */}
-            <motion.div 
-              className="aspect-square md:aspect-auto md:h-[calc(50%-1rem)] relative overflow-hidden rounded-[2rem] bg-surface group"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            >
-              <motion.img 
-                style={{ y: img2Y, scale: 1.15 }}
-                src="https://images.unsplash.com/photo-1534653299134-96a171b61581?q=80&w=1000&auto=format&fit=crop" 
-                alt="Editorial 2"
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-              />
-            </motion.div>
-
-            {/* Bottom Right Image */}
-            <motion.div 
-              className="aspect-[4/3] md:aspect-auto md:h-[calc(50%-1rem)] relative overflow-hidden rounded-[2rem] bg-surface group"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-            >
-              <motion.img 
-                style={{ y: img3Y, scale: 1.15 }}
-                src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop" 
-                alt="Editorial 3"
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-              />
-            </motion.div>
-
-          </div>
-        </div>
-      </section>
 
       {/* 3. Interactive Product Grid */}
       <section id="collection" className="pb-32 px-4 md:px-8 max-w-7xl mx-auto w-full scroll-mt-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-border pb-6">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground uppercase">
+          <h2 id="results-heading" className="text-3xl md:text-5xl font-bold tracking-tight text-foreground uppercase focus:outline-none">
             The Collection
           </h2>
-          
+
           {/* Sort Dropdown */}
           <div className="flex items-center gap-3 mt-6 md:mt-0 shrink-0">
             <span className="text-xs font-bold uppercase tracking-widest text-text-muted">Sort</span>
             <CustomSelect
               value={sortBy}
-              onChange={setSortBy}
+              onChange={handleSortChange}
               variant="underline"
               options={[
                 { label: 'Newest', value: 'newest' },
                 { label: 'Price: Low to High', value: 'price-low' },
-                { label: 'Price: High to Low', value: 'price-high' }
+                { label: 'Price: High to Low', value: 'price-high' },
               ]}
             />
           </div>
         </div>
 
-        <motion.div 
-          layout
+        <div
+          ref={gridRef}
           className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8 md:gap-x-12 md:gap-y-16"
         >
-          <AnimatePresence>
-            {filteredProducts.map((product, idx) => (
-              <motion.div
-                layout
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-5%" }}
-                transition={{ duration: 0.8, delay: (idx % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                key={product.id}
-                className="group cursor-pointer"
-              >
-                <ProductCard product={product} variant="editorial" />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+          {filteredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              variant="editorial"
+              onCardClick={handleCardClick}
+            />
+          ))}
+        </div>
 
         {filteredProducts.length === 0 && (
           <div className="py-24 text-center">
@@ -175,7 +127,14 @@ export default function FashionPage() {
           </div>
         )}
       </section>
-
     </div>
+  );
+}
+
+export default function FashionPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background pt-32 text-center">Loading fashion...</div>}>
+      <FashionContent />
+    </Suspense>
   );
 }

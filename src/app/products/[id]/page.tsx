@@ -23,6 +23,8 @@ import SizeFitQuiz from '@/components/product/SizeFitQuiz';
 import InPageNavigation from '@/components/product/InPageNavigation';
 import { WishlistButton, ScrollProgress, Breadcrumbs } from '@/components/ui';
 import { CompareButton } from '@/components/compare';
+import { useUIStore } from '@/store/useUIStore';
+import { announcer } from '@/lib/optimistic/announcer';
 
 import Image from 'next/image';
 import { EMITeaser, EMICalculatorModal } from '@/components/emi';

@@ -1,8 +1,17 @@
 'use client';
 
 import 'lenis/dist/lenis.css';
-import { ReactLenis } from 'lenis/react';
+import { ReactLenis, useLenis } from 'lenis/react';
 import { ReactNode, useEffect, useState } from 'react';
+
+function LenisSync() {
+  useLenis((lenis) => {
+    if (typeof window !== 'undefined') {
+      (window as any).__lenis = lenis;
+    }
+  });
+  return null;
+}
 
 export function LenisProvider({ children }: { children: ReactNode }) {
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -24,6 +33,7 @@ export function LenisProvider({ children }: { children: ReactNode }) {
         syncTouch: false,
       }}
     >
+      <LenisSync />
       {children}
     </ReactLenis>
   );

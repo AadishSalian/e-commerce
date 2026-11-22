@@ -1,10 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ChevronRight, ArrowLeft } from 'lucide-react';
 import { Product } from '@/lib/mockData';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getLastListing, navigateBackToResults, LastListingRecord } from '@/lib/scroll-restoration';
 
 import Image from 'next/image';
 
@@ -21,50 +23,79 @@ const CATEGORY_IMAGES: Record<string, string> = {
 const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
 export function Breadcrumbs({ product }: { product: Product }) {
+  const router = useRouter();
   const [isHoveringCategory, setIsHoveringCategory] = useState(false);
+  const [lastListing, setLastListing] = useState<LastListingRecord | null>(null);
+
+  useEffect(() => {
+    setLastListing(getLastListing());
+  }, []);
+
   const categoryImage = CATEGORY_IMAGES[product.category] || CATEGORY_IMAGES['Tech'];
   const categoryLink = `/${slugify(product.category)}`;
 
+  const handleBackToResults = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigateBackToResults(router, lastListing?.url || categoryLink);
+  };
+
   return (
-    <div className="container mx-auto px-4 md:px-8 py-6 flex items-center text-sm text-text-muted z-30 relative">
-      <Link href="/products" className="hover:text-foreground transition-colors">Products</Link>
-      <ChevronRight className="w-4 h-4 mx-2" />
-      
-      <div 
-        className="relative group"
-        onMouseEnter={() => setIsHoveringCategory(true)}
-        onMouseLeave={() => setIsHoveringCategory(false)}
-      >
-        <Link href={categoryLink} className="hover:text-foreground transition-colors">
-          {product.category}
+    <div className="container mx-auto px-4 md:px-8 py-6 flex flex-wrap items-center justify-between gap-4 text-sm text-text-muted z-30 relative">
+      <div className="flex items-center flex-wrap gap-y-1">
+        {/* If shopper arrived from a filtered listing, provide high-visibility Back to Results */}
+        {lastListing?.url ? (
+          <button
+            onClick={handleBackToResults}
+            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-accent hover:text-foreground transition-colors mr-3 py-1 px-2.5 rounded-full bg-surface border border-border"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> Back to results
+          </button>
+        ) : null}
+
+        <Link 
+          href={lastListing?.url || "/products"} 
+          className="hover:text-foreground transition-colors"
+        >
+          {lastListing?.url ? 'Results' : 'Products'}
         </Link>
+        <ChevronRight className="w-4 h-4 mx-2 shrink-0" />
+        
+        <div 
+          className="relative group shrink-0"
+          onMouseEnter={() => setIsHoveringCategory(true)}
+          onMouseLeave={() => setIsHoveringCategory(false)}
+        >
+          <Link href={categoryLink} className="hover:text-foreground transition-colors">
+            {product.category}
+          </Link>
 
-        {/* Hover Dropdown Preview */}
-        <AnimatePresence>
-          {isHoveringCategory && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 bg-surface border border-border rounded-xl shadow-xl overflow-hidden z-50 pointer-events-none"
-            >
-              <div className="h-32 w-full relative">
-                <Image src={categoryImage} 
-                  alt={product.category} 
-                  className="w-full h-full object-cover"
-                 width={800} height={800} />
-                <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                  <span className="text-white font-medium drop-shadow-md">View {product.category}</span>
+          {/* Hover Dropdown Preview */}
+          <AnimatePresence>
+            {isHoveringCategory && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 bg-surface border border-border rounded-xl shadow-xl overflow-hidden z-50 pointer-events-none"
+              >
+                <div className="h-32 w-full relative">
+                  <Image src={categoryImage} 
+                    alt={product.category} 
+                    className="w-full h-full object-cover"
+                   width={800} height={800} />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                    <span className="text-white font-medium drop-shadow-md">View {product.category}</span>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-      <ChevronRight className="w-4 h-4 mx-2" />
-      <span className="text-foreground truncate max-w-[200px] sm:max-w-xs md:max-w-sm">{product.name}</span>
+        <ChevronRight className="w-4 h-4 mx-2 shrink-0" />
+        <span className="text-foreground truncate max-w-[200px] sm:max-w-xs md:max-w-sm">{product.name}</span>
+      </div>
     </div>
   );
 }

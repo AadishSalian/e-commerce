@@ -7,6 +7,8 @@ import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { LocaleProvider } from "@/contexts/LocaleContext";
+import { SuggestionBanner } from "@/components/layout/SuggestionBanner";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { LenisProvider } from "@/providers/LenisProvider";
 import { CartDrawer } from "@/components/layout/CartDrawer";
@@ -79,6 +81,31 @@ const themeScript = `
   })();
 `;
 
+const localeScript = `
+  (function() {
+    try {
+      var match = document.cookie.match(/(^|;\\s*)shop_locale=([^;]*)/);
+      var locale = match ? decodeURIComponent(match[2]) : (localStorage.getItem('shop_locale') || 'en-IN');
+      document.documentElement.lang = locale;
+      if (locale.startsWith('ar') || locale.startsWith('he') || locale === 'ar-XB') {
+        document.documentElement.dir = 'rtl';
+      } else {
+        document.documentElement.dir = 'ltr';
+      }
+      var scriptMap = {
+        'hi': 'Deva', 'kn': 'Knda', 'ta': 'Taml', 'ar': 'Arab', 'he': 'Hebr',
+        'ja': 'Jpan', 'ko': 'Kore', 'zh': 'Hans', 'ru': 'Cyrl', 'th': 'Thai'
+      };
+      var prefix = locale.split('-')[0].toLowerCase();
+      if (scriptMap[prefix]) {
+        document.documentElement.setAttribute('data-script', scriptMap[prefix]);
+      } else {
+        document.documentElement.setAttribute('data-script', 'Latn');
+      }
+    } catch(e) {}
+  })();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -89,49 +116,53 @@ export default function RootLayout({
       <head>
         <link rel="preload" href="/fonts/display-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: localeScript }} />
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col bg-background text-foreground`}>
         <PwaRegister />
         <BrandReveal />
         <LenisProvider>
           <ThemeProvider>
-          <ToastProvider>
-            <AuthProvider>
-              <RecentlyViewedProvider>
-                <CompareProvider>
-                    <QuickViewProvider>
-                      <PreferencesProvider>
-                        <AlertsProvider>
-                          <WishlistProvider>
-                            <CartProvider>
-                              <OfflineBanner />
-                              <StoreBackButton />
-                            <Navbar />
-                            <BottomNavigation />
-                            <CartDrawer />
-                            <CompareTray />
-                            <CategoryMismatchModal />
-                            <QuickViewModal />
-                            <CommandMenu />
-                            <ListPicker />
-                            <CoachMarkLoader />
-                            <main className="flex-grow flex flex-col pt-24 md:pt-24">
-                              <PageTransition>
-                                {children}
-                              </PageTransition>
-                            </main>
-                            <Footer />
-                              <LiveChatWidget />
-                              <BackToTop />
-                            </CartProvider>
-                          </WishlistProvider>
-                        </AlertsProvider>
-                      </PreferencesProvider>
-                    </QuickViewProvider>
-                  </CompareProvider>
-                </RecentlyViewedProvider>
-              </AuthProvider>
-            </ToastProvider>
+            <LocaleProvider>
+              <ToastProvider>
+                <AuthProvider>
+                  <RecentlyViewedProvider>
+                    <CompareProvider>
+                      <QuickViewProvider>
+                        <PreferencesProvider>
+                          <AlertsProvider>
+                            <WishlistProvider>
+                              <CartProvider>
+                                <SuggestionBanner />
+                                <OfflineBanner />
+                                <StoreBackButton />
+                                <Navbar />
+                                <BottomNavigation />
+                                <CartDrawer />
+                                <CompareTray />
+                                <CategoryMismatchModal />
+                                <QuickViewModal />
+                                <CommandMenu />
+                                <ListPicker />
+                                <CoachMarkLoader />
+                                <main className="flex-grow flex flex-col pt-24 md:pt-24">
+                                  <PageTransition>
+                                    {children}
+                                  </PageTransition>
+                                </main>
+                                <Footer />
+                                <LiveChatWidget />
+                                <BackToTop />
+                              </CartProvider>
+                            </WishlistProvider>
+                          </AlertsProvider>
+                        </PreferencesProvider>
+                      </QuickViewProvider>
+                    </CompareProvider>
+                  </RecentlyViewedProvider>
+                </AuthProvider>
+              </ToastProvider>
+            </LocaleProvider>
           </ThemeProvider>
         </LenisProvider>
         <Analytics />

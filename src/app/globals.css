@@ -256,3 +256,123 @@ img {
   }
 }
 
+/* ==========================================================================
+   Internationalization, Script Typography & Layout Resilience
+   ========================================================================== */
+
+/* Headings and body text wrapping */
+h1, h2, h3, h4, h5, h6, .text-balance {
+  text-wrap: balance;
+}
+
+p, .text-pretty {
+  text-wrap: pretty;
+}
+
+/* RTL Directional Mirroring (Applies only to directional indicators, never brand logos/spinners) */
+[dir="rtl"] .rtl-mirror {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .rtl-mirror-inline {
+  transform: scaleX(-1);
+  display: inline-block;
+}
+
+/* Preserving LTR for sensitive payment / technical inputs across RTL environments */
+[data-dir="ltr"],
+input[type="tel"],
+input[name="cardNumber"],
+input[name="expiry"],
+input[name="cvv"],
+.dir-ltr {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate;
+}
+
+/* Script-Aware Typography: Custom font stacks, line-heights & tracking guardrails */
+html[data-script="Deva"] body,
+[data-script="Deva"] {
+  font-family: "Nirmala UI", "Noto Sans Devanagari", "Kohinoor Devanagari", var(--font-sans);
+  line-height: 1.65;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+html[data-script="Knda"] body,
+[data-script="Knda"] {
+  font-family: "Tunga", "Kedage", "Noto Sans Kannada", var(--font-sans);
+  line-height: 1.7;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+html[data-script="Taml"] body,
+[data-script="Taml"] {
+  font-family: "Latha", "Vijaya", "Noto Sans Tamil", var(--font-sans);
+  line-height: 1.65;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+html[data-script="Arab"] body,
+[data-script="Arab"] {
+  font-family: "Segoe UI", "Tahoma", "Noto Sans Arabic", "Geeza Pro", var(--font-sans);
+  line-height: 1.65;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+html[data-script="Cyrl"] body,
+[data-script="Cyrl"] {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+html[data-script="Jpan"] body,
+[data-script="Jpan"] {
+  font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", var(--font-sans);
+  line-height: 1.6;
+  letter-spacing: normal;
+}
+
+html[data-script="Hans"] body,
+[data-script="Hans"] {
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", var(--font-sans);
+  line-height: 1.6;
+  letter-spacing: normal;
+}
+
+html[data-script="Hant"] body,
+[data-script="Hant"] {
+  font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", var(--font-sans);
+  line-height: 1.6;
+  letter-spacing: normal;
+}
+
+html[data-script="Thai"] body,
+[data-script="Thai"] {
+  font-family: "Leelawadee UI", "Thonburi", "Noto Sans Thai", var(--font-sans);
+  line-height: 1.65;
+  letter-spacing: normal !important;
+}
+
+/* Layout Resilience: No fixed-size clipping of localized text */
+.resilient-label {
+  min-width: 0;
+  max-width: 100%;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.resilient-button {
+  min-height: 2.75rem;
+  height: auto;
+  white-space: normal;
+  word-break: break-word;
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+}
+
+

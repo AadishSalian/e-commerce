@@ -5,19 +5,21 @@ import { usePathname } from 'next/navigation';
 import { Home, Search, ShoppingBag, Heart, User } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLocale } from '@/contexts/LocaleContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function BottomNavigation() {
   const pathname = usePathname();
   const { itemCount: cartCount, openCart } = useCart();
   const { isLoggedIn } = useAuth();
+  const { t } = useLocale();
 
   const navItems = [
-    { label: 'Home', href: '/', icon: Home },
-    { label: 'Categories', href: '/products', icon: Search },
-    { label: 'Cart', href: '#', icon: ShoppingBag, isCart: true },
-    { label: 'Wishlist', href: '/wishlist', icon: Heart },
-    { label: 'Account', href: isLoggedIn ? '/account' : '/login', icon: User },
+    { key: 'home', label: t('nav.home'), href: '/', icon: Home },
+    { key: 'categories', label: t('nav.categories'), href: '/products', icon: Search },
+    { key: 'cart', label: t('common.items', { count: cartCount }) ? 'Bag' : 'Bag', href: '#', icon: ShoppingBag, isCart: true },
+    { key: 'wishlist', label: t('nav.wishlist'), href: '/wishlist', icon: Heart },
+    { key: 'account', label: t('nav.account'), href: isLoggedIn ? '/account' : '/login', icon: User },
   ];
 
   return (

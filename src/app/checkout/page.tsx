@@ -31,6 +31,7 @@ import { SelectedEmiPlan } from '@/lib/emi/types';
 import { Product } from '@/lib/mockData';
 import { SecureCardPaymentForm } from '@/components/payment';
 import { VaultTokenResult } from '@/lib/payment/types';
+import { useLocale } from '@/contexts/LocaleContext';
 
 import Image from 'next/image';
 
@@ -39,6 +40,12 @@ export default function CheckoutPage() {
   const [useSavedInfo, setUseSavedInfo] = useState(true);
   const router = useRouter();
   const { cartItems, clearCart, cartEmiPlan, setCartEmiPlan } = useCartStore();
+  const { t, formatPrice, setPaymentLocked } = useLocale();
+
+  useEffect(() => {
+    setPaymentLocked(true);
+    return () => setPaymentLocked(false);
+  }, [setPaymentLocked]);
 
   const auth = useAuth();
   const { isLoggedIn, user } = auth;
@@ -801,7 +808,7 @@ export default function CheckoutPage() {
                     )}
                   </div>
                   <p className="text-sm font-medium tabular-nums">
-                    ${(getItemUnitPrice(item) * item.quantity).toFixed(2)}
+                    {formatPrice(getItemUnitPrice(item) * item.quantity).formatted}
                   </p>
                 </div>
               </div>
@@ -810,11 +817,11 @@ export default function CheckoutPage() {
             <div className="w-full h-px bg-border" />
 
             <div className="flex justify-between text-text-muted text-sm">
-              <span>Subtotal</span>
-              <span className="tabular-nums">${subtotal.toFixed(2)}</span>
+              <span>{t('cart.subtotal')}</span>
+              <span className="tabular-nums">{formatPrice(subtotal).formatted}</span>
             </div>
             <div className="flex justify-between text-text-muted text-sm">
-              <span>Shipping</span>
+              <span>{t('cart.shipping')}</span>
               <span
                 className={
                   isFreeShipping
@@ -822,14 +829,22 @@ export default function CheckoutPage() {
                     : 'text-foreground font-medium'
                 }
               >
-                {isFreeShipping ? 'Free' : formatCurrency(shipping)}
+                {isFreeShipping ? t('common.free') : formatPrice(shipping).formatted}
               </span>
             </div>
 
             <div className="flex justify-between text-foreground text-lg font-bold pt-4 border-t border-border mt-2">
               <span>Total</span>
-              <span className="tabular-nums">${total.toFixed(2)}</span>
+              <span className="tabular-nums">{formatPrice(total).formatted}</span>
             </div>
+
+            {formatPrice(total).isEstimate && (
+              <div className="p-3 bg-accent/10 border border-accent/25 rounded-xl my-2 text-xs text-foreground">
+                <p className="font-semibold text-accent">{formatPrice(total).formatted} ({formatPrice(total).currency})</p>
+                <p className="text-text-muted mt-1">{formatPrice(total).settlementNotice}</p>
+                <p className="text-[11px] text-text-muted/80 mt-1">{t('checkout.chargeExplanation')}</p>
+              </div>
+            )}
 
             {/* Requirement 6: Order summary displays "Pay ₹X/month for N months" beneath the total */}
             {paymentMethod === 'emi' && selectedPlan && (

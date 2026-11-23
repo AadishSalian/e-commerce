@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Truck, Plus } from 'lucide-react';
 import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
+import { useLocale } from '@/contexts/LocaleContext';
 import { 
   FREE_SHIPPING_THRESHOLD, 
   DEFAULT_LOCALE, 
@@ -70,13 +71,26 @@ export function FreeShippingProgressBar({
     return Math.min(100, Math.max(0, (subtotalMinor / thresholdMinor) * 100));
   }, [subtotalMinor, thresholdMinor, isThresholdConfigured, isEmpty, isEligible]);
 
+  let activeLocale = locale;
+  let activeCurrency = currency;
+  let tFunc = (k: string, p?: any) => '';
+  try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const loc = useLocale();
+    if (loc) {
+      if (locale === DEFAULT_LOCALE) activeLocale = loc.locale;
+      if (currency === DEFAULT_CURRENCY) activeCurrency = loc.currency;
+      tFunc = loc.t;
+    }
+  } catch {}
+
   const isAlmostThere = progress >= 80 && !isUnlocked;
 
   // Remaining calculation
   const remainingMinor = Math.max(0, thresholdMinor - subtotalMinor);
   const remainingAmount = fromMinorUnits(remainingMinor);
-  const formattedRemaining = formatCurrency(remainingAmount, locale, currency);
-  const formattedThreshold = formatCurrency(threshold, locale, currency);
+  const formattedRemaining = formatCurrency(remainingAmount, activeLocale, activeCurrency);
+  const formattedThreshold = formatCurrency(threshold, activeLocale, activeCurrency);
 
   // Track celebration state so it only triggers on the first transition across threshold
   const [hasCelebrated, setHasCelebrated] = useState(false);
@@ -104,10 +118,10 @@ export function FreeShippingProgressBar({
   const announcementText = useMemo(() => {
     if (!isEligible) return 'Free shipping is not available for this delivery area.';
     if (isEmpty) return `Free shipping on orders over ${formattedThreshold}.`;
-    if (isUnlocked) return 'You have unlocked free shipping.';
+    if (isUnlocked) return tFunc('cart.freeShippingUnlocked') || 'You have unlocked free shipping.';
     if (isAlmostThere) return `Almost there, just ${formattedRemaining} more for free shipping.`;
-    return `You are ${formattedRemaining} away from free shipping.`;
-  }, [isEligible, isEmpty, isUnlocked, isAlmostThere, formattedThreshold, formattedRemaining]);
+    return tFunc('cart.freeShippingProgress', { remaining: formattedRemaining }) || `You are ${formattedRemaining} away from free shipping.`;
+  }, [isEligible, isEmpty, isUnlocked, isAlmostThere, formattedThreshold, formattedRemaining, tFunc]);
 
   // Smart suggestions: show 2-3 products when gap is under 30% of threshold
   const qualifyingSuggestions = useMemo(() => {

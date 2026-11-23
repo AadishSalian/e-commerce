@@ -7,6 +7,7 @@ import { X, ShoppingBag, Bookmark, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FreeShippingProgressBar } from '@/components/cart/FreeShippingProgressBar';
+import { useLocale } from '@/contexts/LocaleContext';
 import {
   OptimisticDrawerItem,
   OfflineSyncBanner,
@@ -18,6 +19,19 @@ import { useOptimisticCartStore } from '@/store/useOptimisticCartStore';
 
 export function CartDrawer() {
   const { isCartOpen, closeCart, cartItems, updateQuantity, removeFromCart } = useCart();
+  const { t, formatPrice, currency } = useLocale();
+  const prevCurrencyRef = React.useRef(currency);
+  const [currencyNotice, setCurrencyNotice] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (prevCurrencyRef.current !== currency) {
+      setCurrencyNotice(t('cart.currencyUpdatedNotice', { currency }));
+      prevCurrencyRef.current = currency;
+      const tId = setTimeout(() => setCurrencyNotice(null), 4000);
+      return () => clearTimeout(tId);
+    }
+  }, [currency, t]);
+
   const subtotal = useOptimisticCartStore((s) => s.subtotal);
   const isSyncing = useOptimisticCartStore((s) => s.isSyncing);
   const savedForLater = useOptimisticCartStore((s) => s.savedForLater);
@@ -56,7 +70,7 @@ export function CartDrawer() {
                 tabIndex={-1}
                 className="text-xl font-bold flex items-center gap-2 outline-none"
               >
-                <ShoppingBag className="w-5 h-5 text-accent" /> Your Bag
+                <ShoppingBag className="w-5 h-5 text-accent" /> {t('cart.title')}
               </h2>
               <button
                 onClick={closeCart}
@@ -66,6 +80,20 @@ export function CartDrawer() {
                 <X className="w-5 h-5" />
               </button>
             </div>
+
+            {/* Currency Change Real-time Notice (Section 4) */}
+            {currencyNotice && (
+              <div className="mx-6 mt-3 p-2.5 rounded-lg bg-accent/15 border border-accent/30 text-accent text-xs font-medium flex items-center justify-between">
+                <span>{currencyNotice}</span>
+                <button
+                  type="button"
+                  onClick={() => setCurrencyNotice(null)}
+                  className="text-accent hover:opacity-80 p-0.5"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
 
             {/* Offline Sync Banner */}
             <div className="px-6 pt-3">
@@ -88,12 +116,13 @@ export function CartDrawer() {
               {cartItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center text-text-muted gap-4">
                   <ShoppingBag className="w-12 h-12 opacity-20" />
-                  <p className="text-sm">Your bag is empty.</p>
+                  <p className="text-sm">{t('cart.emptyTitle')}</p>
+                  <p className="text-xs max-w-xs">{t('cart.emptySubtitle')}</p>
                   <button
                     onClick={closeCart}
                     className="text-foreground hover:text-accent underline underline-offset-4 mt-2 text-sm"
                   >
-                    Continue Shopping
+                    {t('nav.shop')}
                   </button>
                 </div>
               ) : (
@@ -139,7 +168,7 @@ export function CartDrawer() {
                           </div>
                           <div className="truncate">
                             <p className="font-medium text-foreground truncate">{savedItem.name}</p>
-                            <p className="text-text-muted tabular-nums">${savedItem.price.toFixed(2)}</p>
+                            <p className="text-text-muted tabular-nums">{formatPrice(savedItem.price).formatted}</p>
                           </div>
                         </div>
 
@@ -149,7 +178,7 @@ export function CartDrawer() {
                           className="min-h-[36px] px-3 py-1.5 rounded-full bg-foreground text-background hover:bg-foreground/90 font-medium text-xs flex items-center gap-1 shrink-0 transition-transform active:scale-95"
                           aria-label={`Move ${savedItem.name} to bag`}
                         >
-                          Move to Bag <ArrowUpRight className="w-3 h-3" />
+                          {t('cart.moveToBag')} <ArrowUpRight className="w-3 h-3" />
                         </button>
                       </div>
                     ))}
@@ -161,14 +190,15 @@ export function CartDrawer() {
             {/* Footer */}
             {cartItems.length > 0 && (
               <div className="p-6 border-t border-border bg-background">
-                <div className="flex justify-between items-center text-sm mb-4">
-                  <span className="text-text-muted">Subtotal</span>
+                <div className="flex justify-between items-center text-sm mb-2">
+                  <span className="text-text-muted">{t('cart.subtotal')}</span>
                   <OptimisticPriceDisplay
                     amount={subtotal}
                     isOptimistic={isSyncing}
                     size="md"
                   />
                 </div>
+                <p className="text-[11px] text-text-muted mb-4">{t('cart.taxesNote')}</p>
 
                 {/* Checkout Gate ensures pending predictions are confirmed before payment */}
                 <CheckoutGate onSuccessNavigate={closeCart} />
@@ -178,7 +208,7 @@ export function CartDrawer() {
                   onClick={closeCart}
                   className="w-full flex justify-center py-3.5 mt-2 bg-transparent text-foreground font-medium rounded-full hover:bg-surface transition-colors duration-200 text-sm"
                 >
-                  View Full Bag
+                  {t('cart.title')}
                 </Link>
               </div>
             )}

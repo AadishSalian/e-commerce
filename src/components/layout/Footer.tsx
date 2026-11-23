@@ -3,8 +3,12 @@
 import Link from 'next/link';
 import { NewsletterCard, RollingText } from '@/components/ui';
 import { useCoachMarkStore } from '@/store/useCoachMarkStore';
+import { useLocale } from '@/contexts/LocaleContext';
+import { SwitcherTrigger } from '@/components/layout/SwitcherModal';
 
 export default function Footer() {
+  const { t } = useLocale();
+
   return (
     <footer className="w-full bg-background border-t border-border pt-16 pb-[calc(4rem+env(safe-area-inset-bottom)+2rem)] md:pb-8">
       <div className="container mx-auto px-4 md:px-8">
@@ -13,15 +17,15 @@ export default function Footer() {
           <div className="col-span-1 lg:col-span-4">
             <h2 className="text-foreground font-bold text-xl tracking-wide mb-4">MATTE.</h2>
             <p className="text-text-muted text-sm leading-relaxed max-w-xs">
-              A premium e-commerce experience designed with restraint, precision, and an obsession for detail.
+              {t('footer.tagline')}
             </p>
           </div>
 
           {/* Links */}
           <div className="col-span-1 lg:col-span-2">
-            <h3 className="text-foreground text-sm font-semibold mb-6 uppercase tracking-wider">Shop</h3>
+            <h3 className="text-foreground text-sm font-semibold mb-6 uppercase tracking-wider">{t('nav.shop')}</h3>
             <ul className="flex flex-col gap-4">
-              <li><Link href="/products?category=new" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">New Arrivals</RollingText></Link></li>
+              <li><Link href="/products?category=new" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">{t('nav.newArrivals')}</RollingText></Link></li>
               <li><Link href="/products?category=tech" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Tech</RollingText></Link></li>
               <li><Link href="/products?category=accessories" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Accessories</RollingText></Link></li>
               <li><Link href="/products?category=objects" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Objects</RollingText></Link></li>
@@ -31,10 +35,10 @@ export default function Footer() {
           <div className="col-span-1 lg:col-span-2">
             <h3 className="text-foreground text-sm font-semibold mb-6 uppercase tracking-wider">Support</h3>
             <ul className="flex flex-col gap-4">
-              <li><Link href="/faq" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">FAQ</RollingText></Link></li>
-              <li><Link href="/returns" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Returns & Exchanges</RollingText></Link></li>
-              <li><Link href="/shipping" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Shipping Information</RollingText></Link></li>
-              <li><Link href="/contact" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Contact Us</RollingText></Link></li>
+              <li><Link href="/faq" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">{t('footer.faq')}</RollingText></Link></li>
+              <li><Link href="/returns" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">{t('footer.returns')}</RollingText></Link></li>
+              <li><Link href="/shipping" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">{t('footer.shippingInfo')}</RollingText></Link></li>
+              <li><Link href="/contact" className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">{t('footer.contact')}</RollingText></Link></li>
               <li><button type="button" onClick={() => useCoachMarkStore.getState().startTour({ manual: true })} className="group text-text-muted hover:text-foreground text-sm transition-colors inline-block cursor-pointer text-left" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Take a quick tour</RollingText></button></li>
             </ul>
           </div>
@@ -48,11 +52,12 @@ export default function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-text-muted text-xs">
-            &copy; {new Date().getFullYear()} Matte Inc. All rights reserved.
+            {t('footer.allRightsReserved', { year: new Date().getFullYear() })}
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="group text-text-muted hover:text-foreground text-xs transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Privacy Policy</RollingText></Link>
-            <Link href="/terms" className="group text-text-muted hover:text-foreground text-xs transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">Terms of Service</RollingText></Link>
+            <Link href="/privacy" className="group text-text-muted hover:text-foreground text-xs transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">{t('footer.privacy')}</RollingText></Link>
+            <Link href="/terms" className="group text-text-muted hover:text-foreground text-xs transition-colors inline-block" data-roll-parent=""><RollingText duplicateColor="var(--text-primary)">{t('footer.terms')}</RollingText></Link>
+            <SwitcherTrigger variant="footer" />
           </div>
         </div>
       </div>

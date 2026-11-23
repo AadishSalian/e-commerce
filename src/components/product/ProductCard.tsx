@@ -10,6 +10,8 @@ import { CompareButton } from '@/components/compare';
 import { useRef, useState } from 'react';
 import { LiquidShaderImage, WishlistButton } from '@/components/ui';
 import { PriceHistoryTagBadge } from '@/components/product/price-history';
+import { useLocale } from '@/contexts/LocaleContext';
+import { getLocalizedProduct } from '@/lib/i18n/catalogLocalization';
 import {
   ensureHistoryEntryId,
   captureListingSnapshot,
@@ -47,6 +49,24 @@ const getBlurDataURL = () => `data:image/svg+xml;base64,${toBase64(shimmer(700, 
 export default function ProductCard({ product, variant = 'default', onCardClick }: ProductCardProps) {
   const { openQuickView } = useQuickView();
   const { toggleWishlist, isInWishlist } = useWishlist();
+
+  let localizedName = product.name;
+  let formattedPrice = `$${product.price.toFixed(2)}`;
+  let priceAccessibleLabel = `Price: $${product.price.toFixed(2)}`;
+  let newBadgeText = 'New';
+
+  try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const localeCtx = useLocale();
+    if (localeCtx) {
+      const locProd = getLocalizedProduct(product.id, product, localeCtx.locale);
+      localizedName = locProd.name;
+      const priceObj = localeCtx.formatPrice(product.price);
+      formattedPrice = priceObj.formatted;
+      priceAccessibleLabel = priceObj.accessibleLabel;
+      newBadgeText = localeCtx.t('common.new') || 'New';
+    }
+  } catch {}
   
   const mockRating = product.rating || (4 + (product.id.charCodeAt(product.id.length - 1) % 10) / 10).toFixed(1);
   const mockReviews = product.reviewCount || (product.id.charCodeAt(0) * 3 + 12);
@@ -323,7 +343,7 @@ export default function ProductCard({ product, variant = 'default', onCardClick 
         <div className="absolute top-4 left-4 z-10 flex flex-col gap-2 items-start">
           {product.isNew && (
             <span className="text-[10px] font-bold uppercase tracking-widest bg-foreground text-background px-2.5 py-1 rounded-sm shadow-sm">
-              New
+              {newBadgeText}
             </span>
           )}
           {product.tier && (
@@ -365,8 +385,8 @@ export default function ProductCard({ product, variant = 'default', onCardClick 
       
       <div className="flex flex-col gap-1">
         <div className="flex justify-between items-start gap-4">
-          <h3 className="text-foreground font-medium text-sm md:text-base leading-tight truncate flex-1">{product.name}</h3>
-          <p className="text-foreground font-bold text-sm md:text-base">${product.price.toFixed(2)}</p>
+          <h3 className="text-foreground font-medium text-sm md:text-base leading-tight truncate flex-1">{localizedName}</h3>
+          <p className="text-foreground font-bold text-sm md:text-base font-mono tabular-nums shrink-0" aria-label={priceAccessibleLabel}>{formattedPrice}</p>
         </div>
         <div className="flex items-center gap-2 text-xs">
           <div className="flex items-center text-foreground">

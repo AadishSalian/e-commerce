@@ -13,6 +13,8 @@
 import React from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { MOTION_TOKENS } from './motionTokens';
+import { useLocale } from '@/contexts/LocaleContext';
+import { HonestPrice } from '@/lib/i18n/currencyEngine';
 
 export interface OptimisticPriceDisplayProps {
   amount: number;
@@ -32,7 +34,24 @@ export const OptimisticPriceDisplay: React.FC<OptimisticPriceDisplayProps> = ({
   size = 'md',
 }) => {
   const prefersReducedMotion = useReducedMotion();
-  const formatted = Math.max(0, amount).toFixed(2);
+
+  // Safely integrate with useLocale when mounted inside LocaleProvider
+  let honestPrice: HonestPrice | null = null;
+  try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const localeCtx = useLocale();
+    if (localeCtx) {
+      honestPrice = localeCtx.formatPrice(amount);
+    }
+  } catch {
+    // Fallback in isolated unit tests
+  }
+
+  const formatted = honestPrice
+    ? honestPrice.formatted
+    : `${prefix}${Math.max(0, amount).toFixed(2)}`;
+
+  const ariaLabel = honestPrice ? honestPrice.accessibleLabel : `Price: ${formatted}`;
 
   const textClasses =
     size === 'sm'
@@ -44,11 +63,9 @@ export const OptimisticPriceDisplay: React.FC<OptimisticPriceDisplayProps> = ({
   return (
     <div
       className={`relative inline-flex items-center tabular-nums overflow-hidden select-none ${className}`}
-      aria-label={`Price: ${prefix}${formatted}`}
+      aria-label={ariaLabel}
     >
       <div className="flex items-center">
-        <span className={`${textClasses} text-text-muted mr-0.5`}>{prefix}</span>
-
         {/* Digits crossfade with tabular numerals - no count-up animation (Section 8) */}
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span

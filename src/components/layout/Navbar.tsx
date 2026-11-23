@@ -10,17 +10,19 @@ import { useCart } from '@/contexts/CartContext';
 import { NavAuthButton, ThemeToggle, ExpandableSearch, RollingText } from '@/components/ui';
 import { NotificationBell } from '@/components/notifications';
 import { OptimisticCartBadge } from '@/components/optimistic';
+import { useLocale } from '@/contexts/LocaleContext';
+import { SwitcherTrigger } from '@/components/layout/SwitcherModal';
 import styles from './Navbar.module.css';
 
 import Image from 'next/image';
 
 const NAV_LINKS = [
-  { label: 'Shop', href: '/products' },
-  { label: 'New Arrivals', href: '/products?category=new' },
-  { label: 'Collections', href: '/products?category=collections' },
-  { label: 'Craftsmanship', href: '/craftsmanship' },
-  { label: 'Fit Quiz', href: '/fit-quiz' },
-  { label: 'About', href: '/about' },
+  { key: 'shop', defaultLabel: 'Shop', href: '/products' },
+  { key: 'newArrivals', defaultLabel: 'New Arrivals', href: '/products?category=new' },
+  { key: 'collections', defaultLabel: 'Collections', href: '/products?category=collections' },
+  { key: 'craftsmanship', defaultLabel: 'Craftsmanship', href: '/craftsmanship' },
+  { key: 'fitQuiz', defaultLabel: 'Fit Quiz', href: '/fit-quiz' },
+  { key: 'about', defaultLabel: 'About', href: '/about' },
 ];
 
 export default function Navbar() {
@@ -38,6 +40,7 @@ export default function Navbar() {
   
   const { isLoggedIn, user, login, logout } = useAuth();
   const { itemCount: cartCount, openCart } = useCart();
+  const { t } = useLocale();
 
   // Scroll animations for desktop
   const { scrollY } = useScroll();
@@ -160,17 +163,18 @@ export default function Navbar() {
                 onMouseLeave={handleMouseLeaveNav}
               >
                 {NAV_LINKS.map((link) => {
-                  const isActive = activeHover === link.label || (!activeHover && pathname === link.href);
-                  const hasMegaMenu = !['Craftsmanship', 'About', 'Fit Quiz'].includes(link.label);
+                  const label = t(`nav.${link.key}`) || link.defaultLabel;
+                  const isActive = activeHover === link.key || (!activeHover && pathname === link.href);
+                  const hasMegaMenu = !['craftsmanship', 'about', 'fitQuiz'].includes(link.key);
                   return (
                     <Link
-                      key={link.label}
+                      key={link.key}
                       href={link.href}
                       className={`${styles.navLink} group`}
                       data-roll-parent=""
                       data-active={isActive}
                       onMouseEnter={() => {
-                        setActiveHover(link.label);
+                        setActiveHover(link.key);
                         if (hasMegaMenu) {
                           handleMouseEnterNav();
                         } else {
@@ -189,7 +193,7 @@ export default function Navbar() {
                       )}
                       <span className="relative z-10">
                         <RollingText duplicateColor={isActive ? '#141414' : 'var(--foreground)'}>
-                          {link.label}
+                          {label}
                         </RollingText>
                       </span>
                     </Link>
@@ -201,8 +205,9 @@ export default function Navbar() {
 
           {/* Right Island: Icons & Expanding Search */}
           <motion.div className={styles.island} style={{ padding: islandPadding }}>
-            <div className="flex items-center mr-1 pr-2.5 border-r border-border">
+            <div className="flex items-center gap-1.5 mr-1 pr-2 border-r border-border">
               <ThemeToggle />
+              <SwitcherTrigger variant="nav" />
             </div>
             
             <ExpandableSearch 
@@ -380,10 +385,11 @@ export default function Navbar() {
           <Link href="/" className="font-bold text-lg tracking-wide text-foreground">
             MATTE.
           </Link>
-          <div className="flex items-center gap-2">
-            <div className="mr-1">
+          <div className="flex items-center gap-1.5">
+            <div className="mr-0.5">
               <ThemeToggle />
             </div>
+            <SwitcherTrigger variant="nav" />
             <NotificationBell isMobileNav={true} />
             <button 
               className={styles.iconButton}
@@ -474,20 +480,29 @@ export default function Navbar() {
               </div>
 
               <nav className="flex flex-col gap-6 flex-1 overflow-y-auto">
-                {NAV_LINKS.map(link => (
-                  <Link 
-                    key={link.label}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="group text-xl font-medium text-text-muted hover:text-foreground transition-colors flex items-center justify-between"
-                    data-roll-parent=""
-                  >
-                    <RollingText duplicateColor="var(--text-primary)">{link.label}</RollingText>
-                    <ArrowRight className="w-5 h-5 opacity-50 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                ))}
+                {NAV_LINKS.map(link => {
+                  const label = t(`nav.${link.key}`) || link.defaultLabel;
+                  return (
+                    <Link 
+                      key={link.key}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="group text-xl font-medium text-text-muted hover:text-foreground transition-colors flex items-center justify-between"
+                      data-roll-parent=""
+                    >
+                      <RollingText duplicateColor="var(--text-primary)">{label}</RollingText>
+                      <ArrowRight className="w-5 h-5 opacity-50 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  );
+                })}
                 
-                <div className="w-full h-px bg-border my-4" />
+                <div className="w-full h-px bg-border my-2" />
+
+                <div className="py-2">
+                  <SwitcherTrigger variant="mobile-drawer" />
+                </div>
+                
+                <div className="w-full h-px bg-border my-2" />
                 
                 {isLoggedIn ? (
                   <>
@@ -498,7 +513,7 @@ export default function Navbar() {
                       data-roll-parent=""
                     >
                       <Package className="w-5 h-5" />
-                      <RollingText duplicateColor="var(--text-primary)">Orders</RollingText>
+                      <RollingText duplicateColor="var(--text-primary)">{t('nav.orders')}</RollingText>
                     </Link>
                     <Link 
                       href="/wishlist"
@@ -507,7 +522,7 @@ export default function Navbar() {
                       data-roll-parent=""
                     >
                       <Heart className="w-5 h-5" />
-                      <RollingText duplicateColor="var(--text-primary)">Wishlist</RollingText>
+                      <RollingText duplicateColor="var(--text-primary)">{t('nav.wishlist')}</RollingText>
                     </Link>
                     <Link 
                       href="/notifications"
@@ -516,7 +531,7 @@ export default function Navbar() {
                       data-roll-parent=""
                     >
                       <Bell className="w-5 h-5" />
-                      <RollingText duplicateColor="var(--text-primary)">Notifications</RollingText>
+                      <RollingText duplicateColor="var(--text-primary)">{t('nav.notifications')}</RollingText>
                     </Link>
                     <Link 
                       href="/settings"
@@ -525,7 +540,7 @@ export default function Navbar() {
                       data-roll-parent=""
                     >
                       <Settings className="w-5 h-5" />
-                      <RollingText duplicateColor="var(--text-primary)">Settings</RollingText>
+                      <RollingText duplicateColor="var(--text-primary)">{t('nav.settings')}</RollingText>
                     </Link>
                     <button
                       onClick={() => { logout(); setIsMobileMenuOpen(false); router.push('/'); }}
@@ -533,12 +548,12 @@ export default function Navbar() {
                       data-roll-parent=""
                     >
                       <LogOut className="w-5 h-5" />
-                      <RollingText duplicateColor="var(--text-primary)">Logout</RollingText>
+                      <RollingText duplicateColor="var(--text-primary)">{t('nav.logout')}</RollingText>
                     </button>
                   </>
                 ) : (
                   <div className="pt-2 flex justify-start">
-                    <NavAuthButton onClick={() => { router.push('/login'); setIsMobileMenuOpen(false); }} label="Sign In to Shop" />
+                    <NavAuthButton onClick={() => { router.push('/login'); setIsMobileMenuOpen(false); }} label={t('nav.signIn')} />
                   </div>
                 )}
               </nav>

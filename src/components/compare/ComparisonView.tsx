@@ -23,6 +23,8 @@ import { useToast } from '@/contexts/ToastContext';
 import { buildComparisonTableData } from '@/lib/compare/tableData';
 import { MAX_COMPARE_ITEMS } from '@/lib/compare/types';
 import { AddCandidateModal } from './AddCandidateModal';
+import { useLocale } from '@/contexts/LocaleContext';
+import { getLocalizedProduct } from '@/lib/i18n/catalogLocalization';
 
 interface ComparisonViewProps {
   products: Product[];
@@ -32,6 +34,7 @@ export function ComparisonView({ products }: ComparisonViewProps) {
   const { removeFromCompare, clearCompare } = useCompare();
   const { addToCart } = useCart();
   const { toast } = useToast();
+  const { locale, t, formatPrice } = useLocale();
 
   const [onlyDifferences, setOnlyDifferences] = useState(false);
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
@@ -193,11 +196,11 @@ export function ComparisonView({ products }: ComparisonViewProps) {
                     {/* Title & Price */}
                     <h3 className="text-sm md:text-base font-bold text-foreground leading-snug line-clamp-2 mb-1">
                       <Link href={`/products/${product.id}`} className="hover:underline">
-                        {product.name}
+                        {getLocalizedProduct(product, locale).name}
                       </Link>
                     </h3>
-                    <p className="text-sm md:text-base font-mono font-semibold text-foreground mb-4">
-                      ${product.price.toFixed(2)}
+                    <p className="text-sm md:text-base font-mono font-semibold text-foreground mb-4 tabular-nums">
+                      {formatPrice(product.price).formatted}
                     </p>
 
                     {/* Buy CTA */}
@@ -208,11 +211,11 @@ export function ComparisonView({ products }: ComparisonViewProps) {
                     >
                       {addedIds[product.id] ? (
                         <>
-                          <Check className="w-3.5 h-3.5" /> Added to Bag
+                          <Check className="w-3.5 h-3.5" /> {t('product.added')}
                         </>
                       ) : (
                         <>
-                          <ShoppingBag className="w-3.5 h-3.5" /> Add to Bag
+                          <ShoppingBag className="w-3.5 h-3.5" /> {t('product.addToBag')}
                         </>
                       )}
                     </button>

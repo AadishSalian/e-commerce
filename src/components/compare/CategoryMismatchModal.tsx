@@ -5,9 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Layers, AlertCircle, X } from 'lucide-react';
 import Image from 'next/image';
 import { useCompare } from '@/contexts/CompareContext';
+import { useLocale } from '@/contexts/LocaleContext';
 
 export function CategoryMismatchModal() {
   const { pendingReplacement, confirmCategoryReplacement, cancelCategoryReplacement } = useCompare();
+  const { t, formatPrice } = useLocale();
 
   // Handle ESC key to dismiss
   const handleKeyDown = useCallback(
@@ -98,7 +100,7 @@ export function CategoryMismatchModal() {
                   {newCategory}
                 </span>
                 <span>•</span>
-                <span className="font-mono tabular-nums">${incomingProduct.price.toFixed(2)}</span>
+                <span className="font-mono tabular-nums">{formatPrice(incomingProduct.price).formatted}</span>
               </div>
             </div>
           </div>
@@ -106,7 +108,7 @@ export function CategoryMismatchModal() {
           <div className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-xs mb-5">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>
-              Starting a new comparison will replace the {currentCount} existing item{currentCount === 1 ? '' : 's'}.
+              Starting a new comparison will replace the {t('common.items', { count: currentCount })} in comparison.
             </span>
           </div>
 

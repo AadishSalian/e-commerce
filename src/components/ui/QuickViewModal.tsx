@@ -10,13 +10,18 @@ import { LiquidShaderImage } from './LiquidShaderImage';
 import { EMITeaser, EMICalculatorModal } from '@/components/emi';
 import { SelectedEmiPlan } from '@/lib/emi/types';
 import { formatEmiCurrency } from '@/lib/emi/calculator';
+import { useLocale } from '@/contexts/LocaleContext';
+import { getLocalizedProduct } from '@/lib/i18n/catalogLocalization';
 
 export function QuickViewModal() {
   const { activeProduct, isOpen, closeQuickView } = useQuickView();
+  const { locale, t, formatPrice, emiSupported } = useLocale();
   const { addToCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
   const [isEmiModalOpen, setIsEmiModalOpen] = useState(false);
   const [selectedEmiPlan, setSelectedEmiPlan] = useState<SelectedEmiPlan | null>(null);
+
+  const locProduct = activeProduct ? getLocalizedProduct(activeProduct, locale) : null;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -75,19 +80,21 @@ export function QuickViewModal() {
             {/* Details */}
             <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col overflow-y-auto hide-scrollbar">
               <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">
-                {activeProduct.name}
+                {locProduct?.name || activeProduct.name}
               </h2>
-              <p className="text-2xl font-medium text-foreground mb-2">
-                ${activeProduct.price.toFixed(2)}
+              <p className="text-2xl font-medium text-foreground mb-2 tabular-nums">
+                {formatPrice(activeProduct.price).formatted}
               </p>
               
-              <EMITeaser
-                product={activeProduct}
-                onOpenCalculator={() => setIsEmiModalOpen(true)}
-                className="mb-6"
-              />
+              {emiSupported && (
+                <EMITeaser
+                  product={activeProduct}
+                  onOpenCalculator={() => setIsEmiModalOpen(true)}
+                  className="mb-6"
+                />
+              )}
 
-              {selectedEmiPlan && (
+              {emiSupported && selectedEmiPlan && (
                 <div className="mb-4 p-2.5 rounded-lg bg-surface border border-accent/40 text-xs flex items-center justify-between">
                   <span className="text-text-muted">
                     EMI: <strong>{formatEmiCurrency(selectedEmiPlan.monthlyInstallment)}/mo</strong> ({selectedEmiPlan.tenureMonths} mo)
@@ -103,7 +110,7 @@ export function QuickViewModal() {
               )}
               
               <p className="text-text-muted leading-relaxed mb-8">
-                {activeProduct.description}
+                {locProduct?.description || activeProduct.description}
               </p>
 
               {activeProduct.variants && activeProduct.variants.length > 0 && (
@@ -140,7 +147,7 @@ export function QuickViewModal() {
                   className="flex-1 py-4 font-bold uppercase tracking-widest text-sm"
                   icon={<ShoppingBag className="w-4 h-4" />}
                 >
-                  Add to Bag
+                  {t('product.addToBag')}
                 </Button>
                 <Link 
                   href={`/products/${activeProduct.id}`}

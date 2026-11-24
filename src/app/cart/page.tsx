@@ -22,9 +22,11 @@ import {
   OptimisticPriceDisplay,
 } from '@/components/optimistic';
 import { useOptimisticCartStore } from '@/store/useOptimisticCartStore';
+import { useLocale } from '@/contexts/LocaleContext';
 
 export default function CartPage() {
   const { isLoggedIn } = useAuth();
+  const { t, formatPrice, emiSupported, currencyConfig } = useLocale();
   const {
     cartItems,
     savedForLater,
@@ -74,7 +76,7 @@ export default function CartPage() {
     () => ({
       id: 'bag-checkout',
       name: 'Entire Bag Order',
-      description: `${cartItems.length} item${cartItems.length === 1 ? '' : 's'} in bag`,
+      description: t('common.items', { count: cartItems.length }),
       price: total,
       category: cartItems.some((i) => i.category === 'Home & Furniture')
         ? 'Home & Furniture'
@@ -89,7 +91,7 @@ export default function CartPage() {
     <div className="min-h-screen bg-background pt-8 md:pt-4 pb-32">
       <div className="container mx-auto px-4 max-w-3xl">
         <h1 className="text-4xl font-bold tracking-tight text-foreground mb-8">
-          Your Bag.
+          {t('cart.title')}
         </h1>
 
         <div className="flex flex-col gap-6">
@@ -205,7 +207,7 @@ export default function CartPage() {
                               <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[11px] text-text-muted">
                                 <span>Style: {item.personalization.font_label}</span>
                                 <span>•</span>
-                                <span>+${(item.personalization.price_addon / 100).toFixed(2)} / unit</span>
+                                <span>+{formatPrice(item.personalization.price_addon / 100).formatted} / unit</span>
                                 <span>•</span>
                                 <span className="text-amber-400 font-medium">Non-returnable</span>
                                 <span>•</span>
@@ -215,7 +217,7 @@ export default function CartPage() {
                           )}
 
                           {/* Selected EMI plan on the cart line */}
-                          {item.selectedEmiPlan && (
+                          {emiSupported && item.selectedEmiPlan && (
                             <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface border border-accent/30 text-xs">
                               <CreditCard className="w-3 h-3 text-accent" />
                               <span className="text-text-muted">EMI:</span>
@@ -244,7 +246,7 @@ export default function CartPage() {
                           </div>
                         </div>
                         <p className="text-foreground font-medium tabular-nums">
-                          ${lineTotal.toFixed(2)}
+                          {formatPrice(lineTotal).formatted}
                         </p>
                       </div>
 
@@ -350,7 +352,7 @@ export default function CartPage() {
                         <div className="truncate">
                           <p className="font-medium text-foreground text-sm truncate">{saved.name}</p>
                           <p className="text-xs text-text-muted mt-0.5 tabular-nums">
-                            ${saved.price.toFixed(2)}
+                            {formatPrice(saved.price).formatted}
                           </p>
                         </div>
                       </div>
@@ -386,24 +388,29 @@ export default function CartPage() {
             <div className="mt-8 flex flex-col gap-6">
               <div className="p-6 bg-surface border border-border rounded-xl flex flex-col gap-3">
                 <div className="flex justify-between text-sm text-text-muted">
-                  <span>Subtotal</span>
+                  <span>{t('cart.subtotal')}</span>
                   <OptimisticPriceDisplay amount={subtotal} isOptimistic={isSyncing} size="sm" />
                 </div>
                 <div className="flex justify-between text-sm text-text-muted">
-                  <span>Estimated Shipping</span>
+                  <span>{t('cart.shipping')}</span>
                   <span className="text-foreground font-medium tabular-nums">
-                    {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                    {shipping === 0 ? t('cart.freeShipping') : formatPrice(shipping).formatted}
                   </span>
                 </div>
                 <div className="w-full h-px bg-border my-1" />
                 <div className="flex justify-between text-lg font-bold text-foreground">
-                  <span>Total</span>
+                  <span>{t('cart.total')}</span>
                   <OptimisticPriceDisplay amount={total} isOptimistic={isSyncing} size="lg" />
                 </div>
+                {formatPrice(total).isEstimate && (
+                  <p className="text-[11px] text-text-muted text-end mt-1">
+                    {t('pricing.approximateEstimate', { currency: currencyConfig.code })} · {t('pricing.checkoutSettlement', { currency: 'INR' })}
+                  </p>
+                )}
               </div>
 
               <CheckoutGate className="shadow-lg py-4 text-base font-semibold">
-                Proceed to Checkout
+                {t('cart.checkoutButton')}
               </CheckoutGate>
             </div>
           )}

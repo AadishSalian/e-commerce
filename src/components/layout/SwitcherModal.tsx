@@ -85,8 +85,16 @@ export function SwitcherModal({ isOpen, onClose }: SwitcherModalProps) {
   const prefersReducedMotion = useReducedMotion();
   const [activeTab, setActiveTab] = useState<'language' | 'currency'>('language');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Reset search when opened
   useEffect(() => {
@@ -96,12 +104,33 @@ export function SwitcherModal({ isOpen, onClose }: SwitcherModalProps) {
     }
   }, [isOpen, activeTab]);
 
-  // Handle Escape key
+  // Handle Escape and Tab key (focus trapping)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (!isOpen) return;
+      if (e.key === 'Escape') {
         e.preventDefault();
         onClose();
+        return;
+      }
+      if (e.key === 'Tab' && containerRef.current) {
+        const focusables = containerRef.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -206,16 +235,27 @@ export function SwitcherModal({ isOpen, onClose }: SwitcherModalProps) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="switcher-heading"
-            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.98 }}
+            drag={isMobile ? 'y' : false}
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={{ top: 0.05, bottom: 0.5 }}
+            onDragEnd={(_, info) => {
+              if (info.offset.y > 80 || info.velocity.y > 300) {
+                onClose();
+              }
+            }}
+            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: isMobile ? 80 : 20, scale: isMobile ? 1 : 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.98 }}
+            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: isMobile ? 80 : 20, scale: isMobile ? 1 : 0.98 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full md:w-[380px] max-h-[85vh] md:max-h-[620px] flex flex-col bg-surface border-t md:border border-border rounded-t-2xl md:rounded-2xl shadow-2xl overflow-hidden z-10 pb-safe"
+            className="relative w-full md:w-[480px] max-h-[85vh] md:max-h-[640px] flex flex-col bg-surface border-t md:border border-border rounded-t-2xl md:rounded-2xl shadow-2xl overflow-hidden z-10 pb-safe"
           >
             {/* Header with Title, Tabs & Close */}
             <div className="p-4 border-b border-border shrink-0 bg-surface">
               {/* Mobile Drag Indicator */}
-              <div className="w-10 h-1 bg-border rounded-full mx-auto mb-3 md:hidden" />
+              <div
+                className="w-12 h-1.5 bg-border rounded-full mx-auto mb-3 md:hidden cursor-grab active:cursor-grabbing hover:bg-border-strong transition-colors"
+                aria-hidden="true"
+              />
 
               <div className="flex items-center justify-between mb-3">
                 <h2 id="switcher-heading" className="text-sm font-semibold text-foreground tracking-wide flex items-center gap-2">
@@ -309,7 +349,7 @@ export function SwitcherModal({ isOpen, onClose }: SwitcherModalProps) {
                       <p className="px-2 pb-1 text-[11px] font-semibold tracking-wider text-text-muted uppercase">
                         {t('switcher.recentlyUsed')}
                       </p>
-                      <div className="space-y-1">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
                         {recentLocaleItems.map((loc, idx) => {
                           const isSelected = locale === loc.code;
                           return (
@@ -361,7 +401,7 @@ export function SwitcherModal({ isOpen, onClose }: SwitcherModalProps) {
                     {filteredLocales.length === 0 ? (
                       <p className="p-4 text-xs text-center text-text-muted">No languages match your search.</p>
                     ) : (
-                      <div className="space-y-1">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
                         {filteredLocales.map((loc, idx) => {
                           const isSelected = locale === loc.code;
                           return (
@@ -428,7 +468,7 @@ export function SwitcherModal({ isOpen, onClose }: SwitcherModalProps) {
                       <p className="px-2 pb-1 text-[11px] font-semibold tracking-wider text-text-muted uppercase">
                         {t('switcher.recentlyUsed')}
                       </p>
-                      <div className="space-y-1">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
                         {recentCurrencyItems.map((curr, idx) => {
                           const isSelected = currency === curr.code;
                           return (
@@ -488,7 +528,7 @@ export function SwitcherModal({ isOpen, onClose }: SwitcherModalProps) {
                     {filteredCurrencies.length === 0 ? (
                       <p className="p-4 text-xs text-center text-text-muted">No currencies match your search.</p>
                     ) : (
-                      <div className="space-y-1">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
                         {filteredCurrencies.map((curr, idx) => {
                           const isSelected = currency === curr.code;
                           return (

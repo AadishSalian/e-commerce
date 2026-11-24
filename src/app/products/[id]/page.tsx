@@ -41,6 +41,8 @@ import {
 import { PersonalizationPanel } from '@/components/product/personalization/PersonalizationPanel';
 import { ConfirmationModal } from '@/components/product/personalization/ConfirmationModal';
 import { formatSpelledOutText } from '@/lib/personalization/validation';
+import { useLocale } from '@/contexts/LocaleContext';
+import { getLocalizedProduct } from '@/lib/i18n/catalogLocalization';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -49,6 +51,11 @@ type Props = {
 export default function ProductDetailPage({ params }: Props) {
   const resolvedParams = use(params);
   const product = MOCK_PRODUCTS.find(p => p.id === resolvedParams.id);
+  const { locale, t, formatPrice, emiSupported, currencyConfig } = useLocale();
+  const localizedProduct = useMemo(
+    () => (product ? getLocalizedProduct(product, locale) : null),
+    [product, locale]
+  );
   const { isLoggedIn } = useAuth();
   const { addToCart } = useCart();
   const router = useRouter();
@@ -336,7 +343,7 @@ export default function ProductDetailPage({ params }: Props) {
               <p className="text-sm text-accent uppercase tracking-widest mb-2 font-medium">New Release</p>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
-                  {product.name}
+                  {localizedProduct?.name || product.name}
                 </h1>
                 <div className="flex items-center gap-2 shrink-0">
                   <WishlistButton 
@@ -354,21 +361,37 @@ export default function ProductDetailPage({ params }: Props) {
                   <CompareButton product={product} variant="detail" />
                 </div>
               </div>
-              <p className="text-2xl text-foreground font-medium mb-2">
-                ${product.price.toFixed(2)}
-                {activeZone && hasPersonalizationContent && (
-                  <span className="text-sm text-accent ml-2 font-mono">
-                    +${(activeZone.price_addon / 100).toFixed(2)} Engraving
+              <div className="mb-2">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl text-foreground font-medium">
+                    {formatPrice(product.price).formatted}
                   </span>
+                  {formatPrice(product.price).isEstimate && (
+                    <span className="text-xs text-text-muted">
+                      ({t('pricing.approximateEstimate', { currency: currencyConfig.code })})
+                    </span>
+                  )}
+                  {activeZone && hasPersonalizationContent && (
+                    <span className="text-sm text-accent font-mono">
+                      +{formatPrice(activeZone.price_addon / 100).formatted} Engraving
+                    </span>
+                  )}
+                </div>
+                {formatPrice(product.price).isEstimate && (
+                  <p className="text-[11px] text-text-muted mt-0.5">
+                    {t('pricing.checkoutSettlement', { currency: 'INR' })}
+                  </p>
                 )}
-              </p>
+              </div>
 
               {/* Inline EMI Teaser sits under price */}
-              <EMITeaser
-                product={product}
-                onOpenCalculator={() => setIsEmiModalOpen(true)}
-                className="mb-2"
-              />
+              {emiSupported && (
+                <EMITeaser
+                  product={product}
+                  onOpenCalculator={() => setIsEmiModalOpen(true)}
+                  className="mb-2"
+                />
+              )}
 
               {/* Inline Price History Sparkline & Server Tag */}
               <div className="mb-4">
@@ -555,8 +578,12 @@ export default function ProductDetailPage({ params }: Props) {
                   <div className="w-full aspect-square bg-muted rounded-xl mb-4 overflow-hidden">
                     <Image src={rel.image} alt={rel.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width={800} height={800} />
                   </div>
-                  <h4 className="font-semibold text-foreground text-sm">{rel.name}</h4>
-                  <p className="text-text-muted text-sm">${rel.price.toFixed(2)}</p>
+                  <h4 className="font-semibold text-foreground text-sm">
+                    {getLocalizedProduct(rel, locale).name}
+                  </h4>
+                  <p className="text-text-muted text-sm tabular-nums">
+                    {formatPrice(rel.price).formatted}
+                  </p>
                 </Link>
               );
             })}

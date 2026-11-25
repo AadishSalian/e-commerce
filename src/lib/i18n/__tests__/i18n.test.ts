@@ -82,6 +82,12 @@ describe('i18n Configuration & Locale Rules (Section 1 & 14)', () => {
     const en = getLocaleConfig('en-IN');
     assert.ok((hi.lineHeightMultiplier ?? 1.5) > (en.lineHeightMultiplier ?? 1.4));
   });
+
+  it('ensures all supported currencies have isSettlement defined', () => {
+    SUPPORTED_CURRENCIES.forEach((c) => {
+      assert.strictEqual(typeof c.isSettlement, 'boolean', `Currency ${c.code} is missing isSettlement`);
+    });
+  });
 });
 
 describe('ICU MessageFormat & CLDR Plural Categories (Section 3)', () => {
@@ -248,6 +254,11 @@ describe('Catalog Localization & Neutral Measurement Formatting (Section 3 & 8)'
 
     const de = getLocalizedProduct('t-1', base, 'de-DE');
     assert.strictEqual(de.name, 'Matte Tastatur Modell 1');
+
+    // Object signature overload
+    const productObj = { id: 't-1', ...base };
+    const hiFromObj = getLocalizedProduct(productObj, 'hi-IN');
+    assert.strictEqual(hiFromObj.name, 'मैट कीबोर्ड १');
   });
 
   it('formats metric measurements with imperial conversion for US/imperial locales', () => {

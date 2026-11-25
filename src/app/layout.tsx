@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
@@ -115,8 +116,8 @@ export default function RootLayout({
     <html lang="en" className="antialiased" suppressHydrationWarning>
       <head>
         <link rel="preload" href="/fonts/display-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeScript }} />
-        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: localeScript }} />
+        <Script id="theme-script" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <Script id="locale-script" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: localeScript }} />
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col bg-background text-foreground`}>
         <PwaRegister />

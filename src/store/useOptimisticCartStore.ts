@@ -224,52 +224,6 @@ interface InternalStoreState extends OptimisticCartState {
 }
 
 export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
-  // Setup real connectivity subscriber & cross-tab sync
-  if (typeof window !== 'undefined') {
-    connectivity.subscribe((isOnline) => {
-      set({ isOnline });
-      if (isOnline) {
-        get().syncOutboxToServer();
-      }
-    });
-
-    // Cross-tab sync via BroadcastChannel
-    broadcaster.subscribe((msg) => {
-      if (msg.resource === 'cart') {
-        if (msg.type === 'SERVER_STATE_UPDATED' && msg.payload?.cart) {
-          const serverCart = msg.payload.cart;
-          const serverItems: OptimisticCartItem[] = (serverCart.items || []).map((i: any) => ({
-            ...i,
-            cartId: i.id,
-            isOptimistic: false,
-            isSyncingSlow: false,
-            inlineError: null,
-          }));
-          const serverSavedForLater: OptimisticCartItem[] = (serverCart.savedForLater || []).map((i: any) => ({
-            ...i,
-            cartId: i.id,
-            isOptimistic: false,
-            isSyncingSlow: false,
-            inlineError: null,
-          }));
-          const totals = computeTotals(serverItems);
-          set({
-            serverItems,
-            serverSavedForLater,
-            cartItems: serverItems,
-            savedForLater: serverSavedForLater,
-            serverVersion: serverCart.version || get().serverVersion + 1,
-            ...totals,
-          });
-
-          // Quiet short note on cross-tab change (Section 11)
-          useUIStore.getState().addToast('Bag updated in another window', 'info');
-          announcer.announce('Your bag was updated in another window', 'polite');
-        }
-      }
-    });
-  }
-
   return {
     serverItems: [],
     serverSavedForLater: [],
@@ -916,3 +870,49 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
     },
   };
 });
+
+// Setup real connectivity subscriber & cross-tab sync
+if (typeof window !== 'undefined') {
+  connectivity.subscribe((isOnline) => {
+    useOptimisticCartStore.setState({ isOnline });
+    if (isOnline) {
+      useOptimisticCartStore.getState().syncOutboxToServer?.();
+    }
+  });
+
+  // Cross-tab sync via BroadcastChannel
+  broadcaster.subscribe((msg) => {
+    if (msg.resource === 'cart') {
+      if (msg.type === 'SERVER_STATE_UPDATED' && msg.payload?.cart) {
+        const serverCart = msg.payload.cart;
+        const serverItems: OptimisticCartItem[] = (serverCart.items || []).map((i: any) => ({
+          ...i,
+          cartId: i.id,
+          isOptimistic: false,
+          isSyncingSlow: false,
+          inlineError: null,
+        }));
+        const serverSavedForLater: OptimisticCartItem[] = (serverCart.savedForLater || []).map((i: any) => ({
+          ...i,
+          cartId: i.id,
+          isOptimistic: false,
+          isSyncingSlow: false,
+          inlineError: null,
+        }));
+        const totals = computeTotals(serverItems);
+        useOptimisticCartStore.setState({
+          serverItems,
+          serverSavedForLater,
+          cartItems: serverItems,
+          savedForLater: serverSavedForLater,
+          serverVersion: serverCart.version || useOptimisticCartStore.getState().serverVersion + 1,
+          ...totals,
+        });
+
+        // Quiet short note on cross-tab change (Section 11)
+        useUIStore.getState().addToast('Bag updated in another window', 'info');
+        announcer.announce('Your bag was updated in another window', 'polite');
+      }
+    }
+  });
+}

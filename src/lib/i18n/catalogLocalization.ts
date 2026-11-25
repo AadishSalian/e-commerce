@@ -89,10 +89,33 @@ export const CATALOG_LOCALIZATIONS: Record<string, Record<string, LocalizedProdu
  * Returns localized product fields, falling back safely to base product values
  */
 export function getLocalizedProduct(
+  product: { id: string; name: string; description: string; category: string },
+  localeCode?: string
+): LocalizedProductData;
+export function getLocalizedProduct(
   productId: string,
   baseProduct: { name: string; description: string; category: string },
-  localeCode: string = 'en-IN'
+  localeCode?: string
+): LocalizedProductData;
+export function getLocalizedProduct(
+  arg1: string | { id: string; name: string; description: string; category: string },
+  arg2?: { name: string; description: string; category: string } | string,
+  arg3: string = 'en-IN'
 ): LocalizedProductData {
+  let productId: string;
+  let baseProduct: { name: string; description: string; category: string };
+  let localeCode: string;
+
+  if (typeof arg1 === 'string') {
+    productId = arg1;
+    baseProduct = arg2 as { name: string; description: string; category: string };
+    localeCode = (arg3 as string) || 'en-IN';
+  } else {
+    productId = arg1.id;
+    baseProduct = arg1;
+    localeCode = (typeof arg2 === 'string' ? arg2 : 'en-IN');
+  }
+
   const productTranslations = CATALOG_LOCALIZATIONS[productId];
   if (!productTranslations) {
     return {

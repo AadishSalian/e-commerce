@@ -396,6 +396,7 @@ export const SUPPORTED_CURRENCIES: CurrencyConfig[] = [
     name: 'Japanese Yen',
     nativeName: '日本円',
     minorUnits: 0, // Zero decimals
+    isSettlement: false,
     roundingRule: 'whole',
     rateToBaseINR: 1.82,
     taxInclusive: true,
@@ -439,6 +440,7 @@ export const SUPPORTED_CURRENCIES: CurrencyConfig[] = [
     name: 'Kuwaiti Dinar',
     nativeName: 'دينار كويتي',
     minorUnits: 3, // 3 decimals!
+    isSettlement: false,
     roundingRule: 'standard',
     rateToBaseINR: 0.0037,
     taxInclusive: true,
@@ -471,6 +473,7 @@ export const SUPPORTED_CURRENCIES: CurrencyConfig[] = [
     name: 'South Korean Won',
     nativeName: '대한민국 원',
     minorUnits: 0,
+    isSettlement: false,
     roundingRule: 'whole',
     rateToBaseINR: 16.2,
     taxInclusive: true,

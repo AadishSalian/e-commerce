@@ -3,17 +3,17 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useLocale } from '@/contexts/LocaleContext';
 import styles from './CategoryWidgets.module.css';
-
 import Image from 'next/image';
 
 const WIDGETS = [
-  { label: 'Fashion / Apparel', href: '/fashion', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=200&auto=format&fit=crop' },
-  { label: 'Electronics / Gadgets', href: '/electronics', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=200&auto=format&fit=crop' },
-  { label: 'Home & Furniture', href: '/home-furniture', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=200&auto=format&fit=crop' },
-  { label: 'Beauty & Personal Care', href: '/beauty', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=200&auto=format&fit=crop' },
-  { label: 'Sports & Outdoors', href: '/sports', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200&auto=format&fit=crop' },
-  { label: 'Accessories', href: '/accessories', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=200&auto=format&fit=crop' },
+  { key: 'fashion', label: 'Fashion / Apparel', href: '/fashion', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=200&auto=format&fit=crop' },
+  { key: 'electronics', label: 'Electronics / Gadgets', href: '/electronics', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=200&auto=format&fit=crop' },
+  { key: 'home', label: 'Home & Furniture', href: '/home-furniture', image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=200&auto=format&fit=crop' },
+  { key: 'beauty', label: 'Beauty & Personal Care', href: '/beauty', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=200&auto=format&fit=crop' },
+  { key: 'sports', label: 'Sports & Outdoors', href: '/sports', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200&auto=format&fit=crop' },
+  { key: 'accessories', label: 'Accessories', href: '/accessories', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=200&auto=format&fit=crop' },
 ];
 
 const containerVariants = {
@@ -38,6 +38,8 @@ const itemVariants = {
 };
 
 export default function CategoryWidgets() {
+  const { t } = useLocale();
+
   return (
     <section className={styles.wrapper} aria-label="Quick Categories" data-tour="filters">
       <motion.div 
@@ -47,16 +49,19 @@ export default function CategoryWidgets() {
         initial="hidden"
         animate="show"
       >
-        {WIDGETS.map((widget, i) => (
-          <motion.div key={widget.label} variants={itemVariants}>
-            <Link href={widget.href} className={styles.widget}>
-              <div className={styles.imageWrapper}>
-                <Image src={widget.image} alt={widget.label} className={styles.image} loading="lazy"  width={800} height={800} />
-              </div>
-              <span className={styles.label}>{widget.label}</span>
-            </Link>
-          </motion.div>
-        ))}
+        {WIDGETS.map((widget) => {
+          const displayLabel = t(`categories.${widget.key}`) || widget.label;
+          return (
+            <motion.div key={widget.key} variants={itemVariants}>
+              <Link href={widget.href} className={styles.widget}>
+                <div className={styles.imageWrapper}>
+                  <Image src={widget.image} alt={displayLabel} className={styles.image} loading="lazy" width={800} height={800} />
+                </div>
+                <span className={styles.label}>{displayLabel}</span>
+              </Link>
+            </motion.div>
+          );
+        })}
       </motion.div>
     </section>
   );

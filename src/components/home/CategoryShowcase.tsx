@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { RollingText, WeightHeadline } from '@/components/ui';
 import { PanelGallery } from '@/components/ui/PanelGallery';
 import { HOMEPAGE_CATEGORY_PANELS } from '@/config/categories';
+import { useLocale } from '@/contexts/LocaleContext';
 import styles from './CategoryShowcase.module.css';
 
 export interface CategoryShowcaseProps {
@@ -21,7 +22,8 @@ export interface CategoryShowcaseProps {
 const BENTO_CATEGORIES = [
   {
     id: 'fashion',
-    title: 'Fashion & Apparel',
+    titleKey: 'fashion',
+    defaultTitle: 'Fashion & Apparel',
     href: '/fashion',
     image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop',
     gridClass: styles.cardFashion,
@@ -30,7 +32,8 @@ const BENTO_CATEGORIES = [
   },
   {
     id: 'electronics',
-    title: 'Electronics',
+    titleKey: 'electronics',
+    defaultTitle: 'Electronics',
     href: '/electronics',
     image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=800&auto=format&fit=crop',
     gridClass: styles.cardTech,
@@ -39,7 +42,8 @@ const BENTO_CATEGORIES = [
   },
   {
     id: 'home',
-    title: 'Home & Furniture',
+    titleKey: 'home',
+    defaultTitle: 'Home & Furniture',
     href: '/home-furniture',
     image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=800&auto=format&fit=crop',
     gridClass: styles.cardHome,
@@ -48,7 +52,8 @@ const BENTO_CATEGORIES = [
   },
   {
     id: 'beauty',
-    title: 'Beauty Care',
+    titleKey: 'beauty',
+    defaultTitle: 'Beauty Care',
     href: '/beauty',
     image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=800&auto=format&fit=crop',
     gridClass: styles.cardBeauty,
@@ -57,21 +62,23 @@ const BENTO_CATEGORIES = [
   },
   {
     id: 'sports',
-    title: 'Sports & Outdoors',
+    titleKey: 'sports',
+    defaultTitle: 'Sports & Outdoors',
     href: '/sports',
     image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=800&auto=format&fit=crop',
     gridClass: styles.cardSports,
-    posClass: styles.posTopRight,
-    overlayClass: styles.overlayTop,
+    posClass: styles.posBottomLeft,
+    overlayClass: styles.overlay,
   },
   {
     id: 'accessories',
-    title: 'Accessories',
+    titleKey: 'accessories',
+    defaultTitle: 'Curated Accessories',
     href: '/accessories',
-    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop',
     gridClass: styles.cardAccessories,
-    posClass: styles.posBottomLeft,
-    overlayClass: styles.overlay,
+    posClass: styles.posTopRight,
+    overlayClass: styles.overlayTop,
   },
 ];
 
@@ -79,22 +86,24 @@ export default function CategoryShowcase({
   variant = 'gallery',
   defaultActiveId = 'fashion',
 }: CategoryShowcaseProps) {
+  const { t } = useLocale();
+
   // 1. Primary Showcase: Hover-Expanding Panel Gallery
   if (variant === 'gallery') {
     return (
       <PanelGallery
         panels={HOMEPAGE_CATEGORY_PANELS}
         defaultActiveId={defaultActiveId}
-        title="Curated Categories"
-        subtitle="Explore Collections"
-        sectionAriaLabel="Product Categories"
+        title={t('home.curatedCategories') || 'Curated Categories'}
+        subtitle={t('home.exploreCollections') || 'Explore Collections'}
+        sectionAriaLabel={t('home.productCategories') || 'Product Categories'}
       />
     );
   }
 
   // 2. Alternative Variant: Bento Grid
   return (
-    <section className={styles.section} aria-label="Product Categories">
+    <section className={styles.section} aria-label={t('home.productCategories') || 'Product Categories'}>
       <div className={styles.container}>
         <div className="mb-8 md:mb-12">
           <WeightHeadline
@@ -103,51 +112,56 @@ export default function CategoryShowcase({
             align="left"
             className="text-3xl md:text-5xl font-bold tracking-tight text-foreground"
           >
-            Curated Categories
+            {t('home.curatedCategories') || 'Curated Categories'}
           </WeightHeadline>
         </div>
         <div className={styles.grid}>
-          {BENTO_CATEGORIES.map((cat) => (
-            <Link
-              key={cat.id}
-              href={cat.href}
-              className={`${styles.card} ${cat.gridClass} group`}
-              data-roll-parent=""
-              aria-label={`Shop ${cat.title}`}
-            >
-              {/* Background Image */}
-              <div className={styles.imageWrapper}>
-                <Image
-                  src={cat.image}
-                  alt=""
-                  className={styles.image}
-                  loading="lazy"
-                  width={800}
-                  height={800}
-                />
-              </div>
-
-              {/* Overlays */}
-              <div className={`${styles.overlay} ${cat.overlayClass}`} />
-              <div className={styles.grain} />
-
-              {/* Typography */}
-              <div className={`${styles.content} ${cat.posClass}`}>
-                <div className="flex flex-col items-start gap-1">
-                  <h3 className={styles.title}>{cat.title}</h3>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase text-white/80 group-hover:text-accent transition-colors mt-2">
-                    <RollingText duplicateColor="var(--accent)">Shop now</RollingText>
-                    <span
-                      className="text-xs transition-transform duration-300 group-hover:translate-x-1"
-                      aria-hidden="true"
-                    >
-                      &rarr;
-                    </span>
-                  </span>
+          {BENTO_CATEGORIES.map((cat) => {
+            const title = t(`categories.${cat.titleKey}`) || cat.defaultTitle;
+            return (
+              <Link
+                key={cat.id}
+                href={cat.href}
+                className={`${styles.card} ${cat.gridClass} group`}
+                data-roll-parent=""
+                aria-label={`Shop ${title}`}
+              >
+                {/* Background Image */}
+                <div className={styles.imageWrapper}>
+                  <Image
+                    src={cat.image}
+                    alt=""
+                    className={styles.image}
+                    loading="lazy"
+                    width={800}
+                    height={800}
+                  />
                 </div>
-              </div>
-            </Link>
-          ))}
+
+                {/* Overlays */}
+                <div className={`${styles.overlay} ${cat.overlayClass}`} />
+                <div className={styles.grain} />
+
+                {/* Typography */}
+                <div className={`${styles.content} ${cat.posClass}`}>
+                  <div className="flex flex-col items-start gap-1">
+                    <h3 className={styles.title}>{title}</h3>
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase text-white/80 group-hover:text-accent transition-colors mt-2">
+                      <RollingText duplicateColor="var(--accent)">
+                        {t('common.shopNow') || 'Shop now'}
+                      </RollingText>
+                      <span
+                        className="text-xs transition-transform duration-300 group-hover:translate-x-1"
+                        aria-hidden="true"
+                      >
+                        &rarr;
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

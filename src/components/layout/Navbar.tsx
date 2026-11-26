@@ -262,27 +262,27 @@ export default function Navbar() {
                       <div className="p-1.5 flex flex-col gap-1">
                         <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}>
                           <Link href="/profile" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                            <UserCircle className="w-4 h-4" /> <span>Profile</span>
+                            <UserCircle className="w-4 h-4" /> <span>{t('nav.account')}</span>
                           </Link>
                         </motion.div>
                         <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
                           <Link href="/account" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                            <Package className="w-4 h-4" /> <span>Orders</span>
+                            <Package className="w-4 h-4" /> <span>{t('nav.orders')}</span>
                           </Link>
                         </motion.div>
                         <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }}>
                           <Link href="/wishlist" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                            <Heart className="w-4 h-4" /> <span>Wishlist</span>
+                            <Heart className="w-4 h-4" /> <span>{t('nav.wishlist')}</span>
                           </Link>
                         </motion.div>
                         <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.28 }}>
                           <Link href="/notifications" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                            <Bell className="w-4 h-4" /> <span>Notifications</span>
+                            <Bell className="w-4 h-4" /> <span>{t('nav.notifications')}</span>
                           </Link>
                         </motion.div>
                         <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
                           <Link href="/settings" className={styles.dropdownItem} onClick={() => setIsAccountOpen(false)}>
-                            <Settings className="w-4 h-4" /> <span>Settings</span>
+                            <Settings className="w-4 h-4" /> <span>{t('nav.settings')}</span>
                           </Link>
                         </motion.div>
                         
@@ -290,7 +290,7 @@ export default function Navbar() {
                         
                         <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35 }}>
                           <button className={`${styles.dropdownItem} ${styles.dropdownItemDanger}`} onClick={() => { logout(); setIsAccountOpen(false); router.push('/'); }}>
-                            <LogOut className="w-4 h-4" /> <span>Logout</span>
+                            <LogOut className="w-4 h-4" /> <span>{t('nav.logout')}</span>
                           </button>
                         </motion.div>
                       </div>
@@ -300,7 +300,7 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="ml-2 pl-2 border-l border-border flex items-center">
-                <NavAuthButton onClick={() => router.push('/login')} label="Sign In" />
+                <NavAuthButton onClick={() => router.push('/login')} label={t('nav.signIn')} />
               </div>
             )}
 
@@ -328,7 +328,7 @@ export default function Navbar() {
               >
                 <div className="grid grid-cols-4 gap-8">
                   <div className="col-span-1">
-                    <h3 className="text-foreground font-semibold mb-4">Categories</h3>
+                    <h3 className="text-foreground font-semibold mb-4">{t('nav.categories')}</h3>
                     <ul className="flex flex-col gap-3">
                       <li><Link href="/electronics" className="group text-sm text-text-muted hover:text-accent transition-colors block" data-roll-parent=""><RollingText duplicateColor="var(--accent)">Tech</RollingText></Link></li>
                       <li><Link href="/accessories" className="group text-sm text-text-muted hover:text-accent transition-colors block" data-roll-parent=""><RollingText duplicateColor="var(--accent)">Accessories</RollingText></Link></li>
@@ -340,7 +340,7 @@ export default function Navbar() {
                     </ul>
                   </div>
                   <div className="col-span-1">
-                    <h3 className="text-foreground font-semibold mb-4">Featured</h3>
+                    <h3 className="text-foreground font-semibold mb-4">{t('nav.featured')}</h3>
                     <ul className="flex flex-col gap-3">
                       <li><Link href="/products/p-1" className="text-sm text-text-muted hover:text-accent transition-colors">Matte Keyboard 1</Link></li>
                       <li><Link href="/products/p-2" className="text-sm text-text-muted hover:text-accent transition-colors">Ceramic Earbuds</Link></li>

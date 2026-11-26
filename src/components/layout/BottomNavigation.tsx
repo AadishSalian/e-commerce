@@ -17,7 +17,7 @@ export default function BottomNavigation() {
   const navItems = [
     { key: 'home', label: t('nav.home'), href: '/', icon: Home },
     { key: 'categories', label: t('nav.categories'), href: '/products', icon: Search },
-    { key: 'cart', label: t('common.items', { count: cartCount }) ? 'Bag' : 'Bag', href: '#', icon: ShoppingBag, isCart: true },
+    { key: 'cart', label: t('cart.title')?.split(' ')[0] || 'Bag', href: '#', icon: ShoppingBag, isCart: true },
     { key: 'wishlist', label: t('nav.wishlist'), href: '/wishlist', icon: Heart },
     { key: 'account', label: t('nav.account'), href: isLoggedIn ? '/account' : '/login', icon: User },
   ];

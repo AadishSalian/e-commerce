@@ -45,6 +45,47 @@ export const CATALOG_LOCALIZATIONS: Record<string, Record<string, LocalizedProdu
       specs: { 'الوزن': '680 غرام', 'الاتصال': 'لاسلكي / Type-C', 'المادة': 'ألومنيوم' },
       altText: 'لوحة مفاتيح ميكانيكية دقيقة بلمسة غير لامعة',
     },
+    'es-ES': {
+      name: 'Teclado Matte 1',
+      description: 'Teclado mecánico ultraplano fresado a partir de un solo bloque de aluminio aeronáutico. Acabado en carbón mate.',
+      category: 'Tecnología',
+      specs: { 'Peso': '680 g', 'Conectividad': 'Inalámbrico / Tipo C', 'Material': 'Aluminio' },
+      altText: 'Teclado mecánico premium acabado en negro mate',
+    },
+    'es-MX': {
+      name: 'Teclado Matte 1',
+      description: 'Teclado mecánico ultraplano fresado a partir de un solo bloque de aluminio aeronáutico.',
+      category: 'Tecnología',
+    },
+    'fr-FR': {
+      name: 'Clavier Matte Modèle 1',
+      description: 'Clavier mécanique ultra-plat usiné dans un bloc massif d’aluminium aérospatial.',
+      category: 'Technologie',
+    },
+    'ja-JP': {
+      name: 'マットキーボード 1',
+      description: '航空宇宙グレードのアルミニウム削り出しによる超薄型メカニカルキーボード。上質なマットチャコール仕上げ。',
+      category: 'テクノロジー',
+      specs: { '重量': '680g', '接続': 'ワイヤレス / Type-C', '素材': 'アルミニウム' },
+    },
+    'zh-CN': {
+      name: '哑光机械键盘 1',
+      description: '由单块航空级铝合金精雕细琢而成的超薄机械键盘。温润细腻的哑光炭黑质感。',
+      category: '数码硬件',
+      specs: { '重量': '680克', '连接方式': '无线 / Type-C', '材质': '航空级铝合金' },
+    },
+    'it-IT': {
+      name: 'Tastiera Matte 1',
+      description: 'Tastiera meccanica a profilo ultra-basso ricavata da un unico blocco di alluminio aerospaziale.',
+      category: 'Tecnologia',
+      specs: { 'Peso': '680 g', 'Connettività': 'Wireless / Type-C', 'Materiale': 'Alluminio' },
+    },
+    'pt-BR': {
+      name: 'Teclado Matte 1',
+      description: 'Teclado mecânico de perfil ultrabaixo usinado a partir de um bloco sólido de alumínio aeroespacial.',
+      category: 'Tecnologia',
+      specs: { 'Peso': '680 g', 'Conectividade': 'Sem fio / Type-C', 'Material': 'Alumínio' },
+    },
   },
   't-2': {
     'hi-IN': {
@@ -81,6 +122,150 @@ export const CATALOG_LOCALIZATIONS: Record<string, Record<string, LocalizedProdu
       category: 'التقنية',
       specs: { 'البطارية': '32 ساعة', 'عزل الضوضاء': 'نشط ANC', 'الوزن': '45 غرام' },
       altText: 'سماعات أذن لاسلكية من السيراميك غير اللامع',
+    },
+    'es-ES': {
+      name: 'Auriculares Cerámicos',
+      description: 'Audio inalámbrico de alta fidelidad con carcasa de cerámica mate duradera y cancelación activa de ruido.',
+      category: 'Tecnología',
+    },
+    'fr-FR': {
+      name: 'Écouteurs en Céramique',
+      description: 'Audio sans fil haute-fidélité dans un boîtier céramique mat avec réduction active de bruit.',
+      category: 'Technologie',
+    },
+    'ja-JP': {
+      name: 'セラミックワイヤレスイヤホン',
+      description: '高耐久マットセラミック筐体に包まれたハイファイワイヤレスオーディオ。純粋なサウンドとミニマルな佇まい。',
+      category: 'テクノロジー',
+    },
+    'zh-CN': {
+      name: '陶瓷无线耳机',
+      description: '高保真无线音频，封装在耐用的哑光陶瓷外壳中。纯净音质与极简美学并存。',
+      category: '数码硬件',
+    },
+    'it-IT': {
+      name: 'Auricolari in Ceramica',
+      description: 'Audio wireless ad alta fedeltà racchiuso in un resistente alloggiamento in ceramica con finitura opaca.',
+      category: 'Tecnologia',
+    },
+    'pt-BR': {
+      name: 'Fones de Ouvido em Cerâmica',
+      description: 'Áudio sem fio de alta fidelidade envolvido em estrutura de cerâmica com acabamento fosco.',
+      category: 'Tecnologia',
+    },
+  },
+  't-3': {
+    'hi-IN': {
+      name: 'सटीक वायरलेस माउस',
+      description: 'अर्गोनॉमिक सटीकता और स्पर्शनीय मैट फिनिश के साथ डिज़ाइन किया गया वायरलेस माउस।',
+      category: 'तकनीक',
+    },
+    'kn-IN': {
+      name: 'ನಿಖರ ವೈರ್‌ಲೆಸ್ ಮೌಸ್',
+      description: 'ನಿಖರ ನಿಯಂತ್ರಣ ಮತ್ತು ಮ್ಯಾಟ್ ಫಿನಿಶ್ ಹೊಂದಿರುವ ವೈರ್‌ಲೆಸ್ ಮೌಸ್.',
+      category: 'ತಂತ್ರಜ್ಞಾನ',
+    },
+    'ta-IN': {
+      name: 'துல்லிய வயர்லெஸ் மவுஸ்',
+      description: 'துல்லியமான கட்டுப்பாடு மற்றும் மேட் பூச்சு கொண்ட வயர்லெஸ் மவுஸ்.',
+      category: 'தொழில்நுட்பம்',
+    },
+    'de-DE': {
+      name: 'Präzisions-Maus Kabellos',
+      description: 'Ergonomische kabellose Maus mit reflexionsarmem Finish und höchster Sensorpräzision.',
+      category: 'Technologie',
+    },
+    'es-ES': {
+      name: 'Ratón Inalámbrico de Precisión',
+      description: 'Ratón ergonómico inalámbrico con acabado mate y máxima precisión óptica.',
+      category: 'Tecnología',
+    },
+    'fr-FR': {
+      name: 'Souris Sans Fil de Précision',
+      description: 'Souris ergonomique haute précision avec finition mate protectrice.',
+      category: 'Technologie',
+    },
+    'ar-AE': {
+      name: 'فأرة لاسلكية دقيقة',
+      description: 'فأرة مريحة بتصميم انسيابي ولمسة نهائية غير لامعة.',
+      category: 'التقنية',
+    },
+    'ja-JP': {
+      name: 'モノリス オーバーイヤーヘッドホン',
+      description: 'ブルータリストなアルミニウムフレームに包まれたスタジオグレードのアコースティックエンジニアリング。',
+      category: 'テクノロジー',
+    },
+    'zh-CN': {
+      name: '巨石头戴式耳机',
+      description: '包裹在硬朗铝合金框架中的录音室级声学工程，带来沉浸式声音体验。',
+      category: '数码硬件',
+    },
+    'it-IT': {
+      name: 'Cuffie Monolith Over-Ear',
+      description: 'Ingegneria acustica da studio racchiusa in una cornice in alluminio brutalista.',
+      category: 'Tecnologia',
+    },
+    'pt-BR': {
+      name: 'Headphone Monolith Over-Ear',
+      description: 'Engenharia acústica de estúdio envolvida em uma moldura de alumínio robusta.',
+      category: 'Tecnologia',
+    },
+  },
+  't-4': {
+    'hi-IN': {
+      name: 'एल्यूमिनियम डेस्क स्टैंड',
+      description: 'सॉलिड एल्यूमिनियम ब्लॉक से निर्मित मजबूत लैपटॉप व मॉनिटर स्टैंड।',
+      category: 'तकनीक',
+    },
+    'kn-IN': {
+      name: 'ಅಲ್ಯೂಮಿನಿಯಂ ಡೆಸ್ಕ್ ಸ್ಟ್ಯಾಂಡ್',
+      description: 'ಘನ ಅಲ್ಯೂಮಿನಿಯಂನಿಂದ ತಯಾರಿಸಲಾದ ದೃಢ ಡೆಸ್ಕ್ ಸ್ಟ್ಯಾಂಡ್.',
+      category: 'ತಂತ್ರಜ್ಞಾನ',
+    },
+    'ta-IN': {
+      name: 'அலுமினியம் டெஸ்க் ஸ்டாண்ட்',
+      description: 'உறுதியான அலுமினியத்தால் செய்யப்பட்ட மேஜை ஸ்டாண்ட்.',
+      category: 'தொழில்நுட்பம்',
+    },
+    'de-DE': {
+      name: 'Aluminium-Schreibtischständer',
+      description: 'Massiver Monitor- und Laptopständer aus matt eloxiertem Flugzeugaluminium.',
+      category: 'Technologie',
+    },
+    'es-ES': {
+      name: 'Soporte de Escritorio de Aluminio',
+      description: 'Soporte macizo de aluminio anodizado mate para portátiles y pantallas.',
+      category: 'Tecnología',
+    },
+    'fr-FR': {
+      name: 'Support de Bureau en Aluminium',
+      description: 'Support robuste en aluminium anodisé mat pour écrans et ordinateurs portables.',
+      category: 'Technologie',
+    },
+    'ar-AE': {
+      name: 'حامل مكتب ألومنيوم',
+      description: 'حامل متين مصنوع من قطعة ألومنيوم صلبة لأجهزة الكمبيوتر المحمولة والشاشات.',
+      category: 'التقنية',
+    },
+    'ja-JP': {
+      name: 'アルミニウム デスクスタンド',
+      description: 'ソリッドアルミニウムから削り出された、高品位なノートPC・モニタースタンド。',
+      category: 'テクノロジー',
+    },
+    'zh-CN': {
+      name: '铝合金桌面支架',
+      description: '由实心铝块精密加工而成的高端笔记本与显示器支架。',
+      category: '数码硬件',
+    },
+    'it-IT': {
+      name: 'Supporto da Scrivania in Alluminio',
+      description: 'Supporto massiccio in alluminio opaco per laptop e monitor.',
+      category: 'Tecnologia',
+    },
+    'pt-BR': {
+      name: 'Suporte de Mesa em Alumínio',
+      description: 'Suporte robusto em alumínio anodizado fosco para notebooks e monitores.',
+      category: 'Tecnologia',
     },
   },
 };

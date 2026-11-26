@@ -243,10 +243,33 @@ export function LocaleProvider({
   );
 }
 
+const defaultFallbackContext: LocaleContextType = {
+  locale: DEFAULT_LOCALE,
+  currency: DEFAULT_CURRENCY,
+  localeConfig: getLocaleConfig(DEFAULT_LOCALE),
+  currencyConfig: getCurrencyConfig(DEFAULT_CURRENCY),
+  dir: 'ltr',
+  script: 'Latn',
+  setLocale: () => {},
+  setCurrency: () => {},
+  t: (keyPath, params) => getTranslation(keyPath, DEFAULT_LOCALE, params),
+  formatPrice: (baseAmountINR, isMinor) =>
+    formatHonestPrice({
+      baseAmountINR,
+      isMinor,
+      targetCurrency: DEFAULT_CURRENCY,
+      locale: DEFAULT_LOCALE,
+    }),
+  formatDate: (date) => new Date(date).toLocaleDateString(),
+  formatRelativeTime: () => '',
+  isPaymentLocked: false,
+  setPaymentLocked: () => {},
+  recentlyUsedLocales: [DEFAULT_LOCALE],
+  recentlyUsedCurrencies: [DEFAULT_CURRENCY],
+  emiSupported: true,
+};
+
 export function useLocale() {
   const context = useContext(LocaleContext);
-  if (!context) {
-    throw new Error('useLocale must be used within a LocaleProvider');
-  }
-  return context;
+  return context || defaultFallbackContext;
 }

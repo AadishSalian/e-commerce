@@ -4,10 +4,12 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Button, WeightHeadline, RotatingBadge } from '@/components/ui';
+import { useLocale } from '@/contexts/LocaleContext';
 import SpinningBrandCard from './SpinningBrandCard';
 
 export default function Hero() {
   const router = useRouter();
+  const { t } = useLocale();
   const [entranceComplete, setEntranceComplete] = useState(false);
   
   // Set target date for 12 hours from now for the demo
@@ -37,7 +39,7 @@ export default function Hero() {
               entranceComplete={entranceComplete}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.08]"
             >
-              Engineered for the Obsessive.
+              {t('home.heroTitle') || 'Engineered for the Obsessive.'}
             </WeightHeadline>
           </motion.div>
 
@@ -47,7 +49,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-base sm:text-lg md:text-xl text-text-muted mb-8 max-w-xl font-light leading-relaxed"
           >
-            Tactile, restrained, and strictly matte. Experience a new standard of premium hardware designed without compromise.
+            {t('home.heroSubtitle') || 'Tactile, restrained, and strictly matte. Experience a new standard of premium hardware designed without compromise.'}
           </motion.p>
 
           <motion.div
@@ -61,13 +63,13 @@ export default function Hero() {
                 variant="primary" 
                 onClick={() => router.push('/products?category=new')}
               >
-                Shop the Collection
+                {t('home.exploreCollection') || 'Shop the Collection'}
               </Button>
               <Button 
                 variant="secondary" 
                 onClick={() => router.push('/about')}
               >
-                Discover the Story
+                {t('home.discoverStory') || 'Discover the Story'}
               </Button>
             </div>
 

@@ -49,24 +49,14 @@ const getBlurDataURL = () => `data:image/svg+xml;base64,${toBase64(shimmer(700, 
 export default function ProductCard({ product, variant = 'default', onCardClick }: ProductCardProps) {
   const { openQuickView } = useQuickView();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const localeCtx = useLocale();
 
-  let localizedName = product.name;
-  let formattedPrice = `$${product.price.toFixed(2)}`;
-  let priceAccessibleLabel = `Price: $${product.price.toFixed(2)}`;
-  let newBadgeText = 'New';
-
-  try {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const localeCtx = useLocale();
-    if (localeCtx) {
-      const locProd = getLocalizedProduct(product.id, product, localeCtx.locale);
-      localizedName = locProd.name;
-      const priceObj = localeCtx.formatPrice(product.price);
-      formattedPrice = priceObj.formatted;
-      priceAccessibleLabel = priceObj.accessibleLabel;
-      newBadgeText = localeCtx.t('common.new') || 'New';
-    }
-  } catch {}
+  const locProd = getLocalizedProduct(product.id, product, localeCtx.locale);
+  const localizedName = locProd.name;
+  const priceObj = localeCtx.formatPrice(product.price);
+  const formattedPrice = priceObj.formatted;
+  const priceAccessibleLabel = priceObj.accessibleLabel;
+  const newBadgeText = localeCtx.t('common.new') || 'New';
   
   const mockRating = product.rating || (4 + (product.id.charCodeAt(product.id.length - 1) % 10) / 10).toFixed(1);
   const mockReviews = product.reviewCount || (product.id.charCodeAt(0) * 3 + 12);

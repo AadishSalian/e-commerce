@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Globe, Check, Search, X, AlertCircle } from 'lucide-react';
 import { useLocale } from '@/contexts/LocaleContext';
+import { useToast } from '@/contexts/ToastContext';
 import { LOCALES, SUPPORTED_CURRENCIES, LocaleConfig, CurrencyConfig } from '@/lib/i18n/config';
 
 export interface SwitcherTriggerProps {
@@ -175,14 +176,26 @@ export function SwitcherModal({ isOpen, onClose }: SwitcherModalProps) {
       .filter(Boolean) as CurrencyConfig[];
   }, [recentlyUsedCurrencies]);
 
+  const { success } = useToast();
+
   const handleSelectLocale = (code: string) => {
     setLocale(code);
-    // Stay open as per Prompt Section 2: "popover staying open until closed so both can be changed in one visit"
+    const target = LOCALES.find((l) => l.code === code);
+    if (target) {
+      if (target.currency && !isPaymentLocked) {
+        setCurrency(target.currency);
+      }
+      success(`${target.native} (${target.name}) selected`);
+    }
   };
 
   const handleSelectCurrency = (code: string) => {
     if (isPaymentLocked) return;
     setCurrency(code);
+    const target = SUPPORTED_CURRENCIES.find((c) => c.code === code);
+    if (target) {
+      success(`Currency updated to ${target.name} (${target.code})`);
+    }
   };
 
   // Keyboard arrow navigation helper for radio-group
@@ -591,11 +604,20 @@ export function SwitcherModal({ isOpen, onClose }: SwitcherModalProps) {
             </div>
 
             {/* Honest Disclosure Footer */}
-            <div className="p-3 bg-surface-hover border-t border-border shrink-0 text-center text-[11px] text-text-muted flex items-center justify-between">
-              <span>{t('pricing.nativeSettlement', { currency: 'INR' })}</span>
-              <span className="font-mono text-xs text-foreground/80">
-                {locale.split('-')[0].toUpperCase()} · {currency}
-              </span>
+            <div className="p-3 bg-surface-hover border-t border-border shrink-0 text-[11px] text-text-muted flex items-center justify-between gap-3">
+              <div className="flex flex-col text-left">
+                <span>{t('pricing.nativeSettlement', { currency: 'INR' })}</span>
+                <span className="font-mono text-xs font-semibold text-foreground">
+                  {locale.split('-')[0].toUpperCase()} · {currency}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-5 py-2 rounded-xl bg-foreground text-background text-xs font-semibold hover:opacity-90 active:scale-95 transition-all shadow-sm cursor-pointer"
+              >
+                {t('common.save') || 'Save'}
+              </button>
             </div>
           </motion.div>
         </div>

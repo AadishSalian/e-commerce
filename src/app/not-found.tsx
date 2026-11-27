@@ -2,8 +2,11 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useLocale } from '@/contexts/LocaleContext';
 
 export default function NotFound() {
+  const { t } = useLocale();
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex flex-col items-center justify-center">
       {/* Subtle background glow */}
@@ -37,7 +40,7 @@ export default function NotFound() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
         >
-          Page Not Found
+          {t('notFound.title') || 'Page Not Found'}
         </motion.h2>
 
         <motion.p 
@@ -46,8 +49,7 @@ export default function NotFound() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          { }
-          The page you're looking for doesn't exist or has been moved. Let's get you back to our collection.
+          {t('notFound.desc') || "The page you're looking for doesn't exist or has been moved. Let's get you back to our collection."}
         </motion.p>
 
         <motion.div
@@ -59,7 +61,7 @@ export default function NotFound() {
             href="/" 
             className="px-8 py-4 bg-foreground text-background font-medium rounded-full hover:scale-[0.98] transition-transform duration-200"
           >
-            Return to Homepage
+            {t('notFound.backToCollection') || 'Return to Homepage'}
           </Link>
         </motion.div>
       </motion.div>

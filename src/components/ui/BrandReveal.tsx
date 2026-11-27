@@ -1,12 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { motion, useAnimate, AnimatePresence } from 'framer-motion';
 
 export default function BrandReveal() {
   const [shouldPlay, setShouldPlay] = useState(false);
   const [isRendered, setIsRendered] = useState(false);
   const [scope, animate] = useAnimate();
+
+  const dismiss = useCallback(() => {
+    setShouldPlay(false);
+    if (typeof window !== 'undefined') {
+      document.documentElement.setAttribute('data-intro', 'played');
+      window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
+    }
+  }, []);
 
   useEffect(() => {
     // Check preferences and session storage on client
@@ -17,26 +25,28 @@ export default function BrandReveal() {
       sessionStorage.setItem('brand_reveal_played', 'true');
       setShouldPlay(true);
     } else {
-      setShouldPlay(false);
-      if (typeof window !== 'undefined') {
-        document.documentElement.setAttribute('data-intro', 'played');
-        window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
-      }
+      dismiss();
     }
     
     setIsRendered(true);
 
-    // Hard fallback timeout: ensure overlay NEVER stays stuck if animations fail or lag
+    // Hard fallback timeout: ensure overlay NEVER stays stuck
     const safetyTimer = setTimeout(() => {
-      setShouldPlay(false);
-      if (typeof window !== 'undefined') {
-        document.documentElement.setAttribute('data-intro', 'played');
-        window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
-      }
+      dismiss();
     }, 2500);
 
-    return () => clearTimeout(safetyTimer);
-  }, []);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === ' ') {
+        dismiss();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      clearTimeout(safetyTimer);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [dismiss]);
 
   useEffect(() => {
     if (isRendered && shouldPlay && scope.current) {
@@ -61,16 +71,12 @@ export default function BrandReveal() {
         } catch (err) {
           console.warn('BrandReveal animation warning:', err);
         } finally {
-          setShouldPlay(false);
-          if (typeof window !== 'undefined') {
-            document.documentElement.setAttribute('data-intro', 'played');
-            window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
-          }
+          dismiss();
         }
       };
       runAnimation();
     }
-  }, [isRendered, shouldPlay, animate, scope]);
+  }, [isRendered, shouldPlay, animate, scope, dismiss]);
 
   if (!shouldPlay) {
     return null;
@@ -98,6 +104,14 @@ export default function BrandReveal() {
               MATTE.
             </motion.span>
           </motion.div>
+          <button
+            type="button"
+            onClick={dismiss}
+            aria-label="Skip intro animation"
+            className="absolute bottom-8 right-8 text-xs font-mono tracking-widest text-[#9a9a9a] hover:text-white uppercase transition-colors px-3 py-1.5 rounded-full border border-white/10 hover:border-white/30"
+          >
+            Skip
+          </button>
         </motion.div>
       )}
     </AnimatePresence>

@@ -5,10 +5,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { getLastListing, navigateBackToResults, LastListingRecord } from '@/lib/scroll-restoration';
+import { useLocale } from '@/contexts/LocaleContext';
 
 export function StoreBackButton() {
   const pathname = usePathname();
   const router = useRouter();
+  const { t } = useLocale();
   const [lastListing, setLastListing] = useState<LastListingRecord | null>(null);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export function StoreBackButton() {
           onClick={() => navigateBackToResults(router, lastListing.url)}
           className="inline-flex items-center gap-2 text-text-muted hover:text-foreground transition-colors font-medium text-xs tracking-[0.2em] uppercase cursor-pointer"
         >
-          <ArrowLeft className="w-4 h-4" /> Results
+          <ArrowLeft className="w-4 h-4" /> {t('nav.backToResults') || 'Results'}
         </button>
       </div>
     );
@@ -39,9 +41,8 @@ export function StoreBackButton() {
         href="/" 
         className="inline-flex items-center gap-2 text-text-muted hover:text-foreground transition-colors font-medium text-xs tracking-[0.2em] uppercase"
       >
-        <ArrowLeft className="w-4 h-4" /> Store
+        <ArrowLeft className="w-4 h-4" /> {t('nav.backToStore') || 'Store'}
       </Link>
     </div>
   );
 }
-

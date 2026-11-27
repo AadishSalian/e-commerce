@@ -22,6 +22,9 @@ export const TRANSLATIONS_EN: TranslationBundle = {
     remove: 'Remove',
     items: '{count, plural, =0 {0 items} one {# item} other {# items}}',
     free: 'Free',
+    skip: 'Skip',
+    retry: 'Try Again',
+    offlineNotice: "You're currently offline. Browsing recently viewed items.",
   },
   nav: {
     shop: 'Shop',
@@ -42,6 +45,18 @@ export const TRANSLATIONS_EN: TranslationBundle = {
     featured: 'Featured',
     home: 'Home',
     account: 'Account',
+    backToStore: 'Store',
+    backToResults: 'Results',
+  },
+  notFound: {
+    title: 'Page Not Found',
+    desc: "The page you're looking for doesn't exist or has been moved. Let's get you back to our collection.",
+    backToCollection: 'Back to Collection',
+  },
+  errorPage: {
+    title: 'Something went wrong',
+    desc: 'An unexpected error occurred while rendering this page.',
+    retry: 'Try Again',
   },
   home: {
     heroTitle: 'Engineered for the Obsessive.',

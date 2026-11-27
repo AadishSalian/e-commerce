@@ -874,9 +874,19 @@ export const useOptimisticCartStore = create<InternalStoreState>((set, get) => {
 // Setup real connectivity subscriber & cross-tab sync
 if (typeof window !== 'undefined') {
   connectivity.subscribe((isOnline) => {
-    useOptimisticCartStore.setState({ isOnline });
-    if (isOnline) {
-      useOptimisticCartStore.getState().syncOutboxToServer?.();
+    try {
+      const store = useOptimisticCartStore;
+      if (store && typeof store.setState === 'function') {
+        store.setState({ isOnline });
+        if (isOnline && typeof store.getState === 'function') {
+          const sync = store.getState()?.syncOutboxToServer;
+          if (typeof sync === 'function') {
+            sync();
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('Could not sync outbox on connectivity change:', err);
     }
   });
 

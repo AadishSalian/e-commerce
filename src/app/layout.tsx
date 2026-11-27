@@ -116,10 +116,10 @@ export default function RootLayout({
     <html lang="en" className="antialiased" suppressHydrationWarning>
       <head>
         <link rel="preload" href="/fonts/display-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <Script id="theme-script" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeScript }} />
-        <Script id="locale-script" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: localeScript }} />
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col bg-background text-foreground`}>
+        <Script id="theme-script" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <Script id="locale-script" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: localeScript }} />
         <PwaRegister />
         <BrandReveal />
         <LenisProvider>

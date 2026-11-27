@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion, useAnimate, AnimatePresence } from 'framer-motion';
 
 export default function BrandReveal() {
-  const [shouldPlay, setShouldPlay] = useState(true); // Default true to allow SSR rendering
+  const [shouldPlay, setShouldPlay] = useState(false);
   const [isRendered, setIsRendered] = useState(false);
   const [scope, animate] = useAnimate();
 
@@ -13,50 +13,66 @@ export default function BrandReveal() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hasPlayedBefore = sessionStorage.getItem('brand_reveal_played');
 
-    if (prefersReducedMotion || hasPlayedBefore) {
+    if (!prefersReducedMotion && !hasPlayedBefore) {
+      sessionStorage.setItem('brand_reveal_played', 'true');
+      setShouldPlay(true);
+    } else {
       setShouldPlay(false);
       if (typeof window !== 'undefined') {
         document.documentElement.setAttribute('data-intro', 'played');
         window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
       }
-    } else {
-      sessionStorage.setItem('brand_reveal_played', 'true');
     }
     
     setIsRendered(true);
+
+    // Hard fallback timeout: ensure overlay NEVER stays stuck if animations fail or lag
+    const safetyTimer = setTimeout(() => {
+      setShouldPlay(false);
+      if (typeof window !== 'undefined') {
+        document.documentElement.setAttribute('data-intro', 'played');
+        window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
+      }
+    }, 2500);
+
+    return () => clearTimeout(safetyTimer);
   }, []);
 
   useEffect(() => {
     if (isRendered && shouldPlay && scope.current) {
       const runAnimation = async () => {
-        // 1. Badge appears (fade and scale from 0.6 -> 1)
-        await animate('#badge', { scale: 1, opacity: 1 }, { duration: 0.5, ease: 'easeOut' });
-        
-        // 2. Hold
-        await new Promise(r => setTimeout(r, 200));
+        try {
+          // 1. Badge appears (fade and scale from 0.6 -> 1)
+          await animate('#badge', { scale: 1, opacity: 1 }, { duration: 0.5, ease: 'easeOut' });
+          
+          // 2. Hold
+          await new Promise(r => setTimeout(r, 200));
 
-        // 3. Expand (scale to 80+ to cover screen)
-        animate('#badge-text', { opacity: 0 }, { duration: 0.3 });
-        await animate('#badge', { scale: 80 }, { duration: 1.1, ease: [0.76, 0, 0.24, 1] });
+          // 3. Expand (scale to 80+ to cover screen)
+          animate('#badge-text', { opacity: 0 }, { duration: 0.3 });
+          await animate('#badge', { scale: 80 }, { duration: 1.1, ease: [0.76, 0, 0.24, 1] });
 
-        // 4. Solid hold (screen is green)
-        await new Promise(r => setTimeout(r, 250));
+          // 4. Solid hold (screen is green)
+          await new Promise(r => setTimeout(r, 250));
 
-        // 5. Punchy reveal (scale back slightly + opacity to 0)
-        animate('#badge', { scale: 70 }, { duration: 0.45, ease: [0.55, 0, 0.1, 1] });
-        await animate(scope.current, { opacity: 0 }, { duration: 0.45, ease: [0.55, 0, 0.1, 1] });
-
-        setShouldPlay(false);
-        if (typeof window !== 'undefined') {
-          document.documentElement.setAttribute('data-intro', 'played');
-          window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
+          // 5. Punchy reveal (scale back slightly + opacity to 0)
+          animate('#badge', { scale: 70 }, { duration: 0.45, ease: [0.55, 0, 0.1, 1] });
+          await animate(scope.current, { opacity: 0 }, { duration: 0.45, ease: [0.55, 0, 0.1, 1] });
+        } catch (err) {
+          console.warn('BrandReveal animation warning:', err);
+        } finally {
+          setShouldPlay(false);
+          if (typeof window !== 'undefined') {
+            document.documentElement.setAttribute('data-intro', 'played');
+            window.dispatchEvent(new CustomEvent('brand-reveal-complete'));
+          }
         }
       };
       runAnimation();
     }
   }, [isRendered, shouldPlay, animate, scope]);
 
-  if (isRendered && !shouldPlay) {
+  if (!shouldPlay) {
     return null;
   }
 
